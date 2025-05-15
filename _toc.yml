@@ -5,7 +5,7 @@ options:
 chapters:
   - file: introduction/index
     sections:
-      - file: introduction/functions
+      - file: introduction/what-are-simulations
   - file: molecular-dynamics/index
     sections:
        - file: molecular-dynamics/introduction
