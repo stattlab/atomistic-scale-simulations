@@ -1,0 +1,23 @@
+name: Content
+description: Suggest new content for book.
+body:
+  - type: textarea
+    attributes:
+      label: Summary
+      description: >
+        Briefly describe the content you want to add. If available, attach any
+        source materials you have as a PDF.
+    validations:
+      required: true
+  - type: dropdown
+    id: section
+    attributes:
+      label: Section
+      description: Which section of the book does this belong in?
+      options:
+        - Molecular Dynamics
+        - Monte Carlo
+        - None of the above
+    validations:
+      required: true
+type: "feature"

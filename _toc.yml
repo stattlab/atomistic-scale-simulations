@@ -1,0 +1,12 @@
+format: jb-book
+root: index
+options:
+  numbered: true
+chapters:
+  - file: introduction/index
+    sections:
+      - file: introduction/functions
+  - file: molecular-dynamics/index
+    sections:
+       - file: molecular-dynamics/introduction
+  - file: credits
