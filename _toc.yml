@@ -6,7 +6,11 @@ chapters:
   - file: introduction/index
     sections:
       - file: introduction/what-are-simulations
+  - file: statmech-thermo/index
+    sections:
+      - file: statmech-thermo/ensembles
   - file: molecular-dynamics/index
     sections:
        - file: molecular-dynamics/introduction
+       - file: molecular-dynamics/periodic-boundary-conditions
   - file: credits
