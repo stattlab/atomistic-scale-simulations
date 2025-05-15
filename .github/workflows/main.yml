@@ -3,7 +3,7 @@ name: deploy
 on:
   push:
     branches:
-      - main
+      - test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
