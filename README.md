@@ -1,4 +1,4 @@
-# atomistic-scale-simulations
+# Atomistic Scale Simulations
 
 by [Antonia Statt](https://matse.illinois.edu/people/profile/statt)
 
