@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3.1.2. Periodic Boundary Conditions &#8212; Atomistic Scale Simulations</title>
+    <title>3.1.3. Thermostats &#8212; Atomistic Scale Simulations</title>
   
   
   
@@ -57,12 +57,12 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-dynamics/periodic-boundary-conditions';</script>
-    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-dynamics/periodic-boundary-conditions.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-dynamics/thermostats';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-dynamics/thermostats.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3.1.3. Thermostats" href="thermostats.html" />
-    <link rel="prev" title="3.1.1. Introduction" href="introduction.html" />
+    <link rel="next" title="4. Credits" href="../credits.html" />
+    <link rel="prev" title="3.1.2. Periodic Boundary Conditions" href="periodic-boundary-conditions.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -177,8 +177,8 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">3. Molecular Dynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">3.1.1. Introduction</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1.2. Periodic Boundary Conditions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="thermostats.html">3.1.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="periodic-boundary-conditions.html">3.1.2. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1.3. Thermostats</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">4. Credits</a></li>
@@ -253,7 +253,7 @@
       
       
       
-      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmolecular-dynamics/periodic-boundary-conditions.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmolecular-dynamics/thermostats.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -283,7 +283,7 @@
       
       
       
-      <li><a href="../_sources/molecular-dynamics/periodic-boundary-conditions.md" target="_blank"
+      <li><a href="../_sources/molecular-dynamics/thermostats.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -367,7 +367,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Periodic Boundary Conditions</h1>
+    <h1>Thermostats</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -377,10 +377,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">3.1.2.1. Example</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">3.1.2.2. Python Implementation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.1.2.3. Exercise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">3.1.2.4. Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">3.1.3.1. Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">3.1.3.2. Python Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.1.3.3. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">3.1.3.4. Resources</a></li>
 </ul>
             </nav>
         </div>
@@ -392,20 +392,20 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="periodic-boundary-conditions">
-<h1><span class="section-number">3.1.2. </span>Periodic Boundary Conditions<a class="headerlink" href="#periodic-boundary-conditions" title="Link to this heading">#</a></h1>
-<p>Why do we need PBC etc.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="thermostats">
+<h1><span class="section-number">3.1.3. </span>Thermostats<a class="headerlink" href="#thermostats" title="Link to this heading">#</a></h1>
+<p>What are thermostats, why do we need them</p>
 <section id="example">
-<h2><span class="section-number">3.1.2.1. </span>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.1.3.1. </span>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
 </section>
 <section id="python-implementation">
-<h2><span class="section-number">3.1.2.2. </span>Python Implementation<a class="headerlink" href="#python-implementation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.1.3.2. </span>Python Implementation<a class="headerlink" href="#python-implementation" title="Link to this heading">#</a></h2>
 </section>
 <section id="exercise">
-<h2><span class="section-number">3.1.2.3. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.1.3.3. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h2>
 </section>
 <section id="resources">
-<h2><span class="section-number">3.1.2.4. </span>Resources<a class="headerlink" href="#resources" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.1.3.4. </span>Resources<a class="headerlink" href="#resources" title="Link to this heading">#</a></h2>
 </section>
 </section>
 
@@ -440,20 +440,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="introduction.html"
+       href="periodic-boundary-conditions.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">3.1.1. </span>Introduction</p>
+        <p class="prev-next-title"><span class="section-number">3.1.2. </span>Periodic Boundary Conditions</p>
       </div>
     </a>
     <a class="right-next"
-       href="thermostats.html"
+       href="../credits.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3.1.3. </span>Thermostats</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Credits</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -473,10 +473,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">3.1.2.1. Example</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">3.1.2.2. Python Implementation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.1.2.3. Exercise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">3.1.2.4. Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">3.1.3.1. Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">3.1.3.2. Python Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.1.3.3. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">3.1.3.4. Resources</a></li>
 </ul>
   </nav></div>
 
