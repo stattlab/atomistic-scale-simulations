@@ -8,7 +8,7 @@ test
 :alt: Allen Tildesley view on the role of simulations
 :width: 300px
 :align: center
-name: directive-fig
+:name: directive-fig
 
 This is the caption of the figure (a simple paragraph).
 
