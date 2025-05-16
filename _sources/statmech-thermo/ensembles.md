@@ -1,12 +1,8 @@
 # Ensembles
 
-## Learning Objectives
-
-By the end of this chapter, you should be able to
-
-1. Understand ...
-2. Apply ...
-3. Code ...
-4. Explain ...
+```{note} Learning Outcomes
+1. Understand and explain what different ensembles are, definition of temperature 
+2. Know how to calculate (analytically and by code) ensenble averages of various quantities
+```
 
 description of ensembles
