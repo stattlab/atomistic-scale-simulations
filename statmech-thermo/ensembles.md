@@ -40,7 +40,7 @@ Text inside of box
 ```
 
 
-```{info} "STest inline"
+```{question} "STest inline"
 Text inside of box 
 ```
 
