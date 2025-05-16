@@ -2,10 +2,12 @@
 
 Simulations are ...
 
-```{image} ./_figures/Molecular_simulation_process.jpg
+```{image} ./_figures/Molecular_simulation_process.pdf
 :alt: Allen Tildesley view on the role of simulations
 :width: 300px
 :align: center
+:loading: embed
+
 ```
 
 test
@@ -14,6 +16,7 @@ test
 :alt: Allen Tildesley view on the role of simulations
 :width: 300px
 :align: center
+This is the caption of the figure (a simple paragraph).
 ```
 
 test
