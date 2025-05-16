@@ -1,6 +1,6 @@
 from docutils.parsers.rst.directives.admonitions import Admonition
 
-
+# attention, caution, danger, error, hint, important, note, tip, and warning
 class LearningOutcome(Admonition):
     """Learning Outcome admonition."""
 
