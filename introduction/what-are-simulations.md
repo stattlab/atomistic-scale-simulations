@@ -6,7 +6,6 @@ Simulations are ...
 :alt: Allen Tildesley view on the role of simulations
 :width: 300px
 :align: center
-Figure caption, reference Allen & Tildesley
 ```
 
 ## References
