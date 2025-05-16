@@ -1,22 +1,17 @@
 # What are Simulations?
 
-Simulations are ...
-
-```{image} ./_figures/Molecular_simulation_process.pdf
-:alt: Allen Tildesley view on the role of simulations
-:width: 300px
-:align: center
-:loading: embed
-
-```
+Simulations are complementary methods to experiments and theory, as shown in {numref}`directive-fig`.
 
 test
 
-```{image} ./_figures/Molecular_simulation_process.png
+```{figure} ./_figures/Molecular_simulation_process.png
 :alt: Allen Tildesley view on the role of simulations
 :width: 300px
 :align: center
+name: directive-fig
+
 This is the caption of the figure (a simple paragraph).
+
 ```
 
 test
