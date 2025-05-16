@@ -39,6 +39,11 @@ Text inside of box
 Text inside of box 
 ```
 
+
+```{info} "STest inline"
+Text inside of box 
+```
+
 ```{warning} STest inline
 Text inside of box 
 ```
