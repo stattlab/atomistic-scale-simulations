@@ -2,7 +2,7 @@
 
 Why do we need PBC etc.
 
-## Learning Objectives {-}
+## Learning Objectives {.unnumbered}
 
 By the end of this chapter, you should be able to
 
