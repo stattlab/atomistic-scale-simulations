@@ -23,7 +23,7 @@ Text inside of box
 Text inside of box 
 ```
 
-```{hint} STest inline
+```{hint} "STest inline"
 Text inside of box 
 ```
 
@@ -41,4 +41,13 @@ Text inside of box
 
 ```{warning} STest inline
 Text inside of box 
+```
+
+```{admonition} Example: doing a thing
+:class: tip  
+Here's code that shows how to do a thing...
+```
+
+```{admonition} Example: doing a thing
+Here's code that shows how to do a thing...
 ```
