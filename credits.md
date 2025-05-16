@@ -16,4 +16,4 @@ The class CHEN 6970 from Prof. [Michael P. Howard](https://www.eng.auburn.edu/di
 
 Many derivations, examples and problem statements were adapted from textbooks:
 
-> Allen, Michael P., and Dominic J. Tildesley. "Computer simulation of liquids." Clarendon: Oxford (1987).
+> Allen, Michael P., and Dominic J. Tildesley. "Computer simulation of liquids.", Oxford (1987).
