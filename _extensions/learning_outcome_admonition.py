@@ -10,4 +10,4 @@ class LearningOutcome(Admonition):
 
 
 def setup(app):
-    app.add_directive("learning-outcome", LearningOutcome)
+    app.add_directive("learningoutcome", LearningOutcome)
