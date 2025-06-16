@@ -1,0 +1,797 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.4. Intermolecular Potentials &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-models-and-interactions/intramolecular-potentials';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-models-and-interactions/intramolecular-potentials.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.5. Short-Ranged Intramolecular Potentials" href="short-ranged-potentials.html" />
+    <link rel="prev" title="2.3. Periodic Boundary Conditions" href="periodic-boundary-conditions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">2. Molecular Models and Interactions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.1. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.2. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.3. Transport Coefficients</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.1. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.2. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.3. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.4. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.5. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.6. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.1. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.2. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.3. Gibbs Ensemble and Phase Coexistence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">6. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmolecular-models-and-interactions/intramolecular-potentials.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/molecular-models-and-interactions/intramolecular-potentials.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Intermolecular Potentials</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-potentials">2.4.1. Bond Potentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic">2.4.1.1. Harmonic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fene-finite-extensible-nonlinear-elastic">2.4.1.2. FENE (Finite Extensible Nonlinear Elastic)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#angle-potentials">2.4.2. Angle Potentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.4.2.1. Harmonic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine">2.4.2.2. Cosine</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-squared">2.4.2.3. Cosine squared</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dihedral-potentials">2.4.3. Dihedral Potentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic">2.4.3.1. Periodic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ryckaert-bellemans">2.4.3.2. Ryckaert-Bellemans</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fourier">2.4.3.3. Fourier</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improper-dihedrals">2.4.4. Improper Dihedrals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">2.4.5. Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-literature">2.4.6. Additional Literature</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="intermolecular-potentials">
+<h1><span class="section-number">2.4. </span>Intermolecular Potentials<a class="headerlink" href="#intermolecular-potentials" title="Link to this heading">#</a></h1>
+<p>in <a class="reference internal" href="#bonds-angles-fig"><span class="std std-numref">Fig. 2.12</span></a> most typical intermolecular potentials for a molecule are shown.</p>
+<figure class="align-center" id="bonds-angles-fig">
+<a class="reference internal image-reference" href="../_images/intramolecular-def.png"><img alt="Visualization of bonds, angles, and dihedrals in a molecule" src="../_images/intramolecular-def.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.12 </span><span class="caption-text">Visualization of bonds, angles, and dihedrals in a molecule with four atoms.</span><a class="headerlink" href="#bonds-angles-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The overall energy is given by:</p>
+<p><span class="math notranslate nohighlight">\( U = \sum_{\text{bonds}, {i,j} } U_b(r_{ij}) + \sum_{\text{angles}, {i,j,k}} U_\theta(\theta_{ijk}) + \sum_{\text{dihedrals}, {i,j,k,l} } U_\varphi(\varphi_{ijkl}) \)</span></p>
+<p>To compute a conservative force in general:
+<span class="math notranslate nohighlight">\( \vec{F}_i = -\nabla_i U \)</span> where <span class="math notranslate nohighlight">\(\nabla_i = \frac{\partial}{\partial r_i}\)</span> is
+the gradient with respect to <span class="math notranslate nohighlight">\(r_i\)</span>.</p>
+<section id="bond-potentials">
+<h2><span class="section-number">2.4.1. </span>Bond Potentials<a class="headerlink" href="#bond-potentials" title="Link to this heading">#</a></h2>
+<p>As shown in <a class="reference internal" href="#bond-def-fig"><span class="std std-numref">Fig. 2.13</span></a>, the <strong>bond length</strong> between particle <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> is given by</p>
+<p><span class="math notranslate nohighlight">\( r_{ij} = \| \vec{r}_i - \vec{r}_j \| = \sqrt{(x_j-x_i)^2 + (y_j-y_i)^2 + (z_j-z_i)^2}\)</span>.</p>
+<p>The <strong>bond vector</strong> is <span class="math notranslate nohighlight">\( \vec r_{ij} =  \vec{r}_i - \vec{r}_j \)</span>.</p>
+<figure class="align-center" id="bond-def-fig">
+<a class="reference internal image-reference" href="../_images/bond.png"><img alt="Definition of bond distance." src="../_images/bond.png" style="width: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.13 </span><span class="caption-text">Definition of bond distance.</span><a class="headerlink" href="#bond-def-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>To obtain the force on a bond we need to compute</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+ F_i = - \nabla_i U_b(r_{ij}) = - \frac{\partial U_b}{\partial r_i} \nabla_i r_{ij}\quad .
+\end{align*}\]</div>
+<p>For this, we need <span class="math notranslate nohighlight">\(\nabla_i r_{ij}\)</span>, which is</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\nabla_i r_{ij} &amp;=  \frac{\partial}{\partial x_{i,\alpha}} \left[ \sqrt{(x_{j,\alpha}-x_{i,\alpha})(x_{j,\alpha}-x_{i,\alpha})} \right]\\
+&amp;= \frac{1}{2} \frac{-2 x_{j,\alpha}+2x_{i,\alpha}}{\sqrt{(x_{j,\alpha}-x_{i,\alpha})(x_{j,\alpha}-x_{i,\alpha})}}\\
+&amp;= - \frac{x_{j,\alpha}-x_{i,\alpha}}{\sqrt{(x_{j,\alpha}-x_{i,\alpha})(x_{j,\alpha}-x_{i,\alpha})}}\\
+&amp;= - \frac{r_{ij}}{|r_{ij}|}\\
+&amp;= - \hat r_{ij}
+\end{align*}\]</div>
+<p>which is the unit vector pointing in the direction of the bond!</p>
+<p>The force then is</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+F_i &amp;= - \frac{\partial U_b(r_{ij})}{\delta r_{ij}} (-\hat r_{ij}) \\
+&amp;= - F_b(r_{ij}) \hat r_{ij}, \text{ with }
+ F_b(r_{ij}) \equiv - \frac{\partial U_b(r_{ij})}{\delta r_{ij}}
+\end{align*}\]</div>
+<p>By symmetry we should have <span class="math notranslate nohighlight">\(\nabla_j r_{ij}=-\nabla_i r_{ji}\)</span>, meaning that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+F_j = F_b(r_{ij}) \hat r_{ij} \quad.
+\end{align*}\]</div>
+<p>This shows that for a bond, <span class="math notranslate nohighlight">\(F_i = -F_j\)</span>, which illustrates that action has a equal and opposite reaction.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Once can use the action reaction principle to save on computations by only computing either <span class="math notranslate nohighlight">\(F_i\)</span> OR <span class="math notranslate nohighlight">\(F_j\)</span> and then applying the equal action-reaction principle to save on calculations.</p>
+</div>
+<section id="harmonic">
+<h3><span class="section-number">2.4.1.1. </span>Harmonic<a class="headerlink" href="#harmonic" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\( U(r) = \frac{1}{2}k(r - r_0)^2 \)</span></p>
+<p>This fixes the bond length to fluctuate around an average of <span class="math notranslate nohighlight">\(r_0\)</span>.</p>
+<ul class="simple">
+<li><p>Watch for factor of 2!</p></li>
+<li><p>Typically <span class="math notranslate nohighlight">\( k \sim 10^3 \epsilon/l^2\)</span> for “stiff” bond</p></li>
+</ul>
+<div class="admonition-example-harmonic-bond-force admonition">
+<p class="admonition-title">Example: Harmonic bond force</p>
+<p><span class="math notranslate nohighlight">\( U_b = \frac{1}{2}k(r - r_0)^2 \)</span>, so</p>
+<p><span class="math notranslate nohighlight">\( F_b = \frac{\partial U_b}{\delta r_{ij}} = -k (r_{ij}-r_0)\)</span>, leading to</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+F_i &amp;= + (r_{ij}-r_0) \hat r_{ij}\\
+F_j &amp;= - (r_{ij}-r_0) \hat r_{ij} \quad .
+\end{align*}\]</div>
+<p>If <span class="math notranslate nohighlight">\(r_{ij}&gt;r_0\)</span>, the bond is streched past <span class="math notranslate nohighlight">\(r_0\)</span> and particle <span class="math notranslate nohighlight">\(i\)</span> moves toward <span class="math notranslate nohighlight">\(j\)</span>, and <span class="math notranslate nohighlight">\(j\)</span> toward <span class="math notranslate nohighlight">\(i\)</span>. If <span class="math notranslate nohighlight">\(r_{ij}&lt;r_0\)</span>, the bond is compressed below the set point <span class="math notranslate nohighlight">\(r_0\)</span> and particle <span class="math notranslate nohighlight">\(i\)</span> moves away from <span class="math notranslate nohighlight">\(j\)</span>, and <span class="math notranslate nohighlight">\(j\)</span> away from <span class="math notranslate nohighlight">\(i\)</span>.</p>
+</div>
+</section>
+<section id="fene-finite-extensible-nonlinear-elastic">
+<h3><span class="section-number">2.4.1.2. </span>FENE (Finite Extensible Nonlinear Elastic)<a class="headerlink" href="#fene-finite-extensible-nonlinear-elastic" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\( U(r) = -\frac{1}{2}k r_0^2 \ln\left(1 - \left(\frac{r}{r_0}\right)^2\right) \)</span></p>
+<p>Diverges at <span class="math notranslate nohighlight">\(r_0\)</span>, minimum at 0. This is usually used in conjuction with a repulsive, short-ranged force (WCA = cut LJ at minimum and shift up to get a purely repulsive potential).</p>
+<p>Typical parameters:</p>
+<ul class="simple">
+<li><p>k = 30, r_0 = 1.5</p></li>
+</ul>
+</section>
+</section>
+<section id="angle-potentials">
+<h2><span class="section-number">2.4.2. </span>Angle Potentials<a class="headerlink" href="#angle-potentials" title="Link to this heading">#</a></h2>
+<p>The <strong>angle</strong> between three particles <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span>, and <span class="math notranslate nohighlight">\(k\)</span> is given by:</p>
+<p><span class="math notranslate nohighlight">\( \cos \theta_{ijk} = \frac{(\vec{r}_{ji} \cdot \vec{r}_{jk})}{|\vec{r}_{ji}||\vec{r}_{jk}|} = - \frac{(\vec{r}_{ij} \cdot \vec{r}_{jk})}{|\vec{r}_{ij}||\vec{r}_{jk}|}\)</span>.</p>
+<figure class="align-center" id="angle-def-fig">
+<a class="reference internal image-reference" href="../_images/angle.png"><img alt="Definition of angle ." src="../_images/angle.png" style="width: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.14 </span><span class="caption-text">Definition of angle.</span><a class="headerlink" href="#angle-def-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Note the negative sign, i.e the two bond vectors point out from the middle particle <span class="math notranslate nohighlight">\(j\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In polymers, angle θ is sometimes defined as the outer angle. This is less common in atomistic models, but be careful!</p>
+<figure class="align-center" id="angle2-def-fig">
+<a class="reference internal image-reference" href="../_images/outer-angle.png"><img alt="Definition of angle." src="../_images/outer-angle.png" style="width: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.15 </span><span class="caption-text">Alternative definition of angle as the outer angle.</span><a class="headerlink" href="#angle2-def-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>These two definitions can be easily converted into each other <span class="math notranslate nohighlight">\(\theta_{ijk} = \pi - \theta'_{ijk}\)</span>.</p>
+</div>
+<p>To compute the angle potential between three particles, we need to</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+F_i &amp;= -\nabla_i U_\theta (\theta_{ijk}) \\
+&amp;=- \frac{\partial U_\theta}{\partial \theta_{ijk}} \nabla_i \theta_{ijk} \\
+\text{ where } - \frac{\partial U_\theta}{\partial \theta_{ijk}} = F_\theta \quad .
+\end{align*}\]</div>
+<p>Getting <span class="math notranslate nohighlight">\(\cos^{-1}\)</span> is computationally expensive, which would be needed above.
+Once can try to avoid that by using the chain rule:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+F_i &amp;= - \frac{\partial U_\theta}{\partial \theta_{ijk}} \nabla_i \theta_{ijk} \\
+F_\theta \frac{\partial \theta_{ijk}}{\partial \cos(\theta_{ijk})} \nabla_i \cos\theta_{ijk} \\
+-F_\theta \frac{1}{\sin(\theta_{ijk})} \nabla_i \cos\theta_{ijk}\quad .
+\end{align*}\]</div>
+<p>For this, we then need <span class="math notranslate nohighlight">\( \nabla_i \cos\theta_{ijk}\)</span>. Eq.7 of <a class="reference external" href="https://doi.org/10.1063/1.4985251">J. Chem. Phys. 146, 226101 (2017)</a> offers a compact form.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><span class="math notranslate nohighlight">\(F_i\)</span> is singlular if <span class="math notranslate nohighlight">\(\theta_{ijk}=0^\circ\)</span> or <span class="math notranslate nohighlight">\(180^\circ\)</span> if <span class="math notranslate nohighlight">\(F_\theta\)</span> is not zero at these points!</p>
+</div>
+<section id="id1">
+<h3><span class="section-number">2.4.2.1. </span>Harmonic<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(U_\theta(\theta) = \frac{k}{2} (\theta - \theta_O)^2\)</span></p>
+<p>Fixes average angle around set point of <span class="math notranslate nohighlight">\(\theta_0\)</span>. Like with the harmonic bond potential, whatch for the factor of two in the spring constant.</p>
+</section>
+<section id="cosine">
+<h3><span class="section-number">2.4.2.2. </span>Cosine<a class="headerlink" href="#cosine" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(U_\theta(\theta) = k (1 + \cos{theta})\)</span></p>
+<p>Minimum is when the particles are in colinear <span class="math notranslate nohighlight">\(\theta =180^\circ\)</span> arrangement.</p>
+</section>
+<section id="cosine-squared">
+<h3><span class="section-number">2.4.2.3. </span>Cosine squared<a class="headerlink" href="#cosine-squared" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(U_\theta(\theta) = \frac{k}{2} (\cos\theta - \cos\theta_O)^2\)</span></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For specific models and force fields, always check if the angles are given in degree or radians.</p>
+</div>
+</section>
+</section>
+<section id="dihedral-potentials">
+<h2><span class="section-number">2.4.3. </span>Dihedral Potentials<a class="headerlink" href="#dihedral-potentials" title="Link to this heading">#</a></h2>
+<p><strong>Torsional</strong> or <strong>dihedral</strong> angles are defined as shown in <a class="reference internal" href="#dihedral-def-fig"><span class="std std-numref">Fig. 2.16</span></a>. One needs to define two planes created by three of the four points each.</p>
+<figure class="align-center" id="dihedral-def-fig">
+<a class="reference internal image-reference" href="../_images/dihedral.png"><img alt="Definition of dihedral or torsional angle." src="../_images/dihedral.png" style="width: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.16 </span><span class="caption-text">Definition of dihedral or torsional angle.</span><a class="headerlink" href="#dihedral-def-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Angle between two plane (A,B) normals:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \vec{n}_A = \vec{r}_{ij} \times \vec{r}_{jk} \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\( \vec{n}_B = \vec{r}_{jk} \times \vec{r}_{kl} \)</span></p></li>
+</ul>
+<p>Then the angle is</p>
+<p><span class="math notranslate nohighlight">\(\varphi_{ijkl} = \frac{\vec n_A \cdot \vec n_B}{|n_A||n_B|}\)</span></p>
+<p>SImilar to the angle, alternative definitions exist, <span class="math notranslate nohighlight">\(\psi = \pi -\varphi\)</span>.</p>
+<p>To compute dihedral forces on four particles, we need to compute</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+F_i &amp;= -\nabla_i U_\phi(\phi_{ijkl})\\
+&amp;= - \frac{\partial U_\phi}{\partial \phi_{ijkl}} \nabla_i \phi_{ijkl} \\
+= - \frac{\partial U_\phi}{\partial \phi_{ijkl} } \frac{\partial \phi_{ijkl}}{\partial \cos(\phi_{ijkl})} \nabla_i \cos\phi_{ijkl} \\
+= -F_\phi \frac{1}{\sin(\phi_{ijkl})} \nabla_i \cos\phi_{ijkl}\quad .
+\end{align*}\]</div>
+<p>This results in some involved computations, see Allen &amp; Tildesley for a step by step derivation in Appendix C.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The same singularities show up at <span class="math notranslate nohighlight">\(\phi_{ijkl}=0^\circ\)</span> and <span class="math notranslate nohighlight">\(180^\circ\)</span> but one can eliminate them (details in <a class="reference external" href="https://doi.org/10.1002/(SICI)1096-987X(19960715)17:9%3C1132::AID-JCC5%3E3.0.CO;2-T">J. Comput. Chem., 17: 1132-1141, 1996</a>).</p>
+<p>However, <span class="math notranslate nohighlight">\(\phi\)</span> becomes also degenerate if <span class="math notranslate nohighlight">\(\theta_{ijk}\)</span> or <span class="math notranslate nohighlight">\(\theta_{jkl}\)</span> approaches <span class="math notranslate nohighlight">\(0^\circ\)</span> or <span class="math notranslate nohighlight">\(180^\circ\)</span> because the two planes to define the dihedral cannot be defined in these cases. This is important for models with “soft” interactions, where these configurations are possible, e.g. coarse-grained models.</p>
+</div>
+<section id="periodic">
+<h3><span class="section-number">2.4.3.1. </span>Periodic<a class="headerlink" href="#periodic" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\( V_\phi(\phi_{ijkl}) = k_{\phi}(1 + \cos(n \phi - \phi_s)) \)</span></p>
+<p>Used in the CHARMM force field</p>
+</section>
+<section id="ryckaert-bellemans">
+<h3><span class="section-number">2.4.3.2. </span>Ryckaert-Bellemans<a class="headerlink" href="#ryckaert-bellemans" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(V_{\phi}(\phi_{ijkl}) = \sum_{n=0}^5 C_n( \cos(\psi ))^n,\)</span> where <span class="math notranslate nohighlight">\(\psi = \phi -180^\circ\)</span>.</p>
+</section>
+<section id="fourier">
+<h3><span class="section-number">2.4.3.3. </span>Fourier<a class="headerlink" href="#fourier" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(V_{F} (\phi_{ijkl})= \frac{1}{2} \sum_{n=1}^4 C_n (1-(-1)^n\cos(n\phi))\)</span></p>
+<p>Used in the OPLS force field. This can be transformed into the Ryckaert-Bellemans form using trigonometric indentities.</p>
+</section>
+</section>
+<section id="improper-dihedrals">
+<h2><span class="section-number">2.4.4. </span>Improper Dihedrals<a class="headerlink" href="#improper-dihedrals" title="Link to this heading">#</a></h2>
+<p>In addition to the dihedrals defined between four bounded particles in a row, there are also
+so called <strong>improper</strong> dihedrals, that can be applied to keep planar groups planar, or prevent flipping into mirror images. These are commonly applied between four points in configurations as sketched in <a class="reference internal" href="#improper-dihedral-fig"><span class="std std-numref">Fig. 2.17</span></a>.</p>
+<figure class="align-center" id="improper-dihedral-fig">
+<a class="reference internal image-reference" href="../_images/improper_dihedral.png"><img alt="Improper dihedral configuration." src="../_images/improper_dihedral.png" style="width: 100px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.17 </span><span class="caption-text">Configuration to which an improper dihedral can be applied to.</span><a class="headerlink" href="#improper-dihedral-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="resources">
+<h2><span class="section-number">2.4.5. </span>Resources<a class="headerlink" href="#resources" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix C.2 - Calculation of forces and torques</p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1063/1.4985251">“Note: Smooth torsional potentials for degenerate dihedral angles” Michael P. Howard, Antonia Statt, Athanassios Z. Panagiotopoulos, J. Chem. Phys. 146, 226101 (2017)</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1002/(SICI)1096-987X(19960715)17:9%3C1132::AID-JCC5%3E3.0.CO;2-T">Blondel, A. and Karplus, M., New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: Elimination of singularities. J. Comput. Chem., 17: 1132-1141. (1996)</a></p></li>
+<li><p><a class="reference external" href="https://manual.gromacs.org/current/reference-manual/functions/bonded-interactions.html">Gromacs Documentation on Intramolecular Potentials</a></p></li>
+</ul>
+</section>
+<section id="additional-literature">
+<h2><span class="section-number">2.4.6. </span>Additional Literature<a class="headerlink" href="#additional-literature" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./molecular-models-and-interactions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="periodic-boundary-conditions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2.3. </span>Periodic Boundary Conditions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="short-ranged-potentials.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.5. </span>Short-Ranged Intramolecular Potentials</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-potentials">2.4.1. Bond Potentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic">2.4.1.1. Harmonic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fene-finite-extensible-nonlinear-elastic">2.4.1.2. FENE (Finite Extensible Nonlinear Elastic)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#angle-potentials">2.4.2. Angle Potentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.4.2.1. Harmonic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine">2.4.2.2. Cosine</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-squared">2.4.2.3. Cosine squared</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dihedral-potentials">2.4.3. Dihedral Potentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic">2.4.3.1. Periodic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ryckaert-bellemans">2.4.3.2. Ryckaert-Bellemans</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fourier">2.4.3.3. Fourier</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improper-dihedrals">2.4.4. Improper Dihedrals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">2.4.5. Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-literature">2.4.6. Additional Literature</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -14,6 +14,4 @@ This work (c) 2025 is licensed under
 These notes are based on many different sources and textbooks.
 The class CHEN 6970 from Prof. [Michael P. Howard](https://www.eng.auburn.edu/directory/mph0043) at Auburn University was particularly useful.
 
-Many derivations, examples and problem statements were adapted from textbooks:
-
-> Allen, Michael P., and Dominic J. Tildesley. "Computer simulation of liquids.", Oxford (1987).
+Many derivations, examples and problem statements were adapted from textbooks, in particular: Allen, Michael P., and Dominic J. Tildesley. "Computer simulation of liquids.", Oxford (1987).

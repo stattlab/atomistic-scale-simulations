@@ -3,7 +3,7 @@
 ```{include} README.md
 ```
 
-## Table of contents
+# Table of contents
 
 ```{tableofcontents}
 ```

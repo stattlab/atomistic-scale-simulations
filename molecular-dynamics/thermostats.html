@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3.3. Thermostats &#8212; Atomistic Scale Simulations</title>
+    <title>4.2. Thermostats &#8212; Atomistic Scale Simulations</title>
   
   
   
@@ -57,12 +57,14 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-dynamics/thermostats';</script>
     <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-dynamics/thermostats.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. Credits" href="../credits.html" />
-    <link rel="prev" title="3.2. Periodic Boundary Conditions" href="periodic-boundary-conditions.html" />
+    <link rel="next" title="4.3. Langevin Dynamics" href="langevin-dynamics.html" />
+    <link rel="prev" title="4.1. Verlet Integration" href="verlet-integration.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -168,20 +170,41 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.1. What are Simulations?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">2. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">2.1. Ensembles</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">3. Molecular Dynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="introduction.html">3.1. Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="periodic-boundary-conditions.html">3.2. Periodic Boundary Conditions</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.3. Thermostats</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.1. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.2. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.3. Transport Coefficients</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../credits.html">4. Credits</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">4. Molecular Dynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="verlet-integration.html">4.1. Verlet Integration</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.2. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="langevin-dynamics.html">4.3. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="md-packages.html">4.4. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neighbor-list.html">4.5. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="high-performance-computing.html">4.6. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.1. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.2. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.3. Gibbs Ensemble and Phase Coexistence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">6. Credits</a></li>
 </ul>
 
     </div>
@@ -377,10 +400,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">3.3.1. Example</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">3.3.2. Python Implementation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.3.3. Exercise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">3.3.4. Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-canonical-ensemble-in-md">4.2.1. 1. Generating Canonical Ensemble in MD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-thermostats">4.2.1.1. Stochastic Thermostats</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-thermostats">4.2.1.2. Deterministic Thermostats</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isokinetic-thermostat-constant-kinetic-energy">4.2.2. 2. Isokinetic Thermostat: Constant Kinetic Energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#berendsen-thermostat-proportional-control">4.2.3. 3. Berendsen Thermostat: Proportional Control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nosehoover-thermostat">4.2.4. 4. Nosé–Hoover Thermostat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nosehoover-chains">4.2.5. 5. Nosé–Hoover Chains</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-via-operator-splitting">4.2.6. 6. Implementation via Operator Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">4.2.7. Additional Resources</a></li>
 </ul>
             </nav>
         </div>
@@ -393,19 +423,186 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="thermostats">
-<h1><span class="section-number">3.3. </span>Thermostats<a class="headerlink" href="#thermostats" title="Link to this heading">#</a></h1>
-<p>What are thermostats, why do we need them</p>
-<section id="example">
-<h2><span class="section-number">3.3.1. </span>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<h1><span class="section-number">4.2. </span>Thermostats<a class="headerlink" href="#thermostats" title="Link to this heading">#</a></h1>
+<section id="generating-canonical-ensemble-in-md">
+<h2><span class="section-number">4.2.1. </span>1. Generating Canonical Ensemble in MD<a class="headerlink" href="#generating-canonical-ensemble-in-md" title="Link to this heading">#</a></h2>
+<p>Molecular dynamics (MD) naturally gives the <strong>NVE ensemble</strong>. To obtain the <strong>NVT ensemble</strong>, apply a <strong>thermostat</strong> (heat reservoir) that drives the system to the correct temperature.</p>
+<section id="stochastic-thermostats">
+<h3><span class="section-number">4.2.1.1. </span>Stochastic Thermostats<a class="headerlink" href="#stochastic-thermostats" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Andersen</strong>: At random intervals, assign new momenta to particles.</p>
+<ul>
+<li><p>❌ Not momentum conserving.</p></li>
+</ul>
+</li>
+<li><p><strong>Lowe-Andersen</strong>: Pairwise stochastic velocity changes.</p>
+<ul>
+<li><p>✅ Momentum conserving.</p></li>
+</ul>
+</li>
+<li><p><strong>Langevin</strong>: Add deterministic friction and random forces.</p>
+<ul>
+<li><p>❌ Not momentum conserving.</p></li>
+</ul>
+</li>
+<li><p><strong>DPD (Dissipative Particle Dynamics)</strong>: Pairwise friction and random forces.</p>
+<ul>
+<li><p>✅ Momentum conserving.</p></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<div><p>✅ Random thermostats are usually stable.
+⚠️ They add computational cost due to random number generation.
+⚠️ Must tune friction strength carefully to avoid distorting dynamics.</p>
+</div></blockquote>
 </section>
-<section id="python-implementation">
-<h2><span class="section-number">3.3.2. </span>Python Implementation<a class="headerlink" href="#python-implementation" title="Link to this heading">#</a></h2>
+<section id="deterministic-thermostats">
+<h3><span class="section-number">4.2.1.2. </span>Deterministic Thermostats<a class="headerlink" href="#deterministic-thermostats" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add a scaling variable acting as a controller.</p>
+<ul>
+<li><p><strong>Isokinetic</strong>: Constant kinetic energy.</p></li>
+<li><p><strong>Berendsen</strong>: Weak velocity rescaling.</p></li>
+<li><p><strong>Nosé / Nosé-Hoover / Nosé-Hoover chains</strong>: Canonical (sometimes).</p></li>
+</ul>
+</li>
+</ul>
 </section>
-<section id="exercise">
-<h2><span class="section-number">3.3.3. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h2>
 </section>
-<section id="resources">
-<h2><span class="section-number">3.3.4. </span>Resources<a class="headerlink" href="#resources" title="Link to this heading">#</a></h2>
+<section id="isokinetic-thermostat-constant-kinetic-energy">
+<h2><span class="section-number">4.2.2. </span>2. Isokinetic Thermostat: Constant Kinetic Energy<a class="headerlink" href="#isokinetic-thermostat-constant-kinetic-energy" title="Link to this heading">#</a></h2>
+<p>Use a Lagrange multiplier to constrain kinetic energy:</p>
+<div class="math notranslate nohighlight">
+\[
+K = \frac{p^2}{2m} = \text{constant}
+\]</div>
+<p>Differentiating:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{dK}{dt} = \frac{p \cdot f}{m} = 0
+\]</div>
+<p>This leads to:</p>
+<div class="math notranslate nohighlight">
+\[
+f = \lambda p
+\]</div>
+<p>The resulting ensemble has probability:</p>
+<div class="math notranslate nohighlight">
+\[
+P \propto \delta(K(p) - K_0) \cdot e^{-\beta U(q)}
+\]</div>
+<blockquote>
+<div><p>⚠️ Not canonical, but for large systems, it’s a good approximation.
+✅ Configurations have correct distribution.</p>
+</div></blockquote>
+<p>Can also use velocity rescaling:</p>
+<div class="math notranslate nohighlight">
+\[
+p \leftarrow \alpha p, \quad \alpha = \sqrt{\frac{T_0}{T}}
+\]</div>
+<blockquote>
+<div><p>⚠️ Discontinuous, but useful for initial equilibration.</p>
+</div></blockquote>
+</section>
+<section id="berendsen-thermostat-proportional-control">
+<h2><span class="section-number">4.2.3. </span>3. Berendsen Thermostat: Proportional Control<a class="headerlink" href="#berendsen-thermostat-proportional-control" title="Link to this heading">#</a></h2>
+<p>Control temperature via exponential relaxation:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{dT}{dt} = -\gamma (T - T_0)
+\]</div>
+<p>Velocity rescaling:</p>
+<div class="math notranslate nohighlight">
+\[
+p \leftarrow \lambda p, \quad \lambda = \sqrt{1 + \frac{\Delta t}{\tau} \left( \frac{T_0}{T} - 1 \right)}
+\]</div>
+<blockquote>
+<div><p>⚠️ Not canonical.
+✅ Useful for steering system to target temperature.</p>
+</div></blockquote>
+</section>
+<section id="nosehoover-thermostat">
+<h2><span class="section-number">4.2.4. </span>4. Nosé–Hoover Thermostat<a class="headerlink" href="#nosehoover-thermostat" title="Link to this heading">#</a></h2>
+<p>Nosé introduced an <strong>extended Hamiltonian</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{H} = \sum \frac{p^2}{2ms^2} + U(q) + \frac{p_s^2}{2Q} + gk_BT \ln s
+\]</div>
+<ul class="simple">
+<li><p>( s ): scaling variable</p></li>
+<li><p>( Q ): thermal mass</p></li>
+<li><p>( g = 3N - 3 ): degrees of freedom</p></li>
+</ul>
+<p>Equations of motion:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{q} = \frac{p}{ms^2}, \quad \dot{p} = f - \frac{p_s}{Q} p, \quad \dot{s} = \frac{p_s}{Q}, \quad \dot{p_s} = \sum \frac{p^2}{ms^3} - gk_BT
+\]</div>
+<blockquote>
+<div><p>✅ Extended system is microcanonical
+✅ Subsystem (q, p) is canonical</p>
+</div></blockquote>
+<p>Hoover reformulated to avoid time scaling:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{q} = \frac{p}{m}, \quad \dot{p} = f - \zeta p, \quad \dot{\zeta} = \frac{1}{Q} \left( \frac{p^2}{m} - gk_BT \right)
+\]</div>
+<ul class="simple">
+<li><p>Generates canonical distribution if ergodic</p></li>
+<li><p>Conserves extended energy:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{H} = K + U + \frac{Q\zeta^2}{2} + gk_BT \eta
+\]</div>
+<p>Choose ( Q ) carefully:</p>
+<div class="math notranslate nohighlight">
+\[
+Q \sim gk_BT \tau^2
+\]</div>
+</section>
+<section id="nosehoover-chains">
+<h2><span class="section-number">4.2.5. </span>5. Nosé–Hoover Chains<a class="headerlink" href="#nosehoover-chains" title="Link to this heading">#</a></h2>
+<p>Single Nosé–Hoover thermostat may not be ergodic (e.g., harmonic oscillator).</p>
+<p>Solution: Add a chain of thermostat variables:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{\zeta}_1 = \frac{1}{Q_1} \left( \frac{p^2}{m} - gk_BT \right), \quad \dot{\zeta}_2 = \frac{1}{Q_2} \left( Q_1 \zeta_1^2 - k_BT \right), \dots
+\]</div>
+<ul class="simple">
+<li><p>Improves ergodicity</p></li>
+<li><p>Commonly used in modern MD simulations</p></li>
+</ul>
+</section>
+<section id="implementation-via-operator-splitting">
+<h2><span class="section-number">4.2.6. </span>6. Implementation via Operator Splitting<a class="headerlink" href="#implementation-via-operator-splitting" title="Link to this heading">#</a></h2>
+<p>Nosé–Hoover thermostat can be implemented using <strong>operator splitting</strong>:</p>
+<p>Split Liouville operator:</p>
+<div class="math notranslate nohighlight">
+\[
+e^{\mathcal{L} \Delta t} \approx e^{\mathcal{L}_1 \Delta t/2} e^{\mathcal{L}_2 \Delta t} e^{\mathcal{L}_1 \Delta t/2}
+\]</div>
+<ul class="simple">
+<li><p>(\mathcal{L}_1): thermostat part</p></li>
+<li><p>(\mathcal{L}_2): velocity Verlet</p></li>
+</ul>
+<p>Further split thermostat operator for accuracy:</p>
+<ul class="simple">
+<li><p>Use multiple substeps</p></li>
+<li><p>See: Martyna et al., Mol. Phys. 87, 1117 (1996)</p></li>
+</ul>
+</section>
+<section id="additional-resources">
+<h2><span class="section-number">4.2.7. </span>Additional Resources<a class="headerlink" href="#additional-resources" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Tuckerman et al. (2006) – J. Phys. A: Math. Gen.
+This paper presents a novel, measure-preserving, reversible geometric integrator for molecular dynamics simulations in the isothermal–isobaric (NPT) ensemble. The authors develop the integrator using a Liouville-operator-based formalism that ensures phase-space volume conservation, even in non-Hamiltonian systems. They extend the method to handle multiple time scales via r-RESPA and validate it through analytical derivations and numerical simulations, including Lennard-Jones fluids and flexible diatomic molecules. The integrator is shown to outperform previous schemes in stability and accuracy, particularly in preserving the correct ensemble distribution. The work concludes with suggestions for future extensions, including flexible cell dynamics and alternative thermal control methods.</p></li>
+<li><p>Martyna et al. (1996) – Mol. Phys.
+This comprehensive study introduces explicit, reversible integrators for extended system dynamics in molecular simulations, targeting canonical (NVT) and isothermal–isobaric (NPT) ensembles. The integrators are derived from the Liouville operator formalism and are designed to be efficient, stable, and suitable for large-scale simulations. The paper details the integration schemes for various ensembles, including full cell fluctuations, and incorporates multiple time step strategies (RESPA) to handle systems with disparate time scales. The authors compare their methods with standard iterative velocity-Verlet schemes and demonstrate improved energy conservation and computational efficiency. The work includes practical implementation guidance, including Fortran code and constraint-handling techniques, making it a foundational reference for molecular dynamics practitioners.</p></li>
+<li><p>Martyna et al. (1992) – J. Chem. Phys.
+This seminal paper introduces the Nosé–Hoover chain (NHC) method, a significant advancement in molecular dynamics for generating the canonical ensemble. The authors address the non-ergodicity of traditional Nosé–Hoover dynamics in small or stiff systems by coupling a chain of thermostat variables to the system. They provide a rigorous theoretical foundation, including derivations of the equations of motion, stability analysis, and proofs of phase-space volume conservation. Numerical experiments confirm that NHC dynamics yield accurate canonical distributions and are more robust than previous methods. The paper also discusses practical aspects such as thermostat mass selection, Lyapunov exponent analysis, and efficiency comparisons with Monte Carlo methods, establishing NHC as a reliable tool for simulating thermodynamic ensembles.</p></li>
+</ol>
 </section>
 </section>
 
@@ -440,20 +637,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="periodic-boundary-conditions.html"
+       href="verlet-integration.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">3.2. </span>Periodic Boundary Conditions</p>
+        <p class="prev-next-title"><span class="section-number">4.1. </span>Verlet Integration</p>
       </div>
     </a>
     <a class="right-next"
-       href="../credits.html"
+       href="langevin-dynamics.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>Credits</p>
+        <p class="prev-next-title"><span class="section-number">4.3. </span>Langevin Dynamics</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -473,10 +670,17 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">3.3.1. Example</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">3.3.2. Python Implementation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.3.3. Exercise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">3.3.4. Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-canonical-ensemble-in-md">4.2.1. 1. Generating Canonical Ensemble in MD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-thermostats">4.2.1.1. Stochastic Thermostats</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-thermostats">4.2.1.2. Deterministic Thermostats</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isokinetic-thermostat-constant-kinetic-energy">4.2.2. 2. Isokinetic Thermostat: Constant Kinetic Energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#berendsen-thermostat-proportional-control">4.2.3. 3. Berendsen Thermostat: Proportional Control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nosehoover-thermostat">4.2.4. 4. Nosé–Hoover Thermostat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nosehoover-chains">4.2.5. 5. Nosé–Hoover Chains</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-via-operator-splitting">4.2.6. 6. Implementation via Operator Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">4.2.7. Additional Resources</a></li>
 </ul>
   </nav></div>
 

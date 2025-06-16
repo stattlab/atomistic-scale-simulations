@@ -1,0 +1,749 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5.2. Monte Carlo Methods &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'monte-carlo/monte-carlo-method';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/monte-carlo/monte-carlo-method.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.3. Gibbs Ensemble and Phase Coexistence" href="phase-coexistence.html" />
+    <link rel="prev" title="5.1. Random Numbers" href="random-numbers.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.1. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.2. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.3. Transport Coefficients</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.1. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.2. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.3. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.4. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.5. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.6. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">5. Monte Carlo Simulations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="random-numbers.html">5.1. Random Numbers</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.2. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phase-coexistence.html">5.3. Gibbs Ensemble and Phase Coexistence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">6. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmonte-carlo/monte-carlo-method.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/monte-carlo/monte-carlo-method.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Monte Carlo Methods</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#history">5.2.1. History</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration">5.2.2. Monte Carlo Integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-estimating-area">5.2.2.1. Example: Estimating Area</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accuracy">5.2.2.2. Accuracy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multidimensional-integrals">5.2.3. Multidimensional Integrals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">5.2.4. Importance Sampling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definitions">5.2.4.1. Definitions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-states-with-correct-probability">5.2.5. Generating States with Correct Probability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transition-probabilities">5.2.6. Transition Probabilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acceptance-rules">5.2.7. Acceptance Rules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-rule">5.2.7.1. Metropolis Rule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barker-rule">5.2.7.2. Barker Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-10-state-system">5.2.8. Example: 10-State System</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-comparison">5.2.9. Convergence Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">5.2.10. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resorces">5.2.11. Additional Resorces</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="monte-carlo-methods">
+<h1><span class="section-number">5.2. </span>Monte Carlo Methods<a class="headerlink" href="#monte-carlo-methods" title="Link to this heading">#</a></h1>
+<section id="history">
+<h2><span class="section-number">5.2.1. </span>History<a class="headerlink" href="#history" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Origin</strong>: Von Neumann, Ulam &amp; Metropolis (1947) — neutron diffusion in fissionable material.</p></li>
+<li><p><strong>Term</strong>: “Monte Carlo” coined.</p></li>
+<li><p><strong>First MC simulation</strong>: Metropolis, Rosenbluth, Teller (1953) — equilibrium statistical mechanics.</p></li>
+</ul>
+</section>
+<section id="monte-carlo-integration">
+<h2><span class="section-number">5.2.2. </span>Monte Carlo Integration<a class="headerlink" href="#monte-carlo-integration" title="Link to this heading">#</a></h2>
+<section id="example-estimating-area">
+<h3><span class="section-number">5.2.2.1. </span>Example: Estimating Area<a class="headerlink" href="#example-estimating-area" title="Link to this heading">#</a></h3>
+<ul>
+<li><p>Throw rocks randomly into a bounding rectangle.</p></li>
+<li><p>Estimate area of a pond:</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{Area} = W \times L \times \frac{\text{hits in pond}}{\text{total throws}}
+  \]</div>
+</li>
+<li><p>Can be used to estimate π via quarter-circle area.</p></li>
+</ul>
+</section>
+<section id="accuracy">
+<h3><span class="section-number">5.2.2.2. </span>Accuracy<a class="headerlink" href="#accuracy" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Accuracy improves slowly: 1 decimal digit per 10× more samples.</p></li>
+<li><p>For low-dimensional problems, deterministic methods (e.g., Simpson’s Rule) are better.</p></li>
+</ul>
+</section>
+</section>
+<section id="multidimensional-integrals">
+<h2><span class="section-number">5.2.3. </span>Multidimensional Integrals<a class="headerlink" href="#multidimensional-integrals" title="Link to this heading">#</a></h2>
+<ul>
+<li><p>Example: Canonical partition function for N = 20 particles with 25 positions each:</p>
+<div class="math notranslate nohighlight">
+\[
+  25^{20} \approx 10^{28} \text{ evaluations needed}
+  \]</div>
+</li>
+<li><p>Most configurations contribute little to the integral.</p></li>
+<li><p>Random sampling often generates invalid configurations (e.g., overlapping particles).</p></li>
+</ul>
+</section>
+<section id="importance-sampling">
+<h2><span class="section-number">5.2.4. </span>Importance Sampling<a class="headerlink" href="#importance-sampling" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Problem</strong>: Uniform sampling inefficient in high-dimensional phase space.</p></li>
+<li><p><strong>Solution</strong>: Sample from a distribution proportional to the function of interest.</p></li>
+</ul>
+<section id="definitions">
+<h3><span class="section-number">5.2.4.1. </span>Definitions<a class="headerlink" href="#definitions" title="Link to this heading">#</a></h3>
+<ul>
+<li><p>Uniform sampling:</p>
+<div class="math notranslate nohighlight">
+\[
+  \langle P \rangle = \frac{1}{n} \sum P_i
+  \]</div>
+</li>
+<li><p>Importance sampling:</p>
+<div class="math notranslate nohighlight">
+\[
+  \langle P \rangle = \sum P_i \cdot w_i
+  \]</div>
+</li>
+</ul>
+<p>Where ( w_i ) is the weight from the desired distribution.</p>
+</section>
+</section>
+<section id="generating-states-with-correct-probability">
+<h2><span class="section-number">5.2.5. </span>Generating States with Correct Probability<a class="headerlink" href="#generating-states-with-correct-probability" title="Link to this heading">#</a></h2>
+<ul>
+<li><p>Consider 20 particles in 25 positions → ( 25^{20} ) states.</p></li>
+<li><p>In a large sample, the number of times a state appears is proportional to:</p>
+<div class="math notranslate nohighlight">
+\[
+  N(i) \propto \exp(-\beta U(i))
+  \]</div>
+</li>
+<li><p>To ensure correct sampling, transitions must satisfy <strong>detailed balance</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  N(o) \cdot M(o \rightarrow n) = N(n) \cdot M(n \rightarrow o)
+  \]</div>
+</li>
+</ul>
+</section>
+<section id="transition-probabilities">
+<h2><span class="section-number">5.2.6. </span>Transition Probabilities<a class="headerlink" href="#transition-probabilities" title="Link to this heading">#</a></h2>
+<ul>
+<li><p>Transition probability has two parts:</p>
+<div class="math notranslate nohighlight">
+\[
+  M(o \rightarrow n) = x(o \rightarrow n) \cdot \text{acc}(o \rightarrow n)
+  \]</div>
+<ul class="simple">
+<li><p>( x(o \rightarrow n) ): probability of proposing the move.</p></li>
+<li><p>( \text{acc}(o \rightarrow n) ): probability of accepting the move.</p></li>
+</ul>
+</li>
+<li><p>Best choice for ( x ): satisfies <strong>microscopic reversibility</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+  x(o \rightarrow n) = x(n \rightarrow o)
+  \]</div>
+</li>
+</ul>
+</section>
+<section id="acceptance-rules">
+<h2><span class="section-number">5.2.7. </span>Acceptance Rules<a class="headerlink" href="#acceptance-rules" title="Link to this heading">#</a></h2>
+<section id="metropolis-rule">
+<h3><span class="section-number">5.2.7.1. </span>Metropolis Rule<a class="headerlink" href="#metropolis-rule" title="Link to this heading">#</a></h3>
+<ul>
+<li><p>If ( U(n) &lt; U(o) ): accept</p></li>
+<li><p>Else: accept with probability</p>
+<div class="math notranslate nohighlight">
+\[
+  \exp(-\beta [U(n) - U(o)])
+  \]</div>
+</li>
+</ul>
+</section>
+<section id="barker-rule">
+<h3><span class="section-number">5.2.7.2. </span>Barker Rule<a class="headerlink" href="#barker-rule" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+  \text{acc}(o \rightarrow n) = \frac{\exp(-\beta U(n))}{\exp(-\beta U(o)) + \exp(-\beta U(n))}
+  \]</div>
+</section>
+</section>
+<section id="example-10-state-system">
+<h2><span class="section-number">5.2.8. </span>Example: 10-State System<a class="headerlink" href="#example-10-state-system" title="Link to this heading">#</a></h2>
+<ul>
+<li><p>States: 1 to 10</p></li>
+<li><p>Probabilities: proportional to state index</p></li>
+<li><p>Partition function:</p>
+<div class="math notranslate nohighlight">
+\[
+  Z = \sum_{j=1}^{10} j = 55
+  \]</div>
+</li>
+<li><p>Equilibrium probability of state ( j ):</p>
+<div class="math notranslate nohighlight">
+\[
+  P(j) = \frac{j}{55}
+  \]</div>
+</li>
+<li><p>Transition rule: ( x(o \rightarrow n) = \frac{1}{10} ) for all pairs</p></li>
+</ul>
+</section>
+<section id="convergence-comparison">
+<h2><span class="section-number">5.2.9. </span>Convergence Comparison<a class="headerlink" href="#convergence-comparison" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Metropolis</strong> converges faster than <strong>Barker</strong>.</p></li>
+<li><p>Example: Starting from state 3, track probability distribution over trials.</p></li>
+<li><p>Metropolis reaches equilibrium faster due to higher acceptance of favorable moves.</p></li>
+</ul>
+</section>
+<section id="summary">
+<h2><span class="section-number">5.2.10. </span>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Monte Carlo methods are powerful for high-dimensional integrals.</p></li>
+<li><p>Importance sampling and detailed balance are key to efficient and correct simulations.</p></li>
+<li><p>Metropolis algorithm is widely used due to its simplicity and effectiveness.</p></li>
+</ul>
+</section>
+<section id="additional-resorces">
+<h2><span class="section-number">5.2.11. </span>Additional Resorces<a class="headerlink" href="#additional-resorces" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./monte-carlo"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="random-numbers.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5.1. </span>Random Numbers</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="phase-coexistence.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5.3. </span>Gibbs Ensemble and Phase Coexistence</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#history">5.2.1. History</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration">5.2.2. Monte Carlo Integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-estimating-area">5.2.2.1. Example: Estimating Area</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accuracy">5.2.2.2. Accuracy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multidimensional-integrals">5.2.3. Multidimensional Integrals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">5.2.4. Importance Sampling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definitions">5.2.4.1. Definitions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-states-with-correct-probability">5.2.5. Generating States with Correct Probability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transition-probabilities">5.2.6. Transition Probabilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acceptance-rules">5.2.7. Acceptance Rules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-rule">5.2.7.1. Metropolis Rule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barker-rule">5.2.7.2. Barker Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-10-state-system">5.2.8. Example: 10-State System</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-comparison">5.2.9. Convergence Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">5.2.10. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resorces">5.2.11. Additional Resorces</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

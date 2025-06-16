@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3.2. Periodic Boundary Conditions &#8212; Atomistic Scale Simulations</title>
+    <title>1.1. Why are we interested in the atomistic scale? &#8212; Atomistic Scale Simulations</title>
   
   
   
@@ -57,12 +57,12 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-dynamics/periodic-boundary-conditions';</script>
-    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-dynamics/periodic-boundary-conditions.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'introduction/why-atomistic-scale';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/introduction/why-atomistic-scale.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3.3. Thermostats" href="thermostats.html" />
-    <link rel="prev" title="3.1. Introduction" href="introduction.html" />
+    <link rel="next" title="1.2. What are Simulations?" href="what-are-simulations.html" />
+    <link rel="prev" title="1. Introduction" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -167,21 +167,42 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.1. What are Simulations?</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">1. Introduction</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what-are-simulations.html">1.2. What are Simulations?</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">2. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">2.1. Ensembles</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">3. Molecular Dynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="introduction.html">3.1. Introduction</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.2. Periodic Boundary Conditions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="thermostats.html">3.3. Thermostats</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.1. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.2. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.3. Transport Coefficients</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../credits.html">4. Credits</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.1. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.2. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.3. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.4. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.5. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.6. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.1. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.2. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.3. Gibbs Ensemble and Phase Coexistence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">6. Credits</a></li>
 </ul>
 
     </div>
@@ -253,7 +274,7 @@
       
       
       
-      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmolecular-dynamics/periodic-boundary-conditions.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fintroduction/why-atomistic-scale.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -283,7 +304,7 @@
       
       
       
-      <li><a href="../_sources/molecular-dynamics/periodic-boundary-conditions.md" target="_blank"
+      <li><a href="../_sources/introduction/why-atomistic-scale.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -367,7 +388,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Periodic Boundary Conditions</h1>
+    <h1>Why are we interested in the atomistic scale?</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -377,10 +398,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">3.2.1. Example</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">3.2.2. Python Implementation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.2.3. Exercise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">3.2.4. Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-thoughts">1.1.1. General Thoughts</a></li>
 </ul>
             </nav>
         </div>
@@ -392,20 +410,26 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="periodic-boundary-conditions">
-<h1><span class="section-number">3.2. </span>Periodic Boundary Conditions<a class="headerlink" href="#periodic-boundary-conditions" title="Link to this heading">#</a></h1>
-<p>Why do we need PBC etc.</p>
-<section id="example">
-<h2><span class="section-number">3.2.1. </span>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
-</section>
-<section id="python-implementation">
-<h2><span class="section-number">3.2.2. </span>Python Implementation<a class="headerlink" href="#python-implementation" title="Link to this heading">#</a></h2>
-</section>
-<section id="exercise">
-<h2><span class="section-number">3.2.3. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h2>
-</section>
-<section id="resources">
-<h2><span class="section-number">3.2.4. </span>Resources<a class="headerlink" href="#resources" title="Link to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="why-are-we-interested-in-the-atomistic-scale">
+<h1><span class="section-number">1.1. </span>Why are we interested in the atomistic scale?<a class="headerlink" href="#why-are-we-interested-in-the-atomistic-scale" title="Link to this heading">#</a></h1>
+<blockquote>
+<div><p>“The general theory of quantum mechanics is now almost complete. The underlying physical laws necessary for the mathematical theory of a large part of physics and the whole of chemistry are thus completely known, and the difficulty is only that the exact application of these laws leads to equations much too complicated to be soluble.” (P. A. M. Dirac, Proc. R. Soc. Lond. A 1929, pg. 123)</p>
+</div></blockquote>
+<blockquote>
+<div><p>“A profound joke is that one can measure the progress of physics by the problems that can’t be solved. In Newtonian gravity, the three-body problem is difficult, but the two-body problem can be done exactly; in general relativity, two bodies are difficult but one body can be done exactly; in quantum gravity, the vacuum is intractable.” (Frank Wilczek, Physics Today 2003, pg.11)</p>
+</div></blockquote>
+<p>The atoms are the units or particles of interest (see also <a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html"><span class="std std-doc">Molecular Models</span></a>), and simulation (see also <a class="reference internal" href="what-are-simulations.html"><span class="std std-doc">Simulations</span></a>) is the technique of interest, where simulation just means an imitation of the operation of a real-world process or system over time.</p>
+<section id="general-thoughts">
+<h2><span class="section-number">1.1.1. </span>General Thoughts<a class="headerlink" href="#general-thoughts" title="Link to this heading">#</a></h2>
+<p>Computational physics per se is interesting and challenging, it is often a good (sometimes the only) way to understand the physics of complex multi-body systems. Experiment is/can be limited and expensive, and simulations can complement the experiment.</p>
+<p>But:</p>
+<ul class="simple">
+<li><p>Computational time is limited and expensive (carbon footprint!): few particles for short time</p></li>
+<li><p>Systems with many particles and long-time scales are problematic</p></li>
+<li><p>Physical and mathematical underpinnings: What approximations come in? Hamiltonian is unknown, until we solve the quantum many-body problem!</p></li>
+<li><p>How do we estimate errors? (statistical and systematic)</p></li>
+<li><p>How do we manage ever more complex codes? (parallelism, testing)</p></li>
+</ul>
 </section>
 </section>
 
@@ -422,7 +446,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./molecular-dynamics"
+            path: "./introduction"
         },
         predefinedOutput: true
     }
@@ -440,20 +464,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="introduction.html"
+       href="index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">3.1. </span>Introduction</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Introduction</p>
       </div>
     </a>
     <a class="right-next"
-       href="thermostats.html"
+       href="what-are-simulations.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3.3. </span>Thermostats</p>
+        <p class="prev-next-title"><span class="section-number">1.2. </span>What are Simulations?</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -473,10 +497,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">3.2.1. Example</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation">3.2.2. Python Implementation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.2.3. Exercise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">3.2.4. Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-thoughts">1.1.1. General Thoughts</a></li>
 </ul>
   </nav></div>
 
