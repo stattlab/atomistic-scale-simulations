@@ -5,16 +5,38 @@ options:
 chapters:
   - file: introduction/index
     sections:
+      - file: introduction/why-atomistic-scale
       - file: introduction/what-are-simulations
+
+  - file: molecular-models-and-interactions/index
+    sections:
+      - file: molecular-models-and-interactions/introduction
+      - file: molecular-models-and-interactions/molecular-models
+      - file: molecular-models-and-interactions/periodic-boundary-conditions
+      - file: molecular-models-and-interactions/intramolecular-potentials
+      - file: molecular-models-and-interactions/short-ranged-potentials
+      - file: molecular-models-and-interactions/electrostatics
 
   - file: statmech-thermo/index
     sections:
       - file: statmech-thermo/ensembles
+      - file: statmech-thermo/thermodynamic-properties
+      - file: statmech-thermo/transport-coefficients
 
   - file: molecular-dynamics/index
     sections:
-       - file: molecular-dynamics/introduction
-       - file: molecular-dynamics/periodic-boundary-conditions
-       - file: molecular-dynamics/thermostats
+      - file: molecular-dynamics/verlet-integration
+      - file: molecular-dynamics/thermostats
+      - file: molecular-dynamics/langevin-dynamics
+      - file: molecular-dynamics/md-packages
+      - file: molecular-dynamics/neighbor-list
+      - file: molecular-dynamics/high-performance-computing
+
+  - file: monte-carlo/index
+    sections:
+      - file: monte-carlo/random-numbers
+      - file: monte-carlo/monte-carlo-method
+      - file: monte-carlo/phase-coexistence
+
 
   - file: credits

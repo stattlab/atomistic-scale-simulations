@@ -1,12 +1,11 @@
 # Molecular Dynamics
 
-This chapter covers topics about Molecular Dynamics.
+This chapter covers the fundamentals of molecular dynamics.
 
 ```{learningoutcome} Molecular Dynamics
-1. Understand and explain what ...
-2. Know how to derive  ..
-3. Know how to code ...
-4. ...
+1. Understand and explain...
+2. Know how to calculate ...
+3. Code
 ```
 
 ```{tableofcontents}
