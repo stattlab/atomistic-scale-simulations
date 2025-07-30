@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -424,20 +424,19 @@ document.write(`
 <p>Decay is slower than <span class="math notranslate nohighlight">\(r^{-d}\)</span>, where <span class="math notranslate nohighlight">\( d\)</span> is dimensionality.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The formal definition is given over the integral</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<p>The formal definition is given over the integral
+$<span class="math notranslate nohighlight">\(
 I = \int_R^D d^D r \frac{A}{r^n} = \begin{cases} \infty &amp;\text{ for } n \leq D \\
   \text{finite} &amp;\text{ for } n &gt; D
 \end{cases}
-\end{align*}\]</div>
-<p>where <span class="math notranslate nohighlight">\(D\)</span> is the dimension. I.e we look at the potential <span class="math notranslate nohighlight">\(u(r)\)</span> as <span class="math notranslate nohighlight">\(r \rightarrow \infty\)</span>. This integral then contains <span class="math notranslate nohighlight">\(\frac{r^{D-1}}{r^n}\)</span>. In 3D, a potential is short-ranged if it converges faster than <span class="math notranslate nohighlight">\(r^{-3}\)</span>. In 2D,  a potential is short-ranged if it converges faster than <span class="math notranslate nohighlight">\(r^{-2}\)</span>.</p>
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>D<span class="math notranslate nohighlight">\( is the dimension. I.e we look at the potential \)</span>u®<span class="math notranslate nohighlight">\( as \)</span>r \rightarrow \infty<span class="math notranslate nohighlight">\(. This integral then contains \)</span>\frac{r^{D-1}}{r^n}<span class="math notranslate nohighlight">\(. In 3D, a potential is short-ranged if it converges faster than \)</span>r^{-3}<span class="math notranslate nohighlight">\(. In 2D,  a potential is short-ranged if it converges faster than \)</span>r^{-2}$.</p>
 </div>
 <p><strong>Coulomb potential</strong> for charges:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-u(r) = \frac{q_i q_j}{4\pi \varepsilon_0 r}
-\end{align*}\]</div>
+<div class="math notranslate nohighlight">
+\[
+  u(r) = \frac{q_i q_j}{4\pi \varepsilon_0 r}
+  \]</div>
 <p>where <span class="math notranslate nohighlight">\(q_i,q_j\)</span> are the charges, and  <span class="math notranslate nohighlight">\(\varepsilon_0\)</span> is the permittivity of free space. Sometimes the factor of <span class="math notranslate nohighlight">\(4\pi\)</span> is not written.</p>
 <p>Other long range forces include dipoles, low Reynolds number hydrodynamics, etc.</p>
 <p>Interaction can extend much further than the simulation box. <strong>How to deal with this?</strong></p>
@@ -454,12 +453,11 @@ u(r) = \frac{q_i q_j}{4\pi \varepsilon_0 r}
 <ul class="simple">
 <li><p>Developed by Ewald (1921), Madelung (1918)</p></li>
 </ul>
-<p>For the calculation of the electric potential <span class="math notranslate nohighlight">\(U\)</span> of an ion at position <span class="math notranslate nohighlight">\(r_i\)</span> due to all other ions of the lattice, we need to compute a sum like this:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
- U = \frac{1}{2} \sum_{\vec{m}\in \mathbb{Z}^3} \sum_{j}^N \sum_{j \neq i}^N \frac{q_i q_j}{4 \pi \epsilon_0 |\mathbf{r}_i - \mathbf{r}_j + \vec{m}L|}
-\end{align*}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\vec{m}\)</span> are the image vectors, and <span class="math notranslate nohighlight">\(L\)</span> is the box size.</p>
+<p>For the calculation of the electric potential <span class="math notranslate nohighlight">\(U\)</span> of an ion at position <span class="math notranslate nohighlight">\(r_i\)</span> due to all other ions of the lattice, we need to compute a sum like this:
+$<span class="math notranslate nohighlight">\(
+ U = \frac{1}{2} \sum_{\vec{m}\in \mathbb{Z}^3} \sum_{j}^N \sum_{j \neq i}^N \frac{q_i q_j}{4 \pi \epsilon_0 \lvert \mathbf{r}_i - \mathbf{r}_j + \vec{m}L\rvert}
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\vec{m}<span class="math notranslate nohighlight">\( are the image vectors, and \)</span>L$ is the box size.</p>
 <p>This sum is conditionally convergent!</p>
 <figure class="align-center" id="madelung-const-fig">
 <a class="reference internal image-reference" href="../_images/mandelung-sum.png"><img alt="Illustration of the summation of charges on a simple lattice." src="../_images/mandelung-sum.png" style="width: 200px;" />
@@ -472,7 +470,7 @@ u(r) = \frac{q_i q_j}{4\pi \varepsilon_0 r}
 <p><strong>Solution:</strong> Add and subtract a Gaussian charge at each point charge source:</p>
 <ul class="simple">
 <li><p>Point charge:<span class="math notranslate nohighlight">\( \rho(\vec{r}) = q_i\delta(\vec{r}-\vec{r}_i)\)</span></p></li>
-<li><p>Gaussian:<span class="math notranslate nohighlight">\( \rho(\vec{r})^G = \frac{q_i}{(2 \pi \sigma^2)^{3/2}} e^{-|\vec{r}-\vec{r}_i|^2/2\sigma^2}\)</span>. Note that <span class="math notranslate nohighlight">\(\rho(\vec{r})^G  \rightarrow \rho(\vec{r})\)</span> as <span class="math notranslate nohighlight">\(\sigma \rightarrow 0\)</span>.</p></li>
+<li><p>Gaussian:<span class="math notranslate nohighlight">\( \rho(\vec{r})^G = \frac{q_i}{(2 \pi \sigma^2)^{3/2}} e^{-\lvert\vec{r}-\vec{r}_i\rvert^2/2\sigma^2}\)</span>. Note that <span class="math notranslate nohighlight">\(\rho(\vec{r})^G  \rightarrow \rho(\vec{r})\)</span> as <span class="math notranslate nohighlight">\(\sigma \rightarrow 0\)</span>.</p></li>
 </ul>
 <p>This scheme is illustrated in <a class="reference internal" href="#ewald-split-fig"><span class="std std-numref">Fig. 2.19</span></a>.</p>
 <figure class="align-center" id="ewald-split-fig">
@@ -490,8 +488,8 @@ u(r) = \frac{q_i q_j}{4\pi \varepsilon_0 r}
 </ul>
 <p>For doing this, we do need the <strong>electric potential of a Gaussian charge</strong>.
 We use Poisson’s equation</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
  \Delta \phi^G = \nabla^2 \varphi^G &amp;= - \frac{\rho^G}{\epsilon_0}\\
 \frac{1}{r} \frac{d^2(r \phi^G)}{dr^2} &amp;= -\frac{q_i}{\epsilon_0(2 \pi \sigma^2)^{3/2}} e^{-r^2/2\sigma^2}\\
 \int_\infty^r dr \frac{d^2(r \phi^G)}{dr^2} &amp;= \int_\infty^r dr \left[-\frac{q_i r }{\epsilon_0(2 \pi \sigma^2)^{3/2}} \right] e^{-r^2/2\sigma^2}\\
@@ -499,128 +497,125 @@ We use Poisson’s equation</p>
 \int_0^r d(r \phi^G) &amp;= \frac{q_i\sigma^2}{\epsilon_0}\frac{1}{(2 \pi \sigma^2)^{3/2}} \int_0^r dr e^{-r^2/2\sigma^2}\\
 \dots
 \rightarrow \phi^G &amp;= \frac{q_i}{4\pi\epsilon_0r} \mathrm{erf}(\frac{r}{\sqrt{2}\sigma}) \quad .
-\end{align*}\]</div>
-<p>For a simple point charge, we get</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+\end{split}\]</div>
+<p>For a simple point charge, we get
+$<span class="math notranslate nohighlight">\(
 \phi(r) = \frac{q_i}{4\pi\epsilon_0 r} \quad .
-\end{align*}\]</div>
+\)</span>$</p>
 <p>Using this, we can split the sum, called <strong>Ewald summation</strong>, which we will derive below.</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-\phi(\vec{r})&amp;=\frac{1}{4 \pi \varepsilon_0} \sum_\vec{m} \sum_{j=1}^N \frac{q_j}{|\vec{r}_i \vec{r}+\vec{m}L|}\\
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\phi(\vec{r})&amp;=\frac{1}{4 \pi \varepsilon_0} \sum_{\vec{m}} \sum_{j=1}^N \frac{q_j}{\lvert\vec{r}_i \vec{r}+\vec{m}L\rvert}\\
 \rightarrow u&amp;=\frac{1}{2} \sum_{i=1}^N q_i[\phi(\vec{r}_i)-\underbrace{\phi_i(r_i)}_{\substack{\text{exclude self interactions}\\ \text{where } \vec{m}=0}}]
-\end{align*}\]</div>
+\end{split}\]</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>We exclude self-interactions, but they can be kept in principle. In the final equation in the summary below, we list them explicitly, but commonly they are exlcuded or set to zero.</p>
 </div>
 <p>Now we split the sum:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}
 \phi_i(r) &amp;= \underbrace{\phi_i(r)-\phi^G_i(r)}_{\text{short}} + \underbrace{\phi^G_i(r)}_{\text{long}}\\
 &amp; =\frac{q_i}{4 \pi \epsilon_0 r}-\frac{q_i}{4 \pi \epsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
 &amp; =\frac{q_i}{4 \pi \varepsilon_0 r}\left[1-\operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\right]+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
-&amp; =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\\
-
-&amp; =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\kappa r \right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\kappa r\right)
-\end{align*}\]</div>
+&amp; =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\\\end{split}\\&amp; =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\kappa r \right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\kappa r\right)
+\end{aligned}\end{align} \]</div>
 <p>Where we have defined an inverse screening length <span class="math notranslate nohighlight">\(\kappa = \frac{1}{\sqrt{2}\sigma}\)</span> in the last step.</p>
 <p>Now we define a short ranged <span class="math notranslate nohighlight">\(\phi_i^S(r)\)</span> and a long ranged <span class="math notranslate nohighlight">\(\phi_i^L(r)\)</span>,</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \phi_i^S(r)=\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
 \phi_i^L(r)=\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)
-\end{align*}\]</div>
+\end{split}\]</div>
 <p>so that we get</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-\phi(r)&amp;=\sum_\vec{m} \sum_{j=1}^N \phi_j\left(\left|\vec{r}_i-\vec{r}+\vec{m} L\right|\right) \\
-&amp; =\sum_\vec{m} \sum_{j=1}^N \phi_j^S+\phi_j^L\\
-&amp;=\sum_\vec{m} \sum_{j=1}^N \phi_j^S+\sum_\vec{m} \sum_{j=1}^N\phi_j^L\\
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\phi(r)&amp;=\sum_{\vec{m}} \sum_{j=1}^N \phi_j\left(\lvert\vec{r}_i-\vec{r}+\vec{m} L\rvert \right) \\
+&amp; =\sum_{\vec{m}} \sum_{j=1}^N \phi_j^S+\phi_j^L\\
+&amp;=\sum_{\vec{m}} \sum_{j=1}^N \phi_j^S+\sum_{\vec{m}} \sum_{j=1}^N\phi_j^L\\
 &amp;=\phi^S+\phi^L \quad , \\
-\end{align*}\]</div>
+\end{split}\]</div>
 <p>and</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
 u&amp;=\frac{1}{2} \sum_{i=1}^N q_i\left[\phi^S\left(r_i\right)-\phi_i^S\left(r_i\right)\right]+\frac{1}{2} \sum_{i=1}^N q_i\left[\phi^L\left(r_i\right)-\phi_i^L\left(r_i\right)\right] \\
-&amp;=\frac{1}{2} \sum_\vec{m} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S\left(\left|r_j-r_i+\vec{m}L\right|\right)+\frac{1}{2} \sum_{i=1}^N q_i \phi^L\left(r_i\right)-\frac{1}{2} \sum_{i=1}^N q_i \phi_i^L\left(r_i\right) \\
-\end{align*}\]</div>
+&amp;=\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S\left(\lvert r_j-r_i+\vec{m}L\rvert \right)+\frac{1}{2} \sum_{i=1}^N q_i \phi^L\left(r_i\right)-\frac{1}{2} \sum_{i=1}^N q_i \phi_i^L\left(r_i\right) \\
+\end{split}\]</div>
 <p>For the last sum, we can now look at the limit:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 \lim_{r \rightarrow 0} \frac{q_i}{4 \pi \varepsilon_i r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)=
 \frac{q_i}{4 \pi \varepsilon_i} \frac{1}{\sigma} \sqrt{\frac{2}{\pi}}
-\end{align*}\]</div>
+\]</div>
 <p>This results in</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-u&amp;=\underbrace{\frac{1}{2} \sum_\vec{m} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S\left(\left|r_j-r_i+\vec{m}L\right|\right)}_{u^S(r)=\frac{q_iq_j}{4\pi\varepsilon_0r}\operatorname{erfc}\left(\frac{r}{\sqrt{2}\sigma}\right)}+
+<div class="math notranslate nohighlight">
+\[
+u =\underbrace{\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S\left(\lvert r_j-r_i+\vec{m}L\rvert \right)}_{u^S(r)=\frac{q_i q_j}{4\pi\varepsilon_0r}\operatorname{erfc}\left(\frac{r}{\sqrt{2}\sigma}\right)}+
 \frac{1}{2} \sum_{i=1}^N q_i \phi^L\left(r_i\right)
 -\frac{1}{4 \pi \varepsilon_0} \frac{1}{\sqrt{2}\sigma} \frac{1}{\sqrt{\pi}}  \sum_{i=1}^N q_i^2
-\end{align*}\]</div>
+\]</div>
 <p>The first term, turns into a normal pairwise sum, if <span class="math notranslate nohighlight">\(\operatorname{erfc}\)</span>  decays quickly. The middle term still needs to be evaluated.</p>
 <p>Long-ranged part is convieniently summed in Fourier space.
 <strong>Fourier transform</strong>:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \hat f(\vec{k}) &amp;= \int_V d\vec{r} f(\vec{r}) e^{-i\vec{k}\vec{r}}  \quad \text{for finite volumes. }\\
-\hat f(\vec{r}) &amp;= \frac{1}{L^3} \sum_\vec{k} \hat f(\vec{k}) e^{i\vec{k}\vec{r}} \quad \text{with } \vec{k} = \frac{2\pi \vec{n}}{L} \quad .
-\end{align*}\]</div>
+\hat f(\vec{r}) &amp;= \frac{1}{L^3} \sum_{\vec{k}} \hat f(\vec{k}) e^{i\vec{k}\vec{r}} \quad \text{with } \vec{k} = \frac{2\pi \vec{n}}{L} \quad .
+\end{split}\]</div>
 <p>We need to Fourier transform Poisson’s equation for Gaussian charge (periodic array).</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 &amp; \nabla^2 \phi^G=-\frac{\rho^G}{\varepsilon_0} \rightarrow -k^2 \hat{\phi}^G=-\frac{\hat{\rho}^G}{\varepsilon_0} \rightarrow \hat{\phi}^G=\frac{1}{k^2 \varepsilon_0} \hat{\rho}^G
-\end{align*}\]</div>
+\]</div>
 <p>Now we can compute</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-&amp; \hat{\rho}^G(\vec{k})=\int_V dr -\frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-\left|\vec{r}-\vec{r}_i+\vec{m}L\right|^2 / 2 \sigma^2} e^{-i \vec{k} \cdot \vec{r}} \\
-&amp; =-\int dr \frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-\left|\vec{r}-\vec{r}_i\right|^2 / 2 \sigma^2} e^{-i \vec{k} \cdot \vec{r}} \\
-\end{align*}\]</div>
-<p>where we used the fact that the shifts (\vec{m}) add up to infinite space and we can convert the integral.</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-&amp; =\int d r \frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-r^2 / 2 \sigma^2} e^{-i \vec{k} \cdot\left(\vec{r}+\vec{r}_i\right)} \\
-&amp; =e^{-i \vec{k} \cdot \vec{r}_i} \int_0^{\infty} dr r^2 \int_0^{2 \pi} d\theta \int_{-1}^1 d \cos \phi \frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-r^2 / 2 \sigma^2} e^{-i k r \cos \phi}
-\end{align*}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+&amp; \hat{\rho}^G(\vec{k})=\int_V dr -\frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-\lvert \vec{r}-\vec{r}_i+\vec{m}L\rvert^2 / 2 \sigma^2} e^{-i \vec{k} \cdot \vec{r}} \\
+&amp; =-\int dr \frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-\lvert\vec{r}-\vec{r}_i\rvert^2 / 2 \sigma^2} e^{-i \vec{k} \cdot \vec{r}} \\
+\end{split}\]</div>
+<p>where we used the fact that the shifts <span class="math notranslate nohighlight">\(\vec{m}\)</span> add up to infinite space and we can convert the integral.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+&amp;=\int d r \frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-r^2 / 2 \sigma^2} e^{-i \vec{k} \cdot\left(\vec{r}+\vec{r}_i\right)} \\
+&amp;=e^{-i \vec{k} \cdot \vec{r}_i} \int_0^{\infty} dr r^2 \int_0^{2 \pi} d\theta \int_{-1}^1 d \cos \phi \frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-r^2 / 2 \sigma^2} e^{-i k r \cos \phi}
+\end{split}\]</div>
 <p>The integration here got changed to spherical coordinates.</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 \dots
-\end{align*}\]</div>
+\]</div>
 <p>Hence, <span class="math notranslate nohighlight">\(\hat{\phi}_i^G(k)=\frac{q_i}{\varepsilon_0 k^2} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot \vec{r}_i}\)</span>.</p>
 <p>Last, invert</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-\phi^L(\vec{r}) &amp; =\frac{1}{L^3} \sum_\vec{k} \hat{\phi}(\vec{k}) e^{i \vec{k} \cdot \vec{r}} \\
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\phi^L(\vec{r}) &amp; =\frac{1}{L^3} \sum_{\vec{k}} \hat{\phi}(\vec{k}) e^{i \vec{k} \cdot \vec{r}} \\
 &amp; =\frac{1}{L^3} \sum_{\vec{k} \neq 0} \frac{q_j}{\varepsilon_0 k^2} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot\left(\vec{r}_j-\vec{r}\right)}
-\end{align*}\]</div>
+\end{split}\]</div>
 <p>and</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 U^L=\frac{1}{2} \sum_{i=1}^N \sum_{i=1}^N \sum_{\vec{k} \neq 0} \frac{q_i q_i}{\varepsilon_0 k^2 L^3} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot \vec{r}_{i j}} \quad .
-\end{align*}\]</div>
+\]</div>
 <section id="boundary-effects">
 <h3><span class="section-number">2.6.2.1. </span>Boundary Effects<a class="headerlink" href="#boundary-effects" title="Link to this heading">#</a></h3>
 <p>The lattice needs to be truncated somewhere, so it is effectively embedded in som medium.
 At this boundary, there is a depolarizing field counteracting the fluctuatin dipole moment of the main cell.</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-U^{BC} = \frac{1}{2(2\varepsilon_r+1)\varepsilon_0 L^3} |\sum_{i=1}^N q_i r_i|^2
-\end{align*}\]</div>
+<div class="math notranslate nohighlight">
+\[
+U^{BC} = \frac{1}{2(2\varepsilon_r+1)\varepsilon_0 L^3} \lvert\sum_{i=1}^N q_i r_i\rvert^2
+\]</div>
 <p>For so called “tin foil” BCs used in most simulations, set <span class="math notranslate nohighlight">\(\varepsilon_r=\infty\)</span>.</p>
 </section>
 <section id="summary">
 <h3><span class="section-number">2.6.2.2. </span>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h3>
 <p>In summary,</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-u &amp;=\underbrace{\frac{1}{2} \sum_\vec{m} \sum_{i=1}^N \sum_{i=1, i\neq j}^N \frac{q_i q_i}{4 \pi \varepsilon_0\left|r_{i j}+mL\right|} \operatorname{erfc}\left(\kappa | r_{ij}+m L|\right)}_{\text{short}} \\
+<div class="math notranslate nohighlight">
+\[\begin{split}
+u &amp;=\underbrace{\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{i=1, i\neq j}^N \frac{q_i q_i}{4 \pi \varepsilon_0 \lvert r_{i j}+mL\rvert } \operatorname{erfc}\left(\kappa \lvert r_{ij}+m L\rvert \right)}_{\text{short}} \\
 &amp; \underbrace{+\frac{1}{2} \sum_{\vec{k} \neq 0} \sum_{i=1}^N \sum_{j=1}^N \frac{q_i q_j}{\varepsilon_0 k^2 L^3} e^{-k^2 / 4 \kappa^2} e^{-i \vec{k} \cdot \vec{r}_{ij}}}_{\text{long}} \\
 &amp; \underbrace{-\frac{\kappa}{4 \pi^{3 / 2} \varepsilon_0} \sum_{i=1}^N q_i^2}_{\text{self}} \\
-&amp; \underbrace{+\frac{1}{2\left(2 \varepsilon_r+1\right) \varepsilon_0 L^3}\left|\sum_{i=1}^N q_i \vec{r}_i\right|^2}_{\text{BC}}
-\end{align*}\]</div>
+&amp; \underbrace{+\frac{1}{2\left(2 \varepsilon_r+1\right) \varepsilon_0 L^3}\lvert\sum_{i=1}^N q_i \vec{r}_i\rvert^2}_{\text{BC}}
+\end{split}\]</div>
 <ul class="simple">
 <li><p>Real space: efficient for short-range potentials</p></li>
 <li><p>Reciprocal space: efficient way to treat smooth periodic functions</p></li>

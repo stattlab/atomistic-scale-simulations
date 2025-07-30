@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -467,24 +467,24 @@ with <span class="math notranslate nohighlight">\( C = \frac{nm}{n - m} \left( \
 </section>
 <section id="force-calculation">
 <h2><span class="section-number">2.5.3. </span>Force Calculation<a class="headerlink" href="#force-calculation" title="Link to this heading">#</a></h2>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
  \vec{F}_{ij} &amp;= -\nabla_i u(r_{ij}) \\
  &amp;= \underbrace{-\frac{du}{dr}}_{=F(r)} \nabla_i {r}_{ij} \\
- &amp; = - F(r)\hat{r}_{ij}
-\end{align*}\]</div>
+ &amp;= - F(r)\hat{r}_{ij}
+\end{split}\]</div>
 <div class="admonition-example-lennard-jones-force admonition">
 <p class="admonition-title">Example: Lennard-Jones Force</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 u(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right]
-\end{align*}\]</div>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
- F(r) &amp;= -\frac{du}{dr}
- &amp;= -4\varepsilon \left[ -12\frac{\sigma^{12}}{r^{13}} + 6 \frac{\sigma^{6}}{r^{7}}\right]
- &amp; = \frac{24\varepsilon}{r} [2 \left( \frac{\sigma}{r} \right)^{12}  - \left( \frac{\sigma}{r} \right)^{6} ]
- \end{align*}\]</div>
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+ F(r) &amp;= -\frac{du}{dr}\\
+ &amp;= -4\varepsilon \left[ -12\frac{\sigma^{12}}{r^{13}} + 6 \frac{\sigma^{6}}{r^{7}}\right]\\
+ &amp;= \frac{24\varepsilon}{r} [2 \left( \frac{\sigma}{r} \right)^{12}  - \left( \frac{\sigma}{r} \right)^{6} ]
+ \end{split}\]</div>
 <p>When written in this form, the  <span class="math notranslate nohighlight">\(\left( \frac{\sigma}{r} \right)^6\)</span>-term can be reused from the <span class="math notranslate nohighlight">\(u(r)\)</span> calculation.</p>
 </div>
 <div class="admonition tip">
@@ -495,18 +495,18 @@ u(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\
 <section id="truncating-and-shifting">
 <h2><span class="section-number">2.5.4. </span>Truncating and Shifting<a class="headerlink" href="#truncating-and-shifting" title="Link to this heading">#</a></h2>
 <p><strong>Truncate</strong>:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-u(r) = u_o(r)H(r_c-r) =\begin{cases}  U_o(r)\quad r\leq r_c \\
-0 \quad r\ge r_c  \end{cases}
-\end{align*}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+u(r) = u_o(r)H(r_c-r) = \begin{cases}  &amp;U_o(r)\quad r\leq r_c \\
+&amp;0 \quad r\ge r_c  \end{cases}
+\end{split}\]</div>
 <p>Note that this means that the force has a “jump” at the cutoff, because <span class="math notranslate nohighlight">\(\frac{\partial u}{\partial r}\)</span> now has a <span class="math notranslate nohighlight">\(\delta(r_c-r)\)</span> term from the Heaviside function, if <span class="math notranslate nohighlight">\(U_o(r_c) \neq 0\)</span>.</p>
 <p><strong>Truncate</strong> and <strong>shift</strong>:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
 u(r) = \left[u_o(r)-u_o(r_c)\right]H(r_c-r) =\begin{cases}  U_o(r)-u_o(r_c)\quad r\leq r_c \\
 0 \quad r\ge r_c  \end{cases}
-\end{align*}\]</div>
+\end{split}\]</div>
 <p>Here <span class="math notranslate nohighlight">\(\frac{\partial u}{\partial r}\)</span> is finite but might be discontinous. One can apply <strong>smoothing functions</strong>, e.g. polynominals (xplor).</p>
 <div class="admonition-example-weeks-chandler-anderson-potential admonition">
 <p class="admonition-title">Example: Weeks-Chandler-Anderson Potential</p>
@@ -516,20 +516,20 @@ u(r) = \left[u_o(r)-u_o(r_c)\right]H(r_c-r) =\begin{cases}  U_o(r)-u_o(r_c)\quad
 </section>
 <section id="mixing-rules">
 <h2><span class="section-number">2.5.5. </span>Mixing Rules<a class="headerlink" href="#mixing-rules" title="Link to this heading">#</a></h2>
-<p>For unlike atom types <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>, use mixing rules on LJ parameters. There are many different ones, falling into two categories, arithmetic (<span class="math notranslate nohighlight">\(x_{ij}=(x_j+x_i)/2\)</span>) or geometric (<span class="math notranslate nohighlight">\(x_{ij}=\sqrt{x_ix_j}\)</span>).</p>
+<p>For unlike atom types <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>, use mixing rules on LJ parameters. There are many different ones, falling into two categories, arithmetic <span class="math notranslate nohighlight">\(x_{ij}=(x_j+x_i)/2\)</span> or geometric <span class="math notranslate nohighlight">\(x_{ij}=\sqrt{x_i\cdot x_j}\)</span>.</p>
 <p>Commonly used mixing rules are:</p>
-<ul class="simple">
-<li><p>Lorentz-Berthelot:<br />
-<span class="math notranslate nohighlight">\(\begin{align*}
-\sigma_{ij} &amp;= \frac{\sigma_{ii}+\sigma_{jj}}{2}\\
-\epsilon_{ij} &amp;= \sqrt{\epsilon_{ii}\epsilon_{jj}}
-\end{align*}\)</span></p></li>
-<li><p>Kong:<br />
-<span class="math notranslate nohighlight">\(\begin{align*}
-\epsilon_{ij}\sigma_{ij}^{6}&amp;=\left(\epsilon _{ii}\sigma_{ii}^{6}\epsilon_{jj}\sigma_{jj}^{6}\right)^{1/2}\\
-\epsilon_{ij}\sigma_{ij}^{12}&amp;=\left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
-\end{align*}\)</span></p></li>
-</ul>
+<p><strong>Lorentz-Berthelot</strong>:
+test</p>
+<p><span class="math notranslate nohighlight">\(
+\sigma_{ij} = \frac{\sigma_{ii}+\sigma_{jj}}{2}
+\epsilon_{ij} = \sqrt{\epsilon_{ii}\epsilon_{jj}}
+\)</span></p>
+<p><strong>Kong</strong>:
+test</p>
+<p><span class="math notranslate nohighlight">\(
+\epsilon_{ij}\sigma_{ij}^{6} = \left(\epsilon _{ii}\sigma_{ii}^{6}\epsilon_{jj}\sigma_{jj}^{6}\right)^{1/2}
+ \epsilon_{ij}\sigma_{ij}^{12} = \left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
+\)</span></p>
 </section>
 <section id="additional-resorces">
 <h2><span class="section-number">2.5.6. </span>Additional Resorces<a class="headerlink" href="#additional-resorces" title="Link to this heading">#</a></h2>
@@ -543,6 +543,7 @@ u(r) = \left[u_o(r)-u_o(r_c)\right]H(r_c-r) =\begin{cases}  U_o(r)-u_o(r_c)\quad
 </li>
 <li><p>more mixing rules from <a class="reference external" href="https://en.wikipedia.org/wiki/Combining_rules">Wikipedia</a></p></li>
 </ul>
+<p>test</p>
 </section>
 </section>
 

@@ -1,3 +1,17 @@
+---
+jupytext:
+  cell_metadata_filter: -all
+  formats: md:myst
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.16.7
+kernelspec:
+  display_name: Python 3 (ipykernel)
+  language: python
+  name: python3
+---
 
 # Molecular Models
 
@@ -47,6 +61,46 @@ Lennard-Jones potential $U(r)$ as function of distance $r$. Here, $\sigma$ corre
 ````
 
 It is helpful to plot these **non-bonded** interaction potentials with python and matplotlib, vary the parameters to familiarize ourselves with the shapes and the effects of each parameter.
+
+test
+
+```{code-cell} ipython3
+:tags: [hide-input]
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Harmonic bond potential
+def harmonic_bond_potential(r, k, r0):
+    return 0.5 * k * (r - r0)**2
+
+# Harmonic bond force
+def harmonic_bond_force(r, k, r0):
+    return -k * (r - r0)
+
+# Parameters
+k = 1.0
+r0 = 1.0
+r_values = np.linspace(0.5, 1.5, 100)
+U_values = harmonic_bond_potential(r_values, k, r0)
+F_values = harmonic_bond_force(r_values, k, r0)
+
+# Plot
+fig, axs = plt.subplots(1, 2)
+axs[0].plot(r_values, U_values)
+axs[0].axvline(x=r0, color='r', linestyle='--', label='Equilibrium Length')
+axs[0].set_xlabel('$r$')
+axs[0].set_ylabel('$U_{\text{bond}}(r)$')
+axs[0].set_title('Harmonic Bond Potential')
+axs[0].legend()
+axs[1].plot(r_values, F_values)
+axs[1].axvline(x=r0, color='r', linestyle='--', label='Equilibrium Length')
+axs[1].set_xlabel('$r$')
+axs[1].set_ylabel('$F_{\text{bond}}(r)$')
+axs[1].set_title('Harmonic Bond Force')
+axs[1].legend()
+plt.tight_layout()
+plt.show()
+```
 
 ### Bonded, Angle, and Dihedral interactions
 

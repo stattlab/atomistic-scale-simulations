@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -430,11 +430,11 @@ document.write(`
 <section id="macroscopic-thermodynamics">
 <h2><span class="section-number">3.1.1. </span>Macroscopic Thermodynamics<a class="headerlink" href="#macroscopic-thermodynamics" title="Link to this heading">#</a></h2>
 <p><strong>First Law (Fundamental Equation):</strong></p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
 dE = T\,dS - P\,dV + \mu\,dN  \\
 E = TS -PV +\mu N
-\end{align*}\]</div>
+\end{split}\]</div>
 <p>the natural variables are <span class="math notranslate nohighlight">\(E(S, V, N) \)</span> or <span class="math notranslate nohighlight">\(S(E, V, N)\)</span>.</p>
 <p><strong>Second Law:</strong></p>
 <ul class="simple">
@@ -442,10 +442,10 @@ E = TS -PV +\mu N
 <li><p><span class="math notranslate nohighlight">\(S \)</span> is maximized (at constant <span class="math notranslate nohighlight">\(E, V, N \)</span>) for an isolated system.</p></li>
 <li><p>Corollary: <span class="math notranslate nohighlight">\(E \)</span> is minimized at constant <span class="math notranslate nohighlight">\(S, V, N \)</span></p></li>
 </ul>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 d(\S/k_B) = \beta dE + \beta PdV - \beta \mu dN \quad, \text{where } k_B \text{ is the Boltzmann's constant.}
-\end{align*}\]</div>
+\]</div>
 <p>The “natural” macroscopic variables are  <span class="math notranslate nohighlight">\(E(S, V, N) \)</span> or <span class="math notranslate nohighlight">\(S(E, V, N)\)</span>. What to do if we want more convenient variables (e.g., <span class="math notranslate nohighlight">\(T\)</span>)?</p>
 <figure class="align-center" id="nvt-fig">
 <a class="reference internal image-reference" href="../_images/NVT.png"><img alt="Sketch of an NVT ensenble, held at a constant temperature $T$ by energy exchange with a bath." src="../_images/NVT.png" style="width: 200px;" />
@@ -463,68 +463,71 @@ d(\S/k_B) = \beta dE + \beta PdV - \beta \mu dN \quad, \text{where } k_B \text{ 
 </li>
 </ul>
 <p>Energy is exchanged so the system and bath come to <span class="math notranslate nohighlight">\(T\)</span>, as sketched in <a class="reference internal" href="#nvt-fig"><span class="std std-numref">Fig. 3.1</span></a>.</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-S_B&amp;=\frac{E_B+P_B V_B-\mu_B N_B}{T}=\frac{E_T-E+P_B V_B-\mu_B N_B}{T}=-\frac{E}{T}+\text { constants } \\ &amp; S_T&amp;=S-\frac{E}{T}+\text { constants }
-\end{align*}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+S_B&amp;=\frac{E_B+P_B V_B-\mu_B N_B}{T}\\
+&amp;=\frac{E_T-E+P_B V_B-\mu_B N_B}{T}\\
+&amp;=-\frac{E}{T}+\text { constants } \\
+S_T&amp;=S-\frac{E}{T}+\text { constants }
+\end{split}\]</div>
 <p>The second law, <span class="math notranslate nohighlight">\(\text{max } S_T\)</span>, leads to</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \max_E \left[ S(E,V,N) - \frac{E}{T}\right] = \max_E \left[  - \frac{E-TS}{T}\right] = \max_E \left[ - \frac{A}{T}\right]\\
 \rightarrow \min_E A
-\end{align*}\]</div>
+\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(A(T,V,N)=E-TS\)</span> is the Helmholtz free energy. Maximize <span class="math notranslate nohighlight">\(S_{\text{total}} \rightarrow \)</span> minimize Helmholtz free energy!</p>
 <p>The resulting fundamental equations are</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
   A = E - TS = -PV = \mu N \quad \text{with} \quad dA = -S\,dT - P\,dV + \mu\,dN \quad .
-\end{align*}\]</div>
+\]</div>
 <p>The same approach can be applied to exchange volume or number of particles with a bath. This then generates other thermodynamics potentials, <span class="math notranslate nohighlight">\(H(S,P,N)\)</span>, <span class="math notranslate nohighlight">\(G(T,P,N)\)</span>, etc.
 The internal energy (<span class="math notranslate nohighlight">\(U\)</span>), enthalpy (<span class="math notranslate nohighlight">\(H\)</span>), Helmholtz free energy (<span class="math notranslate nohighlight">\(A\)</span>), and Gibbs free energy (<span class="math notranslate nohighlight">\(G\)</span>) are all thermodynamic potentials.</p>
 <section id="legendre-transforms-and-thermodynamic-potentials">
 <h3><span class="section-number">3.1.1.1. </span>Legendre Transforms and Thermodynamic Potentials<a class="headerlink" href="#legendre-transforms-and-thermodynamic-potentials" title="Link to this heading">#</a></h3>
 <p>A formal process to obtain these thermodynamic potentials is the <strong>Legendre Transform</strong>, a mathematical process to produce a new function wth a variable exchanged with its derivative. Used to exchange variables with their conjugate derivatives.</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 \mathcal{L}_x\left[ f(x)\right] = g(p) = \max_x \left[ px = f(x)\right]= px^* -f (x^*)
-\end{align*}\]</div>
+\]</div>
 <p>where <span class="math notranslate nohighlight">\(x^*\)</span> solves <span class="math notranslate nohighlight">\(f' (x^*)=p\)</span>.</p>
 <p>In thermodynamics, we use a slightly different multivariable version:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 \mathcal{L}_x\left[ f(x,y,z)\right] = g(p,y,z) = \max_x \left[ f(x,y,z)-px\right]= f(x^*,y,z)- px^* \quad
-\end{align*}\]</div>
+\]</div>
 <p>where <span class="math notranslate nohighlight">\(x^*\)</span> solves <span class="math notranslate nohighlight">\(\frac{\partial f (x^*,y,z)}{\partial x}=p\)</span>. Instead of <span class="math notranslate nohighlight">\(\max\)</span> (for convcave), <span class="math notranslate nohighlight">\(\min\)</span> can be also used (for convex).</p>
 <p>For example, temperature (T) and entropy (S) are conjugate, as are pressure (P) and volume (V). The Legendre transform swaps these conjugate pairs.</p>
 <div class="admonition-example-helmholtz-free-energy admonition">
 <p class="admonition-title">Example: Helmholtz Free Energy</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-S(E,V,N), \quad dS=\underbrace{\frac{1}{T}}_{&quot;=p&quot;} \underbrace{dE}_{&quot;x&quot;} + \frac{P}{T} dV -  \frac{\mu}{T} dN
-\end{align*}\]</div>
+<div class="math notranslate nohighlight">
+\[
+S(E,V,N), \quad dS=\underbrace{\frac{1}{T}}*{&quot;=p&quot;} \underbrace{dE}*{&quot;x&quot;} + \frac{P}{T} dV -  \frac{\mu}{T} dN
+\]</div>
 <p>Now <span class="math notranslate nohighlight">\(\frac{1}{T} = \left(\frac{\partial S}{\partial E}\right)_{V,N}\)</span>.</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 \mathcal{L}_E \left[ S(E,V,N) \right] = \max_E \left[  S(E,V,N) - \frac{E}{T}\right] = S(E^*) -  \frac{E^*}{T} = \frac{A}{T}
-\end{align*}\]</div>
+\]</div>
 <p>Why this definition of <span class="math notranslate nohighlight">\(A\)</span>? Minimum <span class="math notranslate nohighlight">\(E\)</span>:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-E(S,V,N) \quad dE= TdS - PdV + \mu dN
+<div class="math notranslate nohighlight">
+\[\begin{split}
+E(S,V,N) \quad dE= TdS - PdV + \mu dN\\
 A(T,V,N) = \mathcal{L}_E \left[ E(S,V,N) \right]  =  min_S \left[ E(S,V,N) - TS \right] = E(S^*,V,N) - TS^* \quad.
-\end{align*}\]</div>
+\end{split}\]</div>
 <p>In practice? Take conjugate variales, swap them, and add minus sign!</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-d E  &amp;= TdS - PdV + \mu dN &amp;\rightarrow dH &amp;= TdS + VdP + \mu dN \\
-d E  &amp;= TdS - PdV + \mu dN &amp;\rightarrow dA &amp;= -SdT -PdV +\mu dN \\
-\end{align*}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+d E  &amp;= TdS - PdV + \mu dN \rightarrow dH = TdS + VdP + \mu dN \\
+d E  &amp;= TdS - PdV + \mu dN \rightarrow dA = -SdT -PdV +\mu dN
+\end{split}\]</div>
 <p>folloing the same scheme:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-d H  &amp;= TdS + VdP + \mu dN &amp;\rightarrow dG &amp;= -SdT + VdP + \mu dN \\
-d A  &amp;= -SdT -PdV +\mu dN &amp;\rightarrow dG &amp;= -SdT +VdP +\mu dN \\
-\end{align*}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+d H  &amp;= TdS + VdP + \mu dN \rightarrow dG = -SdT + VdP + \mu dN \\
+d A  &amp;= -SdT -PdV +\mu dN \rightarrow dG = -SdT +VdP +\mu dN
+\end{split}\]</div>
 <p>So <span class="math notranslate nohighlight">\(H=E+PV\)</span> and <span class="math notranslate nohighlight">\(G=H-TS\)</span>.</p>
 </div>
 <p>See also <a class="reference external" href="https://doi.org/10.1119/1.3119512">“Making sense of the Legendre transform”,
@@ -543,11 +546,11 @@ Am. J. Phys. 77, 614–622 (2009)</a>.</p>
 <p>there are <strong>many</strong> microstates correspond to the same macrostate.
 Not all microstates satisfy macroscopic constraints, e.g. not all <span class="math notranslate nohighlight">\(E(\vec{r}^N,\vec{p}^N)\)</span> match the specified <span class="math notranslate nohighlight">\(E\)</span>.</p>
 <p>The microstates evolve according to some physics, e.g. Newton’s equations.</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \dot{\vec{r}}_i = \frac{\vec{p}_i}{m_i}\\
 \dot{\vec{p}}_i = -\frac{\partial U}{\partial r_i}\\
-\end{align*}\]</div>
+\end{split}\]</div>
 <p>An <strong>ensemble</strong> is the collection of all microstates consistent with the given constraints.</p>
 </section>
 <section id="time-and-ensemble-averages">
@@ -582,48 +585,38 @@ Sample many systems at once, pull representative states <span class="math notran
 </ul>
 <p>From here, Boltzmann connected the macroscopic entropy to the microcanonical partition function:</p>
 <p><strong>Entropy</strong>:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[
 \boxed{ S = k_B \ln \Omega}
-\end{align*}\]</div>
-<p>All thermodynamic properties can be derived from <span class="math notranslate nohighlight">\(\Omega\)</span>!
-$</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+\]</div>
+<p>All thermodynamic properties can be derived from <span class="math notranslate nohighlight">\(\Omega\)</span>!</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 d \ln \Omega &amp;= d(S/k_B) = \beta dE + \beta P dV - \beta \mu dN \\
-\rightarrow \beta &amp;= \left(\frac{\partial \ln \Omega}{\partial E}\right)_{V,N}\\
-\rightarrow \beta P &amp;= \left(\frac{\partial \ln \Omega}{\partial V}\right)_{E,N}\\
+\rightarrow \beta &amp;= \left(\frac{\partial \ln \Omega}{\partial E}\right)*{V,N}\\
+\rightarrow \beta P &amp;= \left(\frac{\partial \ln \Omega}{\partial V}\right)*{E,N}\\
 \rightarrow \beta \mu &amp;= \left(\frac{\partial \ln \Omega}{\partial N}\right)_{E,V}\\
-\end{align*}\]</div>
-<p>$</p>
+\end{split}\]</div>
 </section>
 <section id="canonical-ensemble-nvt">
 <h2><span class="section-number">3.1.5. </span>Canonical Ensemble (NVT)<a class="headerlink" href="#canonical-ensemble-nvt" title="Link to this heading">#</a></h2>
 <p>Constant <span class="math notranslate nohighlight">\(E\)</span> is inconvinient when comparing to experiments. What about constant <span class="math notranslate nohighlight">\(T\)</span>? This is a very common ensemble to operate in for both MD and MC simulations.</p>
 <p>System exchanges energy with a heat bath at temperature <span class="math notranslate nohighlight">\(T\)</span></p>
 <ul class="simple">
-<li><p>Probability of a microstate:<br />
+<li><p>Probability of a microstate:
 <span class="math notranslate nohighlight">\( P_i = \frac{e^{-\beta E_i}}{Z}\)</span></p></li>
-<li><p><strong>Partition function</strong>:<br />
+<li><p><strong>Partition function</strong>:
 <span class="math notranslate nohighlight">\(Z(T, V, N) = \sum_i e^{-\beta E_i}\)</span></p></li>
 <li><p>Average energy:
 <span class="math notranslate nohighlight">\(\langle E \rangle = -\frac{\partial \ln Z}{\partial \beta}\)</span></p></li>
 <li><p>Helmholtz free energy:
-$<span class="math notranslate nohighlight">\(
-A = -k_B T \ln Z
-\)</span>$</p></li>
+<span class="math notranslate nohighlight">\( A = -k_B T \ln Z\)</span></p></li>
 <li><p>In the thermodynamic limit:
-$<span class="math notranslate nohighlight">\(
-\ln Z = -\beta A
-\)</span>$</p></li>
+<span class="math notranslate nohighlight">\(\ln Z = -\beta A\)</span></p></li>
 <li><p><strong>Gibbs Entropy Formula</strong>:
-$<span class="math notranslate nohighlight">\(
-S = -k_B \sum_i P_i \ln P_i
-\)</span>$</p></li>
+<span class="math notranslate nohighlight">\(S = -k_B \sum_i P_i \ln P_i\)</span></p></li>
 <li><p>Substituting Boltzmann distribution:
-$<span class="math notranslate nohighlight">\(
-S = k_B \ln Z + \beta \langle E \rangle = \frac{\langle E \rangle - A}{T}
-\)</span>$</p></li>
+<span class="math notranslate nohighlight">\(S = k_B \ln Z + \beta \langle E \rangle = \frac{\langle E \rangle - A}{T}\)</span></p></li>
 </ul>
 </section>
 <section id="other-ensembles">
@@ -633,17 +626,17 @@ S = k_B \ln Z + \beta \langle E \rangle = \frac{\langle E \rangle - A}{T}
 <ul class="simple">
 <li><p>System exchanges energy and volume with a bath.</p></li>
 <li><p>Probability:
-$<span class="math notranslate nohighlight">\(
+<span class="math notranslate nohighlight">\(
 P_i \propto e^{-\beta (E_i + P V_i)}
-\)</span>$</p></li>
+\)</span></p></li>
 <li><p>Partition function:
-$<span class="math notranslate nohighlight">\(
+<span class="math notranslate nohighlight">\(
 \Delta(T, P, N) = \sum_i e^{-\beta (E_i + P V_i)}
-\)</span>$</p></li>
+\)</span></p></li>
 <li><p>Gibbs free energy:
-$<span class="math notranslate nohighlight">\(
+<span class="math notranslate nohighlight">\(
 G = -k_B T \ln \Delta
-\)</span>$</p></li>
+\)</span></p></li>
 </ul>
 </section>
 <section id="grand-canonical-ensemble-vt">
@@ -651,17 +644,17 @@ G = -k_B T \ln \Delta
 <ul class="simple">
 <li><p>System exchanges energy and particles with a bath.</p></li>
 <li><p>Probability:
-$<span class="math notranslate nohighlight">\(
+<span class="math notranslate nohighlight">\(
 P_i \propto e^{-\beta (E_i - \mu N_i)}
-\)</span>$</p></li>
+\)</span></p></li>
 <li><p>Partition function:
-$<span class="math notranslate nohighlight">\(
+<span class="math notranslate nohighlight">\(
 \Xi(T, V, \mu) = \sum_{N} \sum_i e^{-\beta (E_i - \mu N)}
-\)</span>$</p></li>
+\)</span></p></li>
 <li><p>Grand potential:
-$<span class="math notranslate nohighlight">\(
+<span class="math notranslate nohighlight">\(
 \Phi = -k_B T \ln \Xi
-\)</span>$</p></li>
+\)</span></p></li>
 </ul>
 </section>
 </section>
