@@ -1,1 +1,4 @@
 jupyter-book
+numpy
+matplotlib
+jupytext

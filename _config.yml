@@ -32,6 +32,8 @@ repository:
   branch: main
 
 sphinx:
+  extensions:
+    - myst_nb
   local_extensions:
     example_admonition: _extensions
     solution_dropdown: _extensions

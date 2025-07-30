@@ -37,22 +37,22 @@ $ u(r) = -A e^{-Br} + \frac{C}{r^6} $
 
 ## Force Calculation
 
-\begin{align*}
+$$
  \vec{F}_{ij} &= -\nabla_i u(r_{ij}) \\
  &= \underbrace{-\frac{du}{dr}}_{=F(r)} \nabla_i {r}_{ij} \\
- & = - F(r)\hat{r}_{ij}
-\end{align*}
+ &= - F(r)\hat{r}_{ij}
+$$
 
 ```{example} Lennard-Jones Force
-\begin{align*}
+$$
 u(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right]
-\end{align*}
+$$
 
-\begin{align*}
- F(r) &= -\frac{du}{dr}
- &= -4\varepsilon \left[ -12\frac{\sigma^{12}}{r^{13}} + 6 \frac{\sigma^{6}}{r^{7}}\right]
- & = \frac{24\varepsilon}{r} [2 \left( \frac{\sigma}{r} \right)^{12}  - \left( \frac{\sigma}{r} \right)^{6} ]
- \end{align*}
+$$
+ F(r) &= -\frac{du}{dr}\\
+ &= -4\varepsilon \left[ -12\frac{\sigma^{12}}{r^{13}} + 6 \frac{\sigma^{6}}{r^{7}}\right]\\
+ &= \frac{24\varepsilon}{r} [2 \left( \frac{\sigma}{r} \right)^{12}  - \left( \frac{\sigma}{r} \right)^{6} ]
+ $$
 When written in this form, the  $\left( \frac{\sigma}{r} \right)^6$-term can be reused from the $u(r)$ calculation.
 ```
 
@@ -63,17 +63,20 @@ Write $F_i= -F(r) \hat{r}_{ij} = - \frac{F(r_{ij})}{r_{ij}} \vec{r}_{ij}$. Then 
 ## Truncating and Shifting
 
 **Truncate**:
-\begin{align*}
-u(r) = u_o(r)H(r_c-r) =\begin{cases}  U_o(r)\quad r\leq r_c \\
-0 \quad r\ge r_c  \end{cases}
-\end{align*}
+
+$$
+u(r) = u_o(r)H(r_c-r) = \begin{cases}  &U_o(r)\quad r\leq r_c \\
+&0 \quad r\ge r_c  \end{cases}
+$$
+
 Note that this means that the force has a "jump" at the cutoff, because $\frac{\partial u}{\partial r}$ now has a $\delta(r_c-r)$ term from the Heaviside function, if $U_o(r_c) \neq 0$.
 
 **Truncate** and **shift**:
-\begin{align*}
+
+$$
 u(r) = \left[u_o(r)-u_o(r_c)\right]H(r_c-r) =\begin{cases}  U_o(r)-u_o(r_c)\quad r\leq r_c \\
 0 \quad r\ge r_c  \end{cases}
-\end{align*}
+$$
 
 Here $\frac{\partial u}{\partial r}$ is finite but might be discontinous. One can apply **smoothing functions**, e.g. polynominals (xplor).
 
@@ -85,20 +88,25 @@ For  truncating, truncating and shifting, and or smoothing, **thermodynamic prop
 
 ## Mixing Rules
 
-For unlike atom types $i$ and $j$, use mixing rules on LJ parameters. There are many different ones, falling into two categories, arithmetic ($x_{ij}=(x_j+x_i)/2$) or geometric ($x_{ij}=\sqrt{x_ix_j}$).
+For unlike atom types $i$ and $j$, use mixing rules on LJ parameters. There are many different ones, falling into two categories, arithmetic $x_{ij}=(x_j+x_i)/2$ or geometric $x_{ij}=\sqrt{x_i\cdot x_j}$.
 
 Commonly used mixing rules are:
 
-- Lorentz-Berthelot:\
- $\begin{align*}
-\sigma_{ij} &= \frac{\sigma_{ii}+\sigma_{jj}}{2}\\
-\epsilon_{ij} &= \sqrt{\epsilon_{ii}\epsilon_{jj}}
-\end{align*}$
-- Kong:\
- $\begin{align*}
-\epsilon_{ij}\sigma_{ij}^{6}&=\left(\epsilon _{ii}\sigma_{ii}^{6}\epsilon_{jj}\sigma_{jj}^{6}\right)^{1/2}\\
- \epsilon_{ij}\sigma_{ij}^{12}&=\left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
- \end{align*}$
+**Lorentz-Berthelot**:
+test
+
+$
+\sigma_{ij} = \frac{\sigma_{ii}+\sigma_{jj}}{2}
+\epsilon_{ij} = \sqrt{\epsilon_{ii}\epsilon_{jj}}
+$
+
+**Kong**:
+test
+
+$
+\epsilon_{ij}\sigma_{ij}^{6} = \left(\epsilon _{ii}\sigma_{ii}^{6}\epsilon_{jj}\sigma_{jj}^{6}\right)^{1/2}
+ \epsilon_{ij}\sigma_{ij}^{12} = \left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
+$
 
 ## Additional Resorces
 
@@ -107,3 +115,5 @@ Commonly used mixing rules are:
   - [LAMMPS](https://docs.lammps.org/pair_style.html)
   - [GROMACS](https://manual.gromacs.org/current/reference-manual/functions/nonbonded-interactions.html)
 - more mixing rules from [Wikipedia](https://en.wikipedia.org/wiki/Combining_rules)
+
+test
