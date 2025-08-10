@@ -34,7 +34,10 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -525,6 +528,7 @@ F_j = F_b(r_{ij}) \hat r_{ij} \quad.
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">([</span><span class="s1">&#39;../_matplotlib/book.mplstyle&#39;</span><span class="p">])</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># Harmonic bond potential</span>
@@ -542,40 +546,38 @@ F_j = F_b(r_{ij}) \hat r_{ij} \quad.
 <span class="n">U_values</span> <span class="o">=</span> <span class="n">harmonic_bond_potential</span><span class="p">(</span><span class="n">r_values</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">r0</span><span class="p">)</span>
 <span class="n">F_values</span> <span class="o">=</span> <span class="n">harmonic_bond_force</span><span class="p">(</span><span class="n">r_values</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">r0</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mf">2.5</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
 
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_values</span><span class="p">,</span> <span class="n">U_values</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">r0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r_0$&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_values</span><span class="p">,</span> <span class="n">U_values</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;lightcoral&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">r0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;dodgerblue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r_0$&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$r$&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$U_{\mathrm</span><span class="si">{bond}</span><span class="s1">}(r)$&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Harmonic Bond Potential&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_values</span><span class="p">,</span> <span class="n">F_values</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">r0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r_0$&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r_values</span><span class="p">,</span> <span class="n">F_values</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;seagreen&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">r0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;dodgerblue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r_0$&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$r$&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$F_{\mathrm</span><span class="si">{bond}</span><span class="s1">}(r)$&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Harmonic Bond Force&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./_figures/harmonic_bond.png&#39;</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./_figures/harmonic_bond.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:25: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:26: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-&lt;&gt;:25: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+&lt;&gt;:26: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_2118/2669647556.py:25: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_2205/129747257.py:26: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   axs[0].set_ylabel(&#39;$U_{\mathrm{bond}}(r)$&#39;)
-/tmp/ipykernel_2118/2669647556.py:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_2205/129747257.py:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   axs[1].set_ylabel(&#39;$F_{\mathrm{bond}}(r)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/f994f56aaaf76432d900f301dad0d11d9eb7423d841e7ef3c3a0896f0dc69190.png" src="../_images/f994f56aaaf76432d900f301dad0d11d9eb7423d841e7ef3c3a0896f0dc69190.png" />
+<img alt="../_images/b7159d7450ad11e077626c1dcf3a23c2222678efed748071c50a4f6f59216b36.png" src="../_images/b7159d7450ad11e077626c1dcf3a23c2222678efed748071c50a4f6f59216b36.png" />
 </div>
 </details>
 </div>
@@ -590,7 +592,7 @@ F_j &amp;= - (r_{ij}-r_0) \hat r_{ij} \quad .
 \end{split}\]</div>
 <p>If <span class="math notranslate nohighlight">\(r_{ij}&gt;r_0\)</span>, the bond is streched past <span class="math notranslate nohighlight">\(r_0\)</span> and particle <span class="math notranslate nohighlight">\(i\)</span> moves toward <span class="math notranslate nohighlight">\(j\)</span>, and <span class="math notranslate nohighlight">\(j\)</span> toward <span class="math notranslate nohighlight">\(i\)</span>. If <span class="math notranslate nohighlight">\(r_{ij}&lt;r_0\)</span>, the bond is compressed below the set point <span class="math notranslate nohighlight">\(r_0\)</span> and particle <span class="math notranslate nohighlight">\(i\)</span> moves away from <span class="math notranslate nohighlight">\(j\)</span>, and <span class="math notranslate nohighlight">\(j\)</span> away from <span class="math notranslate nohighlight">\(i\)</span>.</p>
 <figure class="align-center" id="bond-fig">
-<a class="reference internal image-reference" href="../_images/harmonic_bond.png"><img alt="Plot of the harmonic bond potential and force" src="../_images/harmonic_bond.png" style="width: 500px;" />
+<a class="reference internal image-reference" href="../_images/harmonic_bond.png"><img alt="Plot of the harmonic bond potential and force" src="../_images/harmonic_bond.png" style="width: 400px;" />
 </a>
 <figcaption>
 <p><span class="caption-number">Fig. 2.14 </span><span class="caption-text">Bond potential and force as function of bond length <span class="math notranslate nohighlight">\(r\)</span>.</span><a class="headerlink" href="#bond-fig" title="Link to this image">#</a></p>
@@ -615,6 +617,7 @@ F_j &amp;= - (r_{ij}-r_0) \hat r_{ij} \quad .
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">([</span><span class="s1">&#39;../_matplotlib/book.mplstyle&#39;</span><span class="p">])</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># Define parameters for the potentials</span>
@@ -637,28 +640,28 @@ F_j &amp;= - (r_{ij}-r_0) \hat r_{ij} \quad .
 <span class="n">r_rep</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="n">r</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">)]</span>
 <span class="n">V_fene_wca</span><span class="p">[</span><span class="n">r</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">4</span><span class="o">*</span><span class="n">epsilon</span><span class="o">*</span><span class="p">((</span><span class="n">sigma</span><span class="o">/</span><span class="n">r_rep</span><span class="p">)</span><span class="o">**</span><span class="mi">12</span><span class="o">-</span><span class="p">(</span><span class="n">sigma</span><span class="o">/</span><span class="n">r_rep</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span><span class="o">+</span> <span class="n">epsilon</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">V_harmonic</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">V_harmonic</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;harmonic&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">V_fene_wca</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">V_fene_wca</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;FENE+WCA&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$r$&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$U_{\mathrm</span><span class="si">{bond}</span><span class="s1">}(r)-U_\mathrm</span><span class="si">{min}</span><span class="s1">$&#39;</span><span class="p">)</span>
-<span class="n">axs</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
-<span class="n">axs</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
 <span class="n">axs</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./_figures/FENE_bond.png&#39;</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./_figures/FENE_bond.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:30: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-&lt;&gt;:30: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_2118/2485417434.py:30: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+&lt;&gt;:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_2205/912570185.py:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   axs.set_ylabel(&#39;$U_{\mathrm{bond}}(r)-U_\mathrm{min}$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/73947db3ccf66baabd4d9c1be3b1a19da0a1c6a4c8a8abb26c52763452b1a9a8.png" src="../_images/73947db3ccf66baabd4d9c1be3b1a19da0a1c6a4c8a8abb26c52763452b1a9a8.png" />
+<img alt="../_images/90be8df2422a4f0accf031f30b5a4c63f37dc5a363a7bbc7fcbc68cb7369a9b0.png" src="../_images/90be8df2422a4f0accf031f30b5a4c63f37dc5a363a7bbc7fcbc68cb7369a9b0.png" />
 </div>
 </details>
 </div>
@@ -754,6 +757,7 @@ U_\theta(\theta) = \frac{k}{2} (\cos\theta - \cos\theta_O)^2
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">([</span><span class="s1">&#39;../_matplotlib/book.mplstyle&#39;</span><span class="p">])</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># Define the range of angles (in radians)</span>
@@ -775,7 +779,7 @@ U_\theta(\theta) = \frac{k}{2} (\cos\theta - \cos\theta_O)^2
 <span class="n">cosine_squared_potential</span> <span class="o">=</span> <span class="n">k_cosine_squared</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">theta_0_cosine_squared</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># Often defined as 1-cos^2(theta) for a minimum at theta=theta_0</span>
 
 <span class="c1"># Plotting</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">harmonic_potential</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Harmonic Potential&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">cosine_potential</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cosine Potential&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">cosine_squared_potential</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cosine Squared Potential&#39;</span><span class="p">)</span>
@@ -783,15 +787,14 @@ U_\theta(\theta) = \frac{k}{2} (\cos\theta - \cos\theta_O)^2
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Angle (radians)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Potential Energy&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparison of Angle Potentials&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./_figures/angle_potentials.png&#39;</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./_figures/angle_potentials.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/b74aef6e6bc3a8c53c25c5a0d573a5fe35a0d9c7700e21b6c020c503d2054732.png" src="../_images/b74aef6e6bc3a8c53c25c5a0d573a5fe35a0d9c7700e21b6c020c503d2054732.png" />
+<img alt="../_images/5cc7058db99b02968eac7fd76e1d05cbdb8e3e1246592dc3fed6d7214aa801a6.png" src="../_images/5cc7058db99b02968eac7fd76e1d05cbdb8e3e1246592dc3fed6d7214aa801a6.png" />
 </div>
 </details>
 </div>

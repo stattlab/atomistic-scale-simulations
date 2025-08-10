@@ -166,7 +166,7 @@ An **ensemble** is the collection of all microstates consistent with the given c
 :align: center
 :name: ergodic-fig
 
-Illustration of ergodic vs. non-ergodic.
+Illustration of ergodic vs. non-ergodic trajectories.
 
 ```
 

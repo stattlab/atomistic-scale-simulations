@@ -34,7 +34,10 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -457,7 +460,14 @@ document.write(`
 <section id="time-average-versus-ensemble-average">
 <h2><span class="section-number">3.3.1. </span>Time Average versus Ensemble Average<a class="headerlink" href="#time-average-versus-ensemble-average" title="Link to this heading">#</a></h2>
 <p>In experiments one typically considers a large number of successive times (t1 … tM) to make measurements, each of which reveals the current state of the system. Then <A> = \sigma_i A_iP_i where <span class="math notranslate nohighlight">\(Pi = ni/M\)</span> and ni is the number of times the system is in state <em>i</em> out of M total states. This is a <em>time average</em> over a single system because the values of ni were obtained by successive observations. We will model that by a classical simulation for a fixed number of particles and a given potential energy function V® isolated from any heat bath. Newton tells us the system will evolve according to <span class="math notranslate nohighlight">\(\vec{F} = -\nabla V= m\vec{a}\)</span>. We assign initial positions and velocities (implying an initial total energy and momentum). If we let it evolve what will happen? Will it go to the canonical distribution?</p>
-<p>First, a few constants of motion maybe be known: energy, momentum, number of particles, etc. These will not change but in a system of more than 2 particles the number of degrees of freedom is greater than the number of constants of motion.  Gibbs introduced the artifice of a large number of replicas of the system (<em>i.e.,</em> an ensemble) and imagined them to trace out paths on the energy surface. Basically, we could follow A(t) for one system for infinite time and average &lt;Atime&gt;, or just consider the value of A for each member of the ensemble and average&lt;Aens&gt;. Under certain conditions (if the system is ergodic) one should be the same value. Gibbs adopted the view from the outset that this was only a device to calculate the <em>probable behavior of a system</em>.</p>
+<p>First, a few constants of motion maybe be known: energy, momentum, number of particles, etc. These will not change but in a system of more than 2 particles the number of degrees of freedom is greater than the number of constants of motion.  Gibbs introduced the artifice of a large number of replicas of the system (<em>i.e.,</em> an ensemble) and imagined them to trace out paths on the energy surface. Basically, we could follow A(t) for one system for infinite time and average &lt;Atime&gt;, or just consider the value of A for each member of the ensemble and average&lt;Aens&gt;. Under certain conditions (if the system is ergodic, see <a class="reference internal" href="#ergodic-2-fig"><span class="std std-numref">Fig. 3.3</span></a>) one should be the same value. Gibbs adopted the view from the outset that this was only a device to calculate the <em>probable behavior of a system</em>.</p>
+<figure class="align-center" id="ergodic-2-fig">
+<a class="reference internal image-reference" href="../_images/ergodic.png"><img alt="Illustration of phase space with ergodic and non-ergodic trajectory" src="../_images/ergodic.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.3 </span><span class="caption-text">Illustration of phase space with a ergodic and non-ergodic trajectory.</span><a class="headerlink" href="#ergodic-2-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <p>In other words, instead of starting from a single initial condition, we start from the canonical distribution of positions and momentum. By Louiville Theorem, it is easy to show that this distribution is preserved. What we are doing in Molecular Dynamics, since we do not have the heat bath which gets most physical systems into equilibrium, is to assume that we can interchange the average over initial condition with the average over time. In an MD simulation, tMDsteps cannot go over infinite time, but hopefully an average of <strong>long finite</strong> tMDsteps is satisfactory. Thus, &lt;Atime&gt;= (1/MDsteps) \sigma_t=1,MDsteps A(t).</p>
 <p>Gibbs clearly recognized the relation to entropy to probability and observed the <strong>most probable situation (equilibrium) corresponds to maximum entropy subject to given constraints</strong>.</p>
 </section>

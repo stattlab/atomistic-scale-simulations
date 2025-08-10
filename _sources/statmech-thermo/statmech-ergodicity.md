@@ -6,6 +6,7 @@ Even though most of the simulations we will talk about are classical, it is actu
 
 ```{note}
 _The Phase Space:_ A classical system is composed of many particles with position, qi, and momentum, pi, denoted as q and p for short. This is the classical phase space. Any conservative mechanical systems can be characterized by a function, H(q, p; t), the Hamiltonian of the system which determines the energy as a function of the coordinates.
+
 ```
 
 Suppose that we have a system with fixed N and V (volume). Then:
@@ -33,7 +34,16 @@ The momentum part of the Maxwell-Boltzmann distribution (the Maxwell distributio
 
 In experiments one typically considers a large number of successive times (t1 .... tM) to make measurements, each of which reveals the current state of the system. Then <A> = \sigma_i A_iP_i where $Pi = ni/M$ and ni is the number of times the system is in state _i_ out of M total states. This is a _time average_ over a single system because the values of ni were obtained by successive observations. We will model that by a classical simulation for a fixed number of particles and a given potential energy function V(R) isolated from any heat bath. Newton tells us the system will evolve according to $\vec{F} = -\nabla V= m\vec{a}$. We assign initial positions and velocities (implying an initial total energy and momentum). If we let it evolve what will happen? Will it go to the canonical distribution?
 
-First, a few constants of motion maybe be known: energy, momentum, number of particles, etc. These will not change but in a system of more than 2 particles the number of degrees of freedom is greater than the number of constants of motion.  Gibbs introduced the artifice of a large number of replicas of the system (_i.e.,_ an ensemble) and imagined them to trace out paths on the energy surface. Basically, we could follow A(t) for one system for infinite time and average <Atime\>, or just consider the value of A for each member of the ensemble and average<Aens\>. Under certain conditions (if the system is ergodic) one should be the same value. Gibbs adopted the view from the outset that this was only a device to calculate the _probable behavior of a system_.
+First, a few constants of motion maybe be known: energy, momentum, number of particles, etc. These will not change but in a system of more than 2 particles the number of degrees of freedom is greater than the number of constants of motion.  Gibbs introduced the artifice of a large number of replicas of the system (_i.e.,_ an ensemble) and imagined them to trace out paths on the energy surface. Basically, we could follow A(t) for one system for infinite time and average <Atime\>, or just consider the value of A for each member of the ensemble and average<Aens\>. Under certain conditions (if the system is ergodic, see {numref}`ergodic-2-fig`) one should be the same value. Gibbs adopted the view from the outset that this was only a device to calculate the _probable behavior of a system_.
+
+```{figure} ./_figures/ergodic.png
+:alt: Illustration of phase space with ergodic and non-ergodic trajectory
+:width: 400px
+:align: center
+:name: ergodic-2-fig
+
+Illustration of phase space with a ergodic and non-ergodic trajectory.
+```
 
 In other words, instead of starting from a single initial condition, we start from the canonical distribution of positions and momentum. By Louiville Theorem, it is easy to show that this distribution is preserved. What we are doing in Molecular Dynamics, since we do not have the heat bath which gets most physical systems into equilibrium, is to assume that we can interchange the average over initial condition with the average over time. In an MD simulation, tMDsteps cannot go over infinite time, but hopefully an average of **long finite** tMDsteps is satisfactory. Thus, <Atime\>= (1/MDsteps) \sigma_t=1,MDsteps A(t).
 
