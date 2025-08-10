@@ -45,6 +45,7 @@ chapters:
       - file: monte-carlo/monte-carlo-method
       - file: monte-carlo/sampling
       - file: monte-carlo/phase-coexistence
+      - file: monte-carlo/finite-size
       - file: monte-carlo/variance-reduction
       - file: monte-carlo/metropolis
       - file: monte-carlo/ising-model

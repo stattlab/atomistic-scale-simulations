@@ -228,7 +228,7 @@ It is **always** a good idea to test these effects by running some extra simulat
 and smaller boxes to assess if/how much results change.
 ```
 
-A longer chapter on [finite size effects](../monte-carlo/finite-size.md) is in the Monte-Carlo section of this book.
+A longer chapter on [finite size effects](../monte-carlo/finite-size.md) from the perspecitive of phase transitions and critical points is in the Monte-Carlo section of this book.
 
 ## Additional Resorces
 

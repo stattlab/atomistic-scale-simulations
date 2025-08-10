@@ -9,18 +9,18 @@ Simulations are complementary methods to experiments and theory, as shown in {nu
 :align: center
 :name: directive-fig
 
-Flowchart of interplay between experiment, simulation, and theory. Adapted from Allen & Tildesley.
+Flowchart of interplay between experiment, simulation, and theory. Adapted from Allen & Tildesley.{cite}`allen1987computer`
 
 ```
 
 A model consists of the equations or rules used to encode the behavior of a system or theory.
 A computer simulation is the actual running of the program that perform algorithms which solve those equations.
-So, we "design a model" and "run a simulation".{footcite:p}`allen1987computer`
+So, we "design a model" and "run a simulation".{cite}`allen1987computer`
 
 Here, the focus is on **molecular systems**, therefore the models usually describe molecules or atoms.
 The simulations are then representative solutions of these molecular models, that can be used to understand experiments, test theories and make predictions ({numref}`directive-fig`).
 
-We will describe both  [Molecular Dyamics Simulations](../molecular-dynamics/index.md)(MD) and [Monte Carlo Simulations](../monte-carlo/index.md) (MC).
+We will describe both  [Molecular Dyamics simulations](../molecular-dynamics/index.md)(MD) and [Monte Carlo simulations](../monte-carlo/index.md) (MC).
 
 ## History
 

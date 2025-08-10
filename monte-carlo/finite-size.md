@@ -132,14 +132,12 @@ Scaling of Hamiltonian and Partition Function is not as easy as for percolation 
 
 Consider an L= 16 x 16 percolation simulation lattice in 2-D. Shaded squares are occupied sites and un-shaded are unoccupied sites. Sites are occupied with probability **p = 0.5**. Here we will consider a percolation of the lattice (i.e. a connectivity across the lattice) **from bottom to top**.
 
-![](RNG-L16-8.gif)
 
 For Renormalization one must consider what size of renormalization you are going to perform. Let us consider a b=2 type RNG, where a you half the size of square under consideration each RNG.
 As such we must consider all 2 x 2 clusters and how they span (or occupy) in the bottom to top direction to obtain percolation. They each have a **Total occupation probability** given by **the product of the individual site occupations**.
 
 The **pertinent vertically spanning clusters** that renormalizes to a **single shaded square** (and produced the first RNG image from L=16 to L=8) are obvious, i.e.
 
-![](RNG-7cl.gif)
 
 First cluster has probability of **p4** ,
 second set of clusters have **4 p3(1 - p)** ,
@@ -149,7 +147,6 @@ The new (renormalized) cell dimension is obvious reduced by a factor of **b**. F
 
 **The renormalization transformation** between p' and p must reflect the **connectedness**, i.e. formation of the spanning path which percolates from top to bottom, and we define a cell to be occupied if it spans the cell vertically. This is how the L=8 square was found. Such an RNG can be performed until we get to L=2, as the final two RNG process are shown in next image.
 
-![](RNG-L4-2.gif)
 
 **The Renormalization Group Equation**
 
