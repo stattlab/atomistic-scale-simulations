@@ -106,6 +106,7 @@ This fixes the bond length to fluctuate around an average of $r_0$.
 :tags: [hide-cell]
 from myst_nb import glue
 import matplotlib.pyplot as plt
+plt.style.use(['../_matplotlib/book.mplstyle'])
 import numpy as np
 
 # Harmonic bond potential
@@ -123,25 +124,23 @@ r_values = np.linspace(0.5, 1.5, 100)
 U_values = harmonic_bond_potential(r_values, k, r0)
 F_values = harmonic_bond_force(r_values, k, r0)
 
-fig, axs = plt.subplots(1, 2, figsize=(5,2.5))
+fig, axs = plt.subplots(1, 2, figsize=(6,3.5))
 
-axs[0].plot(r_values, U_values)
-axs[0].axvline(x=r0, color='r', linestyle='--', label='$r_0$')
+axs[0].plot(r_values, U_values,c='lightcoral')
+axs[0].axvline(x=r0, linestyle='--',c='dodgerblue', label='$r_0$')
 axs[0].set_xlabel('$r$')
 axs[0].set_ylabel('$U_{\mathrm{bond}}(r)$')
 axs[0].set_title('Harmonic Bond Potential')
 axs[0].legend(frameon=False)
-axs[0].grid(True)
 
-axs[1].plot(r_values, F_values,c='green')
-axs[1].axvline(x=r0, color='r', linestyle='--', label='$r_0$')
+axs[1].plot(r_values, F_values,c='seagreen')
+axs[1].axvline(x=r0, linestyle='--',c='dodgerblue', label='$r_0$')
 axs[1].set_xlabel('$r$')
 axs[1].set_ylabel('$F_{\mathrm{bond}}(r)$')
 axs[1].set_title('Harmonic Bond Force')
 axs[1].legend(frameon=False)
-axs[1].grid(True)
-plt.tight_layout()
-plt.savefig('./_figures/harmonic_bond.png',transparent=True)
+
+plt.savefig('./_figures/harmonic_bond.png')
 ```
 
 ````{example} Harmonic bond force
@@ -158,7 +157,7 @@ If $r_{ij}>r_0$, the bond is streched past $r_0$ and particle $i$ moves toward $
 
 ```{figure} ./_figures/harmonic_bond.png
 :alt: Plot of the harmonic bond potential and force
-:width: 500px
+:width: 400px
 :align: center
 :name: bond-fig
 
@@ -185,6 +184,7 @@ Typical parameters:
 :tags: [hide-cell]
 from myst_nb import glue
 import matplotlib.pyplot as plt
+plt.style.use(['../_matplotlib/book.mplstyle'])
 import numpy as np
 
 # Define parameters for the potentials
@@ -207,17 +207,17 @@ V_fene_wca = V_fene
 r_rep = r[r<2**(1/6)]
 V_fene_wca[r<2**(1/6)] += 4*epsilon*((sigma/r_rep)**12-(sigma/r_rep)**6)+ epsilon
 
-fig, axs = plt.subplots(1, 1, figsize=(5,4))
+fig, axs = plt.subplots(1, 1)
 
 axs.plot(r, V_harmonic-np.min(V_harmonic),label='harmonic')
 axs.plot(r, V_fene_wca-np.min(V_fene_wca), label='FENE+WCA')
 axs.set_xlabel('$r$')
 axs.set_ylabel('$U_{\mathrm{bond}}(r)-U_\mathrm{min}$')
-axs.legend(frameon=False,bbox_to_anchor=(1.05, 1), loc='upper left')
-axs.grid(True)
+axs.legend()
+
 axs.set_ylim(0,6)
-plt.tight_layout()
-plt.savefig('./_figures/FENE_bond.png',transparent=True)
+
+plt.savefig('./_figures/FENE_bond.png')
 ```
 
 
@@ -316,6 +316,7 @@ For specific models and force fields, always check if the angles are given in de
 :tags: [hide-cell]
 from myst_nb import glue
 import matplotlib.pyplot as plt
+plt.style.use(['../_matplotlib/book.mplstyle'])
 import numpy as np
 
 # Define the range of angles (in radians)
@@ -337,7 +338,7 @@ cosine_potential = k_cosine * (1 - np.cos(theta - theta_0_cosine)) # Often defin
 cosine_squared_potential = k_cosine_squared * (1 - np.cos(theta - theta_0_cosine_squared)**2) # Often defined as 1-cos^2(theta) for a minimum at theta=theta_0
 
 # Plotting
-plt.figure(figsize=(5, 4))
+plt.figure()
 plt.plot(theta, harmonic_potential, label='Harmonic Potential')
 plt.plot(theta, cosine_potential, label='Cosine Potential')
 plt.plot(theta, cosine_squared_potential, label='Cosine Squared Potential')
@@ -345,10 +346,9 @@ plt.plot(theta, cosine_squared_potential, label='Cosine Squared Potential')
 plt.xlabel('Angle (radians)')
 plt.ylabel('Potential Energy')
 plt.title('Comparison of Angle Potentials')
-plt.legend(frameon=False)
-plt.grid(True)
-plt.tight_layout()
-plt.savefig('./_figures/angle_potentials.png',transparent=True)
+plt.legend()
+
+plt.savefig('./_figures/angle_potentials.png')
 ```
 
 ```{figure} ./_figures/angle_potentials.png

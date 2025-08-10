@@ -1,0 +1,6 @@
+figure.figsize:     5, 4
+figure.autolayout: True
+savefig.transparent: True
+legend.frameon:       False
+axes.prop_cycle: cycler('color', ['lightcoral', 'dodgerblue', 'seagreen', 'orchid', 'darkgray', 'darkcyan', 'darkgoldenrod', 'mediumslateblue', 'black'])
+

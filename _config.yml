@@ -37,6 +37,8 @@ bibtex_bibfiles:
 sphinx:
   extensions:
     - myst_nb
+  extra_extensions:
+    - sphinx_image_inverter
   local_extensions:
     example_admonition: _extensions
     solution_dropdown: _extensions
@@ -45,6 +47,7 @@ sphinx:
   config:
     bibtex_reference_style: super
     bibtex_default_style: plain
+    inverter_saturation: 1.5
 
     mathjax3_config:
       tex:
