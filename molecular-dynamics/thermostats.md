@@ -2,9 +2,15 @@
 
 ## 1. Generating Canonical Ensemble in MD
 
+The basic MD ensemble is constant energy and constant volume. However, experimentally it is usually more convenient to specify the pressure and temperature. In those variables the phase of the system is unique except precisely at a phase transition. If we input the number of particles and volume near a phase boundary, then it is possible we will be in the two phase region, for example we could have a mixture of ice and water. This is unlikely to occur in a simulation because our system is usually so small. The interface between the two phases would cost too much energy and inhibits the system from moving freely from one phase to the other. Temperature controls and pressure controls allow one to do such simulations more directly.
+
 Molecular dynamics (MD) naturally gives the **NVE ensemble**. To obtain the **NVT ensemble**, apply a **thermostat** (heat reservoir) that drives the system to the correct temperature.
 
+The disadvantage of all thermostatting methods for working at constant temperature is that the dynamics is changed in an artificial way and dynamics is the reason why we do MD and not MC. Real dynamics obey the rules of special relativity (in principle). Effects need to be mediated by the transport of particles since we don't have any photons. Heat is transported at the speed of sound or slower. But if there is a kinetic energy fluctuation, the effect on the other particles with the various temperature thermostats is immediate. All three methods have a coupling constant (e.g. the frequency of rescaling, the friction coefficient or the mass of the N-H variable.) It should be chosen as small possible to alter the dynamics as little as possible. If this is done, the non-physical effects will be order $1/N$ in general. If this is a problem one should use a more physical method to control temperature fluctuations, for example put in a real heat bath at the edge of the physical system. Extremely accurate estimations of dyanmical quantites like the diffusion constants or other transport coefficients should be done in the **NVE** if possible. Often, it is useful to first equilibrate with **NVT**, and then switch to **NVE** for production runs in these cases.
+
 ### Stochastic Thermostats
+
+We want to do simulations at constant temperature. How do we do it?
 
 - **Andersen**: At random intervals, assign new momenta to particles.
   - ❌ Not momentum conserving.
@@ -27,6 +33,8 @@ Molecular dynamics (MD) naturally gives the **NVE ensemble**. To obtain the **NV
   - **Nosé / Nosé-Hoover / Nosé-Hoover chains**: Canonical (sometimes).
 
 ## 2. Isokinetic Thermostat: Constant Kinetic Energy
+
+The simplest method is to start the simulation with random velocities. If the system is ergodic, the only thing that matters is the total energy. One could give all the extra energy to a single particle and the energy would cascade down to all the particles, and the velocity would have a normal distribution after a few collisions. But to minimize simulation time, you want to start as close as possible to the final true distribution, a normal distribution. In the **constant kinetic energy** or **velocity rescaling method**, every so often one re-scales the velocity, multiplying by a constant chosen so that the kinetic energy is $3/2K T$ per particle. Once the system reaches equilibrium, the scaling is no longer necessary.
 
 Use a Lagrange multiplier to constrain kinetic energy:
 
@@ -81,6 +89,8 @@ $$
 > ✅ Useful for steering system to target temperature.
 
 ## 4. Nosé–Hoover Thermostat
+
+An approach pioneered in 1984 by Nose adds a single heat bath particle. A new variable with the dimensions of a friction constant is added to the system. This approach gives reversible deterministic dynamics and if the system is ergodic we will be guaranteed to go to the canonical distribution. The approach of adding a new fictitious particle is very common trick in simulation.
 
 Nosé introduced an **extended Hamiltonian**:
 
@@ -151,13 +161,22 @@ Further split thermostat operator for accuracy:
 - Use multiple substeps
 - See: Martyna et al., Mol. Phys. 87, 1117 (1996)
 
-## Additional Resources
+## Pressure Controls
 
-1. Tuckerman et al. (2006) – J. Phys. A: Math. Gen.
-This paper presents a novel, measure-preserving, reversible geometric integrator for molecular dynamics simulations in the isothermal–isobaric (NPT) ensemble. The authors develop the integrator using a Liouville-operator-based formalism that ensures phase-space volume conservation, even in non-Hamiltonian systems. They extend the method to handle multiple time scales via r-RESPA and validate it through analytical derivations and numerical simulations, including Lennard-Jones fluids and flexible diatomic molecules. The integrator is shown to outperform previous schemes in stability and accuracy, particularly in preserving the correct ensemble distribution. The work concludes with suggestions for future extensions, including flexible cell dynamics and alternative thermal control methods.
+Pressure controls can be introduced in a similar fashion. The conjugate variable to the pressure is the size of the box, then one can simulate the isothermal–isobaric **NPT ensemble** . Anderson, Parrinello and Rahman (1980-84) introduced a formalism where the size of the box is a dynamical variable. When the box size fluctuates (because the pressure from the virial is not equal to the desired pressure) all the particle positions dilate or contract. In some methods, the box shape also fluctuates; it is allowed to become an arbitrary parallelpiped. Then the system can switch between different crystal structures by itself (for example between FCC and BCC). This method is very useful is studying the transitions between two different crystal phases or the equilibrium lattice constants of different crystals.
 
-2. Martyna et al. (1996) – Mol. Phys.
-This comprehensive study introduces explicit, reversible integrators for extended system dynamics in molecular simulations, targeting canonical (NVT) and isothermal–isobaric (NPT) ensembles. The integrators are derived from the Liouville operator formalism and are designed to be efficient, stable, and suitable for large-scale simulations. The paper details the integration schemes for various ensembles, including full cell fluctuations, and incorporates multiple time step strategies (RESPA) to handle systems with disparate time scales. The authors compare their methods with standard iterative velocity-Verlet schemes and demonstrate improved energy conservation and computational efficiency. The work includes practical implementation guidance, including Fortran code and constraint-handling techniques, making it a foundational reference for molecular dynamics practitioners.
+Again the dynamics is unrealistic. In addition the size effects can be larger than in a cubic box because fluctuations in the size make the box narrower in some directions. Remember that just because a system can fluctuate from one structure to another does not mean than the probability is high for that to happen.
 
-3. Martyna et al. (1992) – J. Chem. Phys.
-This seminal paper introduces the Nosé–Hoover chain (NHC) method, a significant advancement in molecular dynamics for generating the canonical ensemble. The authors address the non-ergodicity of traditional Nosé–Hoover dynamics in small or stiff systems by coupling a chain of thermostat variables to the system. They provide a rigorous theoretical foundation, including derivations of the equations of motion, stability analysis, and proofs of phase-space volume conservation. Numerical experiments confirm that NHC dynamics yield accurate canonical distributions and are more robust than previous methods. The paper also discusses practical aspects such as thermostat mass selection, Lyapunov exponent analysis, and efficiency comparisons with Monte Carlo methods, establishing NHC as a reliable tool for simulating thermodynamic ensembles.
+## References
+
+- [LAMMPS Nose-Hoover thermostat documentation](https://docs.lammps.org/fix_nh.html)
+- [HOOMD-blue thermostat documentation](https://hoomd-blue.readthedocs.io/en/stable/hoomd/md/methods/module-thermostats.html)
+- [GROMACS thermostat documentation](https://manual.gromacs.org/current/reference-manual/algorithms/molecular-dynamics.html#temperature-coupling)
+
+- Tuckerman, Mark E., et al. "A Liouville-operator derived measure-preserving integrator for molecular dynamics simulations in the isothermal–isobaric ensemble." Journal of Physics A: Mathematical and General 39.19 (2006): 5629. {cite}`tuckerman2006liouville`
+
+- Tuckerman, Mark E., and Glenn J. Martyna. "Understanding modern molecular dynamics: Techniques and applications." The Journal of Physical Chemistry B 104.2 (2000): 159-178 {cite}`tuckerman2000understanding`
+
+- Martyna, Glenn J., Douglas J. Tobias, and Michael L. Klein. "Constant pressure molecular dynamics algorithms." J. chem. Phys 101.4177 (1994): 10-1063. {cite}`martyna1994constant`
+
+-  Parrinello and Rahman, J Appl Phys, 52, 7182 (1981).{cite}`parrinello1981polymorphic`

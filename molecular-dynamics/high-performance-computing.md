@@ -103,6 +103,5 @@ $$
 
 > How big can I go?
 
-## Additional Resorces
+## References
 
- test

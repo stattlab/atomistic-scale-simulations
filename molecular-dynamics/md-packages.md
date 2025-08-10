@@ -52,8 +52,14 @@ data/ ├── T-1.0/ │ ├── V-20/ │ │ └── input.sh │ ├─
 
 Always read the documentation for your chosen tool carefully!
 
-## Additional Resources
+## References
 
-In his 2013 article "Simulations: The Dark Side," Daan Frenkel explores the often-overlooked pitfalls and misconceptions in molecular simulations, particularly Monte Carlo and Molecular Dynamics methods. While these techniques are powerful and widely used, Frenkel emphasizes that their apparent simplicity can be misleading, as they require careful implementation and interpretation. He categorizes common issues into three groups: methods that seem simple but are tricky, methods that appear reasonable but are flawed, and widespread myths in the simulation community. Topics include finite-size effects, boundary condition artifacts, the misuse of free energy landscapes, and the limitations of grand-canonical simulations for solids. Frenkel also critiques the blind trust in new algorithms and the misconception that Molecular Dynamics predicts exact time evolution. Ultimately, the paper serves as a cautionary guide, urging researchers to critically assess their simulation tools and avoid treating them as black boxes.
+- [LAMMPS documentation](https://docs.lammps.org)
+- [HOOMD-blue documentation](https://hoomd-blue.readthedocs.io)
+- [GROMACS documentation](https://manual.gromacs.org/current/index.html)
 
-Add living journal links here too
+- "Simulations: The Dark Side," Daan Frenkel, 2013 {cite}`frenkel2013simulations`
+
+- Braun, E., Gilmer, J., Mayes, H. B., Mobley, D. L. ., Monroe, J. I., Prasad, S., & Zuckerman, D. M. . (2018). Best Practices for Foundations in Molecular Simulations [Article v1.0]. Living Journal of Computational Molecular Science, 1(1), 5957. {cite}`prasad2018best`
+
+- In general, the Journal [Living Journal of Computational Molecular Science](https://livecomsjournal.org/index.php/livecoms/index) has excellent how to articles, tutorials, and best practices.

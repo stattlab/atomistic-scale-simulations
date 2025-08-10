@@ -31,6 +31,9 @@ repository:
   url: https://github.com/stattlab/atomistic-scale-simulations
   branch: main
 
+bibtex_bibfiles:
+    - references/references.bib
+
 sphinx:
   extensions:
     - myst_nb
@@ -38,7 +41,11 @@ sphinx:
     example_admonition: _extensions
     solution_dropdown: _extensions
     learning_outcome_admonition: _extensions
+    exercise_admonition: _extensions
   config:
+    bibtex_reference_style: super
+    bibtex_default_style: plain
+
     mathjax3_config:
       tex:
         macros:

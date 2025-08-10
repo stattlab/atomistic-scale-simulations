@@ -37,6 +37,8 @@ Fraction of surface particles:
 Measurements will include significant surface contributions that deviate from "bulk", especially
 for "small" systems. These deviations from the bulk, or the thermodynamic ($L \rightarrow \infty$) limit are often called **finite size effects**.
 
+Consider a drop of $N$ atoms in free space. (For example a galaxy, a protein in vacuum, or a droplet) How many are on the surface and how does that converge in $N$? The fraction of surface atoms is proportional to $N^-1/3$. If the droplet contains one million atoms and the surface layer is only 5 atoms deep, 25% of atoms are still on the surface! This is not a very efficient way of sampling a bulk system. There are other problems as well. With free boundary conditions one can only do simulations at zero pressure and there is nothing to keep the atoms from evaporating. Also the equilibration time can be much longer than it bulk since surface process can be much slower.
+
 ## Definiton of Periodic Boundary Conditions
 
 Embed the simulated system in an "infinite" one made by copying it. This works with all
@@ -82,6 +84,13 @@ Visualization of periodic "wrapping" of the edges of a simulation box in higer d
 
 - Only track particles in the volume of interest (images replace each other when they enter/leave).
 - If model potentials are **short-ranged**, only compute over a small volume of the "infinite" system. Hence, you can model **bulk thermodynamic behavior** using a nanoscopic volume.
+
+It has been found that hundreds of atoms in PBC can behave like an infinite system in many respects. The **finite size corrections** are order $(1/N)$ and the coefficient can be small. One cannot calculate long distance behavior $(~L/2)$. Angular momentum might no longer be conserved in a finite system. Also PBC can influence the stability of phases. For example, PBC favor cubic lattice structures that fit well into the box.
+
+**Alternative Boundaries**
+
+- **Simulations on a sphere surface:** The geometry is non-Cartesian (there is a curvature to space) and calculating distances is more complicated. The representation of crystals is a problem since there are only 5 perfect lattices on a sphere with 4, 6, 8 12 and 20 particles.
+- **External "wall" potentials:** An example would be a liquid in a tube (cylindrical confinement), spherical confinement, slab geometry (two PBC directions, one direction with a flat wall), etc.
 
 ## Implementation of Periodic Boundary Conditions
 
@@ -219,6 +228,8 @@ It is **always** a good idea to test these effects by running some extra simulat
 and smaller boxes to assess if/how much results change.
 ```
 
+A longer chapter on [finite size effects](../monte-carlo/finite-size.md) is in the Monte-Carlo section of this book.
+
 ## Additional Resorces
 
-- **“A Guide to Monte Carlo Simulations in Statistical Physics”,Landau, Binder** has extensive theoretical explanations and details about **finite size** effects.
+- **“A Guide to Monte Carlo Simulations in Statistical Physics”,Landau, Binder**{cite:landau2021guide} has extensive theoretical explanations and details about **finite size** effects.

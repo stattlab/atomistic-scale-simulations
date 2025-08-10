@@ -1,14 +1,16 @@
 # Long-Range Potentials
 
-Decay is slower than $r^{-d}$, where $ d$ is dimensionality.
+A potential is **long-ranged** if its decay is slower than $r^{-d}$, where $ d$ is dimensionality.
 
 ```{note}
 The formal definition is given over the integral
+
 $$
 I = \int_R^D d^D r \frac{A}{r^n} = \begin{cases} \infty &\text{ for } n \leq D \\
   \text{finite} &\text{ for } n > D
 \end{cases}
 $$
+
 where $D$ is the dimension. I.e we look at the potential $u(r)$ as $r \rightarrow \infty$. This integral then contains $\frac{r^{D-1}}{r^n}$. In 3D, a potential is short-ranged if it converges faster than $r^{-3}$. In 2D,  a potential is short-ranged if it converges faster than $r^{-2}$.
 ```
 
@@ -114,7 +116,6 @@ $$
 & =\frac{q_i}{4 \pi \epsilon_0 r}-\frac{q_i}{4 \pi \epsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
 & =\frac{q_i}{4 \pi \varepsilon_0 r}\left[1-\operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\right]+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
 & =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\\
-
 & =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\kappa r \right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\kappa r\right)
 $$
 
@@ -171,7 +172,7 @@ $$
 We need to Fourier transform Poisson's equation for Gaussian charge (periodic array).
 
 $$
-& \nabla^2 \phi^G=-\frac{\rho^G}{\varepsilon_0} \rightarrow -k^2 \hat{\phi}^G=-\frac{\hat{\rho}^G}{\varepsilon_0} \rightarrow \hat{\phi}^G=\frac{1}{k^2 \varepsilon_0} \hat{\rho}^G
+\nabla^2 \phi^G=-\frac{\rho^G}{\varepsilon_0} \rightarrow -k^2 \hat{\phi}^G=-\frac{\hat{\rho}^G}{\varepsilon_0} \rightarrow \hat{\phi}^G=\frac{1}{k^2 \varepsilon_0} \hat{\rho}^G
 $$
 
 Now we can compute
@@ -250,11 +251,11 @@ Choose $k=\frac{1}{\sqrt{2}\sigma}$, the inverse screening length, and the numbe
 - **Particle Mesh Ewald**, Darden, 1993,
 $\mathcal{O}(N \log N)$
 
-## Additional Resources
+## References
 
 - ["On mesh-based Ewald methods: Optimal parameters for two differentiation schemes"
 Harry A. Stern; Keith G. Calkins
-J. Chem. Phys. 128, 214106 (2008)](https://doi.org/10.1063/1.2932253)
+J. Chem. Phys. 128, 214106 (2008)](https://doi.org/10.1063/1.2932253){cite}`stern2008mesh`
 
 - [Shape-Adapted Ewald Summation,
 M. Widom](https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf)

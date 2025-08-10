@@ -19,12 +19,18 @@ chapters:
 
   - file: statmech-thermo/index
     sections:
+      - file: statmech-thermo/introduction
       - file: statmech-thermo/ensembles
+      - file: statmech-thermo/statmech-ergodicity
       - file: statmech-thermo/thermodynamic-properties
+      - file: statmech-thermo/entropy-temperature
+      - file: statmech-thermo/structural-correlations
       - file: statmech-thermo/transport-coefficients
+      - file: statmech-thermo/statistical-errors
 
   - file: molecular-dynamics/index
     sections:
+      - file: molecular-dynamics/introduction
       - file: molecular-dynamics/verlet-integration
       - file: molecular-dynamics/thermostats
       - file: molecular-dynamics/langevin-dynamics
@@ -34,9 +40,18 @@ chapters:
 
   - file: monte-carlo/index
     sections:
+      - file: monte-carlo/introduction
       - file: monte-carlo/random-numbers
       - file: monte-carlo/monte-carlo-method
+      - file: monte-carlo/sampling
       - file: monte-carlo/phase-coexistence
+      - file: monte-carlo/variance-reduction
+      - file: monte-carlo/metropolis
+      - file: monte-carlo/ising-model
+      - file: monte-carlo/directed-mc
+      - file: monte-carlo/kinetic-mc
+      - file: monte-carlo/free-energy-from-sims
 
+  - file: references/references
 
   - file: credits
