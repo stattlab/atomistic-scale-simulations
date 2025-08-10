@@ -264,9 +264,9 @@ System exchanges energy with a heat bath at temperature $T$
   \Phi = -k_B T \ln \Xi
   $
 
-## Additional Resources
+## References
 
 - The Wikipedia pages for various thermodynamics and statistical mechanics topics are quite good:
   - [Wikipedia links for all Statmech Categories](https://en.wikipedia.org/wiki/Category:Statistical_mechanics)
   - [Wikipedia links for all Thermo Categories](https://en.wikipedia.org/wiki/Category:Thermodynamics)
-- Any statmech & thermo textboox
+- Any Statmech & Thermo textbook, in particular {cite:t}`dill2010molecular` and {cite:t}`shell2015thermodynamics`

@@ -1,3 +1,18 @@
+---
+jupytext:
+  cell_metadata_filter: -all
+  formats: md:myst
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.16.7
+kernelspec:
+  display_name: Python 3 (ipykernel)
+  language: python
+  name: python3
+---
+
 # Intermolecular Potentials
 
 in {numref}`bonds-angles-fig` most typical intermolecular potentials for a molecule are shown.
@@ -86,7 +101,50 @@ This fixes the bond length to fluctuate around an average of $r_0$.
 - Watch for factor of 2!
 - Typically $ k \sim 10^3 \epsilon/l^2$ for "stiff" bond
 
-```{example} Harmonic bond force
+
+```{code-cell} ipython3
+:tags: [hide-cell]
+from myst_nb import glue
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Harmonic bond potential
+def harmonic_bond_potential(r, k, r0):
+    return 0.5 * k * (r - r0)**2
+
+# Harmonic bond force
+def harmonic_bond_force(r, k, r0):
+    return -k * (r - r0)
+
+# Parameters
+k = 1.0
+r0 = 1.0
+r_values = np.linspace(0.5, 1.5, 100)
+U_values = harmonic_bond_potential(r_values, k, r0)
+F_values = harmonic_bond_force(r_values, k, r0)
+
+fig, axs = plt.subplots(1, 2, figsize=(5,2.5))
+
+axs[0].plot(r_values, U_values)
+axs[0].axvline(x=r0, color='r', linestyle='--', label='$r_0$')
+axs[0].set_xlabel('$r$')
+axs[0].set_ylabel('$U_{\mathrm{bond}}(r)$')
+axs[0].set_title('Harmonic Bond Potential')
+axs[0].legend(frameon=False)
+axs[0].grid(True)
+
+axs[1].plot(r_values, F_values,c='green')
+axs[1].axvline(x=r0, color='r', linestyle='--', label='$r_0$')
+axs[1].set_xlabel('$r$')
+axs[1].set_ylabel('$F_{\mathrm{bond}}(r)$')
+axs[1].set_title('Harmonic Bond Force')
+axs[1].legend(frameon=False)
+axs[1].grid(True)
+plt.tight_layout()
+plt.savefig('./_figures/harmonic_bond.png',transparent=True)
+```
+
+````{example} Harmonic bond force
 $ U_b = \frac{1}{2}k(r - r_0)^2 $, so
 
 $ F_b = \frac{\partial U_b}{\delta r_{ij}} = -k (r_{ij}-r_0)$, leading to
@@ -97,7 +155,20 @@ F_j &= - (r_{ij}-r_0) \hat r_{ij} \quad .
 $$
 
 If $r_{ij}>r_0$, the bond is streched past $r_0$ and particle $i$ moves toward $j$, and $j$ toward $i$. If $r_{ij}<r_0$, the bond is compressed below the set point $r_0$ and particle $i$ moves away from $j$, and $j$ away from $i$.
+
+```{figure} ./_figures/harmonic_bond.png
+:alt: Plot of the harmonic bond potential and force
+:width: 500px
+:align: center
+:name: bond-fig
+
+Bond potential and force as function of bond length $r$.
 ```
+````
+
+
+
+
 
 ### FENE (Finite Extensible Nonlinear Elastic)
 
@@ -108,6 +179,56 @@ Diverges at $r_0$, minimum at 0. This is usually used in conjuction with a repul
 Typical parameters:
 
 - k = 30, r_0 = 1.5
+
+
+```{code-cell} ipython3
+:tags: [hide-cell]
+from myst_nb import glue
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Define parameters for the potentials
+k_harmonic = 850.0  # Harmonic bond constant
+r0_harmonic = 0.96  # Harmonic equilibrium bond length
+
+k_fene = 30.0      # FENE bond constant
+R0_fene = 1.5      # FENE maximum bond extension
+epsilon = 1.0
+sigma = 1.0
+
+# Define the range of bond distances (r)
+r = np.linspace(0.9, 1.1, 500) # Adjust range based on potential parameters
+
+V_harmonic = 0.5 * k_harmonic * (r - r0_harmonic)**2
+arg_fene = 1 - (r / R0_fene)**2
+V_fene =  -0.5 * k_fene * R0_fene**2 * np.log(arg_fene)
+
+V_fene_wca = V_fene
+r_rep = r[r<2**(1/6)]
+V_fene_wca[r<2**(1/6)] += 4*epsilon*((sigma/r_rep)**12-(sigma/r_rep)**6)+ epsilon
+
+fig, axs = plt.subplots(1, 1, figsize=(5,4))
+
+axs.plot(r, V_harmonic-np.min(V_harmonic),label='harmonic')
+axs.plot(r, V_fene_wca-np.min(V_fene_wca), label='FENE+WCA')
+axs.set_xlabel('$r$')
+axs.set_ylabel('$U_{\mathrm{bond}}(r)-U_\mathrm{min}$')
+axs.legend(frameon=False,bbox_to_anchor=(1.05, 1), loc='upper left')
+axs.grid(True)
+axs.set_ylim(0,6)
+plt.tight_layout()
+plt.savefig('./_figures/FENE_bond.png',transparent=True)
+```
+
+
+```{figure} ./_figures/FENE_bond.png
+:alt: Plot of the harmonic bond potential and force
+:width: 400px
+:align: center
+:name: fene-bond-fig
+
+FENE+WCA bond potential with standard parameters $R_0=1.5$ and $k=30$ compared to a harmonic bond potential with $r_0=0.96$ and $k=850$.
+```
 
 ## Angle Potentials
 
@@ -174,10 +295,10 @@ Fixes average angle around set point of $\theta_0$. Like with the harmonic bond 
 ### Cosine
 
 $$
-U_\theta(\theta) = k (1 + \cos{theta})
+U_\theta(\theta) = k (1 + \cos{\theta})
 $$
 
-Minimum is when the particles are in colinear $\theta =180^\circ$ arrangement.
+Minimum is when the particles are in colinear $\theta =180^\circ$ arrangement. There are forms with a set angle different from that, by using $k (1 - \cos{(\theta - \theta_0)}) $ as functional form.
 
 ### Cosine squared
 
@@ -185,8 +306,57 @@ $$
 U_\theta(\theta) = \frac{k}{2} (\cos\theta - \cos\theta_O)^2
 $$
 
+Watch out for the exact definition of the parameters, sometimes $1/2$ is included in the definition of $k$.
+
 ```{note}
 For specific models and force fields, always check if the angles are given in degree or radians.
+```
+
+```{code-cell} ipython3
+:tags: [hide-cell]
+from myst_nb import glue
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Define the range of angles (in radians)
+theta = np.linspace(0, np.pi, 500)  # From 0 to pi radians
+
+# Define potential parameters (example values)
+k_harmonic = 1.0  # Force constant for harmonic potential
+theta_0_harmonic = np.pi / 2  # Equilibrium angle for harmonic potential
+
+k_cosine = 1.0  # Pre-factor for cosine potential
+theta_0_cosine = np.pi / 2 # Equilibrium angle for cosine potential
+
+k_cosine_squared = 1.0  # Pre-factor for cosine-squared potential
+theta_0_cosine_squared = np.pi / 2 # Equilibrium angle for cosine-squared potential
+
+# Calculate the potentials
+harmonic_potential = 0.5 * k_harmonic * (theta - theta_0_harmonic)**2
+cosine_potential = k_cosine * (1 - np.cos(theta - theta_0_cosine)) # Often defined as 1-cos(theta) for a minimum at theta=theta_0
+cosine_squared_potential = k_cosine_squared * (1 - np.cos(theta - theta_0_cosine_squared)**2) # Often defined as 1-cos^2(theta) for a minimum at theta=theta_0
+
+# Plotting
+plt.figure(figsize=(5, 4))
+plt.plot(theta, harmonic_potential, label='Harmonic Potential')
+plt.plot(theta, cosine_potential, label='Cosine Potential')
+plt.plot(theta, cosine_squared_potential, label='Cosine Squared Potential')
+
+plt.xlabel('Angle (radians)')
+plt.ylabel('Potential Energy')
+plt.title('Comparison of Angle Potentials')
+plt.legend(frameon=False)
+plt.grid(True)
+plt.tight_layout()
+plt.savefig('./_figures/angle_potentials.png',transparent=True)
+```
+
+```{figure} ./_figures/angle_potentials.png
+:alt: Plot of different angle potentials
+:width: 400px
+:align: center
+:name: angle-comp-fig
+Comparison of harmonic, cosine, and cosine-squared angle potentials, all with an angle constant $k=1$ and a set angle $\theta_0$ of $\pi/2$.
 ```
 
 ## Dihedral Potentials
@@ -223,10 +393,10 @@ F_i &= -\nabla_i U_\phi(\phi_{ijkl})\\
 &= -F_\phi \frac{1}{\sin(\phi_{ijkl})} \nabla_i \cos\phi_{ijkl}\quad .
 $$
 
-This results in some involved computations, see Allen & Tildesley for a step by step derivation in Appendix C.
+This results in some involved computations, see Allen & Tildesley{cite}`allen1987computer` for a step by step derivation in Appendix C.
 
 ```{warning}
-The same singularities show up at $\phi_{ijkl}=0^\circ$ and $180^\circ$ but one can eliminate them (details in [J. Comput. Chem., 17: 1132-1141, 1996](https://doi.org/10.1002/(SICI)1096-987X(19960715)17:9%3C1132::AID-JCC5%3E3.0.CO;2-T)).
+The same singularities as for the angle forces show up at $\phi_{ijkl}=0^\circ$ and $180^\circ$ but one can eliminate them (details in [Bondel, Karplus, J. Comput. Chem., 17: 1132-1141, 1996](https://doi.org/10.1002/(SICI)1096-987X(19960715)17:9%3C1132::AID-JCC5%3E3.0.CO;2-T)){cite}`blondel1996new`.
 
 However, $\phi$ becomes also degenerate if $\theta_{ijk}$ or $\theta_{jkl}$ approaches $0^\circ$ or $180^\circ$ because the two planes to define the dihedral cannot be defined in these cases. This is important for models with "soft" interactions, where these configurations are possible, e.g. coarse-grained models.
 ```
@@ -268,11 +438,10 @@ Configuration to which an improper dihedral can be applied to.
 
 ```
 
-## Resources
+## References
 
-- Allen & Tildesley, "Simulations of liquids" Appendix C.2 - Calculation of forces and torques
-- ["Note: Smooth torsional potentials for degenerate dihedral angles" Michael P. Howard, Antonia Statt, Athanassios Z. Panagiotopoulos, J. Chem. Phys. 146, 226101 (2017)](https://doi.org/10.1063/1.4985251)
-- [Blondel, A. and Karplus, M., New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: Elimination of singularities. J. Comput. Chem., 17: 1132-1141. (1996)](https://doi.org/10.1002/(SICI)1096-987X(19960715)17:9<1132::AID-JCC5>3.0.CO;2-T)
+- Allen & Tildesley, "Simulations of liquids" Appendix C.2 - Calculation of forces and torques {cite}`allen1987computer`
+- "Note: Smooth torsional potentials for degenerate dihedral angles" Michael P. Howard, Antonia Statt, Athanassios Z. Panagiotopoulos, J. Chem. Phys. 146, 226101 (2017){cite}`howard2017note`
+- Blondel, A. and Karplus, M., "New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: Elimination of singularities." J. Comput. Chem., 17: 1132-1141. (1996){cite}`blondel1996new`
 - [Gromacs Documentation on Intramolecular Potentials](https://manual.gromacs.org/current/reference-manual/functions/bonded-interactions.html)
 
-## Additional Literature

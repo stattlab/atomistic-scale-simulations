@@ -9,18 +9,18 @@ Simulations are complementary methods to experiments and theory, as shown in {nu
 :align: center
 :name: directive-fig
 
-Flowchart of interplay between experiment, simulation, and theory. Adapted from Allen & Tildesley.
+Flowchart of interplay between experiment, simulation, and theory. Adapted from Allen & Tildesley.{cite}`allen1987computer`
 
 ```
 
 A model consists of the equations or rules used to encode the behavior of a system or theory.
 A computer simulation is the actual running of the program that perform algorithms which solve those equations.
-So, we "design a model" and "run a simulation".
+So, we "design a model" and "run a simulation".{cite}`allen1987computer`
 
 Here, the focus is on **molecular systems**, therefore the models usually describe molecules or atoms.
 The simulations are then representative solutions of these molecular models, that can be used to understand experiments, test theories and make predictions ({numref}`directive-fig`).
 
-We will describe both  [Molecular Dyamics Simulations](../molecular-dynamics/index.md)(MD) and [Monte Carlo Simulations](../monte-carlo/index.md) (MC).
+We will describe both  [Molecular Dyamics simulations](../molecular-dynamics/index.md)(MD) and [Monte Carlo simulations](../monte-carlo/index.md) (MC).
 
 ## History
 
@@ -48,13 +48,10 @@ The first molecular dynamics simulations of hard spheres were performed in 1957
 - Investigate phase behavior, transport coefficents, structure-propoerty relationships
 - Discovery/Inverse Design: use simulations to screen/discover/"make" new materials
 
-## References
-
-> Allen, Michael P., and Dominic J. Tildesley. "Computer simulation of liquids.", Oxford (1987).
-
 ## Additional Resorces & References
 
-- “Understanding Molecular Simulation”, Frenkel and Smit
-- “Computational Materials Science”, Richard LeSar
+- Allen, Michael P., and Dominic J. Tildesley. "Computer simulation of liquids.", Oxford (1987){cite}`allen1987computer`
+- “Understanding Molecular Simulation”, Frenkel and Smit {cite}`frenkel1957understanding`
+- “Computational Materials Science”, Richard LeSar {cite}`lesar1999computational`
 - “A Guide to Monte Carlo Simulations in Statistical Physics”, David P.
-Landau, Kurt Binder, Cambridge University Press
+Landau, Kurt Binder {cite}`landau2021guide`

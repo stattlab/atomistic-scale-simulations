@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.8. Statistical Errors &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'statmech-thermo/statistical-errors';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/statmech-thermo/statistical-errors.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Molecular Dynamics" href="../molecular-dynamics/index.html" />
+    <link rel="prev" title="3.7. Transport Coefficients" href="transport-coefficients.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">3. Statistical Mechanics and Thermodynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.2. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fstatmech-thermo/statistical-errors.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/statmech-thermo/statistical-errors.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Statistical Errors</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="statistical-errors">
+<h1><span class="section-number">3.8. </span>Statistical Errors<a class="headerlink" href="#statistical-errors" title="Link to this heading">#</a></h1>
+<p>First let me define a simulation. A simulation has some “state” variables, which we denote by S. In classical mechanics these are the positions and velocities of the particles. In an Ising model they are the spins of the particles. We start the simulation at some initial state S0. We have some process which modifies the state to produce a new state so that we can write Sn+1=T(Sn). We will call the iteration index “time”. It is in quotes because it may not refer to real time but a fictitious time or pseudo-time, sometimes called Monte Carlo time.</p>
+<p>The iteration function T(S) can either be deterministic (like Newton’s equations of motion called Molecular Dynamics) or have a random element to it (called Monte Carlo). In the random case, we say that the new state is sampled from the distribution T(S). What we discuss in this lecture and in much of the course, is the situation where the “dynamics” is ergodic, which we define roughly to mean that after a certain time one loses memory of the initial state, S0, except possibly for certain conserved quantities like energy, momentum etc. This implies there is a correlation or renewal time. For time differences much greater than the correlation time, all properties of the system not explictly conserved are unpredictable as if they were randomly sampled from some distribution.� Ergodicity is often easy to prove for the random transition but usually difficult for the deterministic simulation. We will discuss ergodicity further in the next lecture.</p>
+<p>Assuming the system is ergodic one can discuss the state of the system as a probability distribution: Fn(S). (it is the distribution of outcomes that you get if you take a distribution of initial states.) At large time this will approach a unique distribution, the <em>equilibrium state</em> F*(S). In classical statistical mechanics this is the Boltzmann distribution.</p>
+<p>The main goal of most simulations is the calculation of a set of properties in equilibrium. The most common example is the internal energy E = &lt;e(S)&gt; where the average means over F*(S). In a simulation we sample e(Sn) for n&lt;T where T is the total length of the run. The curve of e versus T we call the <em>trace</em>. Calculating an estimate of E is easy: just take an average over the run. The only “trick” is to be sure to throw away the part of the trace that too much influenced by the initial conditions. This is called the transient, equilibration portion or warm-up. <strong><em>(Question: if you have a big spike at the beginning of your trace and you neglect to throw it out of the average, how long does it take before the influence of the spike is less than the statistical error? That is, how does the estimated mean depend on the propertiess of the warm up portion?)</em></strong></p>
+<p>The next order of business is to figure how accurate is the estimate of the exact value: namely the estimated error in the estimated mean commonly called the <strong><em>error bar</em></strong>. Simulation results without error bars are only suggestive. Without error bars one has no idea of its significance.� All respectable papers in the literature should� contain estimates of any properties that are important to the conclusion of the paper. <strong><em>All homework exercises must include errors estimates</em></strong>.� Many mistakes are made in estimating errors. You should fully understand both the equations and get an intuitive feel for how to estimate errors. (�eye ball� method) Although we have prepared a code to automatically estimate errors, you should know the formulas and what they mean. On the <strong>exam</strong> you will have to do it <strong>without</strong> DataSpork. Often one hears the complaint that one cannot estimate errors because the quantity being measure is a very complicated function of the state. However, it is always possible to get a rough idea of the error bar which is often all that is needed,� by simply rerunning the entire code a few times with different initial conditions and looking at the spread of results. This is called the “eyeball” method. While there are many ways for errors to be underestimated, the eyeball method will not seriously overestimate the errors.</p>
+<p>The fundamental theorem on which error estimates is based is the <strong><em>central limit theorem</em></strong> due to Gauss. It says that the average of any statistical processes will be “normally” or have a Gaussian distribution. Further the error bar will equal square root of the� variance of the distribution divided by the number of uncorrelated steps. Later we will discuss in detail the conditions under which this result holds. The correlation time of sequence is the number of steps it takes for a fluctuation to disappear.</p>
+<p>There is a terminology which we use to describe the process of estimating the <A> and estimating the error of our estimate. You need to learn what all these terms mean so you can communicate with your fellow scientists about statistical distributions. We have developed a JAVA Analysis Tool,� DataSpork, which does the computations for you discussed here. In the first homework you have to learn how to use it and what the results mean.</p>
+<ul class="simple">
+<li><p><strong>Trace of A(t)</strong>: The plot of A(t) versus t. You can learn a lot by looking at the trace. What are the trends you observe? What is the correlation between nearby values of t? Are there any spikes or outliers? These could represent a real physical effect or could be the result of a bug and should be understood.</p></li>
+<li><p><strong>Equilibration time</strong>. How long does it take to settle to a plateau if it does at all? Usually the equilibration period is thrown out so as to estimate the mean more accurately. It is very important that the plateau region be much longer than the equilibration period to be sure that A(t) has really settled down.� In run such as shown here, there is literally no way to say if it has converged.</p></li>
+<li><p><strong>Histogram</strong> of values of A ( F(A) ). The distribution of values of A. Is it Gaussian? Is it symmetric about the mode? Does it have tails? Is it bimodal? The first two moments are very important:</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p><strong>Mean</strong> of A (a). The estimate of the mean value is simply the average over the equilibrated data.</p></li>
+<li><p><strong>Variance</strong> of A ( v ). The mean squared deviation of A(t) about the estimated mean.</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>An estimate</strong> is our best guess of a value. Normally we do not know the exact value of a quantity, thus we must estimate it from the finite sample. Thus we have an <strong>estimate of the mean</strong>, an <strong>estimate of the variance</strong>, etc. Sometimes there are different formulas for taking the same trajectory and estimating a property; these are called different <strong>estimators</strong>. For the mean, the equally weighted sum is the best (has the least error).</p></li>
+<li><p><strong>Autocorrelation</strong> of A (C(t)). The correlation of neighboring fluctuations. Note the following properties of C: C(0)=1, C(t)=C(-t) and at large time C(t) approaches zero. C(t) is needed to estimate the error of our estimate of the mean. If data points are highly correlated our estimate of the mean is not efficient.</p></li>
+<li><p><strong>Correlation time</strong> (kappa). The integrated autocorrelation function. The area under the autocorrelation curve measures how bad the correlation is. Danger you have to cut off the integral at large times since the noise never quits. In principle, each property can have a different correlation time. Often however they are related.</p></li>
+<li><p><strong>Effective number of points</strong> (N effective). The total number of points (minus the equilibration period) divided by the correlation time. Example: if you have 1000 data points but the correlation time is 5 steps, then you only have 200 independent data points. Neffective is what goes is the estimator for the error of the mean.</p></li>
+<li><p>The (estimated) <strong>error</strong> of the (estimated) <strong>mean</strong> value (sigma). This is what we want to quote as an <strong>error bar</strong>! The standard deviation is the error of a Gaussian (normal) distribution. Why do we care about Gaussian distributions? According to the central limit theorem, if the variance is finite and the correlation time is finite, the estimated mean of any simulation will be normally distributed. Hence we can use the rule that 68% of the time the estimate mean will be within one standard deviation of the true mean, 90% of the time within 2 s.d. and so forth.</p></li>
+<li><p><strong>Blocking analysis</strong> This is another equivalent procedure of correcting for autocorrelation. Sections of the run are added together to make blocks; large enough blocks so that successive ones are uncorrelated. Then the effective number of points equals the number of blocks since the correlation time has been reduced to one in the new time variable.� (see AT pgs 192-193). The analyzer does this using a recursive procedure. Adjacent data points are averaged (blocked) together to get a new data point; the variance of the new data points is computed along with the final error. The procedure is repeated until there are only 20 data points left. If the curve of the computed error versus the blocking level shows a plateau, that is a good estimate of the “true error.”</p></li>
+<li><p><strong>Cumulative average</strong>. The running average from the beginning of the simulation (or after the equilibration step). This is a bad way of looking at the data since the data has to be pathological to show up problems in the cumulative average.� A slowly decaying trend will be almost completely masked in the cumulative average.� Note how much better� this looks!� Plotting the cumulative or running average is a common way of hiding problems in the data. The analyzer does not show this function.</p></li>
+<li><p><strong>Efficiency</strong>. The statistical errors always eventually decrease as 1/sqrt(run time). However the coefficient out front is partially under our control. This is what we call the efficiency of the algorithm. [efficiency = 1/(CPU time * error 2)] We will discuss this later. The efficiency depends on how fast your computer is, how well you program the algorithm, etc. Alternatively, one measures the “<strong>stepwise efficiency</strong>” =1/(number_steps * error 2)] however with this one cannot compare the efficiencies of two different algorithms that use different amount of time/step.</p></li>
+</ul>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./statmech-thermo"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="transport-coefficients.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3.7. </span>Transport Coefficients</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../molecular-dynamics/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Molecular Dynamics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

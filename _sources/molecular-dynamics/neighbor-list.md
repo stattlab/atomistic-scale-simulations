@@ -59,4 +59,4 @@ When placing particles or doing pair force calculations, you need to find distan
 > Be careful with PBCs when using trees.
 > These methods can be very fast, especially for sparse systems or with multiple particle types.
 
-## Additional Resorces
+## References

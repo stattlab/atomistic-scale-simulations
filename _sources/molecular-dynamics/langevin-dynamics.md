@@ -91,4 +91,4 @@ By making γ small, can use Langevin Dynamics as a thermostat without significan
 - Beware: Langevin thermostat does not conserve momentum (forces do not sum to zero). Hence, there are no zero degrees of freedom.
 - Hydrodynamics of an explicit solvent with Langevin thermostat may also get screened due to lack of momentum conservation.
 
-## Additional Resorces
+## References
