@@ -10,7 +10,7 @@ html[data-theme="dark"] iframe:not([src*="youtube.com"]):not([src*="vimeo.com"])
 html[data-theme="dark"] .logo img:not(.dark-light):not(.only-dark),
 html[data-theme="dark"] img:not(.dark-light):not(.only-dark):not(.sd-tab-set.docutils img),
 html[data-theme="dark"] figure:not(.sd-tab-set.docutils figure) img:not(.dark-light):not(.only-dark),
-html[data-theme="dark"] iframe:not([src*="youtube.com"]):not([src*="vimeo.com"]):not(.dark-light):not(.sphinx) {
+html[data-theme="dark"] iframe:not([src*="youtube.com"]):not([src*="vimeo.com"]):not(.dark-light):not(.sphinx):not(.prime-applet) {
   filter: invert(1) hue-rotate(180deg) saturate(1.5);
 }
 
