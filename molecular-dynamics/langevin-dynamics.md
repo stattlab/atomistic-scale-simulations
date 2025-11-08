@@ -2,30 +2,176 @@
 
 ## Implicit-Solvent Models
 
-Sometimes, it's too expensive to simulate all the solvent around a large solute like a nanoparticle or protein.
+An implicit-solvent model represents average solvent molecules using the idea of “effective potentials”.
 
-- Treat effects "implicitly"
+In previous discussions, we defined the forcefield and captured all molecular interactions using a microcanonical ensemble (NVE). However, when switching to the practical canonical ensemble (NVT), the computational cost increases with the thermostat dynamics. Especially for a large system, simulating non-target solvent molecules is neither meaningful nor necessary.
+
+Example: Simulate nanoparticles in a solvent.
+If we use an explicit solvent model, our system looks like this.
+
+```{figure} ./_figures/Explicit_solvent_model_example.png
+:alt: Visualization of explicit solvent model with Au nanoparticles in water.
+:width: 200px
+:align: center
+:name: explicit_solvent_model_example
+
+Schematic of the visualization for a modeling of Au nanoparticles in water by explicit solvent model.
+
+```
+
+- While we need to define the detailed atomic arrangements in Au  Nanoparticles, we also need to model the structure of water molecules.
+
+- The slowest part of an MD simulation is calculating the distances and forces of all particles. In this case, we need to calculate these parameters at each timestep for each NPs and water molecule. 
+
+- Note that in an actual simulation, there will be more than the number of water molecules drawn in the schematic (approximately $10^6$ depending on the system).
+
+An implicit solvent model treats solvent molecules as a “bath”, which transfers the molecular interactions to averaged, continuum effects with the frictional drag and stochastic force. 
+
+- Frictional drag: Energy dissipation into the surrounding implicit solvent.
+
+- Stochastic force: A random kick from the solvent that simulates the collisions of solvent molecules and keeps the system at constant temperature.
+
+Example: Simulate nanoparticles in a solvent.
+```{figure} ./_figures/Implicit_solvent_model_example.png
+:alt: Visualization of implicit solvent model with Au nanoparticles in water.
+:width: 200px
+:align: center
+:name: implicit_solvent_model_example
+
+Schematic of the visualization for a modeling of Au nanoparticles in water by implicit solvent model.
+
+```
+
+- The system only contains the Au nanoparticles. But the frictional drag and stochastic force are added in the force term.
+
+- The thermal bath can exchange heat with Au nanoparticles. Essentially, the Au nanoparticles can “feel” the solvent molecules.
 
 ## Langevin Dynamics
 
-- Thermodynamics → (effective potential)
-- Dynamics → drag forces, thermal "kicks"
+The bridge connecting the explicit molecular interactions with the implicit forces is called the Langevin dynamics, as the “thermal bath” above.
 
-**Momentum equation:**
-P = mv = { -rx + ow }
-T = 2βkT by fluctuation-dissipation theorem
+## Fluctuation-dissipation theorem
 
-- Conservative drag force
-- Force: "free drawing" — Conua around a sphere
-- Properly, W is a Wiener process and is not well defined
-  - dw = w w(o) = at G
-  - Gaussian with zero mean, unit variance, independent for each particle
-  - "White noise": uncorrelated in time (vs. colored noise)
+“When there is a process that dissipates energy, turning into heat, then there is a reverse process related to thermal fluctuations.”
 
-**Langevin Equation:**
-mdv = (f - xv) dt + σ dw
+Example: 
+- The Au nanoparticles experience the drag (fluid resistance) from solvent molecules. Then, the drag dissipates kinetic energy, turning it into heat. (Kinetic energy to heat)
+- Conversely, the Au nanoparticles move around with a change in velocity when molecules collide based on the Brownian motion. (Heat to kinetic energy)
 
-To integrate, some people just add drag and random forces to normal Verlet integration. However, more sophisticated schemes (BAOAB, G-JF) are recommended to retain symplectic properties.
+Conceptually, Langevin dynamics can be split into 2 parts:
+- Thermodynamics: Random thermal noise and dissipative processes (friction, damping) are not independent. Balancing the energy distribution ensures constant T.
+- Dynamics: Drag force from viscous friction is balanced with thermal kicks in damping. Allow the simulation of Brownian motion.
+
+## Langevin Equation
+Mathematically, the Langevin dynamics can be defined in the same logic.
+
+- Balancing the stochastic thermal noise with the viscous drag modify the momentum of the system.
+
+**Langevin Equation**
+$$
+mdv = \big(F(x) - \gamma v\big)\,dt + \sigma\,dW_t
+$$
+
+$F(x)$: Conservative forces originate from the system, such as intermolecular potentials.
+$\gamma$: Friction coefficient, $$ represents the viscous drag force.
+$\sigma$: Strength of fluctuations, $$ represents the stochastic thermal force.
+$W_t$ is the Wiener process, which is the cumulative Brownian random motion. $d W_t$ is the Wiener increment as the infinitesimal step of the Brownian motion with $\langle dW_t \rangle = 0, \,\,\langle dW_t^2 \rangle = dt$.
+
+- To show the conservation of T for the canonical ensemble can be realized by linking thermal fluctuation and viscous drag, Itô’s lemma is used to capture the stochastic relationship.
+
+$$
+mdv = \big(F(x) - \gamma v\big)\,dt + \sigma\,dW_t \,\, \rightarrow \,\, dv = A(v,t) \,dt + B(v, t) \, dW_t
+$$
+
+Similar to the transformation of thermodynamic variables, for a given function $f = f(v, t)$, it can be expressed with the above equation.
+
+$$
+df = \frac{\partial f}{\partial t}\, dt + \frac{\partial f}{\partial v}\, dv \,\, \rightarrow \,\, df = f_t \, dt + f_v \, dv
+$$
+
+As $\langle dW_t \rangle = 0, \,\, \langle dW_t^2 \rangle = dt$, substituting $dv$ with $A(v,t) \,dt + B(v, t) \, dW_t$. Since $d W_t$ is a stochastic term, it is expanded and considered up to 2nd order.
+
+$$
+df = f_t \, dt + f_v \, dv + \frac{1}{2} f_{vv} \, (dv)^2 =f_t \, dt + f_v \, (A(v,t) \,dt + B(v, t) \, dW_t) + f_{vv} \, (A(v,t) \,dt + B(v, t) \, dW_t)^2
+$$
+
+Using Itô’s lemma, $(dt)^2 = 0,\, dt dW_t = 0, \, (d W_t)^2 = dt$.
+
+$$
+df = (f_t + A f_v + \frac{1}{2} B^2 f_{vv}) \ dt + B f_v \, dW_t
+$$
+
+The first part $(f_t + A f_v + \frac{1}{2} B^2 f_{vv}) \ dt$ describes the drift of the function $f(v, t)$, and the second part $B f_v \, dW_t$ describes the random fluctuations. Taking the average using Itô’s lemma, we identify the relationship with the stochastic term average to 0.
+
+$$
+\frac{d}{dt} \langle f \rangle = \langle A f_v + \frac{1}{2} B^2 f_{vv} \rangle
+$$
+
+To investigate thermal equilibrium, $f(v, t)$ can be set as the kinetic energy and say $f \propto v^2$. Since $$ only describes the potential energy, it will not be included in the discussion of kinetic energy dissipation and injection. With $A(v,t) = \frac{F(x)}{m} - \frac{\gamma}{m}v, \, \, B(v,t) = \frac{\sigma}{m}$.
+
+$$
+\frac{d}{dt} \langle v^2 \rangle  = - \frac{2 \gamma}{m} \langle v^2 \rangle + \frac{\sigma^2}{m^2}
+$$
+
+At constant temperature, the Maxwell-Boltzmann distribution suggests that the velocity variance is no longer changed.
+
+$$
+0  = - \frac{2 \gamma}{m} \langle v^2 \rangle + \frac{\sigma^2}{m^2} \,\, \rightarrow \,\, \langle v^2 \rangle = \frac{\sigma^2}{2m\gamma}
+$$
+
+From thermodynamics, the average kinetic energy per degree of freedom is:
+
+$$
+\frac{1}{2} m \langle v^2 \rangle = \frac{1}{2} k_B T \,\, \rightarrow \,\, \frac{1}{2} m (\frac{\sigma^2}{2m\gamma}) = \frac{1}{2} k_B T
+$$
+
+**Fluctuation-dissipation relation**
+$$
+\sigma^2 = 2\gamma k_B T
+$$
+
+Therefore, the strength of fluctuations $\sigma$ is dependent on the friction coefficient $\gamma$ under this stochastic process. Intuitively, large friction between molecules requires larger thermal fluctuations to maintain the same T.
+
+This coupling verifies that the Langevin dynamics is a valid thermostat, which maintains the correct thermal distribution.
+
+To integrate the Langevin dynamics, one way is to add the viscous drag and thermal fluctuation directly to the Velocity Verlet algorithm.
+
+**Example: Velocity Verlet**
+
+1. Half-step velocity update:
+
+$$
+v\!\left(t+\frac{\Delta t}{2}\right)
+= v(t) + \frac{\Delta t}{2m} F(t) \,\, \rightarrow \,\, v\!\left(t+\frac{\Delta t}{2}\right)
+= v(t) + \frac{\Delta t}{2m} F(t)
+- \frac{\gamma \Delta t}{2}v(t)
++ \frac{\sigma}{2m}G_1\sqrt{\Delta t}
+$$
+
+2. Full-step position update, note that the velocity includes drag and noise:
+
+$$
+x(t+\Delta t)
+= x(t) + \Delta t \, v\!\left(t+\frac{\Delta t}{2}\right)
+$$
+
+3. Half-step velocity update:
+
+$$
+v(t+\Delta t)
+= v\!\left(t+\frac{\Delta t}{2}\right)
++ \frac{\Delta t}{2m} F(t+\Delta t)
+\,\, \rightarrow \,\,
+v(t+\Delta t)
+= v\!\left(t+\frac{\Delta t}{2}\right)
++ \frac{\Delta t}{2m} F(t+\Delta t)
+- \frac{\gamma \Delta t}{2}v\!\left(t+\frac{\Delta t}{2}\right)
++ \frac{\sigma}{2m}G_2\sqrt{\Delta t}
+$$
+
+Note that $G_1 G_2$ are random standardized Gaussian variables, they represent the thermal noise and are independent of each other so $\langle G_1 G_2\rangle = 0$.
+
+However, to retain symplectic properties, sophisticated schemes are highly recommended (BAOAB, G-JF).
 
 **Example: BAOAB Scheme**
 
