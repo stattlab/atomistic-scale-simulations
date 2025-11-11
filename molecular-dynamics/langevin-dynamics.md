@@ -9,7 +9,7 @@ In previous discussions, we defined the forcefield and captured all molecular in
 Example: Simulate nanoparticles in a solvent.
 If we use an explicit solvent model, our system looks like this.
 
-```{figure} ./_figures/Explicit_solvent_model_example.png
+```{figure} ./_figures/Explicit_solvent_model_example.jpg
 :alt: Visualization of explicit solvent model with Au nanoparticles in water.
 :width: 200px
 :align: center
@@ -32,7 +32,7 @@ An implicit solvent model treats solvent molecules as a “bath”, which transf
 - Stochastic force: A random kick from the solvent that simulates the collisions of solvent molecules and keeps the system at constant temperature.
 
 Example: Simulate nanoparticles in a solvent.
-```{figure} ./_figures/Implicit_solvent_model_example.png
+```{figure} ./_figures/Implicit_solvent_model_example.jpg
 :alt: Visualization of implicit solvent model with Au nanoparticles in water.
 :width: 200px
 :align: center
@@ -55,11 +55,15 @@ The bridge connecting the explicit molecular interactions with the implicit forc
 “When there is a process that dissipates energy, turning into heat, then there is a reverse process related to thermal fluctuations.”
 
 Example: 
+
 - The Au nanoparticles experience the drag (fluid resistance) from solvent molecules. Then, the drag dissipates kinetic energy, turning it into heat. (Kinetic energy to heat)
+
 - Conversely, the Au nanoparticles move around with a change in velocity when molecules collide based on the Brownian motion. (Heat to kinetic energy)
 
 Conceptually, Langevin dynamics can be split into 2 parts:
+
 - Thermodynamics: Random thermal noise and dissipative processes (friction, damping) are not independent. Balancing the energy distribution ensures constant T.
+
 - Dynamics: Drag force from viscous friction is balanced with thermal kicks in damping. Allow the simulation of Brownian motion.
 
 ## Langevin Equation
@@ -69,19 +73,26 @@ Mathematically, the Langevin dynamics can be defined in the same logic.
 
 **Langevin Equation**
 $$
-mdv = \big(F(x) - \gamma v\big)\,dt + \sigma\,dW_t
+mdv = \big(F(r(t)) - \gamma v\big)\,dt + \sigma\,dW_t
 $$
 
-$F(x)$: Conservative forces originate from the system, such as intermolecular potentials.
+$F(r(t))$: Conservative forces originate from the system, such as intermolecular potentials.
+
 $\gamma$: Friction coefficient, $$ represents the viscous drag force.
+
+The friction coefficient $\gamma$ can be approximated by $\gamma = 6 \pi \eta a$, where $\eta$ is the the dynamic viscosity of the medium and $a$ is the radius of particle.
+
 $\sigma$: Strength of fluctuations, $$ represents the stochastic thermal force.
+
 $W_t$ is the Wiener process, which is the cumulative Brownian random motion. $d W_t$ is the Wiener increment as the infinitesimal step of the Brownian motion with $\langle dW_t \rangle = 0, \,\,\langle dW_t^2 \rangle = dt$.
 
-- To show the conservation of T for the canonical ensemble can be realized by linking thermal fluctuation and viscous drag, Itô’s lemma is used to capture the stochastic relationship.
+- To show the conservation of T for the canonical ensemble can be realized by linking thermal fluctuation and viscous drag, Itô’s lemma is used to capture the stochastic relationship in a 1-D example.
 
 $$
-mdv = \big(F(x) - \gamma v\big)\,dt + \sigma\,dW_t \,\, \rightarrow \,\, dv = A(v,t) \,dt + B(v, t) \, dW_t
+mdv = \big(F(r(t)) - \gamma v\big)\,dt + \sigma\,dW_t \,\, \rightarrow \,\, dv = A(v,t) \,dt + B(v, t) \, dW_t
 $$
+
+Since $F(r(t))$ is the deterministic Newton's Second Law, it will not be included in the discussion of kinetic energy dissipation and injection.
 
 Similar to the transformation of thermodynamic variables, for a given function $f = f(v, t)$, it can be expressed with the above equation.
 
@@ -107,7 +118,7 @@ $$
 \frac{d}{dt} \langle f \rangle = \langle A f_v + \frac{1}{2} B^2 f_{vv} \rangle
 $$
 
-To investigate thermal equilibrium, $f(v, t)$ can be set as the kinetic energy and say $f \propto v^2$. Since $$ only describes the potential energy, it will not be included in the discussion of kinetic energy dissipation and injection. With $A(v,t) = \frac{F(x)}{m} - \frac{\gamma}{m}v, \, \, B(v,t) = \frac{\sigma}{m}$.
+To investigate thermal equilibrium, $f(v, t)$ can be set as the kinetic energy and say $f \propto v^2$.  With $A(v,t) = - \frac{\gamma}{m}v, \, \, B(v,t) = \frac{\sigma}{m}$.
 
 $$
 \frac{d}{dt} \langle v^2 \rangle  = - \frac{2 \gamma}{m} \langle v^2 \rangle + \frac{\sigma^2}{m^2}
@@ -126,6 +137,7 @@ $$
 $$
 
 **Fluctuation-dissipation relation**
+
 $$
 \sigma^2 = 2\gamma k_B T
 $$
@@ -171,70 +183,396 @@ $$
 
 Note that $G_1 G_2$ are random standardized Gaussian variables, they represent the thermal noise and are independent of each other so $\langle G_1 G_2\rangle = 0$.
 
-However, to retain symplectic properties, sophisticated schemes are highly recommended (BAOAB, G-JF).
+However, to retain symplectic properties, sophisticated schemes are highly recommended. A good reference for sophisticated algorithms that implement Langevin dynamics is "[Robust and eﬀicient configurational molecular sampling via Langevin dynamics, Leimkuhler; Matthews, J. Chem. Phys. 138, 174102 (2013)]".
+
+One popular algorithm is “BAOAB”, which means “B (force) $\rightarrow$ A (drift) $\rightarrow$ O (thermostat) $\rightarrow$ A (drift) $\rightarrow$ B (force)”.
 
 **Example: BAOAB Scheme**
 
-- Δx(1/2) = p(0) + (Δt/2m) f(0)
-- p(Δt/2) = p(0) + (Δt/2) f
-- p(Δt/2) = exp(-γΔt/2) p(Δt/2) + √(1 - exp(-2γΔt)) √(mkT) G
-- x(Δt) = x(Δt/2) + (Δt/2m) p'(Δt/2)
-- p(Δt) = p'(Δt/2) + (Δt/2) f(Δt)
+Step 1: Half step momentum update.
+
+$$
+\textbf{B:}\quad
+\mathbf{p}_{\frac{1}{2}} (\frac{\Delta t}{2}) \;=\; \mathbf{p}(0)\;+\;\frac{\Delta t}{2}\,\mathbf{F}\!\big(\mathbf{r}(0)\big)
+$$
+
+Step 2: Half step position update.
+
+$$
+\textbf{A:}\quad
+\mathbf{r}_{\frac{1}{2}} (\frac{\Delta t}{2}) \;=\; \mathbf{r}(0)\;+\;\frac{\Delta t}{2m}\,\mathbf{p}_{\frac{1}{2}} (\frac{\Delta t}{2})
+$$
+
+Step 3: Ornstein - Uhlenbeck thermostat update for force.
+
+$$
+\textbf{O:}\quad
+\mathbf{p}'_{\frac{1}{2}} (\frac{\Delta t}{2}) \;=\; e^{-\frac{\gamma\,\Delta t}{m}}\mathbf{p}_{\frac{1}{2}} (\frac{\Delta t}{2})
+\;+\;\sqrt{\,m k_B T\,\Big(1 - e^{-\frac{2\gamma\,\Delta t}{m}}\Big)}\,\mathbf{G},
+\qquad \mathbf{G}\sim\mathcal{N}(\mathbf{0},\mathbf{I})
+$$
+
+Step 4: Half step position update.
+
+$$
+\textbf{A:}\quad
+\mathbf{r}(\Delta t) \;=\; \mathbf{r}_{\frac{1}{2}} (\frac{\Delta t}{2})\;+\;\frac{\Delta t}{2m}\,\mathbf{p}'_{\frac{1}{2}} (\frac{\Delta t}{2})
+$$
+
+Step 5: Half step momentum update.
+
+$$
+\textbf{B:}\quad
+\mathbf{p}(\Delta t) \;=\; \mathbf{p}'_{\frac{1}{2}} (\frac{\Delta t}{2})\;+\;\frac{\Delta t}{2}\,\mathbf{F}\!\big(\mathbf{r}(\Delta t)\big)
+$$
+
+This structure symmetrically splits the deterministic and stochastic updates, which is time-reversible.
+
+The BAOAB algorithm is superior in position space. The steady-state positional distribution is exact up to $O((\Delta t)^4)$. This is important for the NVT ensemble, which preserves the exact Maxwell-Boltzmann distribution for positions.
+
+The A-step and B-step are the same as the half-step position and velocity updates in the Velocity Verlet algorithm. Therefore, the deterministic part of the BAOAB algorithm is symplectic. However, the O-step breaks Liouville’s theorem with the friction.
+
+$$
+\begin{cases}
+\mathbf{r}' = \mathbf{r}, \\
+\mathbf{p}' = e^{-\frac{\gamma \Delta t}{m}} \mathbf{p}
++ \sqrt{m k_B T \left( 1 - e^{-2 \frac{\gamma \Delta t}{m}} \right)}\, \mathbf{G}
+\end{cases}
+$$
+
+$$
+\frac{\partial \mathbf{r}'}{\partial \mathbf{r}} = \mathbf{I}, \qquad
+\frac{\partial \mathbf{r}'}{\partial \mathbf{p}} = 0, \qquad
+\frac{\partial \mathbf{p}'}{\partial \mathbf{r}} = 0, \qquad
+\frac{\partial \mathbf{p}'}{\partial \mathbf{p}} = c\,\mathbf{I}
+$$
+
+$$
+J_O = 
+\begin{pmatrix}
+\mathbf{I} & 0 \\
+0 & e^{-\frac{\gamma \Delta t}{m}}\,\mathbf{I}
+\end{pmatrix} \;\Rightarrow\;
+\det(J_O)
+= \det(\mathbf{I}) \cdot \det\!\left(e^{-\frac{\gamma \Delta t}{m}}\,\mathbf{I}\right)
+= e^{-3\,\frac{\gamma \Delta t}{m}} \leq 1
+$$
+
+As the frictional coefficient $\gamma > 0$, the frictional force leads to the contraction in phase space volume. Energy is lost to the heat bath, but the stochastic random noise reinjects the energy and balances the dissipation on average. So the average energy stays constant at equilibrium and yields the correct Boltzmann distribution at steady state.
 
 ## Brownian Dynamics
 
-In the "overdamped" limit, friction dominates inertia so p ≈ 0 and:
+As we showed before $\sigma^2 = 2\gamma k_B T$, the friction coefficient $\gamma$ is highly dependent on the strength of fluctuation $\sigma$.
 
-**Equation:**
-dx = f dt + σ dw
+If $\gamma \rightarrow 0$, then from the equation $\sigma \rightarrow 0$, the equation left is the pure deterministic Newton’s second law $m \frac{d v}{dt} = F (\mathbf{r} (t))$.
 
-It can be shown that the update rule is:
-x(Δt) = x(0) + (f(0)/γ) Δt + √(2kT/γ) Δt G
+For the Langevin equation $mdv = \big(F(\mathbf{r}(t)) - \gamma v\big)\,dt + \sigma\,dW_t$, the equation is very similar to the damping equation $m \ddot{x} + \gamma \dot{x} + kx = 0$ with the damping ratio $\zeta = \frac{\gamma}{2 \sqrt{km}}$.
 
-By the Einstein relation, we can define a diffusion coefficient:
-D = kT / γ
+If the damping ratio $\zeta$ is very large, which means the system is friction-dominated, then $\gamma$ is very large. The system does not exhibit any oscillation behaviors, and the relaxation process is very slow. Conceptually, damping is the resistance to motion, which is the frictional drag that constantly pulls the system back to rest. 
 
-If f = 0,
-⟨Δx²⟩ = 2DΔt
-⟨G_i G_j⟩ = 2DΔt δ_ij
+At high $\gamma$, the system velocity would not pick up, thus the friction overcomes the inertia term $m \frac{dv}{dt}$. Then, the system would only follow the random thermal kicks or other external forces in the environment. An analogy for this is “a pendulum in thick honey”, which would never oscillate but respond to the thermal kicks from the honey molecules if we try to heat the honey.
 
-## Hydrodynamic Interactions in BD
+In the above scenario, at the overdamped limit, for a 1-D system:
 
-Previous equations used free drainage. In real systems, hydrodynamics give rise to drag forces induced by flows from other particles.
+$$
+0 = F(r(t)) - \gamma v + dW_t
+$$
 
-From Ermak and McCammon, *J. Chem. Phys.*, 69, 1352 (1978):
+Solve for $v$ then the equation changes to:
 
-**Equation:**
-x(Δt) = x(0) + (M·f + kT ∇·M) Δt + B
+$$
+v(t) = \frac{F(r(t))}{\gamma} + \frac{\sigma}{\gamma} d W_t
+$$
 
-- M: mobility tensor, D = kBT M (3N × 3N)
-- B: random displacements
-- ⟨B Bᵀ⟩ = 2kT M Δt
+Then, substitute $dx = v dt$ , the system reduces to position-only dynamics as the **Brownian equation**.
 
-M captures hydrodynamics, e.g., pairwise approximation:
-M = [M₁₁ M₁₂ ... M₁N]
-    [M₂₁ M₂₂ ... M₂N]
-    [...]
-    [MN₁ MN₂ ... MNN]
+$$
+dx = \frac{F(r(t))}{\gamma} dt + \frac{\sigma}{\gamma} dW_t
+$$
 
-**Free drawing:**
+By the fluctuation-dissipation theorem $\sigma^2 = 2\gamma k_B T$, the thermal fluctuation strength can be substituted with $\gamma$.
 
-- M_ij = 0
-- Rotne-Prager: M_ij ≠ 0
+$$
+dx = \frac{F(r(t))}{\gamma} dt + \sqrt{\frac{2 k_B T}{\gamma}} dW_t
+$$
 
-Both these tensors are divergence-free (i.e., ∇·M = 0), so this term can be ignored.
-Not true if there are walls, etc.
+The Stokes-Einstein equation defines the diffusion coefficient $D$ as $D = \frac{k_B T}{\gamma}$.
 
-- Drawing B is hard! Need to draw with appropriate covariance matrix, which involves a square root. This places some numerical restrictions.
-- Tensors can be long-ranged → need Ewald sums
-  - Positively Split Ewald technique [Fiore et al., *J. Chem. Phys.*, 146, 12416 (2019)]
+$$
+dx = \frac{F(r(t))}{\gamma} dt + \sqrt{2D} dW_t
+$$
+
+Different components of the random displacement are statistically independent, therefore, the correlation of the process can be described by the delta function:
+
+$$
+\langle G_i\,G_j \rangle = 2D\,\Delta t\,\delta_{ij}
+$$
+
+The Brownian equation describes the motion of a particle in highly viscous environments. At each infinitesimal timestep, the particle moves in the direction of force with a velocity of $\frac{F(r(t))}{\gamma}$ and diffuses due to the random thermal kick by the surrounding fluid.
+
+A good example of the Brownian motion is the **Perrin experiment**, where the experiment used a microscope to observe the three tracings of the motion of colloidal particles of radius $0.53 \mu m$. 
+
+```{figure} ./_figures/Perrin's_Experiments.jpg
+:alt: The colloids' motions under microscope in Perrin's experiment.
+:width: 200px
+:align: center
+:name: Perrin's_Experiments
+
+The colloids' motions under microscope in Perrin's experiment.
+
+```
+
+Recall from the previous discussion, the diffusion coefficient can also be measured by the mean-square displacement $\langle \Delta r(t)^2 \rangle$.
+
+$$
+\langle \Delta r(t)^2 \rangle = 2 d D t \,\, \text{(d: dimension)}
+$$
+
+For the Brownian equation, suppose $F = 0$, then the equation can be integrated, and take average can be taken to compare with the mean square displacement.
+
+$$
+dx = \sqrt{2D} dW_t
+$$
+
+$$
+x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
+$$
+
+The mean of the motion is 0, as the expectation value of the Wiener process is 0.
+
+$$
+\mathrm{E}[W_t] = 0 \rightarrow \mathrm{E}[\sqrt{2D} (W_t - W_0)] = 0
+$$
+
+The variance can be calculated through Itô’s isometry for any square-integrable process:
+
+$$
+\mathrm{E}\!\left[\left(\int_0^t g_t\, dW_t \right)^2\right]
+= 
+\mathrm{E}\!\left[\int_0^t g_t^2\, dt \right] \rightarrow
+\mathrm{Var} [x(t) - x(0)] = \mathrm{E}\!\left[ \int_0^t \sqrt{2D} \, dW_t\right] = \mathrm{E}\!\left[ \int_0^t 2D \, dt\right] = 2Dt
+$$
+
+Therefore, the mean square can be calculated as:
+
+$$
+\mathrm{E}[X^2] = \mathrm{E}[X]^2 + \mathrm{Var}[X] = 2Dt \rightarrow \text{MSD} = 2dDt \,\, \text{(d: dimension)}
+$$
+
+The Brownian motion equation is thus verified by the Perrin experiment and the Stokes-Einstein equation, confirming the fluctuation–dissipation picture that underlies Langevin dynamics.
+
+**Discrete update rule for the Brownian Dynamics**
+
+To implement in computational work, integrate the Brownian motion with a timestep $\Delta t$:
+
+$$
+\mathrm{d}\mathbf{x} = \frac{\mathbf{F}(\mathbf{r}(t))}{\gamma}\,\mathrm{d}t
++ \sqrt{\frac{2 k_B T}{\gamma}}\,\mathrm{d}\mathbf{W}_t \rightarrow \mathbf{x}(\Delta t)-\mathbf{x}(0)
+= \int_{0}^{\Delta t}\frac{\mathbf{F}(\mathbf{r}(t))}{\gamma}\,\mathrm{d}t
++ \int_{0}^{\Delta t}\sqrt{\frac{2 k_B T}{\gamma}}\,\mathrm{d}\mathbf{W}_t
+$$
+
+For a small timestep $\Delta t$, we can approximate the results by Euler’s method:
+
+$$
+\mathbf{x}(\Delta t) \approx \mathbf{x}(0)
++ \frac{\mathbf{F}(\mathbf{x}(0))}{\gamma}\,\Delta t
++ \sqrt{\frac{2 k_B T}{\gamma}}\bigl(\mathbf{W}_{\Delta t}-\mathbf{W}_0\bigr)
+$$
+
+The change in the Wiener process can be assumed as Gaussian with a variance of $\Delta t$.
+
+$$
+\mathbf{W}_{\Delta t}-\mathbf{W}_0 = \sqrt{\Delta t}\,\mathbf{G},
+\qquad \mathbf{G}\sim\mathcal{N}(\mathbf{0},\mathbf{I})
+$$
+
+Therefore, the update rule can be expressed as:
+
+$$
+\mathbf{x}(\Delta t) = \mathbf{x}(0)
++ \frac{\mathbf{F}(\mathbf{x}(0))}{\gamma}\,\Delta t
++ \sqrt{\frac{2 k_B T\,\Delta t}{\gamma}}\,\mathbf{G} \qquad \mathbf{G}\sim\mathcal{N}(\mathbf{0},\mathbf{I})
+$$
+
+
+## Hydrodynamic Interactions
+
+When particles are under Brownian motion through a viscous solvent, they disturb the surrounding fluid and create a Stokes flow. However, the flow itself is not localized, but exerts a drag effect on nearby particles. Therefore, the motions of particles alter the velocity field that can be “felt” by all others. The phenomenon is called the **hydrodynamic effect**.
+
+The displacement or force on one particle propagates through the viscous fluid, inducing correlated motion in the rest of the system. 
+
+A good reference that discussed hydrodynamic interaction is [Brownian dynamics with hydrodynamic interactions, Ermak; McCammon, J. Chem. Phys. 69, 1352 (1978); doi: 10.1063/1.436761]. 
+
+For the Brownian particles, a generalized overdamped Langevin equation with the effect of the velocity field can be described by adjusting the velocity of each particle with a mobility tensor $\mathbf{M}$.
+
+$$
+\mathbf{v}_i = \sum_j \mathbf{M}_{ij} \mathbf{F}_j
+$$ 
+
+The full mobility tensor matrix is defined as a $$ symmetric matrix:
+
+$$
+\begin{equation}
+\mathbf{M} =
+\begin{pmatrix}
+\mathbf{M}_{11} & \mathbf{M}_{12} & \cdots & \mathbf{M}_{1N} \\
+\mathbf{M}_{21} & \mathbf{M}_{22} & \cdots & \mathbf{M}_{2N} \\
+\vdots & \vdots & \ddots & \vdots \\
+\mathbf{M}_{N1} & \mathbf{M}_{N2} & \cdots & \mathbf{M}_{NN}
+\end{pmatrix}
+\end{equation}
+$$
+
+where each block defines how a force on particle $j$ produces a velocity on particle $i$.
+
+To construct the mobility matrix, each term can be found by the following categories:
+
+(a). Self-mobility ($i = j$)
+
+$$
+\begin{equation}
+\mathbf{M}_{ii} = \frac{1}{6\pi\eta a}\,\mathbf{I}
+\end{equation}
+$$
+
+where $a$ is the solvent radius and $\eta$ is the solvent viscosity.
+
+(b). Long-range coupling - Oseen tensor ($i \neq j$)
+
+$$
+\begin{equation}
+\mathbf{M}_{ij} = \frac{1}{8\pi\eta r_{ij}} 
+\big( \mathbf{I} + \hat{\mathbf{r}}_{ij}\hat{\mathbf{r}}_{ij} \big),
+\quad i \neq j
+\end{equation}
+$$
+
+where $\mathbf{r}_{ij} = \mathbf{r}_i - \mathbf{r}_j$ is the distance between 2 particles.
+
+A long-range tensor can be found with Ewald sums through [Fiore et al., J. Chem. Phys., 146, 12416 (2019)], which decomposes $\mathbf{M}_{ij}$ into a short-range “real-space” part and a long-range “wave-space” part using the Fourier transform. Then, the short range can be evaluated through the neighbor list, while the long range can be evaluated through the Fourier transform.
+
+(c). Rotne–Prager tensor (finite-size correction $r_{ij} \geq 2a$)
+
+$$
+\begin{equation}
+\mathbf{M}_{ij} = \frac{1}{8\pi\eta r_{ij}} 
+\left[
+\left( 1 + \frac{2a^2}{3r_{ij}^2} \right)\mathbf{I}
++ \left( 1 - \frac{2a^2}{r_{ij}^2} \right)\hat{\mathbf{r}}_{ij}\hat{\mathbf{r}}_{ij}
+\right]
+\end{equation}
+$$
+
+This correction ensures that the final mobility tensor matrix is **symmetric and positive definite**, where $\mathbf{M}_{ij} = \mathbf{M}_{ji}$, thereby providing stable stochastic integration.
+
+Physically, \mathbf{M}_{ij} is the hydrodynamic response tensor for interactions between particle $i$ and particle $j$, which is the fluid velocity at $i$ induced by a unit force on $j$.
+
+For the particle $i$, a generalized overdamped Langevin equation with the solvent-mediated effect is described as:
+
+$$
+\begin{equation}
+\dot{\mathbf{x}}_i = \sum_j \mathbf{M}_{ij}(\mathbf{r})\,\mathbf{F}_j + \boldsymbol{\xi}_i(t)
+\end{equation}
+$$
+
+$\dot{\mathbf{x}}_i$: the velocity of particle $i$.
+
+$\mathbf{F}_j$: the total deterministic force exerted on particle $j$.
+
+$\boldsymbol{\xi}_i (t)$: random noise term of particle $i$.
+
+For a given particle $i$ and particle $j$, the fluctuation-dissipation theorem can be satisfied by the correlated fluctuations:
+
+$$
+\begin{equation}
+\left\langle \boldsymbol{\xi}_i(t)\, \boldsymbol{\xi}_j(t')^{\mathrm{T}} \right\rangle 
+= 2 k_B T\, \mathbf{M}_{ij}(\mathbf{r})\, \delta(t - t')
+\end{equation}
+$$
+
+Integrate over a small timestep $\Delta t$, the update rule can be expressed as:
+
+$$
+\begin{equation}
+\mathbf{x}(\Delta t) = \mathbf{x}(0) 
++ \big( \mathbf{M}\cdot\mathbf{f} + k_B T\, \nabla\cdot\mathbf{M} \big)\Delta t 
++ \mathbf{B}
+\end{equation}
+$$
+
+$$
+\begin{equation}
+\langle \mathbf{B}\mathbf{B}^{\mathrm{T}} \rangle = 2 k_B T\, \mathbf{M}\, \Delta t
+\end{equation}
+$$
+
+In theory, the random thermal fluctuation term $\mathbf{B}$ can be calculated with the mobility matrix $\mathbf{M}$.
+
+$$
+\begin{equation}
+\mathbf{B} = \sqrt{2k_B T\, \Delta t}\, \mathbf{M}^{1/2}\, \mathbf{G}
+\end{equation} \qquad \mathbf{G}\sim\mathcal{N}(\mathbf{0},\mathbf{I})
+$$
+
+While $\mathbf{M}^{1/2}$ can be solved through the Eigen-decomposition method (not efficient), another way to solve this is to perform **free drawing** from the known covariance of the mobility operator. Based on [Fiore et al., J. Chem. Phys., 146, 12416 (2019)], a known Brownian noise can be drawn as:
+
+$$
+\Delta\mathbf{x}_B
+= \sqrt{2k_B T\,\Delta t}\;
+\big(
+\mathbf{M}^{(r)\,1/2}\,\mathbf{G}_r
++ 
+\mathbf{M}^{(w)\,1/2}\,\mathbf{G}_w
+\big)
+$$
+
+Here, both $\mathbf{M}^{(r)\,1/2}$ (computed by local neighbor list) and $\mathbf{M}^{(w)\,1/2}$ (computed by the Fourier transform) are known positive definite and symmetric matrices, then by drawing independent Gaussian vectors through $\mathbf{G}_r, \mathbf{G}_w \sim\mathcal{N}(\mathbf{0},\mathbf{I})$ can still generate Brownian noise without solving a complicated linear system.
+
+Therefore, for selected particles $i$ and $j$, their motions are correlated based on the mobility matrix:
+
+$$
+\begin{equation}
+\left\langle \Delta\mathbf{r}_i\, \Delta\mathbf{r}_j^{\mathrm{T}} \right\rangle 
+= 2 k_B T\, \mathbf{M}_{ij}\, \Delta t
+\end{equation}
+$$
+
+As in the previous discussion, the Brownian motion describes the diffusion process in the stochastic term. It is noticeable that the above discussion can be connected to non-equilibrium thermodynamics. 
+
+$$
+\text{Fluxes} = \text{(transport coefficients)} \cdot \text{(driving forces)}
+$$
+
+- In Brownian dynamics, a force on one particle induces motion of another via solvent flow.
+
+- In kinetics, a gradient in one variable (say temperature) can drive another flux (say mass or charge).
+
+Onsager’s formalism, derived from nonequilibrium thermodynamics, provides a similar setup here:
+
+$$
+\mathbf{v}_i = \sum_j \mathbf{M}_{ij} \mathbf{F}_j  \Leftrightarrow \mathbf{J}_i = -\sum_j \mathbf{L}_{ij} \nabla \mathbf{\mu}_j
+$$
+
+In addition, the Onsager’s coefficients also have the property of being symmetric, positive definite, with $\mathbf{L}_{ij} = \mathbf{L}_{ji}$ here, same as the mobility tensor $\mathbf{M}_{ij} = \mathbf{M}_{ji}$. 
+
+- If particle $j$ induces motion in particle $i$ through the solvent, then particle $i$ would induce the same motion in $j$ if their roles were reversed. 
+
+- Every dissipative process in a near-equilibrium system has a symmetric, fluctuation-linked transport matrix that couples fluxes and forces. 
+
+- The Hydrodynamics interactions, in essence, quantify how equilibrium fluctuations and dissipation are intertwined through microscopic reversibility.
+
 
 ## Langevin Thermostat
 
-By making γ small, can use Langevin Dynamics as a thermostat without significantly perturbing the system.
+By making γ small, the Langevin Dynamics can be used as a thermostat without significantly perturbing the system.
 
 - A value γ ≈ 0.1 m/Å is usually considered "weak" coupling and good for thermostating.
+
 - Beware: Langevin thermostat does not conserve momentum (forces do not sum to zero). Hence, there are no zero degrees of freedom.
+
 - Hydrodynamics of an explicit solvent with Langevin thermostat may also get screened due to lack of momentum conservation.
+
+
 
 ## References
