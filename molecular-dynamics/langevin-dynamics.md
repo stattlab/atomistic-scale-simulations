@@ -563,7 +563,7 @@ In addition, the Onsager’s coefficients also have the property of being symmet
 - The Hydrodynamics interactions, in essence, quantify how equilibrium fluctuations and dissipation are intertwined through microscopic reversibility.
 
 
-## Langevin Thermostat
+## Langevin Thermostat: Conclusion
 
 By making γ small, the Langevin Dynamics can be used as a thermostat without significantly perturbing the system.
 
@@ -573,6 +573,24 @@ By making γ small, the Langevin Dynamics can be used as a thermostat without si
 
 - Hydrodynamics of an explicit solvent with Langevin thermostat may also get screened due to lack of momentum conservation.
 
+Langevin thermostat is an intermediate approach compared to Nosé–Hoover thermostat (deterministic and momentum conserved) and Andersen thermostat (stochastic reassignment but disrupts real dynamics). Hence, Langevin dynamics are often preferred for biomolecular, nanoparticle, and diffusive materials simulations, especially when realistic sampling of phase space is more critical than exact momentum conservation.
 
 
 ## References
+- Allen & Tildesley, "Simulations of liquids" Appendix B - Reduced Units {cite}`allen1987computer`
+
+- Seifert, U. (2025). Stochastic Thermodynamics. Cambridge University Press. {cite}`Seifert2025Stochastic`  
+
+- Gardiner, C. W. (2009). Stochastic Methods: A Handbook for the Natural and Social Sciences. Springer. {cite}`Gardiner2009Stochastic`  
+
+- Ermak, D. L., & McCammon, J. A. (1978). *Brownian dynamics with hydrodynamic interactions*. *J. Chem. Phys.*, 69(4), 1352–1360. {cite}`Ermak1978Brownian`  
+
+- Kubo, R. (1966). *The fluctuation–dissipation theorem*. *Rep. Prog. Phys.*, 29(1), 255–284. {cite}`Kubo1966Fluctuation`  
+
+- Risken, H. (1996). *The Fokker–Planck Equation: Methods of Solution and Applications*. Springer. {cite}`Risken1996Fokker`  
+
+- van Kampen, N. G. (2007). *Stochastic Processes in Physics and Chemistry*. North-Holland. {cite}`Kampen2007Stochastic`  
+
+- Leimkuhler, B., & Matthews, C. (2013). *Robust and efficient configurational molecular sampling via Langevin dynamics*. *J. Chem. Phys.*, 138(17), 174102. {cite}`Leimkuhler2013Robust`
+
+- R. W. Balluffi, S. A. Allen, W. C. Carter (2005), *Kinetics of materials*, John Wiley  & Sons, Inc. {cite}`Balluffi2005Kinetics`
