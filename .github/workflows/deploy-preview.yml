@@ -1,0 +1,47 @@
+name: deploy-preview
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout book
+        uses: actions/checkout@v5
+
+      - name: Setup Python 3.12
+        if: github.event.action != 'closed'
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies
+        if: github.event.action != 'closed'
+        run: |
+          pip install -r requirements.txt
+
+      - name: Build book
+        if: github.event.action != 'closed'
+        run: |
+          jupyter-book build -W -n --keep-going .
+
+      - name: Commit preview to Pages branch
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: "_build/html"
+          umbrella-dir: preview
