@@ -312,13 +312,13 @@ The Brownian equation describes the motion of a particle in highly viscous envir
 
 A good example of the Brownian motion is the **Perrin experiment**, where the experiment used a microscope to observe the three tracings of the motion of colloidal particles of radius $0.53 \mu m$. 
 
-```{figure} ./_figures/Perrin's_Experiments.jpg
-:alt: The colloids' motions under microscope in Perrin's experiment.
+```{figure} ./_figures/Perrin_Experiments.jpg
+:alt: The Colloidal motions under microscope in Perrin experiment.
 :width: 200px
 :align: center
-:name: Perrin's_Experiments
+:name: Perrin_Experiments
 
-The colloids' motions under microscope in Perrin's experiment.
+The Colloidal motions under microscope in Perrin experiment.
 
 ```
 
