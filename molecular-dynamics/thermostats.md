@@ -980,11 +980,9 @@ Again the dynamics is unrealistic. In addition the size effects can be larger th
 
 - “Nosé–Hoover chains: The canonical ensemble via continuous dynamics.” G. J. Martyna, M. L. Klein, M. E. Tuckerman (1992), The Journal of Chemical Physics, 97, 2635. DOI: 10.1063/1.463940. {cite}`Martyna1992Nose`
 
-- “Constant pressure molecular dynamics algorithms.” G. J. Martyna, D. J. Tobias, M. L. Klein (1994), The Journal of Chemical Physics, 101, 4177. DOI: 10.1063/1.467468. {cite}`Martyna1994Constant`
-
 - “General decomposition theory of ordered exponentials.” M. Suzuki (1991), Physics Letters A, 146, 319. {cite}`Suzuki1996General`
 
-- “Construction of higher order symplectic integrators. H. Yoshida (1990), Physics Letters A, 150, 262. {cite} ``
+- “Construction of higher order symplectic integrators. H. Yoshida (1990), Physics Letters A, 150, 262. {cite} `Yoshida1990Construction`
 
 - “Statistical Mechanics: Theory and Molecular Simulation.” Tuckerman, M. E. (2010), Oxford University Press. {cite}`Tuckerman2010Statistical`
 
