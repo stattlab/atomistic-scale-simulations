@@ -9,6 +9,8 @@ This work (c) 2025 is licensed under
 
 - Antonia Statt
 
+- Joe Yang
+
 ## Attributions
 
 Many derivations, examples and problem statements were adapted from textbooks, in particular: Allen, Michael P., and Dominic J. Tildesley. "Computer simulation of liquids.", Oxford (1987).
