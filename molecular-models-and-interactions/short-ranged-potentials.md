@@ -26,7 +26,7 @@ Here, $\sigma$ is an effective radii where the "hard core" repulsion is starting
 
 It is worth mentioning that the L-J potentials has been used to study dynamics in super-cooled liquids, in an effort to understand glass transitions, to study packing of hard-spheres of varying radii, and many other situations. Regarding L-J, as well as many of those to follow, there is a nice review of classical systems if interested (see, Caccamo, "Integral Equation Theory Description of Phase Equilibria in Classical Fluids," Physics Reports 274, 1 (1996)).
 
-LJ is by far the most wildely used intramolecular potential. We will focus is on the Lennard-Jones (LJ) potential due to its common use.
+LJ is by far the most widely used intremolecular potential. We will focus is on the Lennard-Jones (LJ) potential due to its common use.
 
 ```{tip}
 Once of the reasons why the LJ potential is so popular, is that one can re-use the $ \left( \frac{\sigma}{r} \right)^6$ term by squaring it - thus reducing computational cost. This is much less important with improved hardware.
@@ -37,7 +37,7 @@ Once of the reasons why the LJ potential is so popular, is that one can re-use t
 $ u(r) = C \varepsilon \left[ \left( \frac{\sigma}{r} \right)^n - \left( \frac{\sigma}{r} \right)^m \right] $
 with $ C = \frac{nm}{n - m} \left( \frac{n}{m} \right)^{\frac{m}{n - m}} $
 
-This is a generaized LJ potential.
+This is a generalized LJ potential.
 
 ### Morse Potential
 
@@ -66,7 +66,7 @@ $ u(r)=A{\frac {e^{-\alpha r}}{r}}$
 Double Yukawa
 $ u(r)=A{\frac {e^{-B r} + e^{-C r}}{r}}$
 
-For those in Physics, you may have come across this potential in regards to nuclear physics, in fact interactions within the nulceus, a field in which Yukawa was honored with a Nobel Prize.  Nonetheless, this is a potential with a functional form which has some appealing properties (see Caccamo, for example).
+For those in Physics, you may have come across this potential in regards to nuclear physics, in fact interactions within the nucleus, a field in which Yukawa was honored with a Nobel Prize.  Nonetheless, this is a potential with a functional form which has some appealing properties (see Caccamo, for example).
 
 For Soft-sphere-like interactions, the Yukawa offers advantages over the Soft-sphere potential for analytic investigations of thermodynamics. In addition, it can be shown that the Double-Yukawa form adequately reproduces the L-J spatial behavior, however, it offers the ability to perform useful analytic proceedures to study free-energy variationally in some restricted systems (e.g., "Variational Theory of Phase Separation in Binary Liquids," Foiles and Ashcroft, J. Chem. Phys. 75 3594 (1981)).
 
