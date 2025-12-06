@@ -22,7 +22,7 @@ The non-zero range of the short-ranged potential should not be greater than half
 
 Here,
 $\epsilon$ is maximal well-depth of the attractive part of the potential. It is related to the cohesive energy.
-Here, $\sigma$ is an effective radius where the "hard core" repulsion is starting to be felt. (Note that $\sigma$ is about 0.34 nm and $$\varepsilon/k_B$ is about 120 K for liquid Argon. Warning: these are not properties arising from isolated pairs of Argon atoms.)
+Here, $\sigma$ is an effective radius where the "hard core" repulsion is starting to be felt. (Note that $\sigma$ is about 0.34 nm and $\varepsilon/k_B$ is about 120 K for liquid Argon. Warning: these are not properties arising from isolated pairs of Argon atoms.)
 
 It is worth mentioning that the L-J potential has been used to study dynamics in super-cooled liquids, in an effort to understand glass transitions, to study packing of hard-spheres of varying radii, and many other situations. Regarding L-J, as well as many of those to follow, there is a nice review of classical systems if interested (see, Caccamo, "Integral Equation Theory Description of Phase Equilibria in Classical Fluids," Physics Reports 274, 1 (1996)).
 
@@ -134,7 +134,7 @@ $$
 Here $\frac{\partial u}{\partial r}$ is finite but might be discontinous.
 Shifted potentials do contribute, i.e. technically their Hamiltonian and phase space is not identical to the original potential anymore. This means that properties like their phase boundaries and critical points will be changed as well.  Moreover, the force is discontinous at $r_c$. (e.g. for L-J, the discontinuity is $0.039 \epsilon/\sigma$ for $r_c=2.5$.) This discontinuity can cause numerical instabilities, which may be eliminated using a **shifted-force potential**, for example. One can apply **smoothing functions**, e.g. polynominals (xplor).
 
-```{admonition}Derivative of the Heaviside function
+```{admonition} Derivative of the Heaviside function
 :class: dropdown
 
 $$
