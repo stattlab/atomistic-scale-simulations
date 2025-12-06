@@ -1,0 +1,772 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.3. Periodic Boundary Conditions &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-models-and-interactions/periodic-boundary-conditions';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-models-and-interactions/periodic-boundary-conditions.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.4. Intermolecular Potentials" href="intramolecular-potentials.html" />
+    <link rel="prev" title="2.2. Molecular Models" href="molecular-models.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">2. Molecular Models and Interactions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.2. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmolecular-models-and-interactions/periodic-boundary-conditions.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/molecular-models-and-interactions/periodic-boundary-conditions.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Periodic Boundary Conditions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#studying-real-systems-with-small-simulations">2.3.1. Studying “real” systems with small simulations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#challenge-surface-to-volume-ratio">2.3.1.1. Challenge: Surface-to-volume ratio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definiton-of-periodic-boundary-conditions">2.3.2. Definiton of Periodic Boundary Conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-of-periodic-boundary-conditions">2.3.3. Implementation of Periodic Boundary Conditions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#particle-wrapping">2.3.3.1. Particle Wrapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-image-convention">2.3.3.2. Minimum Image Convention</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-caveats-to-be-aware-of-when-using-periodic-boundary-conditions">2.3.4. Some Caveats to be aware of when using Periodic Boundary Conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resorces">2.3.5. Additional Resorces</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="periodic-boundary-conditions">
+<h1><span class="section-number">2.3. </span>Periodic Boundary Conditions<a class="headerlink" href="#periodic-boundary-conditions" title="Link to this heading">#</a></h1>
+<section id="studying-real-systems-with-small-simulations">
+<h2><span class="section-number">2.3.1. </span>Studying “real” systems with small simulations<a class="headerlink" href="#studying-real-systems-with-small-simulations" title="Link to this heading">#</a></h2>
+<p>Simulations can usually only handle <span class="math notranslate nohighlight">\( N \approx 10^4 - 10^6 \)</span> particles (routinely) because:</p>
+<ul class="simple">
+<li><p>Model gets too big for computer memory</p></li>
+<li><p>Time to run simulation gets too long</p></li>
+</ul>
+<p><strong>“Real” systems</strong> have moles <span class="math notranslate nohighlight">\( N \sim 10^{23} \)</span> worth of particles!</p>
+<p><span class="math notranslate nohighlight">\(\rightarrow\)</span> Can a smaller simulation capture this?</p>
+<section id="challenge-surface-to-volume-ratio">
+<h3><span class="section-number">2.3.1.1. </span>Challenge: Surface-to-volume ratio<a class="headerlink" href="#challenge-surface-to-volume-ratio" title="Link to this heading">#</a></h3>
+<p>Surfaces often lead to different behavior than bulk.</p>
+<figure class="align-center" id="surf-bulk-fig">
+<a class="reference internal image-reference" href="../_images/surface-bulk.png"><img alt="Visualization of surface vs. bulk in a simple lattice system." src="../_images/surface-bulk.png" style="width: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.5 </span><span class="caption-text">2D Visualization of surface vs. bulk in a simple lattice system. Only 9 particles are in the “bulk” and 16 are on the surface.</span><a class="headerlink" href="#surf-bulk-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( N = L^3 \)</span> particles on a cubic lattice</p></li>
+<li><p><span class="math notranslate nohighlight">\( N_{\text{bulk}} = (L - 2)^3 \)</span> assuming one particle thick surface on each side</p></li>
+<li><p><span class="math notranslate nohighlight">\( N_{\text{surf}} = N - N_{\text{bulk}} = L^3 - (L-2)^3 = 6L^2 - 12L + 8 \)</span></p></li>
+</ul>
+<p>Fraction of surface particles:</p>
+<ul class="simple">
+<li><p>For <span class="math notranslate nohighlight">\( L = 10 \)</span>, so <span class="math notranslate nohighlight">\( N = 10^3  \rightarrow  N_{\text{surf}} / N \approx 49\% \)</span></p></li>
+<li><p>For <span class="math notranslate nohighlight">\( L = 100 \)</span>, so <span class="math notranslate nohighlight">\( N = 10^6 \rightarrow N_{\text{surf}} / N \approx 6\% \)</span></p></li>
+</ul>
+<p>Measurements will include significant surface contributions that deviate from “bulk”, especially
+for “small” systems. These deviations from the bulk, or the thermodynamic (<span class="math notranslate nohighlight">\(L \rightarrow \infty\)</span>) limit are often called <strong>finite size effects</strong>.</p>
+<p>Consider a drop of <span class="math notranslate nohighlight">\(N\)</span> atoms in free space. (For example a galaxy, a protein in vacuum, or a droplet) How many are on the surface and how does that converge in <span class="math notranslate nohighlight">\(N\)</span>? The fraction of surface atoms is proportional to <span class="math notranslate nohighlight">\(N^-1/3\)</span>. If the droplet contains one million atoms and the surface layer is only 5 atoms deep, 25% of atoms are still on the surface! This is not a very efficient way of sampling a bulk system. There are other problems as well. With free boundary conditions one can only do simulations at zero pressure and there is nothing to keep the atoms from evaporating. Also the equilibration time can be much longer than it bulk since surface process can be much slower.</p>
+</section>
+</section>
+<section id="definiton-of-periodic-boundary-conditions">
+<h2><span class="section-number">2.3.2. </span>Definiton of Periodic Boundary Conditions<a class="headerlink" href="#definiton-of-periodic-boundary-conditions" title="Link to this heading">#</a></h2>
+<p>Embed the simulated system in an “infinite” one made by copying it. This works with all
+box shapes that can be tiled in space.</p>
+<figure class="align-center" id="pbc-fig">
+<a class="reference internal image-reference" href="../_images/pbc.png"><img alt="Visualization of periodic copies of system" src="../_images/pbc.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.6 </span><span class="caption-text">Visualization of periodically copying a system to make it “infinite”.</span><a class="headerlink" href="#pbc-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p><strong>There are no surfaces!</strong></p></li>
+<li><p>Only capture one subsystem (the one marked in light gray in <a class="reference internal" href="#pbc-fig"><span class="std std-numref">Fig. 2.6</span></a>), then copy it.</p></li>
+<li><p>Can use any space-filling box shape, but most common is a <strong>parallelepiped</strong> (or special cases like rectangular prism or cube), as shown in <a class="reference internal" href="#boxes-fig"><span class="std std-numref">Fig. 2.7</span></a>.</p></li>
+</ul>
+<figure class="align-center" id="boxes-fig">
+<a class="reference internal image-reference" href="../_images/boxes.png"><img alt="Visualization of different simulation box shapes." src="../_images/boxes.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.7 </span><span class="caption-text">isualization of different simulation box shapes.</span><a class="headerlink" href="#boxes-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>An alternative way to look at it is to “wrap” the simulation volume, as shown in <a class="reference internal" href="#pbc-torus-fig"><span class="std std-numref">Fig. 2.8</span></a>.</p>
+<figure class="align-center" id="pbc-torus-fig">
+<a class="reference internal image-reference" href="../_images/pbc-torus.png"><img alt="Visualization of periodic copies of system" src="../_images/pbc-torus.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.8 </span><span class="caption-text">Visualization of periodic “wrapping” of the edges of a simulation box in higer dimension to elimiate surfaces/edges.</span><a class="headerlink" href="#pbc-torus-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><strong>How does this help?</strong></p>
+<ul class="simple">
+<li><p>Only track particles in the volume of interest (images replace each other when they enter/leave).</p></li>
+<li><p>If model potentials are <strong>short-ranged</strong>, only compute over a small volume of the “infinite” system. Hence, you can model <strong>bulk thermodynamic behavior</strong> using a nanoscopic volume.</p></li>
+</ul>
+<p>It has been found that hundreds of atoms in PBC can behave like an infinite system in many respects. The <strong>finite size corrections</strong> are order <span class="math notranslate nohighlight">\((1/N)\)</span> and the coefficient can be small. One cannot calculate long distance behavior <span class="math notranslate nohighlight">\((~L/2)\)</span>. Angular momentum might no longer be conserved in a finite system. Also PBC can influence the stability of phases. For example, PBC favor cubic lattice structures that fit well into the box.</p>
+<p><strong>Alternative Boundaries</strong></p>
+<ul class="simple">
+<li><p><strong>Simulations on a sphere surface:</strong> The geometry is non-Cartesian (there is a curvature to space) and calculating distances is more complicated. The representation of crystals is a problem since there are only 5 perfect lattices on a sphere with 4, 6, 8 12 and 20 particles.</p></li>
+<li><p><strong>External “wall” potentials:</strong> An example would be a liquid in a tube (cylindrical confinement), spherical confinement, slab geometry (two PBC directions, one direction with a flat wall), etc.</p></li>
+</ul>
+</section>
+<section id="implementation-of-periodic-boundary-conditions">
+<h2><span class="section-number">2.3.3. </span>Implementation of Periodic Boundary Conditions<a class="headerlink" href="#implementation-of-periodic-boundary-conditions" title="Link to this heading">#</a></h2>
+<section id="particle-wrapping">
+<h3><span class="section-number">2.3.3.1. </span>Particle Wrapping<a class="headerlink" href="#particle-wrapping" title="Link to this heading">#</a></h3>
+<p>When a particle leaves, <span class="math notranslate nohighlight">\(x\)</span>, one of its images enters. Wrapping computes this position <span class="math notranslate nohighlight">\(x'\)</span>, as show in <a class="reference internal" href="#pbc-wrapping-fig"><span class="std std-numref">Fig. 2.9</span></a>.</p>
+<figure class="align-center" id="pbc-wrapping-fig">
+<a class="reference internal image-reference" href="../_images/pbc-wrapping.png"><img alt="Position of particles in PBC" src="../_images/pbc-wrapping.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.9 </span><span class="caption-text">Position <span class="math notranslate nohighlight">\(x\)</span> of particle in 1D periodic system of size <span class="math notranslate nohighlight">\(L\)</span>.</span><a class="headerlink" href="#pbc-wrapping-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Defintion of the domain (or box origin) is flexible. Common conventions include <span class="math notranslate nohighlight">\(-L/2\leq x \le L/2\)</span> and <span class="math notranslate nohighlight">\(0\leq x \le L\)</span>. Different codes and open source packages might use different conventions.</p>
+</div>
+<p>One way to compute the positions:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>if x = L/2 , then  x&#39; = x - L
+else if  x &lt; -L/2 , then  x&#39; = x + L
+</pre></div>
+</div>
+<div class="admonition-example-pbc admonition">
+<p class="admonition-title">Example: PBC</p>
+<p>If box is <span class="math notranslate nohighlight">\(L=10\)</span>, all positions need to be between <span class="math notranslate nohighlight">\(-5\)</span> and <span class="math notranslate nohighlight">\(5\)</span>. If <span class="math notranslate nohighlight">\(x=6\)</span>, we need to wrap:</p>
+<p><span class="math notranslate nohighlight">\(L = 10 \)</span>, <span class="math notranslate nohighlight">\( x = 6 \rightarrow x' = 6 - 10 = -4 \)</span>  ✅</p>
+</div>
+<p>What if <span class="math notranslate nohighlight">\( x \)</span> lies far away, i.e much larger/smaller than L??</p>
+<p>Use <strong>while loops</strong>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>x&#39; = x
+while x&#39; &gt; L/2: x&#39; = x&#39; - L
+while x&#39; &lt; -L/2: x&#39; = x&#39; + L
+</pre></div>
+</div>
+<div class="admonition-example-pbc-using-while admonition">
+<p class="admonition-title">Example: PBC using while</p>
+<p><span class="math notranslate nohighlight">\(x = 16 \rightarrow  x' = 6 \rightarrow x'=-4 \)</span>  ✅</p>
+</div>
+<p>More efficient way is to use nearest integer rounding to compute number of interations.
+The nearest integer value can be tracked and used to <strong>unwrap</strong> and <strong>wrap</strong> trajectories for visualizations or calculations.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>n = round(x/L)
+x&#39; = x - n*L
+</pre></div>
+</div>
+<div class="admonition-example-pbc-using-round admonition">
+<p class="admonition-title">Example: PBC using round</p>
+<p><span class="math notranslate nohighlight">\(n = \text{round}(16/10) = \text{round}(1.6) = 2\)</span></p>
+<p><span class="math notranslate nohighlight">\( x' = 16 - 2\cdot(10) = -4 \)</span>  ✅</p>
+</div>
+</section>
+<section id="minimum-image-convention">
+<h3><span class="section-number">2.3.3.2. </span>Minimum Image Convention<a class="headerlink" href="#minimum-image-convention" title="Link to this heading">#</a></h3>
+<p>How to find the image that is closest to a particle? This is needed for example for force calculations.</p>
+<figure class="align-center" id="pbc-min-image-fig">
+<a class="reference internal image-reference" href="../_images/min-image.png"><img alt="Illustration of the minimum image convention" src="../_images/min-image.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.10 </span><span class="caption-text">Illustration of the minimum image convention. Particles within the yellow circle are closer
+to each other, even though they are in the “copied” systems, i.e the solid arrows indicate the shortest distances, rather than the “naively computed” dashed distances.</span><a class="headerlink" href="#pbc-min-image-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>As shown in <a class="reference internal" href="#pbc-min-image-fig"><span class="std std-numref">Fig. 2.10</span></a>, particles in the “copied” or tiled systems can
+be closer to a particle than the particle in the original box.</p>
+<p>The same code and ideas presented in the section above works on distance vectors <span class="math notranslate nohighlight">\(\vec r_{ij}= \vec r_i - \vec r_j\)</span> (as defined <strong>in</strong> the original box):</p>
+<p><span class="math notranslate nohighlight">\(\vec r_{ij}' = \vec r_{ij} - L\cdot\text{round}( \vec r_{ij}/L)\)</span>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not look further than <span class="math notranslate nohighlight">\(r =L/2\)</span>, or additional further out images could be needed. This is generally not advisable.</p>
+<p><strong>As a rule of thumb:</strong> A simulation box should be at least twice as large than the longest interaction range to avoid issues where particles might interact with their own images, which is unphysical.</p>
+</div>
+</section>
+</section>
+<section id="some-caveats-to-be-aware-of-when-using-periodic-boundary-conditions">
+<h2><span class="section-number">2.3.4. </span>Some Caveats to be aware of when using Periodic Boundary Conditions<a class="headerlink" href="#some-caveats-to-be-aware-of-when-using-periodic-boundary-conditions" title="Link to this heading">#</a></h2>
+<p><strong>Waves:</strong></p>
+<p>PBCs restricht the waves that fit into a simulation box, since they must have a compatible wavelength, as illustrated in <a class="reference internal" href="#pbc-waves-fig"><span class="std std-numref">Fig. 2.11</span></a>.</p>
+<figure class="align-center" id="pbc-waves-fig">
+<a class="reference internal image-reference" href="../_images/pbc-waves.png"><img alt="Certain wavelengths are restricted in periodic boxes" src="../_images/pbc-waves.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.11 </span><span class="caption-text">Certain wavelengths are restricted in periodic boxes, since they need to be compatible with
+the box dimensions.</span><a class="headerlink" href="#pbc-waves-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The condition is that <span class="math notranslate nohighlight">\(k = \frac{2\pi n}{L}\)</span>, with <span class="math notranslate nohighlight">\(n\)</span> being integers. This means that
+longer wavelengths might be suppressed in smaller boxes, and may impact properties, for example:</p>
+<ul class="simple">
+<li><p>large fluctuations near a critial point <span class="math notranslate nohighlight">\(\rightarrow\)</span> the value of the critical temperature <span class="math notranslate nohighlight">\(T_c\)</span> measured in the simulation depends on system size</p></li>
+<li><p>interfacial tensions <span class="math notranslate nohighlight">\(\gamma\)</span> depend strongly on the waves that exist on the surface,so measured values of <span class="math notranslate nohighlight">\(\gamma\)</span> will be influenced by system size</p></li>
+<li><p>…</p></li>
+</ul>
+<p><strong>Periodicity:</strong></p>
+<p>Any structure in the simulation must be compatible with the PBCs, and, effectively, becomes periodic on lengths <span class="math notranslate nohighlight">\(L\)</span>.</p>
+<ul class="simple">
+<li><p>for solids, one needs to make sure that the box matches the crystal lattice (both for dimensions and angles/orientation)</p></li>
+<li><p>for periodic structures like lamellae, membranes, etc., similar arguments apply</p></li>
+</ul>
+<p>This may impact properties measured, if the box is slightly off the “preferred” dimensions.</p>
+<p><strong>Finite size effects:</strong></p>
+<p>Some properties that are computed, including phase transions and diffusion constants, interfacial tensions, etc. will depend on <span class="math notranslate nohighlight">\(L\)</span>. These can oftem be systematically corrected by doing a
+<strong>finite size</strong> study, that involves measuring the quantities of interest in various box sizes,
+plotting them as function of <span class="math notranslate nohighlight">\(1/L\)</span> (or other theoretically known scaling) and then extrapolating
+to the thermodynamic limit: <span class="math notranslate nohighlight">\(L \rightarrow
+\infty \Rightarrow 1/L \rightarrow 0\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is <strong>always</strong> a good idea to test these effects by running some extra simulations in bigger
+and smaller boxes to assess if/how much results change.</p>
+</div>
+<p>A longer chapter on <a class="reference internal" href="../monte-carlo/finite-size.html"><span class="std std-doc">finite size effects</span></a> from the perspecitive of phase transitions and critical points is in the Monte-Carlo section of this book.</p>
+</section>
+<section id="additional-resorces">
+<h2><span class="section-number">2.3.5. </span>Additional Resorces<a class="headerlink" href="#additional-resorces" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>“A Guide to Monte Carlo Simulations in Statistical Physics”,Landau, Binder</strong>{cite:landau2021guide} has extensive theoretical explanations and details about <strong>finite size</strong> effects.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./molecular-models-and-interactions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="molecular-models.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2.2. </span>Molecular Models</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="intramolecular-potentials.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.4. </span>Intermolecular Potentials</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#studying-real-systems-with-small-simulations">2.3.1. Studying “real” systems with small simulations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#challenge-surface-to-volume-ratio">2.3.1.1. Challenge: Surface-to-volume ratio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definiton-of-periodic-boundary-conditions">2.3.2. Definiton of Periodic Boundary Conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-of-periodic-boundary-conditions">2.3.3. Implementation of Periodic Boundary Conditions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#particle-wrapping">2.3.3.1. Particle Wrapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-image-convention">2.3.3.2. Minimum Image Convention</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-caveats-to-be-aware-of-when-using-periodic-boundary-conditions">2.3.4. Some Caveats to be aware of when using Periodic Boundary Conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resorces">2.3.5. Additional Resorces</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

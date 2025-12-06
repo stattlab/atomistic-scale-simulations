@@ -1,0 +1,1069 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.2. Molecular Models &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-models-and-interactions/molecular-models';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-models-and-interactions/molecular-models.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.3. Periodic Boundary Conditions" href="periodic-boundary-conditions.html" />
+    <link rel="prev" title="2.1. Introduction" href="introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">2. Molecular Models and Interactions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.2. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmolecular-models-and-interactions/molecular-models.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/molecular-models-and-interactions/molecular-models.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Molecular Models</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-do-you-get-potentials">2.2.1. Where Do You Get Potentials?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-complementary-approaches-to-designing-models">2.2.2. Two Complementary Approaches to Designing Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-atomistic-models">2.2.3. Classical Atomistic Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bonded-interactions">2.2.3.1. Bonded interactions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-bonded-interactions">2.2.3.2. Non-bonded interactions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#total-potential-energy">2.2.4. Total potential energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-body-approximation">2.2.5. Two-Body Approximation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-body-potentials">2.2.5.1. Many-Body Potentials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coarse-grained-models">2.2.6. Coarse-Grained Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-examples-for-coarse-grained-models">2.2.6.1. Simple Examples for coarse-grained Models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#force-fields">2.2.7. Force Fields</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduced-units">2.2.8. Reduced Units</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-systems">2.2.8.1. Unit Systems</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gromacs-units">2.2.8.2. GROMACS Units</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lammps-units">2.2.8.3. LAMMPS Units</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.2.9. References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="molecular-models">
+<h1><span class="section-number">2.2. </span>Molecular Models<a class="headerlink" href="#molecular-models" title="Link to this heading">#</a></h1>
+<p>Simulation results are only as good as the potentials (forces) that are used. It is not an easy problem to get accurate forces because the origin of forces is quantum mechanics, to date a computationally intractable problem, but there has been some recent progress.  The most common approach is semi-emprical: a functional form is guessed and parameters in the form are deduced from theory or fitted from data.
+How do we define the potential to be used in MD?</p>
+<section id="where-do-you-get-potentials">
+<h2><span class="section-number">2.2.1. </span>Where Do You Get Potentials?<a class="headerlink" href="#where-do-you-get-potentials" title="Link to this heading">#</a></h2>
+<div class="dropdown admonition">
+<p class="admonition-title">From First Principles: The Born-Oppenheimer Potential</p>
+<p>The fundamental description is in terms of the non-relativistic Schroedinger equation for both the ionic and electronic degrees of freedom. But since the electrons are much lighter they respond more-or-less instantly to the ionic motion. Also typical temperatures are very cold compared to the electronic energy scale (1 Hartree, which sets the scale of the electronic energy, equals 316,000 K) so the electrons are in or close to their ground state. In the Born-Oppenheimer (BO) approximation we fix the ions (and neglect the nuclear kinetic energy) and solve (or try to solve) for the electronic ground state energy. Corrections to BO are usually very small because corrections go as the ratio of the electron to nuclear mass which is smaller than 0.0001 for all atoms except hydrogen and helium.
+Unfortunately solving for the quantum mechanics is not very easy to do. We will describe some attempts when we discuss quantum Monte Carlo. The other methods are the local density functional theory (and improvements such as the GGA theory), quantum chemistry methods such as Hartree-Fock theory and the configuration interaction method.</p>
+<p>One break-though occurred in the late 1980’s when Car and Parrinello (CP) showed how one could simultaneously solve the LDA equation for the electronic energy and the dynamical equations for the nuclei (see, Phys. Rev. Lett. 55, 2471 (1985)). This means one does not have to tabulate the BO energy but just compute it as the ions move. We will describe this method later in the course but the CP approach is very much slower than using fitted potentials (about 4 orders of magnitude). The largest CP studies have several hundreds of electrons or atoms while the largest MD simulation have millions of particles.</p>
+<p>Unless we use the CP approach then we have to assume some form for the potential. The assumption of a potential is a big approximation because the potential energy surface is a function of 3N variables for N ions. Symmetries such as translational degrees or rotational of freedom will only get rid of a few degrees of freedom. What usually has to be done is to assume the many-body potential is a sum of pair potentials and perhaps three-body potentials etc. This also assumes the molecule is rigid and weakly interacting with the environment so its internal electronic and vibronic state does not couple with surrounding molecules. A pair potential is a function of a single variable; there is no way it can exactly represent a 3N dimensional function.</p>
+</div>
+<p>Luckily for computer simulation, basic intermolecular structure depends overwhelmingly on two features of the interaction: the shape of the molecules and their long-range interactions due to Coulomb forces. These are not difficult to determine from experiment.</p>
+<p>So where do we get the pair potentials from? The basic input is theoretical as we will discuss. The other input is empirical. Some sources of experimental data are:</p>
+<ul class="simple">
+<li><p>atom-atom scattering in the gas phase can give direct information about the atom-atom potential. The scattering energy samples different regions of the interaction depending on the energy of the colliding atoms.
+gas phase data, for example the virial coefficients and transport properties give integrals over the potential.
+the low temperature thermodynamic properties. Most materials (except helium) form a solid at low temperature. If the energy as a function of density is known, that gives fairly direct information about the depth of the potential well and its curvature.</p></li>
+<li><p>High pressure information. This samples the interaction at shorter distances than at lower pressures.
+thermodynamic data, such as melting temperature, the critical point and the triple point. This information is harder to use directly as it is many-body property. But one can use simulations to compute a phase diagram with a trial potential, then try to change the potential using perturbation theory to make the trial phase diagram agree with the actual phase diagram.</p></li>
+<li><p>One should keep in mind the difference between  interpolation and extrapolation. If experimental information is used to determine the potential, it will be good in a nearby region of phase space and for similar properties. But that potential could be quite bad for unrelated properties or outside the region that has been fitted. For example, if the potential has been determined using bulk properties, there is no reason to think it will be good to compute surface properties because the local environment on a surface is not as symmetrical as in the bulk.</p></li>
+</ul>
+<div class="admonition-example-atoms-in-a-solid admonition">
+<p class="admonition-title">Example: Atoms in a Solid</p>
+<p>Suppose we consider a “bonding” type atomic interaction in a solid phase. What properties must the analytic form of the potential function be required minimally to mimic some “real” behavior?
+A small list of properties that we might wish to represent, for example, could be:</p>
+<ul class="simple">
+<li><p>Lattice constant, <span class="math notranslate nohighlight">\(a_0\)</span> (Position of the minimum in the potential.)</p></li>
+<li><p>Bulk Moduls, <span class="math notranslate nohighlight">\(K\)</span> (Curvature of potential at <span class="math notranslate nohighlight">\(a_0\)</span>.)</p></li>
+<li><p>Coefficient of thermal expansion, <span class="math notranslate nohighlight">\(E\)</span> (Asymmetry of potential gives temperature dependence of <span class="math notranslate nohighlight">\(a_0\)</span>.)</p></li>
+<li><p>Cohesive energy, <span class="math notranslate nohighlight">\(E_c\)</span>.</p></li>
+</ul>
+<p>Then, for example, does the simulation reproduce the melting temperature, <span class="math notranslate nohighlight">\(T_m\)</span>?</p>
+</div>
+</section>
+<section id="two-complementary-approaches-to-designing-models">
+<h2><span class="section-number">2.2.2. </span>Two Complementary Approaches to Designing Models<a class="headerlink" href="#two-complementary-approaches-to-designing-models" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Use experimental data, invent a model to mimic the problem
+(semi-empirical approach).
+<strong>But:</strong> one cannot reliably extrapolate the model away from the empirical data.</p></li>
+<li><p>Use foundation of physics (Maxwell, Boltzmann, and Schrödinger) and
+numerically solve the mathematical problem,
+determine the properties (first-principles/ab initio methods)</p></li>
+</ul>
+</section>
+<section id="classical-atomistic-models">
+<h2><span class="section-number">2.2.3. </span>Classical Atomistic Models<a class="headerlink" href="#classical-atomistic-models" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>One <strong>Atom</strong> is treated as <strong>1 particle</strong></p></li>
+<li><p>Interactions with in a molecule, i.e, <strong>Intramolecular forces</strong> are
+<strong>bonded interactions</strong>, <strong>angles</strong> and <strong>dihedrals</strong> (or <strong>torsional angles</strong>) as illustrated in <a class="reference internal" href="#bonds-angles"><span class="std std-numref">Fig. 2.1</span></a>.</p></li>
+</ul>
+<figure class="align-center" id="bonds-angles">
+<a class="reference internal image-reference" href="../_images/intramolecular-def.png"><img alt="Visualization of bonds, angles, and dihedrals in a molecule" src="../_images/intramolecular-def.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">Visualization of bonds, angles, and dihedrals in a molecule with four atoms.</span><a class="headerlink" href="#bonds-angles" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="bonded-interactions">
+<h3><span class="section-number">2.2.3.1. </span>Bonded interactions<a class="headerlink" href="#bonded-interactions" title="Link to this heading">#</a></h3>
+<p>For example a harmonic bonds can be used. Also see <a class="reference internal" href="intramolecular-potentials.html"><span class="std std-doc">intramolecular potentials</span></a>.</p>
+</section>
+<section id="non-bonded-interactions">
+<h3><span class="section-number">2.2.3.2. </span>Non-bonded interactions<a class="headerlink" href="#non-bonded-interactions" title="Link to this heading">#</a></h3>
+<p>Energy (<span class="math notranslate nohighlight">\(E= T+V\)</span>) conservation is very important. It is the basis for thermodynamics. For a numerical method to exhibit energy conservation the potential energy must be differentiable.</p>
+<ul>
+<li><p><strong>Van der Waals (dispersion forces)</strong>: induced dipoles</p>
+<p><span class="math notranslate nohighlight">\( u(r) \sim \frac{1}{r^6} \quad \quad \text{(where } r \text{ = distance between particles)} \)</span></p>
+</li>
+<li><p><strong>Repulsion</strong> (electron cloud overlap)</p>
+<p><span class="math notranslate nohighlight">\(u(r) \sim e^{-r/l}\)</span>, which is slow/expensive to evaluate</p>
+</li>
+<li><p>Combine Van der Walls and short ranged repulsion, one gets the <strong>Lennard-Jones Potential</strong> (short-ranged):</p>
+<p><span class="math notranslate nohighlight">\( u(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right] \)</span></p>
+</li>
+<li><p><strong>Coulomb electrostatics</strong> (long-ranged):</p>
+<p><span class="math notranslate nohighlight">\( u(r) = \frac{1}{4\pi\varepsilon_0} \cdot \frac{q_1 q_2}{r} \)</span>, where <span class="math notranslate nohighlight">\(\varepsilon_r = 2.61\)</span> is the relative permeability.</p>
+</li>
+</ul>
+<p>For more functional forms see chapter on <a class="reference internal" href="short-ranged-potentials.html"><span class="std std-doc">short-ranged pair interactions</span></a>. For explicit treatment of long-ranged interactions like the Couloumb interactions, see <a class="reference internal" href="electrostatics.html"><span class="std std-doc">electrostatics</span></a>.</p>
+<div class="cell tag_hide-cell docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Define Lennard-Jones parameters</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Energy well depth</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">1.0</span>    <span class="c1"># Distance at which potential is zero</span>
+
+<span class="c1"># Define a range of distances (r)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span> <span class="c1"># Avoid r=0 to prevent division by zero</span>
+
+<span class="c1"># Calculate Lennard-Jones potential energy</span>
+<span class="n">lj_energy</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="p">((</span><span class="n">sigma</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span><span class="o">**</span><span class="mi">12</span> <span class="o">-</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="c1"># Calculate Lennard-Jones force magnitude</span>
+<span class="c1"># Note: The force is typically directed along the line connecting the particles.</span>
+<span class="n">lj_force_magnitude</span> <span class="o">=</span> <span class="mi">48</span> <span class="o">*</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="p">((</span><span class="n">sigma</span><span class="o">**</span><span class="mi">12</span> <span class="o">/</span> <span class="n">r</span><span class="o">**</span><span class="mi">13</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">sigma</span><span class="o">**</span><span class="mi">6</span> <span class="o">/</span> <span class="n">r</span><span class="o">**</span><span class="mi">7</span><span class="p">))</span>
+
+<span class="c1"># Plotting the Lennard-Jones potential energy</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">lj_energy</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;r_min&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Distance (r) $[\sigma]$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Potential Energy $[\epsilon]$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Plotting the Lennard-Jones force magnitude</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">lj_force_magnitude</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;r_min&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Distance (r) $[\sigma]$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Force Magnitude $[\epsilon/\sigma]$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./_figures/LJ.png&#39;</span><span class="p">,</span><span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:26: SyntaxWarning: invalid escape sequence &#39;\s&#39;
+&lt;&gt;:27: SyntaxWarning: invalid escape sequence &#39;\e&#39;
+&lt;&gt;:37: SyntaxWarning: invalid escape sequence &#39;\s&#39;
+&lt;&gt;:39: SyntaxWarning: invalid escape sequence &#39;\e&#39;
+&lt;&gt;:26: SyntaxWarning: invalid escape sequence &#39;\s&#39;
+&lt;&gt;:27: SyntaxWarning: invalid escape sequence &#39;\e&#39;
+&lt;&gt;:37: SyntaxWarning: invalid escape sequence &#39;\s&#39;
+&lt;&gt;:39: SyntaxWarning: invalid escape sequence &#39;\e&#39;
+/tmp/ipykernel_2209/1700171010.py:26: SyntaxWarning: invalid escape sequence &#39;\s&#39;
+  plt.xlabel(&#39;Distance (r) $[\sigma]$&#39;)
+/tmp/ipykernel_2209/1700171010.py:27: SyntaxWarning: invalid escape sequence &#39;\e&#39;
+  plt.ylabel(&#39;Potential Energy $[\epsilon]$&#39;)
+/tmp/ipykernel_2209/1700171010.py:37: SyntaxWarning: invalid escape sequence &#39;\s&#39;
+  plt.xlabel(&#39;Distance (r) $[\sigma]$&#39;)
+/tmp/ipykernel_2209/1700171010.py:39: SyntaxWarning: invalid escape sequence &#39;\e&#39;
+  plt.ylabel(&#39;Force Magnitude $[\epsilon/\sigma]$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/aa925cbdfaac9899f89ee2517d6b1168f05e44b6fe13109817e3c36f3d6c9a72.png" src="../_images/aa925cbdfaac9899f89ee2517d6b1168f05e44b6fe13109817e3c36f3d6c9a72.png" />
+</div>
+</details>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Lennard-Jones potential (as shown in Fig. <a class="reference internal" href="#lj-fig"><span class="std std-numref">Fig. 2.2</span></a>) is incredibly popular for a whole range of models and is frequently used across fields. It can be used to model simple model liquid systems, predict phase diagrams, and much more.</p>
+<figure class="align-center" id="lj-fig">
+<a class="reference internal image-reference" href="../_images/LJ.png"><img alt="Plot of the Lennard-Jones potential and force" src="../_images/LJ.png" style="width: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.2 </span><span class="caption-text">Lennard-Jones potential <span class="math notranslate nohighlight">\(U(r)\)</span> as function of distance <span class="math notranslate nohighlight">\(r\)</span>. Here, <span class="math notranslate nohighlight">\(\sigma\)</span> corresponds to a particle size, and <span class="math notranslate nohighlight">\(-\varepsilon\)</span> is the interaction energy at the minimum of the potential, which is located at <span class="math notranslate nohighlight">\(r=2^{1/6}\sigma\)</span>.</span><a class="headerlink" href="#lj-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+<p>It is helpful to plot these <strong>non-bonded</strong> interaction potentials with python and matplotlib, vary the parameters to familiarize ourselves with the shapes and the effects of each parameter.</p>
+</section>
+</section>
+<section id="total-potential-energy">
+<h2><span class="section-number">2.2.4. </span>Total potential energy<a class="headerlink" href="#total-potential-energy" title="Link to this heading">#</a></h2>
+<p>The total potential engery is the sum of all one-body, two-body, and higher-body interactions. One-body interactions are for example caused by external fields or forces.
+Two body interactions are interactions as described above.</p>
+<p><span class="math notranslate nohighlight">\( U = \sum_i u(r_i) + \sum_i \sum_{j&gt;i} u(r_i,r_j) + \sum_i \sum_{j&gt;i} \sum_{k&gt;j} u(r_i,r_j,r_k)+ \ldots \)</span></p>
+</section>
+<section id="two-body-approximation">
+<h2><span class="section-number">2.2.5. </span>Two-Body Approximation<a class="headerlink" href="#two-body-approximation" title="Link to this heading">#</a></h2>
+<p>Three-body (and higher) forces are expensive to compute (combinatorics!).
+Usually, we truncate at two-body interactions and use an <strong>effective potential</strong> (<a class="reference internal" href="#effective-pot-fig"><span class="std std-numref">Fig. 2.3</span></a>), that reproduces relevant properties.</p>
+<p>Other forces (e.g., polar forces) are often neglected.</p>
+<figure class="align-center" id="effective-pot-fig">
+<a class="reference internal image-reference" href="../_images/effective-pot.png"><img alt="Effective pair potential that incoperates some approximation of three-body effects." src="../_images/effective-pot.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.3 </span><span class="caption-text">“Effective” pair potential that incoperates some approximation of three-body effects.</span><a class="headerlink" href="#effective-pot-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Atomistic force fields often consists of two-body non-bonded interactions, bonds, angles and dihedrals.</p>
+<section id="many-body-potentials">
+<h3><span class="section-number">2.2.5.1. </span>Many-Body Potentials<a class="headerlink" href="#many-body-potentials" title="Link to this heading">#</a></h3>
+<p>The overall potential is can be expressed as a series of one-body, two-body, three-body, and higher order potentials.</p>
+<div class="math notranslate nohighlight">
+\[
+V=\sum_{i} V_{1}\left(r_{i}\right)+\sum_{i, j} V_{2}\left(r_{i j}\right)+\sum_{i, j, k} V_{3}\left(r_{i j}, r_{i k}, r_{j k}\right)+\cdots
+\]</div>
+<p>The embedded atom method adds a potential term for each atom that is a function of the local density <span class="math notranslate nohighlight">\(\rho_{i}\)</span> around the atom,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+V=\sum_{i&lt;j} V_{2}\left(r_{i j}\right)+\sum_{i} F\left(\rho_{i}\right) \\
+\rho_{i}=\sum_{j} f\left(r_{i j}\right)
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(F(r)\)</span> and <span class="math notranslate nohighlight">\(f(r)\)</span> are empirical functions defined by these equations.</p>
+<div class="admonition-example-stillinger-weber-potential-for-silicon admonition">
+<p class="admonition-title">Example: Stillinger-Weber potential for silicon</p>
+<p>The Stillinger-Weber potential for silicon has a three-body term that encourages tetragonal bond angles,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+V_{2}(r) &amp; =\left(\frac{B}{r^{4}}-A\right) e^{\frac{1}{r-a}} \\
+V_{3}\left(r_{i j}, r_{i k}, \theta_{j i k}\right) &amp; =\lambda e^{\frac{\gamma}{r_{i j}-a}+\frac{\gamma}{r_{i j}-a}}\left[\cos (\theta)+\frac{1}{3}\right]^{2}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta_{j i k}\)</span> is the angle between <span class="math notranslate nohighlight">\(\mathbf{r}_{i j}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{r}_{i k}\)</span>. These potential functions are set to zero for <span class="math notranslate nohighlight">\(r&gt;a=\)</span> <span class="math notranslate nohighlight">\(3.77  \mathring{A}\)</span>.</p>
+</div>
+</section>
+</section>
+<section id="coarse-grained-models">
+<h2><span class="section-number">2.2.6. </span>Coarse-Grained Models<a class="headerlink" href="#coarse-grained-models" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Atomistic resolution may be impractical for large systems.</p></li>
+</ul>
+<div class="admonition-example-nanoparticles-in-water admonition">
+<p class="admonition-title">Example: Nanoparticles in Water</p>
+<p>1 water molecule ≈ 3 Å, 1 nanoparticle ≈ 10 nm results in 1 NP diameter ≈ 30 water molecules. If we compare volume <span class="math notranslate nohighlight">\(V_{np}=\frac{4\pi}{3}(5\text{nm})^3\)</span>, then we need <span class="math notranslate nohighlight">\(\sim 37,000\)</span> water molecules to fill the same space as one nanoparticle. If, additionally, we are interested in dilute situations, the vast majority of the system is comprised of the solvent.</p>
+</div>
+<p>In these cases, we study models of the particles we care about with  <strong>effective</strong> interactions that <strong>coarsen</strong> out the pieces of the system we do not care about, i.e the solvent, as illustrated in <a class="reference internal" href="#coarse-grain-fig"><span class="std std-numref">Fig. 2.4</span></a>.</p>
+<figure class="align-center" id="coarse-grain-fig">
+<a class="reference internal image-reference" href="../_images/coarse-grain.png"><img alt="Illustration of coarse-graining by removing solvent." src="../_images/coarse-grain.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.4 </span><span class="caption-text">Illustration of coarse-graining by removing solvent.  The top shows so-called explicit solvent, e.g. water molecules, and the bottom panel shows the same system where the solvent is replaced with a homogenous “background” that is treated implicitly by modifing the pair interactions. This is called a implicit solvent model.</span><a class="headerlink" href="#coarse-grain-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Coarse-graining removes degrees of freedom and is therefore less accurate, and often considered a empirical approach.</p>
+<ul class="simple">
+<li><p>How to get these effective interactions:</p>
+<ul>
+<li><p><strong>Force matching</strong></p></li>
+<li><p><strong>Relative entropy minimization</strong></p></li>
+<li><p><strong>Inverse Boltzmann iteration</strong></p></li>
+</ul>
+</li>
+</ul>
+<section id="simple-examples-for-coarse-grained-models">
+<h3><span class="section-number">2.2.6.1. </span>Simple Examples for coarse-grained Models<a class="headerlink" href="#simple-examples-for-coarse-grained-models" title="Link to this heading">#</a></h3>
+<p>Even though a coarse-grained or simplified model lost some amout of detail and degrees of freedom, they often offer a lot of insights.</p>
+<ul class="simple">
+<li><p><strong>Hard spheres</strong>:
+<span class="math notranslate nohighlight">\( u(r) = \begin{cases}
+  \infty &amp; r &lt; d \\
+  0 &amp; r \geq d
+  \end{cases} \)</span></p></li>
+<li><p><strong>Lennard-Jones</strong> spheres for liquids</p></li>
+<li><p><strong>Bead-spring polymers</strong>:</p>
+<ul>
+<li><p>FENE (Finite Extensible Nonlinear Elastic) Spring model</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="force-fields">
+<h2><span class="section-number">2.2.7. </span>Force Fields<a class="headerlink" href="#force-fields" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Parametrized, self-consistent models fit to thermodynamic or structural data.</p></li>
+<li><p>Designed for specific systems:</p>
+<ul>
+<li><p><strong>OPLS</strong><span id="id1"><sup><a class="reference internal" href="../references/references.html#id6" title="William L Jorgensen and Julian Tirado-Rives. The opls [optimized potentials for liquid simulations] potential functions for proteins, energy minimizations for crystals of cyclic peptides and crambin. Journal of the American Chemical Society, 110(6):1657–1666, 1988.">7</a></sup></span>: hydrocarbons</p></li>
+<li><p><strong>SPC/E, TIP4P/2005, OPC, …</strong>:<span id="id2"><sup><a class="reference internal" href="../references/references.html#id8" title="Jan Zielkiewicz. Structural properties of water: comparison of the spc, spce, tip4p, and tip5p models of water. The Journal of chemical physics, 2005.">20</a></sup></span> water models</p></li>
+<li><p><strong>AMBER, CHARMM</strong>: biomolecules</p></li>
+<li><p><strong>TraPPE</strong>: phase equilibrium</p></li>
+<li><p><strong>Martini</strong><span id="id3"><sup><a class="reference internal" href="../references/references.html#id7" title="Paulo CT Souza, Riccardo Alessandri, Jonathan Barnoud, Sebastian Thallmair, Ignacio Faustino, Fabian Grünewald, Ilias Patmanidis, Haleh Abdizadeh, Bart MH Bruininks, Tsjerk A Wassenaar, and others. Martini 3: a general purpose force field for coarse-grained molecular dynamics. Nature methods, 18(4):382–388, 2021.">16</a></sup></span>: coarse-grained lipids and biomolecules in water</p></li>
+</ul>
+</li>
+<li><p><strong>Machine Learning (ML)</strong> models trained on quantum mechanics data are becoming popular.</p></li>
+<li><p>You can create or refit your own force field, however <strong>validation is crucial</strong>.</p></li>
+<li><p>How to get the parameters and functional forms for these force fields:</p>
+<ul>
+<li><p>experimental information to parameterize model parameters</p></li>
+<li><p>ab-initio calculations from Density Functional Theory (DFT) or other quantum methods</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="reduced-units">
+<h2><span class="section-number">2.2.8. </span>Reduced Units<a class="headerlink" href="#reduced-units" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>SI units are too small and often inconvinient for atomic systems.</p></li>
+<li><p>Use <strong>reduced units</strong> where quantities are of order 1. This also helps with numerical stability and readability of simulation code.</p></li>
+</ul>
+<section id="unit-systems">
+<h3><span class="section-number">2.2.8.1. </span>Unit Systems<a class="headerlink" href="#unit-systems" title="Link to this heading">#</a></h3>
+<p>Traditional unit systems can be looked at as follows:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<th class="head"><p>SI</p></th>
+<th class="head"><p>CGS</p></th>
+<th class="head"><p>Imperial</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>length</p></td>
+<td><p>m</p></td>
+<td><p>cm</p></td>
+<td><p>ft</p></td>
+</tr>
+<tr class="row-odd"><td><p>mass</p></td>
+<td><p>kg</p></td>
+<td><p>g</p></td>
+<td><p>lb</p></td>
+</tr>
+<tr class="row-even"><td><p>time</p></td>
+<td><p>s</p></td>
+<td><p>s</p></td>
+<td><p>s</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Other units follow from the base units defined abve in the table.</p>
+<div class="admonition-example-unit-consistency admonition">
+<p class="admonition-title">Example: Unit Consistency</p>
+<p>Energy: <span class="math notranslate nohighlight">\( E = \frac{[\text{mass}] [\text{length}]^2}{[\text{time}]^2} = \frac{m l^2 }{ t^2} \rightarrow J = \frac{kg \cdot m^2}{s^2}\)</span> ✅</p>
+</div>
+<ul class="simple">
+<li><p>For <strong>reduced</strong> units, choose <span class="math notranslate nohighlight">\( l, m, E \)</span> based on the problem:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(l =  \)</span> length =  diameter of atom (LJ <span class="math notranslate nohighlight">\(\sigma\)</span>, Å)</p></li>
+<li><p><span class="math notranslate nohighlight">\( m = \)</span> mass =  mass of atom (10s amu)</p></li>
+<li><p><span class="math notranslate nohighlight">\( E = \)</span> energy = interaction energy or thermal energy at reference temperature (<span class="math notranslate nohighlight">\(k_B T\)</span>) (LJ <span class="math notranslate nohighlight">\(\varepsilon\)</span>)</p></li>
+</ul>
+</li>
+</ul>
+<p>This then leads to <strong>derived units</strong> from your base reduced units:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Derived unit</p></th>
+<th class="head"><p>Relation to base units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>area</p></td>
+<td><p><span class="math notranslate nohighlight">\([\mathrm{length}]^2\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>volume</p></td>
+<td><p><span class="math notranslate nohighlight">\([\mathrm{length}]^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>time</p></td>
+<td><p><span class="math notranslate nohighlight">\([\mathrm{energy}]^{-1/2} \cdot [\mathrm{length}] \cdot [\mathrm{mass}]^{1/2}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>velocity</p></td>
+<td><p><span class="math notranslate nohighlight">\([\mathrm{energy}]^{1/2} \cdot [\mathrm{mass}]^{-1/2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>force</p></td>
+<td><p><span class="math notranslate nohighlight">\([\mathrm{energy}] \cdot [\mathrm{length}]^{-1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\([\mathrm{energy}] \cdot [\mathrm{length}]^{-3}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>charge</p></td>
+<td><p><span class="math notranslate nohighlight">\(`\left(4 \pi \epsilon_{0} \cdot [\mathrm{energy}] \cdot [\mathrm{length}] \right)^{1/2}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Here, <span class="math notranslate nohighlight">\(\epsilon_{0}\)</span> is permittivity of free space.</p>
+<p>Note that for example <strong>time</strong>, often called <span class="math notranslate nohighlight">\(\tau\)</span>, is a
+derived unit in reduced unit systems, where it is a base unit in traditional unit systems.
+We can do that because we can choose <span class="math notranslate nohighlight">\( l, m, E \)</span> sutiable for the system of interest.</p>
+</section>
+<section id="gromacs-units">
+<h3><span class="section-number">2.2.8.2. </span>GROMACS Units<a class="headerlink" href="#gromacs-units" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<th class="head"><p></p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Length</p></td>
+<td><p><span class="math notranslate nohighlight">\(l\)</span></p></td>
+<td><p>nm</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass</p></td>
+<td><p><span class="math notranslate nohighlight">\(m\)</span></p></td>
+<td><p>amu (g/mol)</p></td>
+</tr>
+<tr class="row-even"><td><p>Energy</p></td>
+<td><p><span class="math notranslate nohighlight">\(\varepsilon\)</span></p></td>
+<td><p>kJ/mol</p></td>
+</tr>
+<tr class="row-odd"><td><p>Charge</p></td>
+<td><p><span class="math notranslate nohighlight">\(q\)</span></p></td>
+<td><p>e (<span class="math notranslate nohighlight">\(=1.602 \cdot 10^{-19}\)</span> coulombs)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<th class="head"><p></p></th>
+<th class="head"><p>Derived Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Time</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau  = \sqrt{\frac{m \cdot \sigma^2 }{ \varepsilon}}\)</span></p></td>
+<td><p>ps</p></td>
+</tr>
+<tr class="row-odd"><td><p>Velocity</p></td>
+<td><p><span class="math notranslate nohighlight">\(l/\tau\)</span></p></td>
+<td><p>nm/ps</p></td>
+</tr>
+<tr class="row-even"><td><p>Force</p></td>
+<td><p><span class="math notranslate nohighlight">\(\varepsilon/l\)</span></p></td>
+<td><p>kJ/mol/nm</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(\varepsilon/l^3\)</span></p></td>
+<td><p>kJ/mol/nm³</p></td>
+</tr>
+<tr class="row-even"><td><p>Viscosity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\varepsilon \tau/l^3\)</span></p></td>
+<td><p>kJ/mol·ps/nm³</p></td>
+</tr>
+<tr class="row-odd"><td><p>Diffusivity</p></td>
+<td><p><span class="math notranslate nohighlight">\(l^2/\tau\)</span></p></td>
+<td><p>nm²/ps</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="simple">
+<li><p>Temperature is either in its own units or derived via Boltzmann constant:
+<span class="math notranslate nohighlight">\( T = \frac{E}{k_B} \)</span></p></li>
+</ul>
+<div class="admonition-example-time-units admonition">
+<p class="admonition-title">Example: Time Units</p>
+<p>Time in reduced units: <span class="math notranslate nohighlight">\( \tau = \sqrt{\frac{[\text{mass}] [\text{length}]^2 }{ [\text{energy}]}} \rightarrow \tau = \sqrt{\frac{m \cdot \sigma^2 }{ \varepsilon}}\)</span>.</p>
+<p>Time in GROMACS units: <span class="math notranslate nohighlight">\(\tau = \sqrt{(10^{-3}kg/mol\cdot (10^{-9}m)^2)/(10^3 J/mol)} = 10^{-12}s\)</span> = ps.  ✅</p>
+</div>
+</section>
+<section id="lammps-units">
+<h3><span class="section-number">2.2.8.3. </span>LAMMPS Units<a class="headerlink" href="#lammps-units" title="Link to this heading">#</a></h3>
+<p>LAMMPS offers many different <a class="reference external" href="https://docs.lammps.org/units.html">unit systems</a> to use.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Simulation software may use inconsistent units (e.g., LAMMPS “real” units). Always convert carefully.</p>
+</div>
+<p><strong>Arbitrary units</strong> are useful for generalizing results to new problems →<strong>Corresponding states principle</strong>.</p>
+</section>
+</section>
+<section id="references">
+<h2><span class="section-number">2.2.9. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span id="id4"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">1</a></sup></span></p></li>
+<li><p><a class="reference external" href="https://pubs.rsc.org/en/content/articlelanding/2018/cp/c8cp00746b">“Understanding three-body contributions to coarse-grained force fields” Christoph Scherer and  Denis Andrienko</a> Phys. Chem. Chem. Phys., 2018,20, 22387-22394<span id="id5"><sup><a class="reference internal" href="../references/references.html#id9" title="Christoph Scherer and Denis Andrienko. Understanding three-body contributions to coarse-grained force fields. Physical Chemistry Chemical Physics, 20(34):22387–22394, 2018.">14</a></sup></span></p></li>
+<li><p><a class="reference external" href="https://pubs-acs-org.proxy2.library.illinois.edu/doi/10.1021/acs.jpca.1c05677">“Effective Two-Body Interactions”
+Cameron Mackie, Alexander Zech, Martin Head-Gordon</a>, J. Phys. Chem. A 2021, 125, 35, 7750–7758<span id="id6"><sup><a class="reference internal" href="../references/references.html#id10" title="Cameron Mackie, Alexander Zech, and Martin Head-Gordon. Effective two-body interactions. The Journal of Physical Chemistry A, 125(35):7750–7758, 2021.">10</a></sup></span></p></li>
+<li><p><a class="reference external" href="https://manual.gromacs.org/current/user-guide/force-fields.html">Force Fields in GROMACS</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./molecular-models-and-interactions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="introduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2.1. </span>Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="periodic-boundary-conditions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.3. </span>Periodic Boundary Conditions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-do-you-get-potentials">2.2.1. Where Do You Get Potentials?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-complementary-approaches-to-designing-models">2.2.2. Two Complementary Approaches to Designing Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-atomistic-models">2.2.3. Classical Atomistic Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bonded-interactions">2.2.3.1. Bonded interactions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-bonded-interactions">2.2.3.2. Non-bonded interactions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#total-potential-energy">2.2.4. Total potential energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-body-approximation">2.2.5. Two-Body Approximation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-body-potentials">2.2.5.1. Many-Body Potentials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coarse-grained-models">2.2.6. Coarse-Grained Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-examples-for-coarse-grained-models">2.2.6.1. Simple Examples for coarse-grained Models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#force-fields">2.2.7. Force Fields</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduced-units">2.2.8. Reduced Units</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unit-systems">2.2.8.1. Unit Systems</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gromacs-units">2.2.8.2. GROMACS Units</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lammps-units">2.2.8.3. LAMMPS Units</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.2.9. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

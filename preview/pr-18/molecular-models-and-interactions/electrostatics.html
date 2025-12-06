@@ -1,0 +1,872 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.6. Long-Range Potentials &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-models-and-interactions/electrostatics';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-models-and-interactions/electrostatics.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Statistical Mechanics and Thermodynamics" href="../statmech-thermo/index.html" />
+    <link rel="prev" title="2.5. Short-Ranged Intramolecular Potentials" href="short-ranged-potentials.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">2. Molecular Models and Interactions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.2. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmolecular-models-and-interactions/electrostatics.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/molecular-models-and-interactions/electrostatics.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Long-Range Potentials</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#electrostatics">2.6.1. Electrostatics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ewald-sums">2.6.2. Ewald Sums</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boundary-effects">2.6.2.1. Boundary Effects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">2.6.2.2. Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-methods">2.6.3. Alternative Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.6.4. References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="long-range-potentials">
+<h1><span class="section-number">2.6. </span>Long-Range Potentials<a class="headerlink" href="#long-range-potentials" title="Link to this heading">#</a></h1>
+<p>A potential is <strong>long-ranged</strong> if its decay is slower than <span class="math notranslate nohighlight">\(r^{-d}\)</span>, where <span class="math notranslate nohighlight">\( d\)</span> is dimensionality.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The formal definition is given over the integral</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+I(R) = \int_R^\infty dr\, r^{D-1}\,\frac{A}{r^n}
+      = \begin{cases} \infty &amp;\text{ for } n \le D\\
+    \text{finite} &amp;\text{ for } n &gt; D
+    \end{cases}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(D\)</span> is the dimension. I.e we look at the potential <span class="math notranslate nohighlight">\(u(r)\)</span> as <span class="math notranslate nohighlight">\(r \rightarrow \infty\)</span>. This integral then contains <span class="math notranslate nohighlight">\(\frac{r^{D-1}}{r^n}\)</span>. In 3D, a potential is short-ranged if it converges faster than <span class="math notranslate nohighlight">\(r^{-3}\)</span>. In 2D,  a potential is short-ranged if it converges faster than <span class="math notranslate nohighlight">\(r^{-2}\)</span>.</p>
+</div>
+<p><strong>Coulomb potential</strong> for charges:</p>
+<div class="math notranslate nohighlight">
+\[
+  u(r) = \frac{q_i q_j}{4\pi \varepsilon_0 r}
+  \]</div>
+<p>where <span class="math notranslate nohighlight">\(q_i,q_j\)</span> are the charges, and  <span class="math notranslate nohighlight">\(\varepsilon_0\)</span> is the permittivity of free space. Sometimes the factor of <span class="math notranslate nohighlight">\(4\pi\)</span> is not written.</p>
+<p>Other long range forces include dipoles, low Reynolds number hydrodynamics, etc.</p>
+<p>Interaction can extend much further than the simulation box. <strong>How to deal with this?</strong></p>
+<ul class="simple">
+<li><p>Use a bigger box (expensive!)</p></li>
+<li><p>Include more than one image of each particle in the calculation</p></li>
+</ul>
+<section id="electrostatics">
+<h2><span class="section-number">2.6.1. </span>Electrostatics<a class="headerlink" href="#electrostatics" title="Link to this heading">#</a></h2>
+<p>Most common example for long-range potentials that need to be considered in particle based simulations.</p>
+</section>
+<section id="ewald-sums">
+<h2><span class="section-number">2.6.2. </span>Ewald Sums<a class="headerlink" href="#ewald-sums" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Developed by Ewald (1921), Madelung (1918)</p></li>
+</ul>
+<p>For the calculation of the electric potential <span class="math notranslate nohighlight">\(U\)</span> of an ion at position <span class="math notranslate nohighlight">\(r_i\)</span> due to all other ions of the lattice, we need to compute a sum like this:
+$<span class="math notranslate nohighlight">\(
+U = \frac{1}{2} \sum_{\vec m\in\mathbb Z^3}
+    \sum_{i=1}^N \sum_{\substack{j=1\\ j\neq i}}^N
+    \frac{q_i q_j}{4\pi\varepsilon_0 |\vec r_i - \vec r_j + \vec m L|}
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\vec{m}<span class="math notranslate nohighlight">\( are the image vectors, and \)</span>L$ is the box size.</p>
+<p>This sum is conditionally convergent!</p>
+<figure class="align-center" id="madelung-const-fig">
+<a class="reference internal image-reference" href="../_images/mandelung-sum.png"><img alt="Illustration of the summation of charges on a simple lattice." src="../_images/mandelung-sum.png" style="width: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.21 </span><span class="caption-text">Illustration of the summation of charges on a simple lattice (NaCl). The particle in the center, <span class="math notranslate nohighlight">\(0\)</span>, indicates <span class="math notranslate nohighlight">\(i\)</span>, and the others are labeled by a possible order of how they could be summed.</span><a class="headerlink" href="#madelung-const-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#madelung-const-fig"><span class="std std-numref">Fig. 2.21</span></a> shows a simple NaCl crystal. Here, the nearest neighbors contribute <span class="math notranslate nohighlight">\(-\frac{e^2}{4\pi\epsilon_0}\frac{6}{a}\)</span>, then the second nearest neighbors contribute <span class="math notranslate nohighlight">\(+\frac{e^2}{4\pi\epsilon_0}\frac{12}{a\sqrt{2}}\)</span>, the third <span class="math notranslate nohighlight">\(-\frac{e^2}{4\pi\epsilon_0}\frac{8}{a\sqrt{3}}\)</span>, and so on. This doesn’t obviously converge without some math tricks and rearranging. This general challenge exist for any system with long range interactions, in various lattice types.</p>
+<p><strong>Solution:</strong> Add and subtract a Gaussian charge at each point charge source:</p>
+<ul class="simple">
+<li><p>Point charge:<span class="math notranslate nohighlight">\( \rho(\vec{r}) = q_i\delta(\vec{r}-\vec{r}_i)\)</span></p></li>
+<li><p>Gaussian:<span class="math notranslate nohighlight">\( \rho(\vec{r})^G = \frac{q_i}{(2 \pi \sigma^2)^{3/2}} e^{-\lvert\vec{r}-\vec{r}_i\rvert^2/2\sigma^2}\)</span>. Note that <span class="math notranslate nohighlight">\(\rho(\vec{r})^G  \rightarrow \rho(\vec{r})\)</span> as <span class="math notranslate nohighlight">\(\sigma \rightarrow 0\)</span>.</p></li>
+</ul>
+<p>This scheme is illustrated in <a class="reference internal" href="#ewald-split-fig"><span class="std std-numref">Fig. 2.22</span></a>.</p>
+<figure class="align-center" id="ewald-split-fig">
+<a class="reference internal image-reference" href="../_images/ewald-split.png"><img alt="Illustration of the summation of charges on a simple lattice." src="../_images/ewald-split.png" style="width: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.22 </span><span class="caption-text">Illustration of the summation of charges on a simple lattice (NaCl). The particle in the center, <span class="math notranslate nohighlight">\(0\)</span>, indicates <span class="math notranslate nohighlight">\(i\)</span>, and the others are labeled by a possible order of how they could be summed.</span><a class="headerlink" href="#ewald-split-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><strong>How Does This Help?</strong></p>
+<ul class="simple">
+<li><p>The Gaussian charge screens the point charge, making the sum converge faster.</p></li>
+<li><p>The cancelling Gaussian charge can also be summed.</p></li>
+<li><p>The problem is therefore split into two solvable parts.</p></li>
+</ul>
+<p>For doing this, we do need the <strong>electric potential of a Gaussian charge</strong>.
+We use Poisson’s equation</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\nabla^2 \phi^G(r)
+  &amp;= - \frac{\rho^G(r)}{\varepsilon_0}
+   = - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
+      e^{-r^2/2\sigma^2} \\[4pt]
+\frac{1}{r}\,\frac{d^2}{dr^2}\!\bigl(r\,\phi^G(r)\bigr)
+  &amp;= - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
+     e^{-r^2/2\sigma^2} \\[4pt]
+\int_{\infty}^{r} \!dr'\,
+\frac{d^2}{dr'^2}\!\bigl(r'\,\phi^G(r')\bigr)
+  &amp;= - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
+     \int_{\infty}^{r} \!dr'\, e^{-r'^2/2\sigma^2} \\[4pt]
+\frac{d}{dr}\!\bigl(r\,\phi^G(r)\bigr)
+  &amp;= \frac{q_i\,\sigma^2}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
+     e^{-r^2/2\sigma^2} \\[4pt]
+\int_{0}^{r} d\!\bigl(r'\,\phi^G(r')\bigr)
+  &amp;= \frac{q_i\,\sigma^2}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
+     \int_{0}^{r} dr'\, e^{-r'^2/2\sigma^2} \\[4pt]
+&amp;\dots \\
+\phi^G(r)
+  &amp;= \frac{q_i}{4\pi\varepsilon_0 r}\,
+     \mathrm{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\,.
+\end{aligned}
+\end{split}\]</div>
+<p>For a simple point charge, we get
+$<span class="math notranslate nohighlight">\(
+\phi(r) = \frac{q_i}{4\pi\epsilon_0 r} \quad .
+\)</span>$</p>
+<p>Using this, we can split the sum, called <strong>Ewald summation</strong>, which we will derive below.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\phi(\vec{r}) = \frac{1}{4 \pi \varepsilon_0}
+  \sum_{\vec{m}} \sum_{j=1}^N \frac{q_j}{\lvert \vec{r}_j - \vec{r} + \vec{m}L\rvert} \\
+\rightarrow u = \frac{1}{2} \sum_{i=1}^N
+  q_i\bigl[\phi(\vec{r}_i) - \underbrace{\phi_i(\vec{r}_i)}_{\substack{\text{exclude self interactions}\\ \text{where } \vec{m}=0}}\bigr]
+\end{split}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We exclude self-interactions, but they can be kept in principle. In the final equation in the summary below, we list them explicitly, but commonly they are excluded or set to zero.</p>
+</div>
+<p>Now we split the sum:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\phi_i(r) &amp;= \underbrace{\phi_i(r)-\phi^G_i(r)}_{\text{short}} + \underbrace{\phi^G_i(r)}_{\text{long}}\\
+&amp; =\frac{q_i}{4 \pi \epsilon_0 r}-\frac{q_i}{4 \pi \epsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
+&amp; =\frac{q_i}{4 \pi \varepsilon_0 r}\left[1-\operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\right]+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
+&amp; =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\\
+&amp; =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\kappa r \right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\kappa r\right)
+\end{split}\]</div>
+<p>Where we have defined an inverse screening length <span class="math notranslate nohighlight">\(\kappa = \frac{1}{\sqrt{2}\sigma}\)</span> in the last step.</p>
+<p>Now we define a short ranged <span class="math notranslate nohighlight">\(\phi_i^S(r)\)</span> and a long ranged <span class="math notranslate nohighlight">\(\phi_i^L(r)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\phi_i^S(r)=\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
+\phi_i^L(r)=\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)
+\end{split}\]</div>
+<p>so that we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\phi(r)&amp;=\sum_{\vec{m}} \sum_{j=1}^N \phi_j\left(\lvert\vec{r}_i-\vec{r}+\vec{m} L\rvert \right) \\
+&amp; =\sum_{\vec{m}} \sum_{j=1}^N \phi_j^S+\phi_j^L\\
+&amp;=\sum_{\vec{m}} \sum_{j=1}^N \phi_j^S+\sum_{\vec{m}} \sum_{j=1}^N\phi_j^L\\
+&amp;=\phi^S+\phi^L \quad , \\
+\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+u&amp;=\frac{1}{2} \sum_{i=1}^N q_i\left[\phi^S\left(r_i\right)-\phi_i^S\left(r_i\right)\right]+\frac{1}{2} \sum_{i=1}^N q_i\left[\phi^L\left(r_i\right)-\phi_i^L\left(r_i\right)\right] \\
+&amp;=\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S\left(\lvert r_j-r_i+\vec{m}L\rvert \right)+\frac{1}{2} \sum_{i=1}^N q_i \phi^L\left(r_i\right)-\frac{1}{2} \sum_{i=1}^N q_i \phi_i^L\left(r_i\right) \\
+\end{split}\]</div>
+<p>For the last sum, we can now look at the limit:</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{r \rightarrow 0} \frac{q_i}{4 \pi \varepsilon_0 r}
+  \operatorname{erf}\!\left(\frac{r}{\sqrt{2} \sigma}\right)
+= \frac{q_i}{4 \pi \varepsilon_0}\,\frac{1}{\sigma}\,\sqrt{\frac{2}{\pi}}
+\]</div>
+<p>This results in</p>
+<div class="math notranslate nohighlight">
+\[
+u =\underbrace{\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S\left(\lvert r_j-r_i+\vec{m}L\rvert \right)}_{u^S(r)=\frac{q_i q_j}{4\pi\varepsilon_0r}\operatorname{erfc}\left(\frac{r}{\sqrt{2}\sigma}\right)}+
+\frac{1}{2} \sum_{i=1}^N q_i \phi^L\left(r_i\right)
+-\frac{1}{4 \pi \varepsilon_0} \frac{1}{\sqrt{2}\sigma} \frac{1}{\sqrt{\pi}}  \sum_{i=1}^N q_i^2
+\]</div>
+<p>The first term, turns into a normal pairwise sum, if <span class="math notranslate nohighlight">\(\operatorname{erfc}\)</span>  decays quickly. The middle term still needs to be evaluated.</p>
+<p>Long-ranged part is convieniently summed in Fourier space.
+<strong>Fourier transform</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\hat f(\vec{k}) &amp;= \int_V d\vec{r} f(\vec{r}) e^{-i\vec{k}\vec{r}}  \quad \text{for finite volumes. }\\
+\hat f(\vec{r}) &amp;= \frac{1}{L^3} \sum_{\vec{k}} \hat f(\vec{k}) e^{i\vec{k}\vec{r}} \quad \text{with } \vec{k} = \frac{2\pi \vec{n}}{L} \quad .
+\end{split}\]</div>
+<p>We need to Fourier transform Poisson’s equation for Gaussian charge (periodic array).</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla^2 \phi^G=-\frac{\rho^G}{\varepsilon_0} \rightarrow -k^2 \hat{\phi}^G=-\frac{\hat{\rho}^G}{\varepsilon_0} \rightarrow \hat{\phi}^G=\frac{1}{k^2 \varepsilon_0} \hat{\rho}^G
+\]</div>
+<p>Now we can compute the Fourier transform of the Gaussian charge distribution.
+First, we recognize that summing over all lattice vectors <span class="math notranslate nohighlight">\(\vec{m}\)</span> effectively extends the domain of integration from the finite volume <span class="math notranslate nohighlight">\(V\)</span> to the entire space <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>. This allows us to remove the sum and integrate over infinity:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\hat{\rho}^G(\vec{k})
+ &amp; = \int_V d\vec{r}\, \sum_{\vec{m}} \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-\lvert \vec{r}-\vec{r}_i+\vec{m}L\rvert^2 / 2 \sigma^2}
+ e^{-i \vec{k} \cdot \vec{r}} \\
+ &amp; = \int_{\mathbb{R}^3} d\vec{r}\, \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-\lvert\vec{r}-\vec{r}_i\rvert^2 / 2 \sigma^2}
+ e^{-i \vec{k} \cdot \vec{r}}
+\end{aligned}
+\end{split}\]</div>
+<p>Next, we perform a change of variables by substituting <span class="math notranslate nohighlight">\(\vec{r}' = \vec{r} - \vec{r}_i\)</span>. This shifts the origin to the particle position <span class="math notranslate nohighlight">\(\vec{r}_i\)</span>, pulling a phase factor <span class="math notranslate nohighlight">\(e^{-i \vec{k} \cdot \vec{r}_i}\)</span> out of the integral:
+$<span class="math notranslate nohighlight">\(
+\begin{aligned}
+\hat{\rho}^G(\vec{k})
+ &amp; = \int_{\mathbb{R}^3} d\vec{r}'\, \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-r'^2 / 2 \sigma^2} e^{-i \vec{k} \cdot(\vec{r}'+\vec{r}_i)} \\
+ &amp; = e^{-i \vec{k} \cdot \vec{r}_i}
+ \int_{\mathbb{R}^3} d\vec{r}'\, \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-r'^2 / 2\sigma^2} e^{-i \vec{k} \cdot \vec{r}'}
+\end{aligned}
+\)</span><span class="math notranslate nohighlight">\(
+To solve the remaining integral, we switch to spherical coordinates \)</span>(r’, \theta, \phi)<span class="math notranslate nohighlight">\(. We align the \)</span>z<span class="math notranslate nohighlight">\(-axis with the wavevector \)</span>\vec{k}<span class="math notranslate nohighlight">\( so that \)</span>\vec{k} \cdot \vec{r}’ = k r’ \cos\theta$:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\hat{\rho}^G(\vec{k})
+ &amp; = e^{-i \vec{k} \cdot \vec{r}_i}
+ \int_0^{\infty} dr'\, r'^2
+ \int_0^{2\pi} d\phi \int_{-1}^{1} d(\cos\theta)\,
+ \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-r'^2 / 2\sigma^2} e^{-i k r' \cos\theta} \\
+ &amp; = e^{-i \vec{k} \cdot \vec{r}_i} \frac{q_i}{(2 \pi \sigma^2)^{3/2}} \int_0^{\infty} dr'\, r'^2 e^{-r'^2 / 2\sigma^2} \underbrace{\left[ \int_0^{2\pi} d\phi \int_{-1}^{1} d(\cos\theta)\, e^{-i k r' \cos\theta} \right]}_{\text{Angular integration}}
+\end{aligned}
+\end{split}\]</div>
+<p>The angular integral yields <span class="math notranslate nohighlight">\(4\pi \frac{\sin(kr')}{kr'}\)</span>. Substituting this back and solving the radial Gaussian integral gives the final result:
+$<span class="math notranslate nohighlight">\(
+\begin{aligned}
+\hat{\rho}^G(\vec{k})
+ &amp; = e^{-i \vec{k} \cdot \vec{r}_i} \frac{q_i}{(2 \pi \sigma^2)^{3/2}} \frac{4\pi}{k} \int_0^{\infty} dr'\, r' e^{-r'^2 / 2\sigma^2} \sin(k r') \\
+ &amp; = \mathbf{q_i e^{-\sigma^2 k^2/2} e^{-i\vec{k}\cdot\vec{r}_i}}
+\end{aligned}
+\)</span>$</p>
+<p>Hence, <span class="math notranslate nohighlight">\(\hat{\phi}_i^G(k)=\frac{q_i}{\varepsilon_0 k^2} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot \vec{r}_i}\)</span>.</p>
+<p>Last, invert</p>
+<div class="math notranslate nohighlight">
+\[
+\phi^L(\vec{r}) = \frac{1}{L^3} \sum_{\vec{k}\neq 0} \sum_{j=1}^N \frac{q_j}{\varepsilon_0 k^2} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot (\vec{r}_j - \vec{r})}
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+U^L = \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N
+       \sum_{\vec{k} \neq 0}
+       \frac{q_i q_j}{\varepsilon_0 k^2 L^3}
+       e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot \vec{r}_{ij}}
+\]</div>
+<section id="boundary-effects">
+<h3><span class="section-number">2.6.2.1. </span>Boundary Effects<a class="headerlink" href="#boundary-effects" title="Link to this heading">#</a></h3>
+<p>The lattice needs to be truncated somewhere, so it is effectively embedded in some medium.
+At this boundary, there is a depolarizing field counteracting the fluctuatin dipole moment of the main cell.</p>
+<div class="math notranslate nohighlight">
+\[
+U^{BC} = \frac{1}{2(2\varepsilon_r+1)\,\varepsilon_0 L^3}
+  \left\lvert\sum_{i=1}^N q_i \vec{r}_i\right\rvert^2
+\]</div>
+<p>For so called “tin foil” BCs used in most simulations, set <span class="math notranslate nohighlight">\(\varepsilon_r=\infty\)</span>.</p>
+</section>
+<section id="summary">
+<h3><span class="section-number">2.6.2.2. </span>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h3>
+<p>In summary,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+u = \underbrace{
+      \frac{1}{2}
+      \sum_{\vec{m}} \sum_{i\neq j}
+      \frac{q_i q_j}{4\pi \varepsilon_0 \,\lvert \vec{r}_{ij} + \vec{m}L\rvert}
+      \operatorname{erfc}\!\bigl(\kappa \lvert \vec{r}_{ij} + \vec{m}L\rvert\bigr)
+    }_{\text{short}} \\
+\qquad
+  + \underbrace{
+      \frac{1}{2} \sum_{\vec{k} \neq 0} \sum_{i=1}^N \sum_{j=1}^N \frac{q_i q_j}{\varepsilon_0 k^2 L^3} e^{-k^2 / 4 \kappa^2} e^{-i \vec{k} \cdot \vec{r}_{ij}}
+    }_{\text{long}} \\
+\qquad
+  \underbrace{
+    - \frac{\kappa}{4\pi^{3/2} \varepsilon_0}
+      \sum_{i=1}^{N} q_i^{2}
+  }_{\text{self}}
+  \;+\;
+  \underbrace{
+    \frac{1}{2(2\varepsilon_r + 1)\,\varepsilon_0 L^{3}}
+    \left\lvert \sum_{i=1}^{N} q_i \vec{r}_i \right\rvert^{2}
+  }_{\text{BC}}
+\end{split}\]</div>
+<ul class="simple">
+<li><p>Real space: efficient for short-range potentials</p></li>
+<li><p>Reciprocal space: efficient way to treat smooth periodic functions</p></li>
+<li><p>Ewald: efficient way to sum a divergent and long-range interaction by summing part in real space and part in reciprocal space</p></li>
+</ul>
+<p>Choose <span class="math notranslate nohighlight">\(k=\frac{1}{\sqrt{2}\sigma}\)</span>, the inverse screening length, and the number of wavevectors to be accurate and efficient.</p>
+<ul class="simple">
+<li><p>Self-interactions are commonly excluded.</p></li>
+</ul>
+</section>
+</section>
+<section id="alternative-methods">
+<h2><span class="section-number">2.6.3. </span>Alternative Methods<a class="headerlink" href="#alternative-methods" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Direct summation, Laplace, 1820, <span class="math notranslate nohighlight">\(\mathcal{O}(N^2)\)</span></p></li>
+<li><p>Ewald summation, Ewald, 1921  (with adjusted E and neighbor tables)  <span class="math notranslate nohighlight">\(\mathcal{O}(N^{3/2})\)</span></p></li>
+<li><p>Multigrid summation, Brandt, 1977, <span class="math notranslate nohighlight">\(\mathcal{O}(N)\)</span></p></li>
+<li><p>Barnes-Hut Treecode, Barnes, Hut, 1986, <span class="math notranslate nohighlight">\(\mathcal{O}(N \log N)\)</span></p></li>
+<li><p>Fast Multipole Method, Greengard, Rokhlin, 1987, <span class="math notranslate nohighlight">\(\mathcal{O}(N)\)</span></p></li>
+<li><p><strong>Particle-Particle Particle-Mesh</strong>, Hockney, Eastwood, 1988,<span class="math notranslate nohighlight">\(\mathcal{O}(N \log N)\)</span></p></li>
+<li><p><strong>Particle Mesh Ewald</strong>, Darden, 1993,
+<span class="math notranslate nohighlight">\(\mathcal{O}(N \log N)\)</span></p></li>
+</ul>
+</section>
+<section id="references">
+<h2><span class="section-number">2.6.4. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.1063/1.2932253">“On mesh-based Ewald methods: Optimal parameters for two differentiation schemes”
+Harry A. Stern; Keith G. Calkins
+J. Chem. Phys. 128, 214106 (2008)</a><span id="id1"><sup><a class="reference internal" href="../references/references.html#id13" title="Harry A Stern and Keith G Calkins. On mesh-based ewald methods: optimal parameters for two differentiation schemes. The Journal of chemical physics, 2008.">17</a></sup></span></p></li>
+<li><p><a class="reference external" href="https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf">Shape-Adapted Ewald Summation,
+M. Widom</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./molecular-models-and-interactions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="short-ranged-potentials.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2.5. </span>Short-Ranged Intramolecular Potentials</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../statmech-thermo/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Statistical Mechanics and Thermodynamics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#electrostatics">2.6.1. Electrostatics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ewald-sums">2.6.2. Ewald Sums</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boundary-effects">2.6.2.1. Boundary Effects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">2.6.2.2. Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-methods">2.6.3. Alternative Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.6.4. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
