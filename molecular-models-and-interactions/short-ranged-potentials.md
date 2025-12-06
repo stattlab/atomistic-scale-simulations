@@ -134,7 +134,7 @@ $$
 Here $\frac{\partial u}{\partial r}$ is finite but might be discontinous.
 Shifted potentials do contribute, i.e. technically their Hamiltonian and phase space is not identical to the original potential anymore. This means that properties like their phase boundaries and critical points will be changed as well.  Moreover, the force is discontinous at $r_c$. (e.g. for L-J, the discontinuity is $0.039 \epsilon/\sigma$ for $r_c=2.5$.) This discontinuity can cause numerical instabilities, which may be eliminated using a **shifted-force potential**, for example. One can apply **smoothing functions**, e.g. polynominals (xplor).
 
-Derivative of the Heaviside function
+```{admonition}Derivative of the Heaviside function
 :class: dropdown
 
 $$
