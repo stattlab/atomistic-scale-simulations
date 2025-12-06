@@ -326,4 +326,3 @@ For other systems there are extensive codes which handle real biomolecular syste
   - [GROMACS](https://manual.gromacs.org/current/reference-manual/functions/nonbonded-interactions.html)
 - more mixing rules from [Wikipedia](https://en.wikipedia.org/wiki/Combining_rules)
 
-test
