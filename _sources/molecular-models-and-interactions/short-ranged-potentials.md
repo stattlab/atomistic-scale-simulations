@@ -22,7 +22,7 @@ The non-zero range of the short-ranged potential should not be greater than half
 
 Here,
 $\epsilon$ is maximal well-depth of the attractive part of the potential. It is related to the cohesive energy.
-Here, $\sigma$ is an effective radii where the "hard core" repulsion is starting to be felt. (Note that $\sigma$ is about 0.34 nm and $k_B$ is about 120 K for liquid Argon. Warning: these are not properties arising from isolated pairs of Argon atoms.)
+Here, $\sigma$ is an effective radii where the "hard core" repulsion is starting to be felt. (Note that $\sigma$ is about 0.34 nm and $\varepsilon/k_B$ is about 120 K for liquid Argon. Warning: these are not properties arising from isolated pairs of Argon atoms.)
 
 It is worth mentioning that the L-J potentials has been used to study dynamics in super-cooled liquids, in an effort to understand glass transitions, to study packing of hard-spheres of varying radii, and many other situations. Regarding L-J, as well as many of those to follow, there is a nice review of classical systems if interested (see, Caccamo, "Integral Equation Theory Description of Phase Equilibria in Classical Fluids," Physics Reports 274, 1 (1996)).
 
