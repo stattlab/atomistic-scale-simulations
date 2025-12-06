@@ -192,6 +192,9 @@ Note that we could also choose $f(x)$ rather than $f\left(x_0\right)$. Since $\d
 This is a "product rule" for the Heaviside function.
 **Shifted-force Potential**:
 ```
+
+**Shifted-force Potential**:
+
 $$
 V^{s f}(r)=V(r)-V\left(\mathbf{r}_c\right)-\nabla V\left(\mathbf{r}_c\right)\left(\mathbf{r}-\mathbf{r}_c\right) \quad \text { for } r \leq r_c \text { and } 0 \text { for } r \gt r_c
 $$
