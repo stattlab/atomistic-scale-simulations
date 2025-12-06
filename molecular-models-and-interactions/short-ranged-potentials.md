@@ -134,7 +134,7 @@ $$
 Here $\frac{\partial u}{\partial r}$ is finite but might be discontinous.
 Shifted potentials do contribute, i.e. technically their Hamiltonian and phase space is not identical to the original potential anymore. This means that properties like their phase boundaries and critical points will be changed as well.  Moreover, the force is discontinous at $r_c$. (e.g. for L-J, the discontinuity is $0.039 \epsilon/\sigma$ for $r_c=2.5$.) This discontinuity can cause numerical instabilities, which may be eliminated using a **shifted-force potential**, for example. One can apply **smoothing functions**, e.g. polynominals (xplor).
 
-```{admonition} Derivative of the Heaviside function
+Derivative of the Heaviside function
 :class: dropdown
 
 $$
@@ -148,42 +148,48 @@ $$
 is the Heaviside function.
 
 Define a test function $\phi(x)$ that goes to 0 sufficiently quickly as $x \rightarrow \pm \infty$.
-$$
-\int_{-\infty}^{\infty} dx \left[f(x) \theta\left(x-x_0\right)\right]^{\prime} \phi(x) =f\left(\left.x\left|\theta_{x-x_0}\right| \phi(x)\right|_{-\infty}^{\infty}-\int_{-\infty}^{\infty} d x f(x) \theta\left(x-x_0\right) \phi^{\prime}(x)\right. \\
-$$
-
-by parts, $\phi$ vanishes at $\infty$.
 
 $$
- =-\int_{x_0}^{\infty} dx f(x) \phi^{\prime}(x) \\
- =-\left[\left.f(x) \phi(x)\right|_{x_0} ^{\infty}-\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)\right]
- $$
- Then,
-
- $$
-=-\left[-f\left(x_0\right) \phi\left(x_0\right)-\int_{x_0}^{\infty} d x f^{\prime}(x) \phi(x)\right] \\
+\int_{-\infty}^{\infty} dx \left[f(x) \theta\left(x-x_0\right)\right]^{\prime} \phi(x) = \left[ f(x)\theta(x-x_0) \phi(x) \right]_{-\infty}^{\infty}-\int_{-\infty}^{\infty} d x f(x) \theta\left(x-x_0\right) \phi^{\prime}(x)
 $$
 
-$\phi$ vansles at $\infty$
+by parts, $\phi$ vanishes at $\pm \infty$.
+
+$$
+ =-\int_{x_0}^{\infty} dx f(x) \phi^{\prime}(x)
+$$
+
+Integrate by parts again:
+
+$$
+ =-\left[ \left. f(x) \phi(x)\right|_{x_0} ^{\infty}-\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)\right]
+$$
+
+Then, since $\phi$ vanishes at $\infty$:
+
+$$
+ =-\left[-f\left(x_0\right) \phi\left(x_0\right)-\int_{x_0}^{\infty} d x f^{\prime}(x) \phi(x)\right]
+$$
 
 $$
  =f\left(x_0\right) \phi\left(x_0\right)+\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)
 $$
 
-with $\int_{-\infty}^{\infty} d x f(x) \delta\left(x-x_0\right)=f\left(x_0\right)$.
+Using the property $\int_{-\infty}^{\infty} d x f(x) \delta\left(x-x_0\right)=f\left(x_0\right)$:
 
 $$
-=\int_{-\infty}^{\infty} d x f\left(x_0\right) \delta\left(x-x_0\right) \phi(x)+\int_{-\infty}^{\infty} d x f^{\prime}(x) \theta\left(x-x_0\right) \phi(x) \\
+=\int_{-\infty}^{\infty} d x f\left(x_0\right) \delta\left(x-x_0\right) \phi(x)+\int_{-\infty}^{\infty} d x f^{\prime}(x) \theta\left(x-x_0\right) \phi(x)
+$$
+
+Combining terms:
+
+$$
 =\int_{-\infty}^{\infty} d x \underbrace{\left[f\left(x_0\right) \delta\left(x-x_0\right)+f^{\prime}(x) \theta\left(x-x_0\right)\right]} \phi(x)
 $$
 
-combine terms.
+Note that we could also choose $f(x)$ rather than $f\left(x_0\right)$. Since $\delta\left(x-x_0\right)$ "clicks on" only at $x_0$, it doesn't really care about the other values of $f$.
 
-Note that could also choose $f(x)$ rater them $f\left(x_0\right)$. Since $\delta\left(x-x_0\right)$ "cicks on" only at $x_0$, it doesn't really care about the other values of $x$.
-
-This is a "product rule" for Heaviside function.
-```
-
+This is a "product rule" for the Heaviside function.
 **Shifted-force Potential**:
 
 $$
@@ -210,20 +216,19 @@ For unlike atom types $i$ and $j$, use mixing rules on LJ parameters. There are 
 Commonly used mixing rules are:
 
 **Lorentz-Berthelot**:
-test
-
-$
-\sigma_{ij} = \frac{\sigma_{ii}+\sigma_{jj}}{2}
-\epsilon_{ij} = \sqrt{\epsilon_{ii}\epsilon_{jj}}
-$
+$$
+\sigma_{ij} = \frac{\sigma_{ii}+\sigma_{jj}}{2} \quad ; \quad \epsilon_{ij} = \sqrt{\epsilon_{ii}\epsilon_{jj}}
+$$
 
 **Kong**:
-test
 
-$
+$$
 \epsilon_{ij}\sigma_{ij}^{6} = \left(\epsilon _{ii}\sigma_{ii}^{6}\epsilon_{jj}\sigma_{jj}^{6}\right)^{1/2}
- \epsilon_{ij}\sigma_{ij}^{12} = \left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
-$
+$$
+
+$$
+\epsilon_{ij}\sigma_{ij}^{12} = \left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
+$$
 
 ### Criteria for Choosing a Potential
 
