@@ -1,0 +1,892 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.5. Short-Ranged Intramolecular Potentials &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-models-and-interactions/short-ranged-potentials';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-models-and-interactions/short-ranged-potentials.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.6. Long-Range Potentials" href="electrostatics.html" />
+    <link rel="prev" title="2.4. Intermolecular Potentials" href="intramolecular-potentials.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">2. Molecular Models and Interactions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.2. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmolecular-models-and-interactions/short-ranged-potentials.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/molecular-models-and-interactions/short-ranged-potentials.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Short-Ranged Intramolecular Potentials</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features-of-interaction">2.5.1. Features of Interaction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonbonded-potentials">2.5.2. Nonbonded Potentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lennard-jones-potential">2.5.2.1. Lennard-Jones Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mie-potential">2.5.2.2. Mie Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#morse-potential">2.5.2.3. Morse Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-6-potential">2.5.2.4. Exponential-6 Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yukawa">2.5.2.5. Yukawa</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-sphere">2.5.2.6. Hard Sphere</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft-sphere">2.5.2.7. Soft Sphere</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#force-calculation">2.5.3. Force Calculation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#truncating-and-shifting">2.5.4. Truncating and Shifting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixing-rules">2.5.5. Mixing Rules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#criteria-for-choosing-a-potential">2.5.5.1. Criteria for Choosing a Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commonly-used-potentials">2.5.5.2. Commonly Used Potentials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#three-common-situations-noble-gases-metals-covalently-bonded-molecules">2.5.6. Three Common Situations: Noble Gases, Metals, Covalently-bonded Molecules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noble-gases">2.5.6.1. Noble Gases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metals-other-problems-with-2-body-interactions">2.5.7. Metals: Other problems with 2-body interactions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#covalently-bonded-molecules">2.5.8. Covalently-bonded Molecules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resorces">2.5.9. Additional Resorces</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="short-ranged-intramolecular-potentials">
+<h1><span class="section-number">2.5. </span>Short-Ranged Intramolecular Potentials<a class="headerlink" href="#short-ranged-intramolecular-potentials" title="Link to this heading">#</a></h1>
+<section id="features-of-interaction">
+<h2><span class="section-number">2.5.1. </span>Features of Interaction<a class="headerlink" href="#features-of-interaction" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Applies between <strong>all particles</strong> in the system, pairwise and additive.</p></li>
+<li><p>Some force fields <strong>exclude</strong> interactions between certain bonded particles:</p>
+<ul>
+<li><p>1–2 (bonded): ignored</p></li>
+<li><p>1–3 (two bonds apart): ignored</p></li>
+<li><p>1–4 (three bonds apart): rescaled (e.g., by 50%)</p></li>
+</ul>
+</li>
+<li><p>Interactions are “<strong>short-ranged</strong>” and can be <strong>truncated</strong> at a <strong>cutoff</strong> <span class="math notranslate nohighlight">\(r_c\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\Delta u = 2\pi \rho \int_{r_c}^{\infty} \underbrace{r^2 \underbrace{u(r)}_{\sim 1/r^6}}_{\sim 1/r^4} dr \)</span> converges</p></li>
+<li><p>In MD, truncate forces: <span class="math notranslate nohighlight">\( F(r &gt; r_c) = 0 \)</span></p></li>
+</ul>
+</li>
+</ul>
+<p>The non-zero range of the short-ranged potential should not be greater than half the dimension of simulation box, otherwise the atom would “feel” itself if <a class="reference internal" href="periodic-boundary-conditions.html"><span class="std std-doc">periodic boundary conditions</span></a> are imposed.</p>
+</section>
+<section id="nonbonded-potentials">
+<h2><span class="section-number">2.5.2. </span>Nonbonded Potentials<a class="headerlink" href="#nonbonded-potentials" title="Link to this heading">#</a></h2>
+<section id="lennard-jones-potential">
+<h3><span class="section-number">2.5.2.1. </span>Lennard-Jones Potential<a class="headerlink" href="#lennard-jones-potential" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\( u(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right] \)</span></p>
+<p>Here,
+<span class="math notranslate nohighlight">\(\epsilon\)</span> is maximal well-depth of the attractive part of the potential. It is related to the cohesive energy.
+Here, <span class="math notranslate nohighlight">\(\sigma\)</span> is an effective radii where the “hard core” repulsion is starting to be felt. (Note that <span class="math notranslate nohighlight">\(\sigma\)</span> is about 0.34 nm and <span class="math notranslate nohighlight">\(\varepsilon/k_B\)</span> is about 120 K for liquid Argon. Warning: these are not properties arising from isolated pairs of Argon atoms.)</p>
+<p>It is worth mentioning that the L-J potentials has been used to study dynamics in super-cooled liquids, in an effort to understand glass transitions, to study packing of hard-spheres of varying radii, and many other situations. Regarding L-J, as well as many of those to follow, there is a nice review of classical systems if interested (see, Caccamo, “Integral Equation Theory Description of Phase Equilibria in Classical Fluids,” Physics Reports 274, 1 (1996)).</p>
+<p>LJ is by far the most wildely used intramolecular potential. We will focus is on the Lennard-Jones (LJ) potential due to its common use.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Once of the reasons why the LJ potential is so popular, is that one can re-use the <span class="math notranslate nohighlight">\( \left( \frac{\sigma}{r} \right)^6\)</span> term by squaring it - thus reducing computational cost. This is much less important with improved hardware.</p>
+</div>
+</section>
+<section id="mie-potential">
+<h3><span class="section-number">2.5.2.2. </span>Mie Potential<a class="headerlink" href="#mie-potential" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\( u(r) = C \varepsilon \left[ \left( \frac{\sigma}{r} \right)^n - \left( \frac{\sigma}{r} \right)^m \right] \)</span>
+with <span class="math notranslate nohighlight">\( C = \frac{nm}{n - m} \left( \frac{n}{m} \right)^{\frac{m}{n - m}} \)</span></p>
+<p>This is a generaized LJ potential.</p>
+</section>
+<section id="morse-potential">
+<h3><span class="section-number">2.5.2.3. </span>Morse Potential<a class="headerlink" href="#morse-potential" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\( u(r)=D_{e}\left(1-e^{-a(r-r_{e})}\right)^{2}\)</span></p>
+<p>Here <span class="math notranslate nohighlight">\(r\)</span> is the distance between the atoms, <span class="math notranslate nohighlight">\(r_{e}\)</span> is the equilibrium  distance,
+<span class="math notranslate nohighlight">\(D_{e}\)</span> is the well depth (defined relative to  dissociated atoms at <span class="math notranslate nohighlight">\(r \rightarrow \infty\)</span>), and
+<span class="math notranslate nohighlight">\(a\)</span> controls the ‘width’ of the potential (the smaller  <span class="math notranslate nohighlight">\(a\)</span> is, the larger the well).</p>
+<p>The Morse potential offers the same properties as Lennard-Jones, however, it allows more intermediate range of interaction and it is more of a bonding-type potential. Most elements, esp. metals, that form solids in the Periodic Table can be fit with this type of potential, at least locally near their equilibrium lattice constant, by choosing the lattice constant, s, the bulk moduli, and the cohesive energy. This is the basis for the so-called Rose Equation of State and the way the Effective Medium Theory choses to reduce parameters in the potential.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>LJ vs Morse
+Generally: the Morse potential is well suited for modeling diatomic molecules that are bonded together. On the other hand, the Lennard-Jones potential is better suited for modeling inter-molecular forces between atoms that are not bonded together.</p>
+</div>
+</section>
+<section id="exponential-6-potential">
+<h3><span class="section-number">2.5.2.4. </span>Exponential-6 Potential<a class="headerlink" href="#exponential-6-potential" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\( u(r) = -A e^{-Br} + \frac{C}{r^6} \)</span></p>
+</section>
+<section id="yukawa">
+<h3><span class="section-number">2.5.2.5. </span>Yukawa<a class="headerlink" href="#yukawa" title="Link to this heading">#</a></h3>
+<p>Single Yukawa
+<span class="math notranslate nohighlight">\( u(r)=A{\frac {e^{-\alpha r}}{r}}\)</span></p>
+<p>Double Yukawa
+<span class="math notranslate nohighlight">\( u(r)=A{\frac {e^{-B r} + e^{-C r}}{r}}\)</span></p>
+<p>For those in Physics, you may have come across this potential in regards to nuclear physics, in fact interactions within the nulceus, a field in which Yukawa was honored with a Nobel Prize.  Nonetheless, this is a potential with a functional form which has some appealing properties (see Caccamo, for example).</p>
+<p>For Soft-sphere-like interactions, the Yukawa offers advantages over the Soft-sphere potential for analytic investigations of thermodynamics. In addition, it can be shown that the Double-Yukawa form adequately reproduces the L-J spatial behavior, however, it offers the ability to perform useful analytic proceedures to study free-energy variationally in some restricted systems (e.g., “Variational Theory of Phase Separation in Binary Liquids,” Foiles and Ashcroft, J. Chem. Phys. 75 3594 (1981)).</p>
+</section>
+<section id="hard-sphere">
+<h3><span class="section-number">2.5.2.6. </span>Hard Sphere<a class="headerlink" href="#hard-sphere" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+u(r) =\begin{cases}0&amp;{\text{if}}\quad  r\geq \sigma \\
+\infty &amp;{\text{if}}\quad r &lt;\sigma \end{cases}
+\end{split}\]</div>
+<p>This “wall-like” potential is very useful in some contexts.  Also a systems of hard spheres is a very nice idealized problem.  And, Percus and Yevik offered an exact solution of the thermodynamic properties for this potential, obtained using Laplace Transforms, which use exponentials like exp(-ar) rather than exp(ikr) like Fourier Transforms. In fact, the Hard-Sphere free energy is purely entropic, because of the potential. Later Liebowitz (1964) provided exact solution for a systems with varying hard-sphere radii, i.e. a mixed system, such as Ar-Kr. The Hard-Sphere pair-correlation functions have also been shown to be exact for systems with potentials not too different from Hard-Sphere (Foiles and Ashcroft, Phys. Rev. A 24, 424 (1981)).
+Hard spheres are obviously short-ranged and non-bonding, leading only to entropic behavior.</p>
+</section>
+<section id="soft-sphere">
+<h3><span class="section-number">2.5.2.7. </span>Soft Sphere<a class="headerlink" href="#soft-sphere" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(u(r) = (r/\sigma)^{-n}\)</span></p>
+<p>Again, <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(n\)</span> can vary: <span class="math notranslate nohighlight">\(n \approx 1\)</span> is soft and the larger <span class="math notranslate nohighlight">\(n\)</span> the harder the repulsion. Also, this offers the useful analytic form for some mathematic investigations into properties.</p>
+</section>
+</section>
+<section id="force-calculation">
+<h2><span class="section-number">2.5.3. </span>Force Calculation<a class="headerlink" href="#force-calculation" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+ \vec{F}_{ij} &amp;= -\nabla_i u(r_{ij}) \\
+ &amp;= \underbrace{-\frac{du}{dr}}_{=F(r)} \nabla_i {r}_{ij} \\
+ &amp;= - F(r)\hat{r}_{ij}
+\end{split}\]</div>
+<div class="admonition-example-lennard-jones-force admonition">
+<p class="admonition-title">Example: Lennard-Jones Force</p>
+<div class="math notranslate nohighlight">
+\[
+u(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right]
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+ F(r) &amp;= -\frac{du}{dr}\\
+ &amp;= -4\varepsilon \left[ -12\frac{\sigma^{12}}{r^{13}} + 6 \frac{\sigma^{6}}{r^{7}}\right]\\
+ &amp;= \frac{24\varepsilon}{r} [2 \left( \frac{\sigma}{r} \right)^{12}  - \left( \frac{\sigma}{r} \right)^{6} ]
+ \end{split}\]</div>
+<p>When written in this form, the  <span class="math notranslate nohighlight">\(\left( \frac{\sigma}{r} \right)^6\)</span>-term can be reused from the <span class="math notranslate nohighlight">\(u(r)\)</span> calculation.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Write <span class="math notranslate nohighlight">\(F_i= -F(r) \hat{r}_{ij} = - \frac{F(r_{ij})}{r_{ij}} \vec{r}_{ij}\)</span>. Then one can write the LJ force in such a way, that only ever <span class="math notranslate nohighlight">\(r^2_{ij}\)</span> is needed, not <span class="math notranslate nohighlight">\(r_{ij}\)</span>, thus avoiding the need for a expensive sqrt operation.</p>
+</div>
+</section>
+<section id="truncating-and-shifting">
+<h2><span class="section-number">2.5.4. </span>Truncating and Shifting<a class="headerlink" href="#truncating-and-shifting" title="Link to this heading">#</a></h2>
+<p>Energy (<span class="math notranslate nohighlight">\(E= T+V\)</span>) conservation is impacted by the way how a short-ranged potential is cut, or cut and shifted.</p>
+<p><strong>Truncate</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+u(r) = u_o(r)\theta(r_c-r) = \begin{cases}  &amp;U_o(r)\quad r\leq r_c \\
+&amp;0 \quad r\ge r_c  \end{cases}
+\end{split}\]</div>
+<p>Note that this means that the force has a “jump” at the cutoff, because <span class="math notranslate nohighlight">\(\frac{\partial u}{\partial r}\)</span> now has a <span class="math notranslate nohighlight">\(\delta(r_c-r)\)</span> term from the Heaviside function <span class="math notranslate nohighlight">\(\theta\)</span>, if <span class="math notranslate nohighlight">\(U_o(r_c) \neq 0\)</span>. These jumps contribute to the energy and can compromise energy <span class="math notranslate nohighlight">\(E=U+T\)</span> conservation.</p>
+<p><strong>Truncate</strong> and <strong>shift</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+u(r) = \left[u_o(r)-u_o(r_c)\right]\theta(r_c-r) =\begin{cases}  U_o(r)-u_o(r_c)\quad r\leq r_c \\
+0 \quad r\ge r_c  \end{cases}
+\end{split}\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\frac{\partial u}{\partial r}\)</span> is finite but might be discontinous.
+Shifted potentials do contribute, i.e. technically their Hamiltonian and phase spache is not identical to the original potential anymore. This means that properties like their phase boundaries and critical points will be changed as well.  Moreover, the force is discontinous at <span class="math notranslate nohighlight">\(r_c\)</span>. (e.g. for L-J, the discontinuity is <span class="math notranslate nohighlight">\(0.039 \epsilon/\sigma\)</span> for <span class="math notranslate nohighlight">\(r_c=2.5\)</span>.) This discontinuity can cause numerical instabilities, which may be eliminated using a <strong>shifted-force potential</strong>, for example. One can apply <strong>smoothing functions</strong>, e.g. polynominals (xplor).</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Derivative of the Heaviside function</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d}{d x}\left[f(x) \theta\left(x-x_0\right)\right]=f^{\prime}(x) \theta\left(x-x_0\right)+f\left(x_0\right) \delta\left(x-x_0\right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta\)</span>
+$<span class="math notranslate nohighlight">\(
+\theta\left(x-x_0\right)= \begin{cases}1, &amp; x \geqslant x_0 \\ 0, &amp; x&lt;x_0\end{cases}
+\)</span>$
+is the Heaviside function.</p>
+<p>Define a test function <span class="math notranslate nohighlight">\(\phi(x)\)</span> that goes to 0 sufficiently quickly as <span class="math notranslate nohighlight">\(x \rightarrow \pm \infty\)</span>.
+$<span class="math notranslate nohighlight">\(
+\int_{-\infty}^{\infty} dx \left[f(x) \theta\left(x-x_0\right)\right]^{\prime} \phi(x) =f\left(\left.x\left|\theta_{x-x_0}\right| \phi(x)\right|_{-\infty}^{\infty}-\int_{-\infty}^{\infty} d x f(x) \theta\left(x-x_0\right) \phi^{\prime}(x)\right. \\
+\)</span>$</p>
+<p>by parts, <span class="math notranslate nohighlight">\(\phi\)</span> vanishes at <span class="math notranslate nohighlight">\(\infty\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+ =-\int_{x_0}^{\infty} dx f(x) \phi^{\prime}(x) \\
+ =-\left[\left.f(x) \phi(x)\right|_{x_0} ^{\infty}-\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)\right]
+ \end{split}\]</div>
+<p>Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+=-\left[-f\left(x_0\right) \phi\left(x_0\right)-\int_{x_0}^{\infty} d x f^{\prime}(x) \phi(x)\right] \\
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(\phi\)</span> vansles at <span class="math notranslate nohighlight">\(\infty\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+ =f\left(x_0\right) \phi\left(x_0\right)+\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} d x f(x) \delta\left(x-x_0\right)=f\left(x_0\right)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+=\int_{-\infty}^{\infty} d x f\left(x_0\right) \delta\left(x-x_0\right) \phi(x)+\int_{-\infty}^{\infty} d x f^{\prime}(x) \theta\left(x-x_0\right) \phi(x) \\
+=\int_{-\infty}^{\infty} d x \underbrace{\left[f\left(x_0\right) \delta\left(x-x_0\right)+f^{\prime}(x) \theta\left(x-x_0\right)\right]} \phi(x)
+\end{split}\]</div>
+<p>combine terms.</p>
+<p>Note that could also choose <span class="math notranslate nohighlight">\(f(x)\)</span> rater them <span class="math notranslate nohighlight">\(f\left(x_0\right)\)</span>. Since <span class="math notranslate nohighlight">\(\delta\left(x-x_0\right)\)</span> “cicks on” only at <span class="math notranslate nohighlight">\(x_0\)</span>, it doesn’t really care about the other values of <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>This is a “product rule” for Heaviside function.</p>
+</div>
+<p><strong>Shifted-force Potential</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+V^{s f}(r)=V(r)-V\left(\mathbf{r}_c\right)-\nabla V\left(\mathbf{r}_c\right)\left(\mathbf{r}-\mathbf{r}_c\right) \quad \text { for } r \leq r_c \text { and } 0 \text { for } r \gt r_c
+\]</div>
+<p>The gradient term now makes force continuous and zero beyond the cut-off. Note that this really is a different potential now and extra care must be taken to either recover original thermodynamics, or be statisified with current model. Recovering of thermodynamics can be done in some cases by perturbation theory or long-range corrections.</p>
+<p><strong>Smoothing</strong>:</p>
+<p>Instead of cutting and shifting smoothing functions can be employed to ensure that both the
+energy and the force go smoothly to zero at the desired cutoff distance. Polynominal interpolations or splines can be used.</p>
+<div class="admonition-example-weeks-chandler-anderson-potential admonition">
+<p class="admonition-title">Example: Weeks-Chandler-Anderson Potential</p>
+<p>Use truncate and shift scheme at <span class="math notranslate nohighlight">\(r_c=2^{1/6}\sigma\)</span> for LJ potential. The result is a purely repulsive potential, the WCA potential, often used to model purely excluded volume interactions.</p>
+</div>
+<p>For  truncating, truncating and shifting, and or smoothing, <strong>thermodynamic properties</strong> will be influenced by the exact scheme. Those effects can be corrected with long-range integral approximations/corrections.</p>
+</section>
+<section id="mixing-rules">
+<h2><span class="section-number">2.5.5. </span>Mixing Rules<a class="headerlink" href="#mixing-rules" title="Link to this heading">#</a></h2>
+<p>For unlike atom types <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>, use mixing rules on LJ parameters. There are many different ones, falling into two categories, arithmetic <span class="math notranslate nohighlight">\(x_{ij}=(x_j+x_i)/2\)</span> or geometric <span class="math notranslate nohighlight">\(x_{ij}=\sqrt{x_i\cdot x_j}\)</span>.</p>
+<p>Commonly used mixing rules are:</p>
+<p><strong>Lorentz-Berthelot</strong>:
+test</p>
+<p><span class="math notranslate nohighlight">\(
+\sigma_{ij} = \frac{\sigma_{ii}+\sigma_{jj}}{2}
+\epsilon_{ij} = \sqrt{\epsilon_{ii}\epsilon_{jj}}
+\)</span></p>
+<p><strong>Kong</strong>:
+test</p>
+<p><span class="math notranslate nohighlight">\(
+\epsilon_{ij}\sigma_{ij}^{6} = \left(\epsilon _{ii}\sigma_{ii}^{6}\epsilon_{jj}\sigma_{jj}^{6}\right)^{1/2}
+ \epsilon_{ij}\sigma_{ij}^{12} = \left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
+\)</span></p>
+<section id="criteria-for-choosing-a-potential">
+<h3><span class="section-number">2.5.5.1. </span>Criteria for Choosing a Potential<a class="headerlink" href="#criteria-for-choosing-a-potential" title="Link to this heading">#</a></h3>
+<p>What science are you wanting to address?  What does it require, as far as accuracy of forces or energetics, and so on?
+The three main criteria for choosing a potential are:</p>
+<ul class="simple">
+<li><p>Accuracy: Reproduce properties of interest as closely as possible.</p></li>
+<li><p>Transferability: Applicable to more situations for which the potential was NOT fit.</p></li>
+<li><p>Computational Speed: Force calculations are the most time consuming part of simulation, e.g., so they should be as fast as possible (meaning potentials should be as simple as possible). A 2-body potential <span class="math notranslate nohighlight">\(V(rij)\)</span>  depends only on distance between atoms, i.e., <span class="math notranslate nohighlight">\(|ri-rj|\)</span>; whereas a 3-body potential will depend on orientation which will require more computation.</p></li>
+</ul>
+<p>Typical emphasis for various discplines include:</p>
+<ul class="simple">
+<li><p>Chemistry:    Accuracy
+Rate constants, for example, require very accurate reaction barriers.</p></li>
+<li><p>Statistical Mechanics:    Computational Speed
+Complexity can result from simple potentials (e.g., the near-neighbor Ising Model).</p></li>
+<li><p>Materials Science:    Computational Speed   (due to complexity; in some case all 3)
+Calculation of equilibrium positions of atoms around defects, etc., for comparison to
+EXAFS or LEED signals, or High-resolution TEM.</p></li>
+<li><p>Biochemistry:    Perhaps all 3
+Protein structures with different conformations using approximate forces.</p></li>
+</ul>
+<p>Finding the actual parameterizations for the analytic functions one has chosen is an important but perhaps difficult task. It can be technically elaborate and an “art form” in itself.
+Many applications use no more than 3-body terms, which implicitly assumes higher-order terms are negligible to the energy and forces. This is equivalent to assuming a rapidly convergent interaction series.  Basically, a general 3-body equation is not known and forms are chosen for particular interest, e.g. Si (3-body with angular bonding information required) vs. Au (metallic 2-body that is density dependent). Notably, convergence of many-body interactions really may not converge very rapidly (if at all).</p>
+<p>Therefore, what do you want to model, how accurate must you be, and how long/much are you willing to spend calculating?</p>
+</section>
+<section id="commonly-used-potentials">
+<h3><span class="section-number">2.5.5.2. </span>Commonly Used Potentials<a class="headerlink" href="#commonly-used-potentials" title="Link to this heading">#</a></h3>
+<p>Here are some common approaches, with various levels of sophistication, to obtaining V® which in turn determines the forces:</p>
+<ul class="simple">
+<li><p>Analytic potential based on functional forms, built-in physics, and assumptions.</p></li>
+<li><p>Potentials derived from concepts from quantum-mechanical bonding arguments, e.g., EAM, EMT, Bond-order, Finnis-Sinclair.</p></li>
+<li><p>Forces obtained directly via electronic-structure (quantum-mechanical-based) calculations, e.g., Carr-Parrinello Phys. Rev. Lett. 55, 2471 (1985).</p></li>
+<li><p>Force-Field Methods (used widely in chemistry) are tremendously valuable, but often not transferable.  Usually, these are much simpler in form and can be parameterized to achieve very good molecular structures.
+For example, to model Polyethylene, one requires a potential to deal with   bond-stretching (2-body), angular bending (3-body), stretch-stretch and stretch-bend (3-body + higher), bend-bend (4-body + higher). Such potentials may be composed of pieces: (1) intramolecular (Valence Force Field with bonded atoms in molecule) and (2) intermolecular (L-J + Coulomb interaction for non-bonding interaction).
+-Combination of approaches 2 and 3 are being used in order to increase system sizes yet provide more realistic representations of the systems. (See, for example, multiscale scale materials science modeling.)</p></li>
+</ul>
+<p>Approaches 1 and 2 fit parameters from chosen functional form via some restricted data base of physical properties of the system (or sub-systems) of interest.  For molecules, e.g., bond length, cohesive energies, vibrational energies, etc., could be used. For solids, lattice constants, elastic moduli, configurational or defect energies could be used, which may be also modified to include molecular data, or lower-symmetry data of interested in surfaces.  Based on electronic-structure methods, approach 3 requires a large computational effort and restricts system sizes, so while important it has limited application to large simulations.  (See Review, A.E. Carlsson, Solid State Physics 43, 1 (1990).)</p>
+</section>
+</section>
+<section id="three-common-situations-noble-gases-metals-covalently-bonded-molecules">
+<h2><span class="section-number">2.5.6. </span>Three Common Situations: Noble Gases, Metals, Covalently-bonded Molecules<a class="headerlink" href="#three-common-situations-noble-gases-metals-covalently-bonded-molecules" title="Link to this heading">#</a></h2>
+<p>Let us now discuss some of the theoretical ideas that go into determining potentials. Looking at the periodic table, there are three common situations.</p>
+<section id="noble-gases">
+<h3><span class="section-number">2.5.6.1. </span>Noble Gases<a class="headerlink" href="#noble-gases" title="Link to this heading">#</a></h3>
+<p>These are the non-bonding, rare gases (e.g., Kr and Ar) where the electronic shells are closed. Thus means they are spherically symmetric, with rather weak, but long-ranged, van der Waals type interactions. They were the first systems to be simulated and pair potentials work best for them. For this case, a oft used pair potentials is the Lennard-Jones (6-12) potential.</p>
+<p>At large distances (r &gt;&gt; r0, the equilibrium distance) one can undestand the interaction by considering how two oscillators would interact, giving an r-6 attraction, where the coefficient is determined by the atomic polarizibility (arising due ot correlations between electron clouds surrounding atoms and give van der Waals (dipole-dipole) interactions.) On the other hand, at short distances (r &lt;&lt; r0), the potentials are strongly repulsive because of the Pauli exclusion principle (electrons are fermions). Lennard-Jones assumed a stronger inverse power law, conveniently r-12. One should not think the Lennard-Jones (L-J) potential as anything more fundamental than this.</p>
+<p>Even for Argon it is only accurate to 10% or so. And three-body potentials can be significant at the 10% level (more in case of polarizable species). An example of the difference between the simple L-J 6-12 potential and one that has been constructed using a large quantity of experimental data is on pg. 8 of A&amp;T. The potentials that are fit to bulk data are really effective potentials and could be somewhat different than the real 2-body potential that would be determined from gas-phase data because they include corrections for three- and higher-body interactions, for, in effect, the two-body potential is obtained by averaging over the third spatial coordinate:</p>
+<p>(1/Volume)  drk V3i (ri,rj,rk) = V2(3)(rij)      so that V®=(1/2)ij V2eff(rij).</p>
+<p>Hence, the effective potentials can be dependent upon density and less so on temperature.</p>
+</section>
+</section>
+<section id="metals-other-problems-with-2-body-interactions">
+<h2><span class="section-number">2.5.7. </span>Metals: Other problems with 2-body interactions<a class="headerlink" href="#metals-other-problems-with-2-body-interactions" title="Link to this heading">#</a></h2>
+<p>How about metals? Metals are characterized by a rare gas shell plus a number of valence electrons. Pair potentials do not work terribly well, because the electrons will be delocalized. If one does use a pair potential, it must be softer than the Lennard-Jones form, for example a Morse potential (sum of exponentials.) The Morse potential is often fit by choosing equilibrium lattice constant, the bulk moduli, and the cohesive energy. This is the basis for the so-called Rose equation of state and is the form used in Effective Medium Theory (see below).</p>
+<p>The major problem with pair potentials for solid metals is that they have no environmental dependence so the a bulk atom is too much like a surface atom. For metals, the strength of the individual bonds decrease as the local environment becomes more crowded, corresponding to the behavior expected from Pauli’s “exclusion principle.”  In contrast, with 2-body potentials the “strength” of the individual bonds does not depend on environment. Thus, capturing the environmental dependence of bonding is crucial for metallic systems.</p>
+<p>Failure:  An example of how 2-body interactions like L-J fail is the relaxation of a surface layer of atoms in a metallic system, like Cu. Pair potentials predicted expansion of surface layer, whereas, most metals contract inward to increase the charge density and, therefore, the metallic bonding.
+In the formula page we show the potential used in the Embedded Atom Method (EAM) for metals. The basic idea is that metallic bonding involves ions in an electron sea so the total potential energy is the sum of direct ion-ion interactions (e.g., to keep ion cores from overlapping) and the interactions between ion and the electron sea. One assumes that locally there is an electroni charge density coming from the postive charge of the ion and nearby ions and that the interaction is some function of this density. This latter term is then a true many-body potential. The EAM works well for spherically symmetric atoms (close-packed solids) such as Cu, Al, and Pb.</p>
+<p>References and other related concepts, derived from Quantum Mechanics, are:</p>
+<ul class="simple">
+<li><p>Embedded Atom Method [EAM] - Daw and Baskes, Phys. Rev. B 29, 6443 (1984); Foiles, Baskes, and Daw, Phys. Rev. B 33, 7983 (1986)</p></li>
+<li><p>bond-order potential - e.g., Horsfield, J. Phase Equil. 18, 573 (1997); Aoki et al., ibid. 614; and applications, e.g.: Lagana et al., J. Chem. Phys. 108, 3886 (1998); Girshick et al, Phil. Mag. A77, 981 (1998)},</p></li>
+<li><p>Effective Medium Theory [EMT] - Jacobsen, Norskov, Puska, Phys. Rev. B35, 7423 (1987).</p></li>
+<li><p>Finnis-Sinclair (FS)- Phil. Mag A50, 45 (1985); Tersoff Phys. Rev. B37 6991 (1988).</p></li>
+<li><p>Glue Model - e.g., Ercolessi et al., Phil Mag. A58, 23 (1988)</p></li>
+</ul>
+<p>These methods have very different parameterizations and functions. In addition, while they usually appear composed of 2-body-type potentials, all really are cleverly disguised MANY-body potentials.</p>
+</section>
+<section id="covalently-bonded-molecules">
+<h2><span class="section-number">2.5.8. </span>Covalently-bonded Molecules<a class="headerlink" href="#covalently-bonded-molecules" title="Link to this heading">#</a></h2>
+<p>When molecules form bonds it is best to put that in directly. Silicon has been studied extensively since it is so important for the semiconductor industry. Silicon forms bonds with the nearest 4 atoms with a local tetrahedron structure. This is very unlikely to ever come out of a pair potential so it has to be put in.</p>
+<p>In the formula page we give the well-known potential function for silicon: the Stillinger-Weber potential. It contains an explicit term which forces the angle between nearby triples to stay close to 109 degrees and has been adjusted to giving roughly the lattice constant, the cohesive energy, the melting point and liquid structure. Unfortunately, this does not work well for other polytypes found under pressure, e.g., for there is no bond coordination changes or bending allowed: NO TRANSFERABILITY. There is a recent review article Balamane, Phys. Rev. 46, 2250 (1992) describing how well various potentials work on silicon. They conclude that the potentials, even if they have been carefully tuned, do not really describe all aspects of pure silicon terribly well. That is why the Car-Parrinello technique is viewed as an advance (even though it is slow). One gets a better (but still not perfect) potential, without have to adjust lots of parameters.</p>
+<p>For other systems there are extensive codes which handle real biomolecular systems (GROMOS, CHARM, AMBER …). They use an experimental data base and put in specific terms for bond lengths, bond angles torsion angles. etc. They are really quite complicated because they have to distinguish between many local bonding arrangements. Even so, one should never trust the accuracy of the empirical potentials. The errors can still be quite large even if a lot of data has been put in. This is because the potential surface is so highly dimensional and there are so many different possible combinations of atoms that experiment can only hope to sample a very few of them.</p>
+</section>
+<section id="additional-resorces">
+<h2><span class="section-number">2.5.9. </span>Additional Resorces<a class="headerlink" href="#additional-resorces" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>more short-ranged potentials, as implemented in:</p>
+<ul>
+<li><p><a class="reference external" href="https://hoomd-blue.readthedocs.io/en/v5.2.0/hoomd/md/module-pair.html">hoomd-blue</a></p></li>
+<li><p><a class="reference external" href="https://docs.lammps.org/pair_style.html">LAMMPS</a></p></li>
+<li><p><a class="reference external" href="https://manual.gromacs.org/current/reference-manual/functions/nonbonded-interactions.html">GROMACS</a></p></li>
+</ul>
+</li>
+<li><p>more mixing rules from <a class="reference external" href="https://en.wikipedia.org/wiki/Combining_rules">Wikipedia</a></p></li>
+</ul>
+<p>test</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./molecular-models-and-interactions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intramolecular-potentials.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2.4. </span>Intermolecular Potentials</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="electrostatics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2.6. </span>Long-Range Potentials</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features-of-interaction">2.5.1. Features of Interaction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonbonded-potentials">2.5.2. Nonbonded Potentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lennard-jones-potential">2.5.2.1. Lennard-Jones Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mie-potential">2.5.2.2. Mie Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#morse-potential">2.5.2.3. Morse Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-6-potential">2.5.2.4. Exponential-6 Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yukawa">2.5.2.5. Yukawa</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-sphere">2.5.2.6. Hard Sphere</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft-sphere">2.5.2.7. Soft Sphere</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#force-calculation">2.5.3. Force Calculation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#truncating-and-shifting">2.5.4. Truncating and Shifting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixing-rules">2.5.5. Mixing Rules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#criteria-for-choosing-a-potential">2.5.5.1. Criteria for Choosing a Potential</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commonly-used-potentials">2.5.5.2. Commonly Used Potentials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#three-common-situations-noble-gases-metals-covalently-bonded-molecules">2.5.6. Three Common Situations: Noble Gases, Metals, Covalently-bonded Molecules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noble-gases">2.5.6.1. Noble Gases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metals-other-problems-with-2-body-interactions">2.5.7. Metals: Other problems with 2-body interactions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#covalently-bonded-molecules">2.5.8. Covalently-bonded Molecules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resorces">2.5.9. Additional Resorces</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
