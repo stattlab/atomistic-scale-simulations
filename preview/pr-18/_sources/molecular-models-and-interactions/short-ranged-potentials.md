@@ -26,7 +26,7 @@ Here, $\sigma$ is an effective radii where the "hard core" repulsion is starting
 
 It is worth mentioning that the L-J potential has been used to study dynamics in super-cooled liquids, in an effort to understand glass transitions, to study packing of hard-spheres of varying radii, and many other situations. Regarding L-J, as well as many of those to follow, there is a nice review of classical systems if interested (see, Caccamo, "Integral Equation Theory Description of Phase Equilibria in Classical Fluids," Physics Reports 274, 1 (1996)).
 
-LJ is by far the most widely used intremolecular potential. We will focus on the Lennard-Jones (LJ) potential due to its common use.
+LJ is by far the most widely used intremolecular potential. We will focus on the Lennard-Jones (LJ) potential due to its common use.{cite}`lennardjones1924`
 
 ```{tip}
 One of the reasons why the LJ potential is so popular, is that one can re-use the $ \left( \frac{\sigma}{r} \right)^6$ term by squaring it - thus reducing computational cost. This is much less important with improved hardware.
@@ -47,7 +47,7 @@ Here $r$ is the distance between the atoms, $r_{e}$ is the equilibrium distance,
 $D_{e}$ is the well depth (defined relative to  dissociated atoms at $r \rightarrow \infty$), and
 $a$ controls the 'width' of the potential (the smaller  $a$ is, the larger the well).
 
-The Morse potential offers the same properties as Lennard-Jones, however, it allows more intermediate range of interaction and it is more of a bonding-type potential. Most elements, esp. metals, that form solids in the Periodic Table can be fit with this type of potential, at least locally near their equilibrium lattice constant, by choosing the lattice constant, s, the bulk moduli, and the cohesive energy. This is the basis for the so-called Rose Equation of State and the way the Effective Medium Theory chooses to reduce parameters in the potential.
+The Morse potential offers the same properties as Lennard-Jones, however, it allows more intermediate range of interaction and it is more of a bonding-type potential. Most elements, esp. metals, that form solids in the Periodic Table can be fit with this type of potential, at least locally near their equilibrium lattice constant, by choosing the lattice constant, s, the bulk moduli, and the cohesive energy. This is the basis for the so-called Rose Equation of State and the way the Effective Medium Theory chooses to reduce parameters in the potential.{cite}`morse1929`
 
 
 ```{note} LJ vs Morse
@@ -326,3 +326,8 @@ For other systems there are extensive codes which handle real biomolecular syste
   - [GROMACS](https://manual.gromacs.org/current/reference-manual/functions/nonbonded-interactions.html)
 - more mixing rules from [Wikipedia](https://en.wikipedia.org/wiki/Combining_rules)
 
+## References
+
+- [Diatomic Molecules According to the Wave Mechanics. II. Vibrational Levels, Morse, Philip M.](https://journals.aps.org/pr/abstract/10.1103/PhysRev.34.57){cite}`morse1929`
+
+- [On the Determination of Molecular Fields, Lennard-Jones, J. E. (1924)](https://royalsocietypublishing.org/rspa/article/106/738/463/1722/On-the-determination-of-molecular-fields-II-From){cite}`lennardjones1924`
