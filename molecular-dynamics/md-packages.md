@@ -35,21 +35,7 @@ Documentation:
 mBuild: https://mbuild.mosdef.org/en/stable/
 Foyer: https://foyer.mosdef.org/en/stable/
 
-Use mBuild to:
-
-1. Build molecular components in mBuild (monomers, solvents, nanoparticles, polymer chains). 
-
-2. Then assemble them into a simulation box using fill_box or Packmol.
-
-Use Foyer to:
-
-1. assign atom types
-
-2. apply force-field parameters
-
-3. generate bonded interactions
-
-4. Export to LAMMPS, OpenMM XML, or GSD for simulation.
+First step is to use mBuild in order to build molecular components in mBuild (monomers, solvents, nanoparticles, polymer chains). Then assemble them into a simulation box using fill_box or Packmol. For the next move, you can use Foyer to assign atom types in order to apply force-field parameters. The output can be used to export to LAMMPS, OpenMM XML, or GSD for simulation.
 
 
 #### AmberTools
@@ -59,15 +45,7 @@ AmberTools specializes in biomolecular system preparation (proteins, DNA/RNA, li
 Documentation:
 https://ambermd.org/AmberTools.php
 
-AmberTools provides workflows for:
-
-generating chemically accurate biomolecular topologies
-
-assigning AMBER and GAFF force fields
-
-adding hydrogens, water, and ions
-
-writing files for HOOMD-blue, GROMACS, OpenMM, AMBER, etc.
+AmberTools provides workflows for generating chemically accurate biomolecular topologies for assigning AMBER and GAFF force fields. In this method, you can add hydrogens, water, and ions to the system.
 
 
 
