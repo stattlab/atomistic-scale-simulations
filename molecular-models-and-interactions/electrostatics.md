@@ -46,7 +46,7 @@ U = \frac{1}{2} \sum_{\vec m\in\mathbb Z^3}
 $$
 where $\vec{m}$ are the image vectors, and $L$ is the box size.
 
-This sum is conditionally convergent!
+This sum is conditionally convergent!{cite}`widomShapeAdapted`
 
 ```{figure} ./_figures/mandelung-sum.png
 :alt: Illustration of the summation of charges on a simple lattice.
@@ -89,30 +89,24 @@ We use Poisson's equation
 $$
 \begin{aligned}
 \nabla^2 \phi^G(r)
-  &= - \frac{\rho^G(r)}{\varepsilon_0}
-   = - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
-      e^{-r^2/2\sigma^2} \\[4pt]
+ & = - \frac{\rho^G(r)}{\varepsilon_0} \\
+ & = - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} e^{-r^2/2\sigma^2} \\[4pt]
 \frac{1}{r}\,\frac{d^2}{dr^2}\!\bigl(r\,\phi^G(r)\bigr)
-  &= - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
-     e^{-r^2/2\sigma^2} \\[4pt]
-\int_{\infty}^{r} \!dr'\,
-\frac{d^2}{dr'^2}\!\bigl(r'\,\phi^G(r')\bigr)
-  &= - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
-     \int_{\infty}^{r} \!dr'\, e^{-r'^2/2\sigma^2} \\[4pt]
+ & = - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} e^{-r^2/2\sigma^2} \\[4pt]
+\int_{\infty}^{r} \!dr'\, \frac{d^2}{dr'^2}\!\bigl(r'\,\phi^G(r')\bigr)
+ & = - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} \int_{\infty}^{r} \!dr'\, e^{-r'^2/2\sigma^2} \\[4pt]
 \frac{d}{dr}\!\bigl(r\,\phi^G(r)\bigr)
-  &= \frac{q_i\,\sigma^2}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
-     e^{-r^2/2\sigma^2} \\[4pt]
+ & = \frac{q_i\,\sigma^2}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} e^{-r^2/2\sigma^2} \\[4pt]
 \int_{0}^{r} d\!\bigl(r'\,\phi^G(r')\bigr)
-  &= \frac{q_i\,\sigma^2}{\varepsilon_0 (2\pi\sigma^2)^{3/2}}
-     \int_{0}^{r} dr'\, e^{-r'^2/2\sigma^2} \\[4pt]
-&\dots \\
+ & = \frac{q_i\,\sigma^2}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} \int_{0}^{r} dr'\, e^{-r'^2/2\sigma^2} \\[4pt]
+ & \dots \\
 \phi^G(r)
-  &= \frac{q_i}{4\pi\varepsilon_0 r}\,
-     \mathrm{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\,.
+ & = \frac{q_i}{4\pi\varepsilon_0 r}\, \mathrm{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\,.
 \end{aligned}
 $$
 
 For a simple point charge, we get
+
 $$
 \phi(r) = \frac{q_i}{4\pi\epsilon_0 r} \quad .
 $$
@@ -120,10 +114,12 @@ $$
 Using this, we can split the sum, called **Ewald summation**, which we will derive below.
 
 $$
-\phi(\vec{r}) = \frac{1}{4 \pi \varepsilon_0}
+\begin{aligned}
+\phi(\vec{r}) &= \frac{1}{4 \pi \varepsilon_0}
   \sum_{\vec{m}} \sum_{j=1}^N \frac{q_j}{\lvert \vec{r}_j - \vec{r} + \vec{m}L\rvert} \\
-\rightarrow u = \frac{1}{2} \sum_{i=1}^N
-  q_i\bigl[\phi(\vec{r}_i) - \underbrace{\phi_i(\vec{r}_i)}_{\substack{\text{exclude self interactions}\\ \text{where } \vec{m}=0}}\bigr]
+\rightarrow\; u &= \frac{1}{2} \sum_{i=1}^N
+  q_i\!\left[\phi(\vec{r}_i) - \underbrace{\phi_i(\vec{r}_i)}_{\substack{\text{exclude self interactions}\\ \text{where } \vec{m}=0}}\right]
+\end{aligned}
 $$
 
 ```{note}
@@ -133,37 +129,51 @@ We exclude self-interactions, but they can be kept in principle. In the final eq
 Now we split the sum:
 
 $$
+\begin{aligned}
 \phi_i(r) &= \underbrace{\phi_i(r)-\phi^G_i(r)}_{\text{short}} + \underbrace{\phi^G_i(r)}_{\text{long}}\\
-& =\frac{q_i}{4 \pi \epsilon_0 r}-\frac{q_i}{4 \pi \epsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
-& =\frac{q_i}{4 \pi \varepsilon_0 r}\left[1-\operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\right]+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
-& =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\\
-& =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\kappa r \right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\kappa r\right)
+&= \frac{q_i}{4 \pi \varepsilon_0 r}-\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\\
+&= \frac{q_i}{4 \pi \varepsilon_0 r}\!\left[1-\operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\right]+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\\
+&= \frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\!\left(\frac{r}{\sqrt{2}\sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\\
+&= \frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\!\left(\kappa r\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\kappa r\right)
+\end{aligned}
 $$
+
 
 Where we have defined an inverse screening length $\kappa = \frac{1}{\sqrt{2}\sigma}$ in the last step.
 
 Now we define a short ranged $\phi_i^S(r)$ and a long ranged $\phi_i^L(r)$,
 
 $$
-\phi_i^S(r)=\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
-\phi_i^L(r)=\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)
+\begin{aligned}
+\phi_i^S(r) &= \frac{q_i}{4 \pi \varepsilon_0 r}\,\operatorname{erfc}\!\left(\frac{r}{\sqrt{2}\sigma}\right) \\
+\phi_i^L(r) &= \frac{q_i}{4 \pi \varepsilon_0 r}\,\operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)
+\end{aligned}
 $$
 
 so that we get
 
 $$
-\phi(r)&=\sum_{\vec{m}} \sum_{j=1}^N \phi_j\left(\lvert\vec{r}_i-\vec{r}+\vec{m} L\rvert \right) \\
-& =\sum_{\vec{m}} \sum_{j=1}^N \phi_j^S+\phi_j^L\\
-&=\sum_{\vec{m}} \sum_{j=1}^N \phi_j^S+\sum_{\vec{m}} \sum_{j=1}^N\phi_j^L\\
-&=\phi^S+\phi^L \quad , \\
+\begin{aligned}
+\phi(r) &= \sum_{\vec{m}} \sum_{j=1}^N \phi_j\!\left(\lvert\vec{r}_i-\vec{r}+\vec{m}L\rvert\right) \\
+&= \sum_{\vec{m}} \sum_{j=1}^N \phi_j^S + \phi_j^L\\
+&= \sum_{\vec{m}} \sum_{j=1}^N \phi_j^S + \sum_{\vec{m}} \sum_{j=1}^N \phi_j^L\\
+&= \phi^S + \phi^L \quad ,
+\end{aligned}
 $$
 
 and
 
 $$
-u&=\frac{1}{2} \sum_{i=1}^N q_i\left[\phi^S\left(r_i\right)-\phi_i^S\left(r_i\right)\right]+\frac{1}{2} \sum_{i=1}^N q_i\left[\phi^L\left(r_i\right)-\phi_i^L\left(r_i\right)\right] \\
-&=\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S\left(\lvert r_j-r_i+\vec{m}L\rvert \right)+\frac{1}{2} \sum_{i=1}^N q_i \phi^L\left(r_i\right)-\frac{1}{2} \sum_{i=1}^N q_i \phi_i^L\left(r_i\right) \\
+\begin{aligned}
+u &= \frac{1}{2} \sum_{i=1}^N q_i\!\left[\phi^S(r_i)-\phi_i^S(r_i)\right]
+   + \frac{1}{2} \sum_{i=1}^N q_i\!\left[\phi^L(r_i)-\phi_i^L(r_i)\right] \\
+&= \frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{\substack{j=1\\ j\neq i}}^N
+   u^S\!\left(\lvert r_j-r_i+\vec{m}L\rvert\right)
+   + \frac{1}{2} \sum_{i=1}^N q_i \phi^L(r_i)
+   - \frac{1}{2} \sum_{i=1}^N q_i \phi_i^L(r_i)
+\end{aligned}
 $$
+
 
 For the last sum, we can now look at the limit:
 
@@ -183,13 +193,16 @@ $$
 
 The first term, turns into a normal pairwise sum, if $\operatorname{erfc}$  decays quickly. The middle term still needs to be evaluated.
 
-Long-ranged part is convieniently summed in Fourier space.
+Long-ranged part is convieniently summed in Fourier space.{cite}`stern2008mesh`
 **Fourier transform**:
 
 $$
-\hat f(\vec{k}) &= \int_V d\vec{r} f(\vec{r}) e^{-i\vec{k}\vec{r}}  \quad \text{for finite volumes. }\\
-\hat f(\vec{r}) &= \frac{1}{L^3} \sum_{\vec{k}} \hat f(\vec{k}) e^{i\vec{k}\vec{r}} \quad \text{with } \vec{k} = \frac{2\pi \vec{n}}{L} \quad .
+\begin{aligned}
+\hat f(\vec{k}) &= \int_V d\vec{r}\, f(\vec{r})\, e^{-i\vec{k}\cdot\vec{r}} \quad \text{for finite volumes} \\
+\hat f(\vec{r}) &= \frac{1}{L^3} \sum_{\vec{k}} \hat f(\vec{k})\, e^{i\vec{k}\cdot\vec{r}} \quad \text{with } \vec{k}=\frac{2\pi \vec{n}}{L}\, .
+\end{aligned}
 $$
+
 
 We need to Fourier transform Poisson's equation for Gaussian charge (periodic array).
 
@@ -213,6 +226,7 @@ $$
 $$
 
 Next, we perform a change of variables by substituting $\vec{r}' = \vec{r} - \vec{r}_i$. This shifts the origin to the particle position $\vec{r}_i$, pulling a phase factor $e^{-i \vec{k} \cdot \vec{r}_i}$ out of the integral:
+
 $$
 \begin{aligned}
 \hat{\rho}^G(\vec{k})
@@ -223,6 +237,7 @@ $$
  e^{-r'^2 / 2\sigma^2} e^{-i \vec{k} \cdot \vec{r}'}
 \end{aligned}
 $$
+
 To solve the remaining integral, we switch to spherical coordinates $(r', \theta, \phi)$. We align the $z$-axis with the wavevector $\vec{k}$ so that $\vec{k} \cdot \vec{r}' = k r' \cos\theta$:
 
 $$
@@ -236,7 +251,9 @@ $$
  & = e^{-i \vec{k} \cdot \vec{r}_i} \frac{q_i}{(2 \pi \sigma^2)^{3/2}} \int_0^{\infty} dr'\, r'^2 e^{-r'^2 / 2\sigma^2} \underbrace{\left[ \int_0^{2\pi} d\phi \int_{-1}^{1} d(\cos\theta)\, e^{-i k r' \cos\theta} \right]}_{\text{Angular integration}}
 \end{aligned}
 $$
+
 The angular integral yields $4\pi \frac{\sin(kr')}{kr'}$. Substituting this back and solving the radial Gaussian integral gives the final result:
+
 $$
 \begin{aligned}
 \hat{\rho}^G(\vec{k})
@@ -252,6 +269,7 @@ Last, invert
 $$
 \phi^L(\vec{r}) = \frac{1}{L^3} \sum_{\vec{k}\neq 0} \sum_{j=1}^N \frac{q_j}{\varepsilon_0 k^2} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot (\vec{r}_j - \vec{r})}
 $$
+
 and
 
 $$
@@ -302,9 +320,9 @@ $$
 
 - Real space: efficient for short-range potentials
 - Reciprocal space: efficient way to treat smooth periodic functions
-- Ewald: efficient way to sum a divergent and long-range interaction by summing part in real space and part in reciprocal space
+- Ewald: efficient way to sum a divergent and long-range interaction by summing part in real space and part in reciprocal space{cite}`toukmaji199`
 
-Choose $k=\frac{1}{\sqrt{2}\sigma}$, the inverse screening length, and the number of wavevectors to be accurate and efficient.
+Choose $k=\frac{1}{\sqrt{2}\sigma}$, the inverse screening length, and the number of wavevectors to be accurate and efficient. 
 
 - Self-interactions are commonly excluded.
 
@@ -326,4 +344,6 @@ Harry A. Stern; Keith G. Calkins
 J. Chem. Phys. 128, 214106 (2008)](https://doi.org/10.1063/1.2932253){cite}`stern2008mesh`
 
 - [Shape-Adapted Ewald Summation,
-M. Widom](https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf)
+M. Widom](https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf){cite}`widomShapeAdapted`
+
+- [Ewald summation techniques in perspective: a survey, Toukmaji, A. Y. and Board, J. A.](https://doi.org/10.1016/0010-4655(96)00016-1){cite}`toukmaji199`
