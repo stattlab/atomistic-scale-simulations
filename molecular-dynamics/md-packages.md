@@ -283,6 +283,16 @@ science:
 - [LAMMPS documentation](https://docs.lammps.org)
 - [HOOMD-blue documentation](https://hoomd-blue.readthedocs.io)
 - [GROMACS documentation](https://manual.gromacs.org/current/index.html)
+- [NAMD documentation](https://www.ks.uiuc.edu/Research/namd/documentation.html)
+- [OpenMM](https://docs.openmm.org/latest/userguide/)
+- [AMBER](https://ambermd.org/Manuals.php)
+
+- [Packmol](https://m3g.github.io/packmol/userguide.shtml)
+- [mBuild](https://mbuild.mosdef.org/en/stable/)
+- [Foyer](https://foyer.mosdef.org/en/stable/)
+- [AmberTools](https://ambermd.org/AmberTools.php)
+
+- [OVITO](https://www.ovito.org/docs/current/)
 
 - "Simulations: The Dark Side," Daan Frenkel, 2013 {cite}`frenkel2013simulations`
 
