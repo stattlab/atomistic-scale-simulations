@@ -20,7 +20,7 @@ While ordered solids can be initialized in a straightforward manner due to their
 
 Specifically, it is necessary to ensure that the primary quantities describing the system, which are often pressure, volume, temperature, and total energy, are appropriately set up. If one were interested in doing a production run for an ensemble, it is usually necessary to first run a shorter equillibration process with at least one other ensemble that optimizes variables that the production run does not fix. For example, if the desired simulation is to describe an NVE ensemble, it is necessary to first start with an NVT ensemble simulation beforehand, so that the temperature can be brought to a reasonable value in preparation for the primary simulation. This situation is the case for virtually all models of liquids and gases, and the specific pre-simulation procedures that need to be done in order to ensure a system is properly equilibrated can vary depending on the situation. Typically, the equilibration process for a paramter, such as pressure, volume, or energy, as a function of time somewhat resembles the graph shown below.
 
-![Diagram](/_figures/Equilibration.png)
+![Diagram](_figures/Equilibration.png)
 
 ## 4.6.2 Neighbor Searching
 
