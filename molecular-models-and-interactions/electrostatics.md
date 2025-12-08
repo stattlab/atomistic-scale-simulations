@@ -320,7 +320,7 @@ $$
 
 - Real space: efficient for short-range potentials
 - Reciprocal space: efficient way to treat smooth periodic functions
-- Ewald: efficient way to sum a divergent and long-range interaction by summing part in real space and part in reciprocal space{cite}`toukmaji199`
+- Ewald: efficient way to sum a divergent and long-range interaction by summing part in real space and part in reciprocal space{cite}`toukmaji1996`
 
 Choose $k=\frac{1}{\sqrt{2}\sigma}$, the inverse screening length, and the number of wavevectors to be accurate and efficient. 
 
@@ -346,4 +346,4 @@ J. Chem. Phys. 128, 214106 (2008)](https://doi.org/10.1063/1.2932253){cite}`ster
 - [Shape-Adapted Ewald Summation,
 M. Widom](https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf){cite}`widomShapeAdapted`
 
-- [Ewald summation techniques in perspective: a survey, Toukmaji, A. Y. and Board, J. A.](https://doi.org/10.1016/0010-4655(96)00016-1){cite}`toukmaji199`
+- [Ewald summation techniques in perspective: a survey, Toukmaji, A. Y. and Board, J. A.](https://doi.org/10.1016/0010-4655(96)00016-1){cite}`toukmaji1996`
