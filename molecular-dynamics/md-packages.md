@@ -24,15 +24,7 @@ Packmol builds the initial coordinates of a system while enforcing minimum-dista
 Documentation:
 https://m3g.github.io/packmol/userguide.shtml
 
-Using Packmol
-
-Create or obtain particle/molecule files (.pdb).
-
-Write a Packmol input script that places the molecules in a box.
-
-Run Packmol to generate a packed structure.
-
-Packmol can restrict groups of atoms to specified regions, such as ensuring hydrophilic groups face outward when assembling vesicles.
+To apply the Packmol, you need to firstly create or insert a particle file (pdb format). Then, a Packmol input script needs to be set so that it can be used to run the initialization. You can restrain a part of the molecule to be in a specified region of the space. This is useful for building vesicles where the hydrophilic part of the surfactants must be pointing to the aqueous environment.
 
 #### mBuild and Foyer
 
