@@ -1,0 +1,826 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.2. Thermodyanmics and Ensembles &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'statmech-thermo/ensembles';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/statmech-thermo/ensembles.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff" href="statmech-ergodicity.html" />
+    <link rel="prev" title="3.1. Introduction" href="introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">3. Statistical Mechanics and Thermodynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. 4.6 Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.2. 5.2 Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fstatmech-thermo/ensembles.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/statmech-thermo/ensembles.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Thermodyanmics and Ensembles</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#macroscopic-thermodynamics">3.2.1. Macroscopic Thermodynamics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#legendre-transforms-and-thermodynamic-potentials">3.2.1.1. Legendre Transforms and Thermodynamic Potentials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#microstates-and-statistical-ensembles">3.2.2. Microstates and Statistical Ensembles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-and-ensemble-averages">3.2.3. Time and Ensemble Averages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#microcanonical-ensemble-nve">3.2.4. Microcanonical Ensemble (NVE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canonical-ensemble-nvt">3.2.5. Canonical Ensemble (NVT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-ensembles">3.2.6. Other Ensembles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isothermal-isobaric-npt">3.2.6.1. Isothermal-Isobaric (NPT)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grand-canonical-ensemble-vt">3.2.6.2. Grand Canonical Ensemble (μVT)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">3.2.7. References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="thermodyanmics-and-ensembles">
+<h1><span class="section-number">3.2. </span>Thermodyanmics and Ensembles<a class="headerlink" href="#thermodyanmics-and-ensembles" title="Link to this heading">#</a></h1>
+<section id="macroscopic-thermodynamics">
+<h2><span class="section-number">3.2.1. </span>Macroscopic Thermodynamics<a class="headerlink" href="#macroscopic-thermodynamics" title="Link to this heading">#</a></h2>
+<p><strong>First Law (Fundamental Equation):</strong></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+dE = T\,dS - P\,dV + \mu\,dN  \\
+E = TS -PV +\mu N
+\end{split}\]</div>
+<p>the natural variables are <span class="math notranslate nohighlight">\(E(S, V, N) \)</span> or <span class="math notranslate nohighlight">\(S(E, V, N)\)</span>.</p>
+<p><strong>Second Law:</strong></p>
+<ul class="simple">
+<li><p>In an isolated system, all spontaneous processes increase entropy <span class="math notranslate nohighlight">\(S\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(S \)</span> is maximized (at constant <span class="math notranslate nohighlight">\(E, V, N \)</span>) for an isolated system.</p></li>
+<li><p>Corollary: <span class="math notranslate nohighlight">\(E \)</span> is minimized at constant <span class="math notranslate nohighlight">\(S, V, N \)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+d(\S/k_B) = \beta dE + \beta PdV - \beta \mu dN \quad, \text{where } k_B \text{ is the Boltzmann's constant.}
+\]</div>
+<p>The “natural” macroscopic variables are  <span class="math notranslate nohighlight">\(E(S, V, N) \)</span> or <span class="math notranslate nohighlight">\(S(E, V, N)\)</span>. What to do if we want more convenient variables (e.g., <span class="math notranslate nohighlight">\(T\)</span>)?</p>
+<figure class="align-center" id="nvt-fig">
+<a class="reference internal image-reference" href="../_images/NVT.png"><img alt="Sketch of an NVT ensenble, held at a constant temperature $T$ by energy exchange with a bath." src="../_images/NVT.png" style="width: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.1 </span><span class="caption-text">Sketch of an NVT ensenble, held at a constant temperature <span class="math notranslate nohighlight">\(T\)</span> by energy exchange with a bath.</span><a class="headerlink" href="#nvt-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Consider system + bath:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(S_{\text{total}} = S + S_B \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(E_{\text{total}} = E + E_B \)</span></p></li>
+</ul>
+</li>
+</ul>
+<p>Energy is exchanged so the system and bath come to <span class="math notranslate nohighlight">\(T\)</span>, as sketched in <a class="reference internal" href="#nvt-fig"><span class="std std-numref">Fig. 3.1</span></a>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+S_B&amp;=\frac{E_B+P_B V_B-\mu_B N_B}{T}\\
+&amp;=\frac{E_T-E+P_B V_B-\mu_B N_B}{T}\\
+&amp;=-\frac{E}{T}+\text { constants } \\
+S_T&amp;=S-\frac{E}{T}+\text { constants }
+\end{split}\]</div>
+<p>The second law, <span class="math notranslate nohighlight">\(\text{max } S_T\)</span>, leads to</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\max_E \left[ S(E,V,N) - \frac{E}{T}\right] = \max_E \left[  - \frac{E-TS}{T}\right] = \max_E \left[ - \frac{A}{T}\right]\\
+\rightarrow \min_E A
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(A(T,V,N)=E-TS\)</span> is the Helmholtz free energy. Maximize <span class="math notranslate nohighlight">\(S_{\text{total}} \rightarrow \)</span> minimize Helmholtz free energy!</p>
+<p>The resulting fundamental equations are</p>
+<div class="math notranslate nohighlight">
+\[
+  A = E - TS = -PV = \mu N \quad \text{with} \quad dA = -S\,dT - P\,dV + \mu\,dN \quad .
+\]</div>
+<p>The same approach can be applied to exchange volume or number of particles with a bath. This then generates other thermodynamics potentials, <span class="math notranslate nohighlight">\(H(S,P,N)\)</span>, <span class="math notranslate nohighlight">\(G(T,P,N)\)</span>, etc.
+The internal energy (<span class="math notranslate nohighlight">\(U\)</span>), enthalpy (<span class="math notranslate nohighlight">\(H\)</span>), Helmholtz free energy (<span class="math notranslate nohighlight">\(A\)</span>), and Gibbs free energy (<span class="math notranslate nohighlight">\(G\)</span>) are all thermodynamic potentials.</p>
+<section id="legendre-transforms-and-thermodynamic-potentials">
+<h3><span class="section-number">3.2.1.1. </span>Legendre Transforms and Thermodynamic Potentials<a class="headerlink" href="#legendre-transforms-and-thermodynamic-potentials" title="Link to this heading">#</a></h3>
+<p>A formal process to obtain these thermodynamic potentials is the <strong>Legendre Transform</strong>, a mathematical process to produce a new function wth a variable exchanged with its derivative. Used to exchange variables with their conjugate derivatives.</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_x\left[ f(x)\right] = g(p) = \max_x \left[ px = f(x)\right]= px^* -f (x^*)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(x^*\)</span> solves <span class="math notranslate nohighlight">\(f' (x^*)=p\)</span>.</p>
+<p>In thermodynamics, we use a slightly different multivariable version:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_x\left[ f(x,y,z)\right] = g(p,y,z) = \max_x \left[ f(x,y,z)-px\right]= f(x^*,y,z)- px^* \quad
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(x^*\)</span> solves <span class="math notranslate nohighlight">\(\frac{\partial f (x^*,y,z)}{\partial x}=p\)</span>. Instead of <span class="math notranslate nohighlight">\(\max\)</span> (for convcave), <span class="math notranslate nohighlight">\(\min\)</span> can be also used (for convex).</p>
+<p>For example, temperature (T) and entropy (S) are conjugate, as are pressure (P) and volume (V). The Legendre transform swaps these conjugate pairs.</p>
+<div class="admonition-example-helmholtz-free-energy admonition">
+<p class="admonition-title">Example: Helmholtz Free Energy</p>
+<div class="math notranslate nohighlight">
+\[
+S(E,V,N), \quad dS=\underbrace{\frac{1}{T}}*{&quot;=p&quot;} \underbrace{dE}*{&quot;x&quot;} + \frac{P}{T} dV -  \frac{\mu}{T} dN
+\]</div>
+<p>Now <span class="math notranslate nohighlight">\(\frac{1}{T} = \left(\frac{\partial S}{\partial E}\right)_{V,N}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_E \left[ S(E,V,N) \right] = \max_E \left[  S(E,V,N) - \frac{E}{T}\right] = S(E^*) -  \frac{E^*}{T} = \frac{A}{T}
+\]</div>
+<p>Why this definition of <span class="math notranslate nohighlight">\(A\)</span>? Minimum <span class="math notranslate nohighlight">\(E\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+E(S,V,N) \quad dE= TdS - PdV + \mu dN\\
+A(T,V,N) = \mathcal{L}_E \left[ E(S,V,N) \right]  =  min_S \left[ E(S,V,N) - TS \right] = E(S^*,V,N) - TS^* \quad.
+\end{split}\]</div>
+<p>In practice? Take conjugate variales, swap them, and add minus sign!</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+d E  &amp;= TdS - PdV + \mu dN \rightarrow dH = TdS + VdP + \mu dN \\
+d E  &amp;= TdS - PdV + \mu dN \rightarrow dA = -SdT -PdV +\mu dN
+\end{split}\]</div>
+<p>folloing the same scheme:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+d H  &amp;= TdS + VdP + \mu dN \rightarrow dG = -SdT + VdP + \mu dN \\
+d A  &amp;= -SdT -PdV +\mu dN \rightarrow dG = -SdT +VdP +\mu dN
+\end{split}\]</div>
+<p>So <span class="math notranslate nohighlight">\(H=E+PV\)</span> and <span class="math notranslate nohighlight">\(G=H-TS\)</span>.</p>
+</div>
+<p>See also <a class="reference external" href="https://doi.org/10.1119/1.3119512">“Making sense of the Legendre transform”,
+R. K. P. Zia; Edward F. Redish; Susan R. McKay
+Am. J. Phys. 77, 614–622 (2009)</a>.</p>
+<p>Natural variables describe constraints; derivatives respond to satisfy the second law. The themodynamic potential is <strong>minimized</strong> when its natural variables are the constraint.</p>
+</section>
+</section>
+<section id="microstates-and-statistical-ensembles">
+<h2><span class="section-number">3.2.2. </span>Microstates and Statistical Ensembles<a class="headerlink" href="#microstates-and-statistical-ensembles" title="Link to this heading">#</a></h2>
+<p>For simulations it is essential to understand the connections between <strong>macro-</strong> and <strong>microstates</strong>.</p>
+<ul class="simple">
+<li><p><strong>Macrostate</strong>: Defined by <span class="math notranslate nohighlight">\(E, V, N \)</span>, three variables.</p></li>
+<li><p><strong>Microstate</strong>: Specific configuration <span class="math notranslate nohighlight">\((\vec{r}_N, \vec{p}_N)\)</span>, i.e all classical position and momenta. This means 6N coordinates!</p></li>
+</ul>
+<p>there are <strong>many</strong> microstates correspond to the same macrostate.
+Not all microstates satisfy macroscopic constraints, e.g. not all <span class="math notranslate nohighlight">\(E(\vec{r}^N,\vec{p}^N)\)</span> match the specified <span class="math notranslate nohighlight">\(E\)</span>.</p>
+<p>The microstates evolve according to some physics, e.g. Newton’s equations.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dot{\vec{r}}_i = \frac{\vec{p}_i}{m_i}\\
+\dot{\vec{p}}_i = -\frac{\partial U}{\partial r_i}\\
+\end{split}\]</div>
+<p>An <strong>ensemble</strong> is the collection of all microstates consistent with the given constraints.</p>
+</section>
+<section id="time-and-ensemble-averages">
+<h2><span class="section-number">3.2.3. </span>Time and Ensemble Averages<a class="headerlink" href="#time-and-ensemble-averages" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Time average</strong>:<br />
+Sample one system over time, average: <span class="math notranslate nohighlight">\(\bar{f} = \frac{1}{N} \sum_{i=1}^N f(t_i)\)</span>.</p></li>
+<li><p><strong>Ensemble average</strong>:<br />
+Sample many systems at once, pull representative states <span class="math notranslate nohighlight">\(\langle f \rangle = \sum_v P_v f_v\)</span>, where <span class="math notranslate nohighlight">\(v\)</span> are microstates, and <span class="math notranslate nohighlight">\(P_v\)</span> is the probability of that state, and <span class="math notranslate nohighlight">\(f_v\)</span> is the value of <span class="math notranslate nohighlight">\(f\)</span> in that microstate.</p></li>
+<li><p>If system is <strong>ergodic</strong>, time and ensemble averages are equivalent, that is, at long times it evolves through <strong>all</strong> microstates consistend with constraints, see <a class="reference internal" href="#ergodic-fig"><span class="std std-numref">Fig. 3.2</span></a>.</p></li>
+</ul>
+<blockquote>
+<div><h4 class="rubric" id="postulate-of-equal-a-priori-probabilities">Postulate of Equal A Priori Probabilities</h4>
+<p>In an isolated system (constant <span class="math notranslate nohighlight">\(E, V, N \)</span>), all accessible microstates are equally likely.</p>
+</div></blockquote>
+<figure class="align-center" id="ergodic-fig">
+<a class="reference internal image-reference" href="../_images/ergodic.png"><img alt="Illustration of ergodic vs. non-ergodic." src="../_images/ergodic.png" style="width: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.2 </span><span class="caption-text">Illustration of ergodic vs. non-ergodic trajectories.</span><a class="headerlink" href="#ergodic-fig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="microcanonical-ensemble-nve">
+<h2><span class="section-number">3.2.4. </span>Microcanonical Ensemble (NVE)<a class="headerlink" href="#microcanonical-ensemble-nve" title="Link to this heading">#</a></h2>
+<p>All microstates with energy <span class="math notranslate nohighlight">\(E \)</span> are equally likely (as per postulate above).</p>
+<ul class="simple">
+<li><p>Number of all microstates:<br />
+<span class="math notranslate nohighlight">\(\Omega(E, V, N) = \sum_v \delta(E - E_i)\)</span> where <span class="math notranslate nohighlight">\(v\)</span> are microstates.</p></li>
+<li><p>Probability of a microstate:<br />
+<span class="math notranslate nohighlight">\(P_i = \frac{\delta(E - E_i)}{\Omega(E, V, N)}\)</span>. We call <span class="math notranslate nohighlight">\(\Omega\)</span> the <strong>partition function</strong> for the ensembe, or the <strong>density of states</strong>.</p></li>
+</ul>
+<p>From here, Boltzmann connected the macroscopic entropy to the microcanonical partition function:</p>
+<p><strong>Entropy</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{ S = k_B \ln \Omega}
+\]</div>
+<p>All thermodynamic properties can be derived from <span class="math notranslate nohighlight">\(\Omega\)</span>!</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+d \ln \Omega &amp;= d(S/k_B) = \beta dE + \beta P dV - \beta \mu dN \\
+\rightarrow \beta &amp;= \left(\frac{\partial \ln \Omega}{\partial E}\right)*{V,N}\\
+\rightarrow \beta P &amp;= \left(\frac{\partial \ln \Omega}{\partial V}\right)*{E,N}\\
+\rightarrow \beta \mu &amp;= \left(\frac{\partial \ln \Omega}{\partial N}\right)_{E,V}\\
+\end{split}\]</div>
+</section>
+<section id="canonical-ensemble-nvt">
+<h2><span class="section-number">3.2.5. </span>Canonical Ensemble (NVT)<a class="headerlink" href="#canonical-ensemble-nvt" title="Link to this heading">#</a></h2>
+<p>Constant <span class="math notranslate nohighlight">\(E\)</span> is inconvinient when comparing to experiments. What about constant <span class="math notranslate nohighlight">\(T\)</span>? This is a very common ensemble to operate in for both MD and MC simulations.</p>
+<p>System exchanges energy with a heat bath at temperature <span class="math notranslate nohighlight">\(T\)</span></p>
+<ul class="simple">
+<li><p>Probability of a microstate:
+<span class="math notranslate nohighlight">\( P_i = \frac{e^{-\beta E_i}}{Z}\)</span></p></li>
+<li><p><strong>Partition function</strong>:
+<span class="math notranslate nohighlight">\(Z(T, V, N) = \sum_i e^{-\beta E_i}\)</span></p></li>
+<li><p>Average energy:
+<span class="math notranslate nohighlight">\(\langle E \rangle = -\frac{\partial \ln Z}{\partial \beta}\)</span></p></li>
+<li><p>Helmholtz free energy:
+<span class="math notranslate nohighlight">\( A = -k_B T \ln Z\)</span></p></li>
+<li><p>In the thermodynamic limit:
+<span class="math notranslate nohighlight">\(\ln Z = -\beta A\)</span></p></li>
+<li><p><strong>Gibbs Entropy Formula</strong>:
+<span class="math notranslate nohighlight">\(S = -k_B \sum_i P_i \ln P_i\)</span></p></li>
+<li><p>Substituting Boltzmann distribution:
+<span class="math notranslate nohighlight">\(S = k_B \ln Z + \beta \langle E \rangle = \frac{\langle E \rangle - A}{T}\)</span></p></li>
+</ul>
+</section>
+<section id="other-ensembles">
+<h2><span class="section-number">3.2.6. </span>Other Ensembles<a class="headerlink" href="#other-ensembles" title="Link to this heading">#</a></h2>
+<section id="isothermal-isobaric-npt">
+<h3><span class="section-number">3.2.6.1. </span>Isothermal-Isobaric (NPT)<a class="headerlink" href="#isothermal-isobaric-npt" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>System exchanges energy and volume with a bath.</p></li>
+<li><p>Probability:
+<span class="math notranslate nohighlight">\(
+P_i \propto e^{-\beta (E_i + P V_i)}
+\)</span></p></li>
+<li><p>Partition function:
+<span class="math notranslate nohighlight">\(
+\Delta(T, P, N) = \sum_i e^{-\beta (E_i + P V_i)}
+\)</span></p></li>
+<li><p>Gibbs free energy:
+<span class="math notranslate nohighlight">\(
+G = -k_B T \ln \Delta
+\)</span></p></li>
+</ul>
+</section>
+<section id="grand-canonical-ensemble-vt">
+<h3><span class="section-number">3.2.6.2. </span>Grand Canonical Ensemble (μVT)<a class="headerlink" href="#grand-canonical-ensemble-vt" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>System exchanges energy and particles with a bath.</p></li>
+<li><p>Probability:
+<span class="math notranslate nohighlight">\(
+P_i \propto e^{-\beta (E_i - \mu N_i)}
+\)</span></p></li>
+<li><p>Partition function:
+<span class="math notranslate nohighlight">\(
+\Xi(T, V, \mu) = \sum_{N} \sum_i e^{-\beta (E_i - \mu N)}
+\)</span></p></li>
+<li><p>Grand potential:
+<span class="math notranslate nohighlight">\(
+\Phi = -k_B T \ln \Xi
+\)</span></p></li>
+</ul>
+</section>
+</section>
+<section id="references">
+<h2><span class="section-number">3.2.7. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The Wikipedia pages for various thermodynamics and statistical mechanics topics are quite good:</p>
+<ul>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Category:Statistical_mechanics">Wikipedia links for all Statmech Categories</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Category:Thermodynamics">Wikipedia links for all Thermo Categories</a></p></li>
+</ul>
+</li>
+<li><p>Any Statmech &amp; Thermo textbook, in particular <span id="id1">Dill and Bromberg<sup><a class="reference internal" href="../references/references.html#id3" title="Ken Dill and Sarina Bromberg. Molecular driving forces: statistical thermodynamics in biology, chemistry, physics, and nanoscience. Garland Science, 2010.">3</a></sup></span> and <span id="id2">Shell<sup><a class="reference internal" href="../references/references.html#id4" title="M Scott Shell. Thermodynamics and statistical mechanics: an integrated approach. Cambridge University Press, 2015.">15</a></sup></span></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./statmech-thermo"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="introduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3.1. </span>Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="statmech-ergodicity.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3.3. </span>Statistical Mechanics: Ensembles, Ergodicity and other Stuff</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#macroscopic-thermodynamics">3.2.1. Macroscopic Thermodynamics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#legendre-transforms-and-thermodynamic-potentials">3.2.1.1. Legendre Transforms and Thermodynamic Potentials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#microstates-and-statistical-ensembles">3.2.2. Microstates and Statistical Ensembles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-and-ensemble-averages">3.2.3. Time and Ensemble Averages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#microcanonical-ensemble-nve">3.2.4. Microcanonical Ensemble (NVE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canonical-ensemble-nvt">3.2.5. Canonical Ensemble (NVT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-ensembles">3.2.6. Other Ensembles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isothermal-isobaric-npt">3.2.6.1. Isothermal-Isobaric (NPT)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grand-canonical-ensemble-vt">3.2.6.2. Grand Canonical Ensemble (μVT)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">3.2.7. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

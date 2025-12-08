@@ -1,0 +1,665 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.5. Entropy and Temperature &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'statmech-thermo/entropy-temperature';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/statmech-thermo/entropy-temperature.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.6. Structural Correlations" href="structural-correlations.html" />
+    <link rel="prev" title="3.4. Thermodyanmics Properties" href="thermodynamic-properties.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">3. Statistical Mechanics and Thermodynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. 4.6 Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../monte-carlo/index.html">5. Monte Carlo Simulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/random-numbers.html">5.2. 5.2 Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../monte-carlo/free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fstatmech-thermo/entropy-temperature.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/statmech-thermo/entropy-temperature.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Entropy and Temperature</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-formulas">3.5.1. Useful Formulas</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="entropy-and-temperature">
+<h1><span class="section-number">3.5. </span>Entropy and Temperature<a class="headerlink" href="#entropy-and-temperature" title="Link to this heading">#</a></h1>
+<p>Entropy and Temperature arise from the algebra of “big” numbers. The logarithm of the number of accessible states of the system is the entropy and of great importance to the thermal properties of a system. (This follows Kittel “Thermal Physics”)</p>
+<p>Consider two systems only in thermal contact. The systems have particle number, <span class="math notranslate nohighlight">\(\mathrm{N}_{1}\)</span> and <span class="math notranslate nohighlight">\(\mathrm{N}_{2}\)</span>, and energy, <span class="math notranslate nohighlight">\(\mathrm{E}_{1}\)</span> and <span class="math notranslate nohighlight">\(\mathrm{E}_{2}\)</span>. When in thermal contact the combined “new system” now has <span class="math notranslate nohighlight">\(\mathrm{N}=\mathrm{N}_{1}+\mathrm{N}_{2}\)</span> particles and total energy <span class="math notranslate nohighlight">\(E_{1}+E_{2}=E_{1}^{\prime}+E_{2}^{\prime}=E\)</span>.</p>
+<p>What is the degeneracy of states that are accessible? The degeneracy function is <span class="math notranslate nohighlight">\(\mathrm{g}(\mathrm{N}, \mathrm{E})\)</span>. For the combined system,</p>
+<div class="math notranslate nohighlight">
+\[
+g(N, E)=\sum_{E_{1}}^{\leq E} g_{1}\left(N_{1}, E_{1}\right) g_{2}\left(N_{2}, E-E_{1}\right)
+\]</div>
+<p>Sum is over all possible accessible states <span class="math notranslate nohighlight">\(E_{1}\)</span>. The product <span class="math notranslate nohighlight">\(g_{1} g_{2}\)</span> is the number of accessible state for the combined systems for energy <span class="math notranslate nohighlight">\(E_{1}\)</span>.</p>
+<p>For statistical mechanics, a very important feature of this product is that it must have a maximum for some value <span class="math notranslate nohighlight">\(E_{1}=\bar{E}\)</span>, the most likely energy. It is an extremely sharply peaked. (Consider <span class="math notranslate nohighlight">\(g_{1}(x)=e^{-x^{2}}\)</span> and <span class="math notranslate nohighlight">\(g_{2}(x)=e^{(8-x)^{2}}\)</span>. The product is basically zero except for a narrow region around <span class="math notranslate nohighlight">\(\mathrm{x}=4\)</span>, and it is <span class="math notranslate nohighlight">\(10^{13}\)</span> smaller than <span class="math notranslate nohighlight">\(g_{1}(0)\)</span> and <span class="math notranslate nohighlight">\(\left.g_{2}(8)!!\right)\)</span></p>
+<p>Consider the extremal properties of this distribution.</p>
+<div class="math notranslate nohighlight">
+\[
+0=d g=\left(\frac{\delta g_{1}}{\delta E_{1}}\right)_{N_{1}} g_{2} d E_{1}+g_{1}\left(\frac{\delta g_{2}}{\delta E_{2}}\right)_{N_{2}} d E_{2}
+\]</div>
+<p>and we have <span class="math notranslate nohighlight">\(d E_{1}+d E_{2}=0\)</span>. (We shall assume here that this is a maximum, which can be proved.) Then, the most probable configuration of the combined system (using <span class="math notranslate nohighlight">\(d E_{1}=-d E_{2}\)</span> ) gives</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{g_{1}}\left(\frac{\delta g_{1}}{\delta E_{1}}\right)_{N_{1}}=\frac{1}{g_{2}}\left(\frac{\delta g_{2}}{\delta E_{2}}\right)_{N_{2}}
+\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[
+\left(\frac{\delta \ln g_{1}}{\delta E_{1}}\right)_{N_{1}}=\left(\frac{\delta \ln g_{2}}{\delta E_{2}}\right)_{N_{2}}
+\]</div>
+<p>Let us define ENTROPY as <span class="math notranslate nohighlight">\(S(N, E)=\ln g(N, E)\)</span> and INVERSE TEMPERATURE as <span class="math notranslate nohighlight">\(\left(\frac{\delta \ln g}{\delta E}\right)_{N}=T^{-1}\)</span>. We have for the maximal probability and equilibrium configuration the <span class="math notranslate nohighlight">\(T_{1}=T_{2}\)</span>, the temperatures must be equal.</p>
+<p>Note also that equilibrium is reach only when the number of accessible states are a maximum.
+Note also that, in this maximal state, <span class="math notranslate nohighlight">\(S=\ln g_{1} g_{2}=\ln g_{1}+\ln g_{2}\)</span> and the Entropy is Additive.</p>
+<p>For Statistical Mechanics or our simulation, we are interested in properties where one of the systems in contact is a very large thermal reservoir, i.e. <span class="math notranslate nohighlight">\(N_{R} \gg N_{s}\)</span> and <span class="math notranslate nohighlight">\(E_{R} \gg E_{s}\)</span>. Let us even suppose that the systems are now in thermal and diffusive contact, so they exchange energy and particles.</p>
+<p>What are the statistical properties of the system? We consider an ensemble consisting of indentical copies of the “system + reservoir” having accessible states only.</p>
+<p>What is the probability to find the system with N particles and in the state <span class="math notranslate nohighlight">\(s\)</span> of energy <span class="math notranslate nohighlight">\(\epsilon_{s}\)</span> ? Clearly the probability <span class="math notranslate nohighlight">\(P\left(N_{s}, \epsilon_{s}\right)\)</span> proportional to the number of accessible states of the RESERVOIR. Because when we specify the state of the system, i.e. N and <span class="math notranslate nohighlight">\(\epsilon_{s}\)</span>, the number of accessible states can only arise from the reservoir: <span class="math notranslate nohighlight">\(g(\)</span> sys + res <span class="math notranslate nohighlight">\()=g(\)</span> sys <span class="math notranslate nohighlight">\() g(\)</span> res <span class="math notranslate nohighlight">\()=g(\)</span> res <span class="math notranslate nohighlight">\()\)</span> as <span class="math notranslate nohighlight">\(g(\)</span> sys <span class="math notranslate nohighlight">\()=1\)</span> (for it was specified). Therefore,</p>
+<div class="math notranslate nohighlight">
+\[
+P\left(N_{s}, \epsilon_{s}\right) \propto g\left(N-N_{s}, E-E_{s}\right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathrm{g}(\mathrm{N}, \mathrm{E})\)</span> depends only on the reservoir. Notice that this relation is for the probability of the system, yet is appears to depend on the make up of the reservoir (strange indeed), but only (as we shall see) on the temperature, T , and chemical potential, <span class="math notranslate nohighlight">\(\mu\)</span>, of the reservoir.</p>
+<p>As we do not know the proportionality constant, let us consider the ratio of probabilities of two states:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{P\left(N_{1}, \epsilon_{1}\right)}{P\left(N_{2}, \epsilon_{2}\right)}=\frac{g\left(N-N_{1}, E-E_{1}\right)}{g\left(N-N_{2}, E-E_{2}\right)}
+\]</div>
+<p>Notice that <span class="math notranslate nohighlight">\(N-N_{i} \ggg N_{i}\)</span> and the <span class="math notranslate nohighlight">\(\mathrm{g}(\mathrm{N}, \mathrm{E})\)</span> are extremely large numbers arsing from the reservoir. So, to avoid big numbers we can define the Entropy as <span class="math notranslate nohighlight">\(S(N, E)=\ln g(N, E)\)</span> and work with the logarithms.</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{P\left(N_{1}, \epsilon_{1}\right)}{P\left(N_{2}, \epsilon_{2}\right)}=e^{S\left(N-N_{1}, E-E_{1}\right)-S\left(N-N_{2}, E-E_{2}\right)}
+\]</div>
+<p>Because the reservoir is very large compared to the system, we may expand to first-order (this can be verified as OK) to get <span class="math notranslate nohighlight">\(\Delta S\)</span> in the exponent using Taylor’s Series expansion.</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta S=-\left(N_{1}-N_{2}\right)\left(\frac{\delta S}{\delta N}\right)_{E}-\left(E_{1}-E_{2}\right)\left(\frac{\delta S}{\delta E}\right)_{N}
+\]</div>
+<p>By defining</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{T}=\left(\frac{\delta S}{\delta E}\right)_{N} \quad-\frac{\mu}{T}=\left(\frac{\delta S}{\delta N}\right)_{E}
+\]</div>
+<p>We immediately get that</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{P\left(N_{1}, \epsilon_{1}\right)}{P\left(N_{2}, \epsilon_{2}\right)}=\frac{e^{-\left(E_{1}-\mu N_{1}\right) / T}}{e^{-\left(E_{2}-\mu N_{2}\right) / T}}
+\]</div>
+<p>The numerator is the Gibbs’ probability distribution for canonical ensemble, whereas for constant N the <span class="math notranslate nohighlight">\(\mu N\)</span> drops out and we have the Boltzmann distribution.</p>
+<p>Gibbs was actually more clever. He introduced the “index of probability” defined as <span class="math notranslate nohighlight">\(\ln g_{N}\)</span> and its ensemble average <span class="math notranslate nohighlight">\(S=\int d V_{\Gamma} g_{N} \ln g_{N}\)</span>. Under the condition that <span class="math notranslate nohighlight">\(\langle E\rangle=\int d V_{\Gamma} E g_{N}\)</span>, microcanonical contraint, Gibbs showed that S was a maximum when <span class="math notranslate nohighlight">\(g_{N}=g_{N}^{0}=e^{\beta(F-E)}=e^{S}\)</span>, so that <span class="math notranslate nohighlight">\(S=\ln g_{N}^{0}\)</span> for equilibrium.</p>
+<p>This is, in effect, Gibbs’ principle of maximum entropy, a Laplacian-like view of probability (not a frequency or counting-occurances-type viewpoint). Essentially, given any constraint, such as constant E, and the fact that the probability must sum to one, you can maximize the “entropy” <span class="math notranslate nohighlight">\(S=-K \sum_{i} P_{i} \ln P_{i}\)</span> and obtain any of the distribution that we know, such as microcanonical for constant E, etc. The distributions such as Fermi-Dirac and Bose-Einstein occur because of how the states <span class="math notranslate nohighlight">\(\epsilon_{i}\)</span> are occupied, like 1 or 0 for Fermions and <span class="math notranslate nohighlight">\(1,2, \ldots\)</span> infinty for Bosons.</p>
+<p>More generally, this entropy <span class="math notranslate nohighlight">\(S=-K \sum_{i} P_{i} \ln P_{i}\)</span> is called the Shannon Informational Entropy. With this general entropy and utilizing Maximum Entropy Method, you may find the most probable state for anything that has informational entropy: encryption, image analysis, etc. As an example, using the astronomical data provided by a friend, Laplace predict that Jupiter had to have an additional moon (not yet observed) to explain the deviation in the observed data. He even predicted it mass, being only off about <span class="math notranslate nohighlight">\(10 \%\)</span> from today’s value. (Ah, to be as amazing as Laplace!)\
+“Entropy” again results from the algebra of large numbers and what it means to be the most probable or average, whether it is thermodynamic state or something else. Using this Principle of Maximum Entropy and a few results from Probability Theory regarding correlated variables, most all of Statistical Mechanics can be derived in a few lines. While less straightforward, such an approach can also be used for non-equilibrium Statistical Mechanics (see “Introduction to Statistical Mechanics, vol 1: Equilibrium”, Grandy, Jr. 1987)</p>
+<p>An outstanding discussion of all these points, as well as Erogdicity, see “The Principle of Statistical Mechanics”, R.C. Tolman, 1937.</p>
+<p>Most importantly for simulation class is that if we pick the correct distribution function for our problem then we have gone quite far into be able to obtain averages via simulation. It is our concern later to learn how to choose the probability distribution for our ensemble cleverly.</p>
+<section id="useful-formulas">
+<h2><span class="section-number">3.5.1. </span>Useful Formulas<a class="headerlink" href="#useful-formulas" title="Link to this heading">#</a></h2>
+<p>The Boltzman constant <span class="math notranslate nohighlight">\(k_{B}\)</span> is used to express temperature in units of energy, <span class="math notranslate nohighlight">\(k_{B} T\)</span>. The inverse of <span class="math notranslate nohighlight">\(k_{B} T\)</span> is often needed and is notated <span class="math notranslate nohighlight">\(\beta=1 /\left(k_{B} T\right)\)</span>, which has units of inverse energy. Note that <span class="math notranslate nohighlight">\(\beta \rightarrow \infty\)</span> is the (absolute) zero temperature limit, and <span class="math notranslate nohighlight">\(\beta \rightarrow 0\)</span> it the high-temperature limit.</p>
+<p>For a Boltzman distribution at temperature <span class="math notranslate nohighlight">\(T\)</span>, the probablility of a state <span class="math notranslate nohighlight">\(i\)</span> being occupied is</p>
+<div class="math notranslate nohighlight" id="equation-eq1">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-eq1" title="Link to this equation">#</a></span>\[
+P_{i}=\frac{1}{Z} \mathrm{e}^{-\beta E_{i}}
+\]</div>
+<p>where the normalizing factor, <span class="math notranslate nohighlight">\(Z\)</span>, is the partition function, defined as the sum over all states:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+Z &amp; =\sum_{i} \mathrm{e}^{-\beta E_{i}} \\
+&amp; =\operatorname{Tr}\left[\mathrm{e}^{-\beta H}\right] \text{ (QM definition, H is the Hamiltonian) }  \\
+&amp; =\mathrm{e}^{-\beta F} \text{ (Defines the free energy F). }
+\end{split}\]</div>
+<p>Using Eq. <a class="reference internal" href="#equation-eq1">(3.1)</a>, the average value of an observable can be written as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\langle A\rangle &amp; =\frac{1}{Z} \sum_{i} A_{i} \mathrm{e}^{-\beta E_{i}} \\
+&amp; =\frac{1}{Z} \operatorname{Tr}\left[A \mathrm{e}^{-\beta H}\right] ; \quad(\mathrm{QM}),
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(A_{i}\)</span> is the value of <span class="math notranslate nohighlight">\(A\)</span> for the state <span class="math notranslate nohighlight">\(i\)</span> in the ensemble. In the QM case, <span class="math notranslate nohighlight">\(A\)</span> is an operator.\
+A state of a classical system of <span class="math notranslate nohighlight">\(N\)</span> particles is a point in phase space, described by <span class="math notranslate nohighlight">\(2 \times 3 N\)</span> coordinates: <span class="math notranslate nohighlight">\(\left(\mathbf{r}_{1}, \mathbf{r}_{2}, \ldots \mathbf{r}_{\mathbf{N}}, \mathbf{p}_{1}, \mathbf{p}_{\mathbf{2}}, \ldots, \mathbf{p}_{\mathbf{N}},\right)=(\mathbf{R}, \mathbf{P})\)</span>. (Note: <span class="math notranslate nohighlight">\(\mathbf{p}_{i}=m \mathbf{v}_{i}\)</span> is the momentum of particle <span class="math notranslate nohighlight">\(i\)</span>.) A classical state is defined as having as volume <span class="math notranslate nohighlight">\(h^{3 N}\)</span> in phase space.</p>
+<p>The probability of a state ( <span class="math notranslate nohighlight">\(\mathbf{R}, \mathbf{P}\)</span> ) with energy <span class="math notranslate nohighlight">\(E\)</span> being occupied in the canonical ensemble is</p>
+<div class="math notranslate nohighlight">
+\[
+P(R, P) d R d P=\frac{1}{Z} \frac{\mathrm{e}^{-\beta E} d R d P}{N!h^{3 N}}
+\]</div>
+<p>where the energy is</p>
+<div class="math notranslate nohighlight">
+\[
+E=V(R)+\sum_{i} \frac{p_{i}^{2}}{2 m_{i}}
+\]</div>
+<p>Since the details of the system only enter in the interactions <span class="math notranslate nohighlight">\(V(R)\)</span>, the momentum part can be solved to give some general results for any classical system (gas, solid or liquid),</p>
+<p>\begin{array}{rlr}
+\left\langle\frac{p^{2}}{2 m}\right\rangle=\frac{3}{2} N k_{B} T &amp; &amp; (\text { Equipartion of KE }), \
+P(v) d v &amp; =\sqrt{\frac{2}{\pi}}\left(\frac{m}{k_{B} T}\right)^{\frac{3}{2}} v^{2} \mathrm{e}^{-\frac{m v^{2}}{2 k_{B} t}} d v &amp; (\text { Maxwell Velocity Distribution }), \
+Z &amp; =\frac{f^{3 N}}{N!} \int d R \mathbf{e}^{-\beta V®} ; &amp; f=\left(\frac{2 \pi m \beta}{h^{2}}\right)^{\frac{1}{2}} .
+\end{array}</p>
+<p>The last line, Eq. (11), shows that only the configurational part of the partion funciton is needed classically.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./statmech-thermo"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="thermodynamic-properties.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3.4. </span>Thermodyanmics Properties</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="structural-correlations.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3.6. </span>Structural Correlations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-formulas">3.5.1. Useful Formulas</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

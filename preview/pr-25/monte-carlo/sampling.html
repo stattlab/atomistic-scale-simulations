@@ -1,0 +1,685 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5.4. Sampling Methods &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'monte-carlo/sampling';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/monte-carlo/sampling.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.5. Gibbs Ensemble and Phase Coexistence" href="phase-coexistence.html" />
+    <link rel="prev" title="5.3. Monte Carlo Methods" href="monte-carlo-method.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. 4.6 Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">5. Monte Carlo Simulations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-numbers.html">5.2. 5.2 Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmonte-carlo/sampling.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/monte-carlo/sampling.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Sampling Methods</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-distributions">5.4.1. Discrete Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-distributions">5.4.2. Continuous Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rejection-method">5.4.3. The Rejection Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composition-methods">5.4.4. Composition Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-normal-distribution">5.4.5. Multivariate Normal Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bias">5.4.6. Bias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5.4.7. References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="sampling-methods">
+<h1><span class="section-number">5.4. </span>Sampling Methods<a class="headerlink" href="#sampling-methods" title="Link to this heading">#</a></h1>
+<p>Here we discuss how to sample probability distributions. Namely how to transform a uniform prn (udrn) to that of another distribution.</p>
+<section id="discrete-distributions">
+<h2><span class="section-number">5.4.1. </span>Discrete Distributions<a class="headerlink" href="#discrete-distributions" title="Link to this heading">#</a></h2>
+<p>Any discrete distribution can be sampled by constructing the cumulant. Suppose we want to sample the integer <span class="math notranslate nohighlight">\(k\)</span> where <span class="math notranslate nohighlight">\(1 \leq k \leq N\)</span> with probability <span class="math notranslate nohighlight">\(p_{k}\)</span>. An example might be to sample the roll of several dice. A possible sampling algorithm for any discrete distribution is as follows:</p>
+<ul class="simple">
+<li><p>Before the MC sampling begins, make the table: <span class="math notranslate nohighlight">\(F_{k}=F_{k-1}+p_{k}\)</span> with <span class="math notranslate nohighlight">\(F_{0}=0\)</span>. Since <span class="math notranslate nohighlight">\(p_{k}\)</span> is a probability we must have <span class="math notranslate nohighlight">\(0 \leq p_{k} \leq 1\)</span>. Note that <span class="math notranslate nohighlight">\(F_{k}\)</span> is monotonically increasing with <span class="math notranslate nohighlight">\(F_{N}=1\)</span>.</p></li>
+<li><p>Sample <span class="math notranslate nohighlight">\(u\)</span>, a uniform rn in <span class="math notranslate nohighlight">\((0,1)\)</span>. Find the unique <span class="math notranslate nohighlight">\(k\)</span> that satisfies <span class="math notranslate nohighlight">\(F_{k-1}&lt;u&lt;F_{k}\)</span>. Unless <span class="math notranslate nohighlight">\(p_{k}\)</span> has a suitable analytic form, one must solve this inequality using the bisection method. That is start with a range <span class="math notranslate nohighlight">\([1, \mathrm{~N}]\)</span>, bisect this range and decide which subinterval the solution is in, recursively until k is determined.</p></li>
+</ul>
+<p>There are many special cases where one can avoid the bisection. However, the operation involved in step 2 will take in general <span class="math notranslate nohighlight">\(\log _{2}(N)\)</span> steps. If this is time-consuming for large <span class="math notranslate nohighlight">\(N\)</span> one can use an improved algorithm (see Knuth) which involves a more elaborate table set up (of order <span class="math notranslate nohighlight">\(N \log _{2}(N)\)</span> steps but which takes only a few operations to sample, independent of the value of <span class="math notranslate nohighlight">\(N\)</span>. Essentially we sample uniformly in the range of 1 to N but correct for the fact that <span class="math notranslate nohighlight">\(P_{k}\)</span> is non-uniform by correcting the sampling. This “Walker” aliasing method is as follows:</p>
+<ul class="simple">
+<li><p>Set up tables <span class="math notranslate nohighlight">\(Y_{k}\)</span> and <span class="math notranslate nohighlight">\(J_{k}\)</span> as follows. Form the list of pairs ( <span class="math notranslate nohighlight">\(p_{1}, 1\)</span> ), ( <span class="math notranslate nohighlight">\(p_{2}, 2\)</span> ) … and sort them in ascending order of <span class="math notranslate nohighlight">\(p_{i}\)</span> obtaining the pairs <span class="math notranslate nohighlight">\(\left(q_{1}, a_{1}\right),\left(q_{2}, a_{2}\right) \ldots\)</span>. Set <span class="math notranslate nohighlight">\(n=N\)</span> and repeat the following procedure until <span class="math notranslate nohighlight">\(n=0\)</span>. Set <span class="math notranslate nohighlight">\(Y_{a_{1}}=N q_{1}\)</span> and <span class="math notranslate nohighlight">\(J_{a_{1}}=a_{n}\)</span>. Delete the pairs ( <span class="math notranslate nohighlight">\(q_{1}, a_{1}\)</span> ) and ( <span class="math notranslate nohighlight">\(q_{n}, a_{n}\)</span> ) from the list. Insert ( <span class="math notranslate nohighlight">\(q_{n}-\left(1 / N-q_{1}\right), a_{n}\)</span> ) into the list in the proper place. Decrease n by 1 .</p></li>
+<li><p>Sample <span class="math notranslate nohighlight">\(u\)</span>, a uniform rn in ( 0,1 ) and divide <span class="math notranslate nohighlight">\(1+N * u=k+x\)</span> with <span class="math notranslate nohighlight">\(k\)</span> and integer and <span class="math notranslate nohighlight">\(0&lt;x&lt;1\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(x&lt;Y_{k}\)</span> our sample is k</p></li>
+<li><p>Otherwise our sample is <span class="math notranslate nohighlight">\(J_{k}\)</span>.</p></li>
+</ul>
+</section>
+<section id="continuous-distributions">
+<h2><span class="section-number">5.4.2. </span>Continuous Distributions<a class="headerlink" href="#continuous-distributions" title="Link to this heading">#</a></h2>
+<p>To sample a distribution for a continuous variable <span class="math notranslate nohighlight">\(x\)</span>, use the method above by letting <span class="math notranslate nohighlight">\(N \rightarrow \infty\)</span>. This is called the mapping method. Suppose we want to sample <span class="math notranslate nohighlight">\(p(x) d x\)</span>. Then the mapping method is:</p>
+<ul class="simple">
+<li><p>Analytically or numerically form the cumulative distribution: <span class="math notranslate nohighlight">\(F(x)=\int_{-\infty}^{x} d y p(y) \)</span></p></li>
+<li><p>Sample a uniform <span class="math notranslate nohighlight">\(\mathrm{rn} u \in(0,1)\)</span>.</p></li>
+<li><p>Solve the equation: <span class="math notranslate nohighlight">\( F(x)=u\)</span> for <span class="math notranslate nohighlight">\(x\)</span>. Then <span class="math notranslate nohighlight">\(x\)</span> is sampled from <span class="math notranslate nohighlight">\(p(x) d x\)</span>.\
+This is a completely general method. We can generalize this further if <span class="math notranslate nohighlight">\(u\)</span> is sampled from something other than the uniform distribution. If <span class="math notranslate nohighlight">\(g(u)=x\)</span> then the probabilities of <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(u\)</span> are related by the equation:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+p(x) d x=p(u) d u
+\]</div>
+<p>Hence:</p>
+<div class="math notranslate nohighlight">
+\[
+p(x)|d g / d u|=p(u)
+\]</div>
+<p>The inverse cumulant is a solution to this differential equation.
+Two common examples of using the mapping method are:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(p(x)=(a+1) x^{a}\)</span> for <span class="math notranslate nohighlight">\(0&lt;x&lt;1\)</span> with <span class="math notranslate nohighlight">\(-1&lt;a\)</span>. Then <span class="math notranslate nohighlight">\(F(x)=x^{a+1}\)</span> and hence <span class="math notranslate nohighlight">\(x=u^{1 /(a+1)}\)</span>. Although the form is simple, in general it requires computing two special functions, the log and exponential. We will see another way of doing this.</p></li>
+<li><p><span class="math notranslate nohighlight">\(p(x)=\exp (-x)\)</span> for <span class="math notranslate nohighlight">\(0&lt;x\)</span>. Then <span class="math notranslate nohighlight">\(F(x)=1-\exp (-x)\)</span> and <span class="math notranslate nohighlight">\(x=-\ln (u)\)</span>.</p></li>
+</ul>
+<p>The mapping method is a straightforward procedure, but it may not be the most efficient or simple. The problem is that the inversion may be awkward to carry out, although with a tabulation it can always be made quite fast though the tables of the cumulant may not fit into fast memory. The other problem with mapping is to handle the tails of the distribution.</p>
+</section>
+<section id="the-rejection-method">
+<h2><span class="section-number">5.4.3. </span>The Rejection Method<a class="headerlink" href="#the-rejection-method" title="Link to this heading">#</a></h2>
+<p>Another general method is the rejection method. The procedure is as follows:</p>
+<ul class="simple">
+<li><p>Sample <span class="math notranslate nohighlight">\(x\)</span> from <span class="math notranslate nohighlight">\(q(x) d x\)</span>. ( <span class="math notranslate nohighlight">\(q(x)\)</span> is some pdf perhaps obtained from the mapping method).</p></li>
+<li><p>Accept the value <span class="math notranslate nohighlight">\(x\)</span> with probability <span class="math notranslate nohighlight">\(r(x)\)</span>. To do this we compare <span class="math notranslate nohighlight">\(r(x)\)</span> to <span class="math notranslate nohighlight">\(u\)</span> (a udrn) and accept if <span class="math notranslate nohighlight">\(r(x)&lt;u\)</span>. Otherwise we go back to 1 until a number is found.</p></li>
+</ul>
+<p>What is the distribution of accepted <span class="math notranslate nohighlight">\(x\)</span> ‘s? It is proportional to <span class="math notranslate nohighlight">\(q(x) r(x) d x\)</span>. Hence to sample <span class="math notranslate nohighlight">\(p(x)\)</span>, we must choose <span class="math notranslate nohighlight">\(r(x)=c p(x) / q(x)\)</span> with c some constant; <span class="math notranslate nohighlight">\(c\)</span> must be chosen so that <span class="math notranslate nohighlight">\(r(x) \leq 1\)</span> so that <span class="math notranslate nohighlight">\(r(x)\)</span> is a probability. We find that <span class="math notranslate nohighlight">\(1 / c\)</span> is the average number of times that the loop is executed. The optimal value of <span class="math notranslate nohighlight">\(c\)</span> is <span class="math notranslate nohighlight">\(c=\min (q(x) / p(x))\)</span>. Only if we could sample <span class="math notranslate nohighlight">\(p(x)\)</span> directly would the rejection rate be zero.</p>
+<p>The efficiency of a sampling method is simply the rate at which it can deliver random numbers. For the mapping method it is <span class="math notranslate nohighlight">\(1 /\)</span> CPUtime for a single rn. For the rejection method it is <span class="math notranslate nohighlight">\(c /\)</span> CPUtime for a single trial rn. One can use a approximate mapping to make a <span class="math notranslate nohighlight">\(q\)</span> close to <span class="math notranslate nohighlight">\(p\)</span>, and then a final rejection step (with a <span class="math notranslate nohighlight">\(c\)</span> close to one) to sample the exact distribution. The rejection method is an illustration of the Monte Carlo rule: under sampling can be very bad. One can get very inefficient sampling because of a single region where <span class="math notranslate nohighlight">\(q(x) \ll p(x)\)</span>.</p>
+</section>
+<section id="composition-methods">
+<h2><span class="section-number">5.4.4. </span>Composition Methods<a class="headerlink" href="#composition-methods" title="Link to this heading">#</a></h2>
+<p>Mappings can be considered to be unary operations on a single random number. What if we do something with 2 or more random numbers, such as add or multiply them together. These are composition methods. Consider adding together several random numbers. Suppose <span class="math notranslate nohighlight">\(x\)</span> is sampled from <span class="math notranslate nohighlight">\(p(x) d x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> from <span class="math notranslate nohighlight">\(q(y) d y\)</span>. Then the sum <span class="math notranslate nohighlight">\(z=x+y\)</span> is sampled from the convolution:</p>
+<div class="math notranslate nohighlight">
+\[
+p(z) d z=\int d x p(x) q(z-x)
+\]</div>
+<p>The characteristic function is the Fourier transform of <span class="math notranslate nohighlight">\(\mathrm{p}: G(k)=\int d x p(x) e^{i k x}\)</span>. By the convolution property of Fourier transforms: <span class="math notranslate nohighlight">\(G_{z}(k)=G_{x}(k) G_{y}(k)\)</span>. By inverse Fourier transforming one can find the distribution of <span class="math notranslate nohighlight">\(z\)</span>. In fact, this is the way we proved the central limit theorem. Multiplication of random numbers can be treated by using logarithms (to convert to additions). Another interesting operation is to take the maximum of several uniform random numbers. For example, two random numbers will give <span class="math notranslate nohighlight">\(p(x)=x / 2\)</span>.</p>
+<p>\section*{Sampling the normal distribution}
+This is a common but moderately difficult function to sample. Many different ways have been devised. Here are a few of the ways to sample a ndrn.</p>
+<ul class="simple">
+<li><p>Sample N uniformly distributed <span class="math notranslate nohighlight">\(\mathrm{rns} u_{i}\)</span> in ( 0,1 ) and set <span class="math notranslate nohighlight">\(\eta=\sqrt{\frac{12}{N}}\left[\sum_{k=1}^{N}\left(u_{k}-1 / 2\right)\right]\)</span>. Then <span class="math notranslate nohighlight">\(\eta\)</span> has mean zero and unit variance and for large <span class="math notranslate nohighlight">\(N\)</span> will approach a normal random number. In fact <span class="math notranslate nohighlight">\(N\)</span> can be fairly small. (For <span class="math notranslate nohighlight">\(N=12\)</span> we don’t even need to do the division.) The disadvantage is that one is loosing randomness in the pseudo-random number stream by grouping things by <span class="math notranslate nohighlight">\(N\)</span> ‘s so the correlation between successive ndrn’s may be much higher than between the udrn’s. Also it is impossible for the magnitude of <span class="math notranslate nohighlight">\(\eta\)</span> to exceed <span class="math notranslate nohighlight">\(\sqrt{3 / N}\)</span> so large excursions are not only rare but impossible.</p></li>
+<li><p>The direct mapping method would be to invert the cumulative distribution, that would involve computation of the inverse error function. You can find algorithms for doing that in the literature.</p></li>
+<li><p>There is a much simpler procedure which involves generating a pair of normal distributed random numbers <span class="math notranslate nohighlight">\(\left(\eta_{1}, \eta_{2}\right)=(r \cos (\theta), r \sin (\theta))\)</span> where <span class="math notranslate nohighlight">\(\theta=2 \pi u_{1}\)</span> and <span class="math notranslate nohighlight">\(r=\sqrt{-2 \ln \left(u_{2}\right)}\)</span>. (This is often called the Box-Mueller method.) So for the price of computing 2 udrn and 4 special functions we can generate 2 ndrns.</p></li>
+<li><p>We can improve this last method by sampling the angle (really the x and y components) directly using the rejection method. The pair ( <span class="math notranslate nohighlight">\(x, y\)</span> ) is sampled in the square <span class="math notranslate nohighlight">\(-1&lt;x, y&lt;1\)</span> and values of <span class="math notranslate nohighlight">\(r^{2}=x^{2}+y^{2}&gt;1\)</span> are rejected (new pairs are sampled until a satisfactory pair is generated). Then the two ndrn numbers generated are <span class="math notranslate nohighlight">\(\sqrt{-2 \ln \left(u_{2}\right) /\left(x^{2}+y^{2}\right)}(x, y)\)</span>. Hence at the price of rejecting a few pairs (acceptance rate is <span class="math notranslate nohighlight">\(\pi / 4\)</span> ), one does not need to compute any trig functions, only a log and square root.</p></li>
+</ul>
+</section>
+<section id="multivariate-normal-distribution">
+<h2><span class="section-number">5.4.5. </span>Multivariate Normal Distribution<a class="headerlink" href="#multivariate-normal-distribution" title="Link to this heading">#</a></h2>
+<p>How can we generate a multivariate normal distribution? We want pairs or triplets of ndrn which are correlated. Here is an algorithm for random vectors <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> with <span class="math notranslate nohighlight">\(D\)</span> components with a given (known) covariance matrix <span class="math notranslate nohighlight">\(\nu_{i, j}\)</span>.</p>
+<p>(Before the sampling) do a Choleski decomposition of the matrix <span class="math notranslate nohighlight">\(\nu\)</span>. This means to find a “square root” <span class="math notranslate nohighlight">\(S\)</span> of <span class="math notranslate nohighlight">\(\nu=S S^{T}\)</span>. One can assume that <span class="math notranslate nohighlight">\(S\)</span> is a lower triangular matrix so that <span class="math notranslate nohighlight">\(S_{i j}=0\)</span> if <span class="math notranslate nohighlight">\(j&gt;i\)</span>. Then to find <span class="math notranslate nohighlight">\(S\)</span> from <span class="math notranslate nohighlight">\(\nu\)</span> we loop <span class="math notranslate nohighlight">\(i=1, D\)</span>
+$<span class="math notranslate nohighlight">\(
+\begin{aligned}
+S_{i i} &amp; =\sqrt{\nu_{i i}-\sum_{k=1}^{i} S_{i k}^{2}} \\
+S_{i j} &amp; =\nu_{i j}-\left[\sum_{k} S_{i k} S_{j k} / S_{j j}\right.
+\end{aligned}
+\)</span>$</p>
+<p>Then sample the vector <span class="math notranslate nohighlight">\(y\)</span> from an uncorrelated normal distribution with mean zero and unit variance.
+Then <span class="math notranslate nohighlight">\(\mathbf{x}=S \mathbf{y}\)</span> is a correlated normally distributed RN with zero mean.</p>
+</section>
+<section id="bias">
+<h2><span class="section-number">5.4.6. </span>Bias<a class="headerlink" href="#bias" title="Link to this heading">#</a></h2>
+<p>Let us another problem, namely for any non-linear function <span class="math notranslate nohighlight">\(G\left(F_{1}, F_{2} \ldots\right)\)</span>, one will bias the result. First let us work it out for a function of a single variable <span class="math notranslate nohighlight">\(G(F)\)</span>. We imagine that <span class="math notranslate nohighlight">\(F\)</span> has been computed with MC but has some statistical error. We may really be interested in some function of <span class="math notranslate nohighlight">\(F\)</span> such as <span class="math notranslate nohighlight">\(\ln (F)\)</span> or <span class="math notranslate nohighlight">\(\sqrt{( } F)\)</span>. The bias is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+\text { Bias }=&lt;G(F)&gt;-G(&lt;F&gt;)
+\]</div>
+<p>The bias is a systematic error so that if we use finite size samples we will be systematically too low or too high. Let us expand <span class="math notranslate nohighlight">\(F\)</span> around its mean value <span class="math notranslate nohighlight">\(\langle F\rangle\)</span> up to second order:</p>
+<div class="math notranslate nohighlight">
+\[
+\text { Bias }=\frac{d^{2} G}{2 d F^{2}}&lt;(F-&lt;F&gt;)^{2}&gt;
+\]</div>
+<p>Hence the bias is caused by the curvature of G . Note that the bias is always order <span class="math notranslate nohighlight">\(N^{-1}\)</span> so for large number of samplings it should be smaller than the statistical error which is order <span class="math notranslate nohighlight">\(N^{-1 / 2}\)</span>. One can correct for the bias by computing the variance.</p>
+<p>Suppose we are doing correlated sampling of several variables as we will describe next time . Then the bias will equal:</p>
+<div class="math notranslate nohighlight">
+\[
+&lt;G&gt;_{N} \neq G\left(&lt;F_{1}&gt;_{N},&lt;F_{2}&gt;_{N} \ldots\right)
+\]</div>
+<p>where the average is over samples of size <span class="math notranslate nohighlight">\(N\)</span>. Our estimate of <span class="math notranslate nohighlight">\(G\)</span> may be systematically too high or too low. To get an estimate of this bias, we can do a Taylor expansion of <span class="math notranslate nohighlight">\(G\)</span> about the exact values of <span class="math notranslate nohighlight">\(\left\langle F_{1}\right\rangle,\left\langle F_{2}\right\rangle \ldots\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+&lt;G&gt;_{N}-G\left(&lt;F_{1}&gt;_{N},&lt;F_{2}&gt;_{N} \ldots\right)=\left.\sum_{i, j} \frac{d^{2} G\left(F_{1}, F_{2} \ldots\right)}{d F_{i} d F_{j}}\right|_{&lt;F_{1}&gt;\ldots \operatorname{covar}\left(F_{1}, F_{2}\right)}
+\]</div>
+</section>
+<section id="references">
+<h2><span class="section-number">5.4.7. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Knuth, “Art of Computer Programming”</p></li>
+<li><p>Kalos and Whitlock, “Monte Carlo Methods”</p></li>
+<li><p>Abramowitz and Stegan, “Handbook of Mathematical Functions”</p></li>
+<li><p>“Numerical Recipes”</p></li>
+<li><p>Rubenstein, “Simulation and the Monte Carlo Method”</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./monte-carlo"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="monte-carlo-method.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5.3. </span>Monte Carlo Methods</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="phase-coexistence.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5.5. </span>Gibbs Ensemble and Phase Coexistence</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-distributions">5.4.1. Discrete Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-distributions">5.4.2. Continuous Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rejection-method">5.4.3. The Rejection Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composition-methods">5.4.4. Composition Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-normal-distribution">5.4.5. Multivariate Normal Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bias">5.4.6. Bias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5.4.7. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
