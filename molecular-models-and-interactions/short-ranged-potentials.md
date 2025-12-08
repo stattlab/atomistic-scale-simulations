@@ -328,6 +328,6 @@ For other systems there are extensive codes which handle real biomolecular syste
 
 ## References
 
-- [Diatomic Molecules According to the Wave Mechanics. II. Vibrational Levels, Morse, Philip M.](10.1103/PhysRev.34.57){cite}`morse1929`
+- [Diatomic Molecules According to the Wave Mechanics. II. Vibrational Levels, Morse, Philip M.](https://journals.aps.org/pr/abstract/10.1103/PhysRev.34.57){cite}`morse1929`
 
-- [On the Determination of Molecular Fields, Lennard-Jones, J. E. (1924)](10.1098/rspa.1924.0082){cite}`lennardjones1924`
+- [On the Determination of Molecular Fields, Lennard-Jones, J. E. (1924)](https://royalsocietypublishing.org/rspa/article/106/738/463/1722/On-the-determination-of-molecular-fields-II-From){cite}`lennardjones1924`
