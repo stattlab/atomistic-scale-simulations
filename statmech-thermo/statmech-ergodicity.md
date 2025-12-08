@@ -25,10 +25,12 @@ $$
 
 Many different microstates $\Gamma$ are compatible with the same macrostate. For example, keeping $(N,V,E)$ fixed, we can rearrange particles and redistribute momenta in many ways while keeping the total energy unchanged. All such microstates belong to the same *ensemble*.
 
-#### Example: gas in a box
+### Example: gas in a box
+
 Imagine $N$ argon atoms in a cubic box of volume $V$ with perfectly reflecting walls. Specifying the total energy $E$ and the number of atoms $N$ defines a macrostate $(N,V,E)$. One microstate might have half the atoms on the left side and half on the right; another microstate might have a different spatial arrangement and momentum distribution, but as long as the total energy is $E$, both microstates correspond to the same macrostate.
 
-#### Ensemble
+### Ensemble
+
 An ensemble is a (conceptual) collection of all microstates consistent with a specified set of macroscopic constraints (e.g. fixed $N$, $V$, $E$ in the microcanonical ensemble). In a simulation, we aim to *sample* microstates from the correct ensemble, either by deterministic dynamics (MD) or stochastic algorithms (Monte Carlo, Langevin, etc.). The ensemble perspective is powerful because it allows us to replace complicated, history-dependent dynamics by simpler probabilistic descriptions.
 
 ## Density of states, entropy, and temperature
@@ -57,7 +59,8 @@ Intuitively:
 * $\Omega(E)$ measures *how many* microstates are compatible with the macroscopic constraints.
 * $S(E)$ measures *how much uncertainty* we have about the microscopic configuration if we only know $E$, $N$, and $V$.
 
-#### Example: ideal gas (very briefly)
+### Example: ideal gas (very briefly)
+
 For a monatomic ideal gas, $\Omega(E)$ can be computed analytically and grows roughly like $E^{3N/2}$. Plugging this into $S(E) = k_{\mathrm{B}}\ln\Omega(E)$ and differentiating with respect to $E$ directly gives the familiar relation
 
 $$
@@ -101,7 +104,8 @@ $$
 
 In molecular dynamics, a pure NVE simulation corresponds to integrating Newton’s equations of motion with no thermostat or barostat, so that total energy is (up to numerical error) conserved.
 
-#### Example: NVE MD of a Lennard--Jones fluid
+### Example: NVE MD of a Lennard--Jones fluid
+
 A standard textbook example is a box of particles interacting via the Lennard--Jones potential. After an initial equilibration, one can switch to an NVE run and monitor the total energy $E = K + U$:
 * The kinetic energy $K$ and potential energy $U$ fluctuate in time.
 * The *sum* $E$ remains constant, showing that the dynamics stays on the constant-energy surface in phase space.
@@ -164,7 +168,8 @@ S &= -\left(\frac{\partial F}{\partial T}\right)_{N,V},\\
 \end{aligned}
 $$
 
-#### Example: ideal gas in the canonical ensemble
+### Example: ideal gas in the canonical ensemble
+
 For a monatomic ideal gas of identical particles with mass $m$, the canonical partition function factorizes into momentum and configuration parts. One finds
 
 $$
@@ -191,7 +196,8 @@ $$
 
 This reproduces the ideal gas law and the equipartition theorem directly from the canonical partition function.
 
-#### Energy fluctuations in the canonical ensemble
+### Energy fluctuations in the canonical ensemble
+
 In the canonical ensemble the energy is not fixed but fluctuates around its mean value $\langle E\rangle$. The variance of the energy can be expressed as
 
 $$
@@ -207,7 +213,8 @@ $$
 
 so for macroscopic systems (very large $N$) these fluctuations are negligible, but for simulations with modest $N$ they are visible and physically important.
 
-#### NVT in practice: thermostats
+### NVT in practice: thermostats
+
 In MD, we construct dynamics whose invariant probability distribution is the canonical one, $P(\Gamma)\propto e^{-\beta H(\Gamma)}$. Popular examples include:
 * Nosé--Hoover and Nosé--Hoover chains (deterministic thermostats).
 * Langevin dynamics (stochastic thermostat; see below).
@@ -224,7 +231,8 @@ Real simulations often use other ensembles, depending on what is held fixed and 
 
 Formally, these ensembles have their own partition functions (e.g. $Z_{NPT}$, $\Xi_{\mu VT}$) obtained by summing over the appropriate variables. In practice, MD codes implement NPT or $\mu$VT via barostats and particle-insertion/removal schemes that are designed to sample the correct distribution.
 
-#### Isothermal--isobaric (NPT) ensemble
+### Isothermal--isobaric (NPT) ensemble
+
 In the NPT ensemble we imagine our system in contact with:
 * a large heat bath at temperature $T$, and
 * a mechanical reservoir that fixes the external pressure $p$ but allows the volume $V$ to fluctuate.
@@ -261,14 +269,16 @@ $$
 
 where $\kappa_T$ is the isothermal compressibility. Thus, volume fluctuations in an NPT simulation are directly related to the material's compressibility.
 
-#### NPT in practice: barostats
+### NPT in practice: barostats
+
 To realize the NPT ensemble in MD, we introduce a *barostat* that allows the box volume (and sometimes shape) to fluctuate. Standard algorithms include:
 * Berendsen barostat (simple, but does not sample the correct distribution exactly).
 * Andersen, Parrinello--Rahman, or Martyna--Tobias--Klein (MTK) barostats, which are more rigorous.
 
 These methods, when combined with a thermostat, generate dynamics whose stationary distribution is the NPT distribution. In an MD input file, this typically appears as a directive like `use barostat = NPT` with target pressure and temperature.
 
-#### Grand canonical ($\mu$VT) ensemble (very briefly)
+### Grand canonical ($\mu$VT) ensemble (very briefly)
+
 In the grand canonical ensemble the system is allowed to exchange particles with a reservoir at fixed chemical potential $\mu$:
 
 $$
@@ -315,7 +325,8 @@ $$
 
 The remaining configuration integral defines the *configurational* partition function used in many simulation contexts.
 
-#### One-particle velocity distribution
+### One-particle velocity distribution
+
 For a single particle of mass $m$ in three dimensions, the Maxwell--Boltzmann velocity distribution is
 
 $$
@@ -329,14 +340,16 @@ where $v = |\mathbf{v}|$. This is the distribution that many MD codes use to ass
 
 In real experiments, we typically observe a single macroscopic system over time and take time averages. In statistical mechanics, ensemble averages are defined as averages over many copies (replicas) of the system, each in a different microstate consistent with the ensemble.
 
-#### Ensemble average
+### Ensemble average
+
 For an observable $A$ with values $A_i$ in microstate $i$:
 
 $$
 \langle A \rangle_{\text{ens}} = \sum_i P_i A_i.
 $$
 
-#### Time average
+### Time average
+
 For a single system evolving in time, we can define a time average:
 
 $$
@@ -349,7 +362,8 @@ where $\Gamma(t)$ is the trajectory in phase space.
 
 In molecular dynamics, we simulate *one trajectory* and compute time-averaged quantities. The central assumption (to be discussed next) is that, under suitable conditions, time averages converge to ensemble averages.
 
-#### Example: pressure from MD
+### Example: pressure from MD
+
 Suppose we are running an NVT simulation and we want the average pressure. We can compute the instantaneous pressure $p(t)$ at each time step using the virial formula and then form a time average,
 
 $$
@@ -375,7 +389,8 @@ Roughly speaking:
 
 This hypothesis underpins the common practice in MD: we run one (or a few) trajectories and treat time averages as estimates of equilibrium ensemble averages.
 
-#### Mixing and decorrelation
+### Mixing and decorrelation
+
 Ergodicity is closely related to the idea of *mixing*: initial information about the microstate is gradually lost as the system evolves, and observables decorrelate in time. In practice we often estimate the *correlation time* $\tau_c$ of an observable $A$ and use it to determine how long we need to simulate to obtain statistically independent samples.
 
 ## Non-ergodic behavior and glasses
@@ -399,7 +414,8 @@ In simulations of glassy, non-ergodic systems, you can still measure useful quan
 * Over what time window quantities were averaged.
 * Whether results change if you modify the protocol.
 
-#### Toy example: double-well potential
+### Toy example: double-well potential
+
 Even a single particle in a one-dimensional double-well potential can show non-ergodic behavior on finite timescales. If the barrier between wells is large compared to $k_{\mathrm{B}}T$, a trajectory starting in the left well may never cross to the right well during the simulation time, so the time average does not reflect the true equilibrium distribution over both wells.
 
 ## Contact with a heat bath: thermostats and Monte Carlo
