@@ -111,8 +111,8 @@ This is for two specific particles, but what if we don't care which ones?
 
 There are:
 
-* \( N \) ways to choose particle 1,
-* \( N - 1 \) ways to choose particle 2, etc.
+* $N$ ways to choose particle 1,
+* $N-1$ ways to choose particle 2, etc.
 
 These functions measure probabilities, which must depend on the overall density.
 
@@ -122,7 +122,7 @@ $$
 f^{(2)}(r_1, r_2) = \rho^2
 $$
 
-We define the **two-body correlation function** \( $g(r)$ \) to measure correlations relative to a completely uncorrelated ideal gas:
+We define the **two-body correlation function** $g(r)$ to measure correlations relative to a completely uncorrelated ideal gas:
 
 $$
 g(r) = \frac{f^{(2)}(r_1, r_2)}{\rho^2}
@@ -136,24 +136,26 @@ If the system is:
 * **Isotropic**:  $g(r_1, r_2) = g(|r_1 - r_2|) = g(r)$
 
 ### Features of $g(r)$
-The radial distribution function has several key features which are visualized in 
-* First peak: nearest neighbor shell
-* Second peak: second shell
+The radial distribution function has several key features which are visualized in *Figure 1* and listed below. 
+* First peak: corresponds to the nearest neighbor shell
+* Second peak: corresponds to the second shell 
 * g\(r\) $\to$ 1 as $r \to \infty$ 
-* g\(r\) = 0 at very small r due to core repulsion
-
+* g\(r\) = 0 at very small r due to core repulsion 
+<br>
+<br>
+<div style="text-align: center;">
 <figure style="background: white; display: inline-block; margin: 0; text-align: center;">
   <img src="_figures/Lennard-Jones_Radial_Distribution_Function.svg" 
        alt="Lennard-Jones Radial Distribution Function" 
        style="max-width: 400px; display: block; margin: 0 auto;">
-  <figcaption style="font-size: 0.9em; color: #555; margin-top: 4px;">Figure 1: Lennard-Jones Radial Distribution Function</figcaption>
+  <figcaption style="font-size: 0.9em; color: #555; margin-top: 4px;">Figure 1: Lennard-Jones radial distribution function at T*=0.71.
 </figure>
+</div>
 
-
-
+*<br>Source: Grigory Sarnitskiy, Lennard‑Jones Radial Distribution Function, Public domain (Wikimedia Commons).*
 ### Interpretation
 
-* \( g(r) \) is a **conditional probability**:
+* $ g(r) $ is a **conditional probability**:
 
   $$
   p(r_2 | r_1) = \frac{p(r_1, r_2)}{p(r_1)} = \rho g(r)
@@ -163,7 +165,7 @@ The radial distribution function has several key features which are visualized i
 
 ## Pairwise Properties
 
-To compute an average pairwise property \( $\langle a \rangle$ \):
+To compute an average pairwise property $\langle a \rangle$:
 
 $$
 \langle a \rangle = \frac{1}{2} \rho^2 \int d\vec{r} \, g(r) a(r)
@@ -183,7 +185,7 @@ $$
 
 ## Tail Correction
 
-To account for interactions beyond a cutoff \( $r_c $ \):
+To account for interactions beyond a cutoff $r_c $ :
 
 $$
 \Delta U/N = 2\pi \rho \int_{r_c}^\infty dr \, r^2 g(r) u(r)
@@ -199,7 +201,7 @@ $$
 
 1. Choose a particle $i$
 2. Compute distances to all other particles $j$
-3. Count (histogram) distances into bins of width $ \Delta r $
+3. Count (histogram) distances into bins of width $ d r $
 4. Repeat for all particles
 5. Normalize histogram:
 
@@ -209,10 +211,19 @@ $$
 
    where:
    * $n_k$ : number of particles in bin $k$
-   * $V_k = 4\pi r_k^2 \Delta r $ : volume of spherical shell
+   * $V_k = 4\pi r_k^2 d r $ : volume of spherical shell
 
-Typically define $g(r_k)$ at  $r_k + \Delta r / 2$
+Typically define $g(r_k)$ at  $r_k + d r / 2$
 
+<div style="text-align: center;">
+<figure style="background: white; display: inline-block; margin: 0; text-align: center;">
+  <img src="_figures/Rdf_schematic.svg.png" 
+       alt="Diagram illustrating the calculation of g(r)" 
+       style="max-width: 300px; display: block; margin: 0 auto;">
+</figure>
+</div>
+
+<br>*Source: RDF Schematic, Public domain (Wikimedia Commons).*
 ## Structure Factor
 
 The **structure factor** $S(k)$ is obtained in scattering experiments and is related to $g(r)$ via Fourier transform:
@@ -334,7 +345,7 @@ $$
 S_{k}=1+(N-1) \sum_{G} \delta_{k, G} e^{-k^{2} u^{2} / 3}
 $$
 
-where the Debye-Waller factor $u$ is defined in Eq. (3).
+where the Debye-Waller factor $u$ is defined above.
 For a non-perfect crystal, the spikes will soften, and in the limit $k \rightarrow \infty, S_{k} \rightarrow 1$.
 For free particles, $S_{k}=1+(N-1) \delta_{k, 0}$.
 The short-wavelength behavior of the structure factor is related to the compressibility, $\chi_{T}=$ $(\rho d P / d \rho)^{-1}$ by the relation
@@ -347,21 +358,29 @@ $$
 
 Exact formulas for periodic boundaries:
 
-$$} r e^{i \vec{k} \cdot \vec{r}}(g(\vec{r})-1) \\
-g(\vec{r}) &= \frac{1}{N} \sum_{k} e^{i \vec{k} \cdot \vec{r}}\left(S_{\vec{k}}-1\right)
 $$
-S_{\vec{k}} &= 1+N \delta_{\vec{k}, 0}+\rho \int_{\Omega} d^{3
+\begin{aligned}
+r e^{i \vec{k} \cdot \vec{r}}(g(\vec{r})-1) \\
+g(\vec{r}) = \frac{1}{N} \sum_{k} e^{i \vec{k} \cdot \vec{r}}\left(S_{\vec{k}}-1\right)
+S_{\vec{k}} &= 1+N \delta_{\vec{k}, 0}+\rho \int_{\Omega} d^{3}
+\end{aligned}
+$$
+
 
 Formulas assuming a large box and isotropic correlations in 3D:
 
 $$
+\begin{aligned}
 S_{k} & =1+N \delta_{k, 0}+\frac{4 \pi \rho}{k} \int_{0}^{\infty} d r \sin (k r)(g(r)-1) \\
 g(r) & =1+\frac{1}{2 \pi^{2} \rho r} \int_{0}^{\infty} k d k \sin (k r)\left(S_{\vec{k}}-1\right)
+\end{aligned}
 $$
 
 Formulas assuming a large box and isotropic correlations in 2D:
 
 $$
+\begin{aligned}
 S_{k} & =1+N \delta_{k, 0}+2 \pi \rho \int_{0}^{\infty} d r J_{0}(k r)(g(r)-1) \\
 g(r) & =1+\frac{1}{2 \pi \rho} \int_{0}^{\infty} k d k J_{0}(k r)\left(S_{\vec{k}}-1\right)
+\end{aligned}
 $$
