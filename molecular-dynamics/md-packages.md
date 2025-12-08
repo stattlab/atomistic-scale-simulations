@@ -252,10 +252,29 @@ scalable.
 
 ## Recommended MD Packages
 
-- **GROMACS, NAMD, OpenMM, AMBER** – widely used in biophysics.
-- **LAMMPS, HOOMD-blue** – general-purpose physics simulations.
+A wide range of molecular dynamics (MD) engines is available, each with its
+own strengths, target applications, and user community. Selecting an
+appropriate package depends on the system being studied, the desired level of
+detail, and available computational resources.
 
-Always read the documentation for your chosen tool carefully!
+### Biophysics and atomistic simulations
+Several MD packages are widely used for biomolecular systems such as
+proteins, nucleic acids, and membranes:
+\begin{itemize}
+    \item \textbf{GROMACS} — optimized for speed and highly efficient on both CPUs and GPUs.
+    \item \textbf{NAMD} — scalable to very large systems and supercomputing architectures.
+    \item \textbf{OpenMM} — flexible, Python-driven, and ideal for custom workflows.
+    \item \textbf{AMBER} — traditionally used for biomolecular force fields and free-energy methods.
+\end{itemize}
+
+### General-purpose and materials-focused simulations
+Other MD engines support a broad range of classical and coarse-grained
+models, making them suitable for soft matter, polymers, and materials
+science:
+\begin{itemize}
+    \item \textbf{LAMMPS} — extremely versatile, with support for many force fields and custom potentials.
+    \item \textbf{HOOMD-blue} — highly efficient for GPU-accelerated simulations of soft-matter and coarse-grained systems.
+\end{itemize}
 
 ## References
 
