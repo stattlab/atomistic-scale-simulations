@@ -47,21 +47,21 @@ mBuild: https://mbuild.mosdef.org/en/stable/
 
 Foyer: https://foyer.mosdef.org/en/stable/
 
-Workflow
+Use mBuild to:
 
-Build molecular components in mBuild (monomers, solvents, nanoparticles, polymer chains).
+1. Build molecular components in mBuild (monomers, solvents, nanoparticles, polymer chains). 
 
-Assemble them into a simulation box using fill_box or Packmol.
+2. Then assemble them into a simulation box using fill_box or Packmol.
 
 Use Foyer to:
 
-assign atom types
+1. assign atom types
 
-apply force-field parameters
+2. apply force-field parameters
 
-generate bonded interactions
+3. generate bonded interactions
 
-Export to LAMMPS, OpenMM XML, or GSD for simulation.
+4. Export to LAMMPS, OpenMM XML, or GSD for simulation.
 
 
 
