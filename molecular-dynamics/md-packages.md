@@ -34,6 +34,43 @@ Run Packmol to generate a packed structure.
 
 Packmol can restrict groups of atoms to specified regions, such as ensuring hydrophilic groups face outward when assembling vesicles.
 
+#### mBuild and Foyer
+
+
+
+mBuild is a molecular builder that constructs polymers, solvents, nanoparticles, and other structures.
+Foyer assigns classical force-field parameters (Lennard–Jones, bond/angle/dihedral terms, charges, etc.).
+
+Documentation:
+
+mBuild: https://mbuild.mosdef.org/en/stable/
+
+Foyer: https://foyer.mosdef.org/en/stable/
+
+Workflow
+
+Build molecular components in mBuild (monomers, solvents, nanoparticles, polymer chains).
+
+Assemble them into a simulation box using fill_box or Packmol.
+
+Use Foyer to:
+
+assign atom types
+
+apply force-field parameters
+
+generate bonded interactions
+
+Export to LAMMPS, OpenMM XML, or GSD for simulation.
+
+
+
+
+
+
+
+
+
 ### Equilibration
 
 - **Energy Minimization:** Removes overlaps or poor initial configurations to prevent simulation instability.
