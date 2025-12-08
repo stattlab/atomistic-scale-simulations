@@ -163,7 +163,7 @@ The radial distribution function has several key features which are visualized i
 
 ## Pairwise Properties
 
-To compute an average pairwise property \( \langle a \rangle \):
+To compute an average pairwise property \( $\langle a \rangle$ \):
 
 $$
 \langle a \rangle = \frac{1}{2} \rho^2 \int d\vec{r} \, g(r) a(r)
@@ -183,7 +183,7 @@ $$
 
 ## Tail Correction
 
-To account for interactions beyond a cutoff \( r_c \):
+To account for interactions beyond a cutoff \( $r_c $ \):
 
 $$
 \Delta U/N = 2\pi \rho \int_{r_c}^\infty dr \, r^2 g(r) u(r)
@@ -339,10 +339,10 @@ $$
 
 Exact formulas for periodic boundaries:
 
+$$} r e^{i \vec{k} \cdot \vec{r}}(g(\vec{r})-1) \\
+g(\vec{r}) &= \frac{1}{N} \sum_{k} e^{i \vec{k} \cdot \vec{r}}\left(S_{\vec{k}}-1\right)
 $$
-S_{\vec{k}} & =1+N \delta_{\vec{k}, 0}+\rho \int_{\Omega} d^{3} r e^{i \vec{k} \cdot \vec{r}}(g(\vec{r})-1) \\
-g(\vec{r}) & =\frac{1}{N} \sum_{k} e^{i \vec{k} \cdot \vec{r}}\left(S_{\vec{k}}-1\right)
-$$
+S_{\vec{k}} &= 1+N \delta_{\vec{k}, 0}+\rho \int_{\Omega} d^{3
 
 Formulas assuming a large box and isotropic correlations in 3D:
 
