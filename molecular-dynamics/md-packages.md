@@ -15,8 +15,24 @@ A molecular dynamics (MD) simulation typically proceeds through four major stage
 
 ### Initialization
 
-- Create initial configuration and parameterize the force field.
-- **Tools:** `packmol`, `mbuild/Foyer`, `ambertools`, etc.
+Initialization defines the starting point of the simulation. It often provides the easiest place to modify system size, composition, force fields, and other parameters before running MD. Several tools are commonly used for system setup.
+
+#### Packmol
+
+Packmol builds the initial coordinates of a system while enforcing minimum-distance constraints so that molecules do not overlap. It handles only geometry, not force fields. You must combine it with another package (Foyer, AmberTools, etc.) to assign force-field parameters.
+
+Official documentation:
+https://m3g.github.io/packmol/userguide.shtml
+
+Using Packmol
+
+Create or obtain particle/molecule files (.pdb).
+
+Write a Packmol input script that places the molecules in a box.
+
+Run Packmol to generate a packed structure.
+
+Packmol can restrict groups of atoms to specified regions, such as ensuring hydrophilic groups face outward when assembling vesicles.
 
 ### Equilibration
 
