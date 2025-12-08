@@ -3,6 +3,16 @@
 
 ## Anatomy of an MD Simulation Workflow
 
+A molecular dynamics (MD) simulation typically proceeds through four major stages:
+
+1. Initialization — Define the starting configuration and parameters.
+
+2. Equilibration — Remove overlaps and unphysical forces and bring the system to the desired thermodynamic state.
+
+3. Production — Collect statistically meaningful simulation data after the system has equilibrated.
+
+4. Post-processing — Analyze and visualize trajectories to obtain physical insights.
+
 ### Initialization
 
 - Create initial configuration and parameterize the force field.
