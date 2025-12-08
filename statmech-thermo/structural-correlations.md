@@ -44,7 +44,7 @@ The types of static correlations can generally be divided into
 
 ### The Density
 
-The density (&rho;) tells you where the particles are (or have been). In a translationally invariant system it will be constant except for noise if you average long enough.
+The density ($\rho$) tells you where the particles are (or have been). In a translationally invariant system it will be constant except for noise if you average long enough.
 
 You find it by histogramming, that is subdividing the total volume into a set of subvolumes. How to histogram:
 
@@ -52,15 +52,15 @@ You find it by histogramming, that is subdividing the total volume into a set of
 * Add one to that memory location corresponding to that integer. You have a 'hit' in that 'bin' .
 * At end of run normalize the hits by total number of passes and volume element of bin.
 
-How do we set the histogramming size? By balancing the statistical error with the systematic error. The statistical error goes inversely as the square root of the volume size times the length of the run. It blows up for radial functions on a uniform mesh since the volume size goes at r<sup>2</sup>. The systematic error depends on the physical system, if the system is spread out, the density is pretty smooth, only a few bins will be needed.
+How do we set the histogramming size? By balancing the statistical error with the systematic error. The statistical error goes inversely as the square root of the volume size times the length of the run. It blows up for radial functions on a uniform mesh since the volume size goes at $r^2$. The systematic error depends on the physical system, if the system is spread out, the density is pretty smooth, only a few bins will be needed.
 
 ````{exercise} Density of Inhomogeneous System
 
-Assume that you are computing the density in an inhomogenous system with _N particles_ and _M independent samples_ and the average density f\(r\) depends only on the radius r from the origin. Set up a radial grid with spacing dr. (This is a 3D system!)
+Assume that you are computing the density in an inhomogenous system with _N particles_ and _M independent samples_ and the average density $f(r)$ depends only on the radius r from the origin. Set up a radial grid with spacing dr. (This is a 3D system!)
 
-1. What is the estimator for f\(r\)?
-2. Assuming the particle postitions are uncorrelated, what is the statistical error of the estimate of f\(r\)?
-    * Hint: Hits form a bitstream for a particular bin with NM uncorrelated bits.
+1. What is the estimator for $f(r)$?
+2. Assuming the particle postitions are uncorrelated, what is the statistical error of the estimate of $f(r)$?
+    * Hint: Hits form a bitstream for a particular bin with $NM$ uncorrelated bits.
     * Hint: Probability for any single particle ini a particular bin is **estimator for p = f\(r\) dV/N**, which is clearly correct for f\(r\)= constant = N/V.
     * Hint: Probability for any single trial hitting a bin is proportional to the size of the bin, i.e. p = dV/V. For the NM trials, the **estimator for p = (# of hits)/NM**.
 3. How does the systematic error depend on dr and f\(r\)?
@@ -75,17 +75,17 @@ Here's what's inside!
 ````
 Three dimensional histograms are a problem because, first the number of hits/bin is low so noise level is high, second they are hard to visualize, third they take alot of memory. You might want to use symmetry or projections to reduce a 3d function to 1 or 2 dimensional densities.
 
-It is also good to examine the density in Fourier space. In periodic boundary conditions  the allowed K-vectors are on a grid. The Fourier density can be used to either: 1) smooth out the real space part by setting to zero the FT density larger than some value and fourier transforming back. (Disadvantage: the resulting density might go negative.) 2) look for periodic structures.
+It is also good to examine the density in Fourier space. In periodic boundary conditions  the allowed K-vectors are on a grid. The Fourier density can be used to either: 1\) smooth out the real space part by setting to zero the FT density larger than some value and fourier transforming back. (Disadvantage: the resulting density might go negative.) 2\) look for periodic structures.
 
 ### Pair correlations
 
-The pair correlation function (also called the radial distribution function or g\(r\)) is the density of other particles around a given particle. Its first peak occurs around &rho;<sup>-1/3</sup>. Normalization is usually defined such that at large r, g\(r\)=1. The theory of liquids is based on pair correlations because you can calculate the energy, pressure etc if you know g\(r\) (as long as the only potential is a pair potential.)  In a liquid or gas, g\(r\) depends only on the distance between two particles, not on the angle. Actually PBCs break isotropy, g\(r\) could be different between the box axis and the body diagonal. Usually one ignores this to obtain a spherically symmetric g\(r\) for r less than half the box side. The pair correlation function is needed to apply 'tail' corrections to the potential energy and pressure coming about because of the truncation at the edge of the box.
+The pair correlation function (also called the radial distribution function or $g(r)$) is the density of other particles around a given particle. Its first peak occurs around $\rho^{-1/3}$. Normalization is usually defined such that at large $r$, $g(r)=1$. The theory of liquids is based on pair correlations because you can calculate the energy, pressure etc if you know $g(r)$ (as long as the only potential is a pair potential.)  In a liquid or gas, $g(r)$ depends only on the distance between two particles, not on the angle. Actually PBCs break isotropy, $g(r)$ could be different between the box axis and the body diagonal. Usually one ignores this to obtain a spherically symmetric $g(r)$ for $r$ less than half the box side. The pair correlation function is needed to apply 'tail' corrections to the potential energy and pressure coming about because of the truncation at the edge of the box.
 
-The Fourier transform of g\(r\) is called the static structure function S\(k\). It is important to calculate because it can be compared directly with experiment, either neutron or X-ray scattering can measure it. There are very expensive instruments at Argonne, Grenoble, Brookhaven that are dedicated to measuring S\(k\) and its time dependent generalization. If the agreement is good it gives a lot of confidence concerning the potential model. But don't be carried away; agreement to 5% is typical if the potential is at all reasonable.
+The Fourier transform of $g(r)$ is called the static structure function $S(k)$. It is important to calculate because it can be compared directly with experiment, either neutron or X-ray scattering can measure it. There are very expensive instruments at Argonne, Grenoble, Brookhaven that are dedicated to measuring $S(k)$ and its time dependent generalization. If the agreement is good it gives a lot of confidence concerning the potential model. But don't be carried away; agreement to 5% is typical if the potential is at all reasonable.
 
-The first peak of S\(k\) is around &rho;<sup>1/3</sup>. Normalization is such that at large k: S\(k\)\=1. It can be computed in two different ways, either as a FT of g\(r\) or the direct way. The direct way is slower but better at low k-values or as reciprocal lattice vectors of a possible solid structure because there are not the systematic errors of ignoring anisotropic correlations and histogram effects. Also g\(r\) must be extended to large r to do the FT.
+The first peak of $S(k)$ is around $\rho^{1/3}$. Normalization is such that at large $k$: $S(k)=1$. It can be computed in two different ways, either as a FT of $g(r)$ or the direct way. The direct way is slower but better at low k-values or as reciprocal lattice vectors of a possible solid structure because there are not the systematic errors of ignoring anisotropic correlations and histogram effects. Also $g(r)$ must be extended to large r to do the FT.
 
-One should use the peak of S\(k\) to decide is a system is solid. For a liquid S\(k\) is smooth and order 1 everywhere. A solid shows delta functions with peak high a fraction of the number of particles at the reciprocal lattice of the solid. Solid structure shows up in g(r) in a more subtle way: instead of a nice damped oscillations, there are bumps at the nearest neighbor, next-nearest neighbor, etc. (Where they are depends on the type of lattice).
+One should use the peak of $S(k)$ to decide is a system is solid. For a liquid $S(k)$ is smooth and order 1 everywhere. A solid shows delta functions with peak high a fraction of the number of particles at the reciprocal lattice of the solid. Solid structure shows up in g(r) in a more subtle way: instead of a nice damped oscillations, there are bumps at the nearest neighbor, next-nearest neighbor, etc. (Where they are depends on the type of lattice).
 
 The structure factor also signals separation in a two phase region. An example is the formation of droplets such as occurs when the number of particles corresponds to neither a stable liquid of gas, but a mixture of liquid and gas. In that case the structure function will diverge at low wave vectors. The value at zero ($S(0)$) equals N by definition (in the canonical ensemble) but this can be different than $\lim_{k \to 0} S(k)$  which is proportional to the compressibility of the system.
 
@@ -93,7 +93,7 @@ The structure factor also signals separation in a two phase region. An example i
 
 A key concept from the theory of phase transitions is the idea of an "order parameter" which characterizes a phase. For the moment we will just explain how this works for the two most common phase transitions: liquid-gas and liquid-solid.
 
-**_The liquid-gas transition:_** the order parameter is the density. a liquid and gas are identical except a liquid has higher density. At the critical point the difference disappears. There is a first order phase transition between liquid and solid so it is quite possible to do a simulation in the two phase region. What will happen? Liquid droplets will form assuming 1) the surface tension allows it and 2) the simulation is long enough. When this happens S\(k\) will have a characteristic behavior.
+**_The liquid-gas transition:_** the order parameter is the density. a liquid and gas are identical except a liquid has higher density. At the critical point the difference disappears. There is a first order phase transition between liquid and solid so it is quite possible to do a simulation in the two phase region. What will happen? Liquid droplets will form assuming 1) the surface tension allows it and 2) the simulation is long enough. When this happens $S(k)$ will have a characteristic behavior.
 
 **_The liquid-solid transition:_** A solid is characterized by a periodic density. For example the Fourier transform of the density will be very large for certain wavevectors (the reciprocal lattice vectors).
 
@@ -143,7 +143,7 @@ The radial distribution function has several key features which are visualized i
 * g\(r\) = 0 at very small r due to core repulsion
 
 <figure style="background: white; display: inline-block; margin: 0; text-align: center;">
-  <img src="statmech-thermo/_figures/Lennard-Jones_Radial_Distribution_Function.svg" 
+  <img src="_figures/Lennard-Jones_Radial_Distribution_Function.svg" 
        alt="Lennard-Jones Radial Distribution Function" 
        style="max-width: 400px; display: block; margin: 0 auto;">
   <figcaption style="font-size: 0.9em; color: #555; margin-top: 4px;">Figure 1: Lennard-Jones Radial Distribution Function</figcaption>
