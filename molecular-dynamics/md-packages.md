@@ -111,28 +111,144 @@ Typically used for biophysics
 - GROMACS: https://manual.gromacs.org/current/index.html
 - NAMD, OpenMM, AMBER 
 
+
 ## Production
 
-- Run long enough to gather statistically independent samples of quantities of interest.
-- Trajectory dumping can be disk-intensive—choose frequency wisely.
-- Use **checkpointing** (saving restart files) to recover from hardware failures.
+After the system completes equilibration, the simulation enters the production
+phase. The goal of this stage is to generate statistically meaningful data
+for analysis. Unlike equilibration, where system properties evolve toward
+steady values, production simulations assume that the system is already in
+a stable thermodynamic state.
+
+### Sampling and simulation length
+
+The production run must be long enough to collect statistically independent
+samples of the quantities of interest. Correlations between configurations
+mean that successive frames are not fully independent, so the effective
+number of samples depends on the autocorrelation time of the observable.
+Longer simulations generally improve statistical accuracy but also increase
+computational cost.
+
+### Trajectory output
+
+Trajectory files record particle positions and other observables over time.
+Because storing full trajectories can be disk-intensive, the output
+frequency should be chosen carefully. Writing too frequently produces large
+files without adding meaningful information, while writing too infrequently
+may miss important dynamics. A common strategy is to save frames at intervals
+longer than the decorrelation time of fast molecular motions.
+
+
+### Checkpointing and reproducibility
+
+To ensure robustness and recoverability, checkpoint files (or restart files)
+are saved periodically during the production run. These files store the
+complete simulation state, allowing the run to be resumed after hardware
+failures, queue interruptions, or unexpected shutdowns. Checkpointing also
+supports reproducibility, since it records exact system coordinates,
+velocities, and random-number states at specific points in the simulation.
+
+
+The following packages are common used MD packages for production. Note that they are the same as the packages used for equilibrium.
+Typically used for general-purpose physics simulations.
+- LAMMPS: https://docs.lammps.org/
+- HOOMD-blue: https://hoomd-blue.readthedocs.io/en/v6.0.0/
+
+Typically used for biophysics
+- GROMACS: https://manual.gromacs.org/current/index.html
+- NAMD, OpenMM, AMBER 
 
 ## Post-processing
 
-- Write scripts to compute properties, averages, etc., from simulation outputs.
-- Can be done on HPC clusters or downloaded to local machines.
-- Use existing tools and methods when possible—avoid reinventing the wheel.
+Post-processing refers to the analysis performed after the production
+simulation completes. At this stage, the goal is to extract meaningful
+physical quantities from the raw trajectory data and to interpret the
+results in terms of the underlying molecular behavior.
+
+### Computing properties
+
+Custom analysis scripts are often written to compute observables such as
+energies, radial distribution functions, diffusion coefficients, structural
+order parameters, or time-averaged quantities. These scripts typically use
+analysis libraries such as \texttt{MDTraj}, \texttt{MDAnalysis}, or
+\texttt{hoomd}’s built-in readers. Post-processing enables the conversion of
+large raw trajectories into quantitative results suitable for comparison
+with theory or experiment.
+
+### Where analysis is performed
+
+Post-processing can be performed directly on high-performance computing
+(HPC) clusters, especially when trajectories are large or many simulations
+need to be analyzed. Alternatively, trajectory files can be transferred to a
+local workstation for interactive or exploratory analysis. The choice depends
+on storage, bandwidth, and computational requirements.
+
+### Using existing tools
+
+The most common tools to use will be through Python packages. Packages such as Matplotlib, which is a package for creating graphs, allows for students and researchers to focus on the scientific interpretation rather than data handling. 
+
+An additional tool for post processing is OVTIO. This can visualize trajectory data in the form of a 3D model. This tool allows for frame by frame visualization to visualize how the particles move. More documentation can be found here: https://www.ovito.org/docs/current/
 
 ## Tips
 
-- Choose the largest time step (Δt) that still ensures accurate integration—test this.
-- Tune hyperparameters for performance using representative simulations.
-- Run multiple simulation copies to improve statistics and estimate errors.
-- Organize files clearly during parameter sweeps. Example structure:
+The following guidelines help improve efficiency, stability, and
+reproducibility when running molecular dynamics simulations in an educational
+or research setting.
 
-data/ ├── T-1.0/ │ ├── V-20/ │ │ └── input.sh │ ├── V-30/ │ │ └── input.sh ├── T-1.5/ │ ├── V-205/ │ └── V-301/
+### Choose an appropriate time step
 
-- Consider using tools to manage simulation campaigns.
+Select the largest time step $\Delta t$ that still produces accurate and
+stable integration. A time step that is too small wastes computational
+resources, while one that is too large can cause numerical instability.
+Testing several values during a short trial run is an effective strategy for
+finding the optimal choice.
+
+### Tune simulation parameters
+
+Hyperparameters such as neighbor-list update frequency, thermostat and
+barostat relaxation times, and cutoff distances should be tuned using
+representative systems rather than default settings. Well-chosen parameters
+reduce simulation time while maintaining accuracy.
+
+### Use multiple simulation replicas
+
+Running several independent copies of the same simulation improves the
+statistical quality of measured quantities. Independent trajectories allow
+students to compute error bars and assess reproducibility, which is important
+when comparing results or performing parameter sweeps.
+
+### Maintain clear file organization
+
+Simulations often involve variations in temperature, pressure, interaction
+strength, or other parameters. To avoid confusion, maintain a consistent and
+hierarchical file structure. Below is an example layout for a parameter sweep
+over temperature ($T$) and interaction strength ($V$):
+
+\begin{verbatim}
+data/
+├── T-1.0/
+│   ├── V-20/
+│   │   └── input.sh
+│   ├── V-30/
+│   │   └── input.sh
+├── T-1.5/
+│   ├── V-205/
+│   └── V-301/
+\end{verbatim}
+
+Clear organization makes it easier to track simulation conditions, automate
+workflows, and analyze results across parameter sets.
+
+### Use tools to manage simulation campaigns
+
+Large MD projects often involve many simulations with different parameters,
+replicas, or initial configurations. Workflow managers and job-launching
+tools—such as \texttt{signac-flow}, \texttt{Snakemake}, or simple shell
+scripts—help automate job submission, monitor progress, handle restart files,
+and ensure that all simulations follow a consistent protocol. These tools
+reduce human error and make large simulation campaigns more repeatable and
+scalable.
+
 
 ## Recommended MD Packages
 
