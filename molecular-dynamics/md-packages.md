@@ -13,11 +13,11 @@ A molecular dynamics (MD) simulation typically proceeds through four major stage
 
 4. Post-processing — Analyze and visualize trajectories to obtain physical insights.
 
-### Initialization
+## Initialization
 
 Initialization defines the starting point of the simulation. It often provides the easiest place to modify system size, composition, force fields, and other parameters before running MD. Several tools are commonly used for system setup.
 
-#### Packmol
+### Packmol
 
 Packmol builds the initial coordinates of a system while enforcing minimum-distance constraints so that molecules do not overlap. It handles only geometry, not force fields. You must combine it with another package (Foyer, AmberTools, etc.) to assign force-field parameters.
 
@@ -26,7 +26,7 @@ https://m3g.github.io/packmol/userguide.shtml
 
 To apply the Packmol, you need to firstly create or insert a particle file (pdb format). Then, a Packmol input script needs to be set so that it can be used to run the initialization. You can restrain a part of the molecule to be in a specified region of the space. This is useful for building vesicles where the hydrophilic part of the surfactants must be pointing to the aqueous environment.
 
-#### mBuild and Foyer
+### mBuild and Foyer
 
 mBuild is a molecular builder that constructs polymers, solvents, nanoparticles, and other structures.
 Foyer assigns classical force-field parameters (Lennard–Jones, bond/angle/dihedral terms, charges, etc.).
@@ -38,7 +38,7 @@ Foyer: https://foyer.mosdef.org/en/stable/
 First step is to use mBuild in order to build molecular components in mBuild (monomers, solvents, nanoparticles, polymer chains). Then assemble them into a simulation box using fill_box or Packmol. For the next move, you can use Foyer to assign atom types in order to apply force-field parameters. The output can be used to export to LAMMPS, OpenMM XML, or GSD for simulation.
 
 
-#### AmberTools
+### AmberTools
 
 AmberTools specializes in biomolecular system preparation (proteins, DNA/RNA, ligands).
 
@@ -50,19 +50,66 @@ AmberTools provides workflows for generating chemically accurate biomolecular to
 
 
 
-### Equilibration
+## Equilibration
 
-- **Energy Minimization:** Removes overlaps or poor initial configurations to prevent simulation instability.
-  - Methods: Steepest Descent, Conjugate Gradient, L-BFGS, FIRE.
-- **NVT Ensemble:** Brings system to correct temperature.
-  - Use aggressive thermostats (e.g., Isokinetic, Berendsen, Langevin).
-  - Be cautious if initial velocities are zero (can cause divide-by-zero errors).
-- **NPT Ensemble:** Brings system to correct density.
-  - Barostat usually has a longer time constant than thermostat.
-  - Ensure momentum is zeroed when switching from non-conserving thermostats.
-- Simulate for multiple relaxation times to ensure equilibrium.
-  - Use transport coefficients to estimate required time.
-  - Monitor observables like energy (U), radial distribution function (g(r)), and density.
+After the initialization process, the next stage of the molecular
+dynamics workflow is equilibration. The goal of equilibration is to remove
+unfavorable contacts, stabilize the system, and bring it to the desired
+thermodynamic state. This process typically includes energy minimization
+followed by simulations in the NVT and NPT ensembles.
+
+### Energy minimization
+
+The equilibration process begins with an energy minimization step. This step
+removes steric clashes and relaxes any distorted geometries created during
+packing or system construction. Common minimization algorithms include
+steepest descent, conjugate gradient, L-BFGS, and the FIRE algorithm. By
+reducing the forces acting on atoms, minimization ensures that the system is
+numerically stable when molecular dynamics integration starts.
+
+### NVT/NPT equilibration
+
+Once the system is minimized, an NVT (canonical ensemble) equilibration stage
+sets the system to the target temperature. A thermostat—such as Langevin,
+Berendsen, or an isokinetic thermostat—controls the kinetic energy and helps
+the system reach the correct thermal distribution. It is important to
+initialize velocities properly, since starting with zero velocities can cause
+divide-by-zero errors in temperature calculations. During this stage, atomic
+velocities relax toward a Maxwell--Boltzmann distribution. Another way is to use NPT (isothermal--isobaric ensemble)
+simulation. The barostat generally
+responds more slowly than the thermostat, so this phase often requires longer
+simulation times. When switching from thermostats that do not conserve
+momentum, the center-of-mass momentum should be removed before beginning NPT.
+Volume, density, and internal pressure gradually stabilize during this stage.
+
+### Monitoring equilibration
+
+Throughout equilibration, several observables help indicate whether the
+The system has reached steady behavior. These include the potential energy $U$,
+system density, and the radial distribution function $g(r)$. Depending on
+the system, transport properties such as the diffusion coefficient may also
+guide decisions about the required equilibration time. Once these properties
+stop drifting and fluctuate around stable values, the system is ready for
+production molecular dynamics.
+
+### Assessment of equilibration
+
+Equilibration was monitored by tracking macroscopic observables, including
+the potential energy $U$, system density, and the radial distribution
+function $g(r)$. Transport coefficients, such as diffusion constants, were
+used when appropriate to estimate the timescales required for the system to
+relax. Production simulations were initiated only after these quantities had
+reached stationary behavior.
+
+
+The following packages are the commonly used MD packages for equilibrium.
+Typically used for general-purpose physics simulations.
+- LAMMPS: https://docs.lammps.org/
+- HOOMD-blue: https://hoomd-blue.readthedocs.io/en/v6.0.0/
+
+Typically used for biophysics
+- GROMACS: https://manual.gromacs.org/current/index.html
+- NAMD, OpenMM, AMBER 
 
 ## Production
 
