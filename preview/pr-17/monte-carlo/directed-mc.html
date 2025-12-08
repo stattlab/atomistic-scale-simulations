@@ -1,0 +1,673 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5.10. Directed Monte Carlo &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'monte-carlo/directed-mc';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/monte-carlo/directed-mc.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.11. Kinetic Monte Carlo" href="kinetic-mc.html" />
+    <link rel="prev" title="5.9. The Ising Model" href="ising-model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity, and Other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">5. Monte Carlo Simulations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-numbers.html">5.2. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmonte-carlo/directed-mc.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/monte-carlo/directed-mc.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Directed Monte Carlo</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preferential-monte-carlo">5.10.1. Preferential Monte Carlo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#force-bias-monte-carlo">5.10.2. Force-Bias Monte Carlo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smart-monte-carlo">5.10.3. Smart Monte Carlo</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="directed-monte-carlo">
+<h1><span class="section-number">5.10. </span>Directed Monte Carlo<a class="headerlink" href="#directed-monte-carlo" title="Link to this heading">#</a></h1>
+<p>Last chapter, we discussed the concept of a random walk. This chapter we will discuss some methods for continuum systems that can move through phase space faster. These are discussed in Allen and Tildesley.</p>
+<section id="preferential-monte-carlo">
+<h2><span class="section-number">5.10.1. </span>Preferential Monte Carlo<a class="headerlink" href="#preferential-monte-carlo" title="Link to this heading">#</a></h2>
+<p>The idea here is that in an inhomogenous or multi-component system we preferentially sample variables which are more interesting or which control the dynamics.</p>
+<p>As an example, suppose we wish to sample several layers of molecules absorbed on a surface. Usually the first layer is rather firmly stuck to the surface. That first layer is important because it covers the surface but it doesn’t move around very much. The dynamics of the upper layers are much more interesting. Let the direction away from the surface be the <span class="math notranslate nohighlight">\(z\)</span> direction. Then we can sample a particle with label <span class="math notranslate nohighlight">\(i\)</span> with probability proportional to <span class="math notranslate nohighlight">\(h\left(z_{i}\right) / H\)</span> where <span class="math notranslate nohighlight">\(h(z)\)</span> is some adjustable sampling probability and <span class="math notranslate nohighlight">\(H=\sum_{j} h\left(z_{j}\right)\)</span>. For an attempted move from <span class="math notranslate nohighlight">\(z\)</span> to <span class="math notranslate nohighlight">\(z^{\prime}\)</span>, the acceptance ratio ratio will contain the factors <span class="math notranslate nohighlight">\(\left[h\left(z_{i}\right)\left(H+h\left(z^{\prime}\right)-h\left(z_{i}\right)\right)\right] /\left[h\left(z^{\prime}\right) H\right]\)</span> in addition to the change in potential energy factor. The acceptance ratio is not necessarily better, but you can fine tune which particles you think are important to move and not waste time sampling particles which never move or are not interesting. You must regularly sample all the particles, but you can choose the relative time the computer spends on various parts of the system.</p>
+<p>Two component example; say we have particles of type <span class="math notranslate nohighlight">\(1,2, \ldots\)</span>, for example, big, slowly moving particles and small, quickly moving particles. We can choose which of them to move according to a probability <span class="math notranslate nohighlight">\(\gamma_{i}\)</span> with <span class="math notranslate nohighlight">\(\gamma_{1}+\gamma_{2} \ldots=1\)</span>. In this case, one does not have to modify the acceptance probability since the <span class="math notranslate nohighlight">\(\gamma\)</span> ‘s cancel out of the ratio.</p>
+</section>
+<section id="force-bias-monte-carlo">
+<h2><span class="section-number">5.10.2. </span>Force-Bias Monte Carlo<a class="headerlink" href="#force-bias-monte-carlo" title="Link to this heading">#</a></h2>
+<p>Suppose we want to sample the Boltzmann distribution of particles <span class="math notranslate nohighlight">\(\exp [-\beta V(R)]\)</span>. Using the “classic” Metropolis procedure, we choose a neighborhood for a particle centered around the old position and move uniformly in a cube centered on the old position with side <span class="math notranslate nohighlight">\(\Delta\)</span>. Keeping the same neighborhood, let us try to approximate the heat-bath transition. To do so expand the potential to first order,</p>
+<div class="math notranslate nohighlight">
+\[
+\pi\left(\mathbf{r}^{\prime}\right) \propto \exp \left[-\beta V\left(\mathbf{r}^{\prime}\right)\right] \approx \exp \left[-\beta V(\mathbf{r})+\beta \mathbf{F}(r) \cdot\left(\mathbf{r}^{\prime}-\mathbf{r}\right) \ldots\right]
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{F}(\mathbf{r})\)</span> is the force evaluated at the old position. Let us sample a transition probability from:</p>
+<div class="math notranslate nohighlight">
+\[
+T\left(r \rightarrow \mathbf{r}^{\prime}\right)=C(\mathbf{r}) \exp \left[\alpha \mathbf{F}(\mathbf{r})\left(\mathbf{r}^{\prime}-\mathbf{r}\right)\right],
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(C(\mathbf{r})\)</span> is the normalization constant:</p>
+<div class="math notranslate nohighlight">
+\[
+C(\mathbf{r})=\alpha \mathbf{F} /(2 \sinh (b))
+\]</div>
+<p><span class="math notranslate nohighlight">\(b=\alpha \mathbf{F} \Delta / 2\)</span>, and <span class="math notranslate nohighlight">\(\alpha\)</span> is some adjustable constant.</p>
+<p>To sample this probability distribution we can use the mapping idea that we discussed a few weeks ago. Let <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> be a uniformly distributed random 3 -vector in the unit cube ( 0,1 ). Then the new displacement in the force-bias method is :</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{r}^{\prime}=\mathbf{r}+1 /(\alpha \mathbf{F}) \ln [\mathbf{u} \alpha \mathbf{F} / c+\exp (-b)]
+\]</div>
+<p>and the trial move is accepted according to:</p>
+<div class="math notranslate nohighlight">
+\[
+\left.\min \left[1, \exp \left[-\beta\left(V\left(\mathbf{r}^{\prime}\right)-V(\mathbf{r})\right)+\alpha\left(\mathbf{F}\left(\mathbf{r}^{\prime}\right)+\mathbf{F}(\mathbf{r})\right) \cdot\left(\mathbf{r}-\mathbf{r}^{\prime}\right)\right)\right]\left(C_{x}^{\prime} C_{y}^{\prime} C_{z}^{\prime}\right) /\left(C_{x} C_{y} C_{z}\right)\right]
+\]</div>
+<p>We need both the force and the potential at the old and new point.
+So far we have let <span class="math notranslate nohighlight">\(\alpha\)</span> be arbitrary. If we choose <span class="math notranslate nohighlight">\(\alpha=0\)</span> we get the classical Metropolis method. Suppose the force is slowly varying inside the moving cube. Then we can make the acceptance ratio unity by setting <span class="math notranslate nohighlight">\(\alpha=\beta / 2\)</span>. This is an improvement if the additional expense in computing the force pays off in much larger average steps.</p>
+</section>
+<section id="smart-monte-carlo">
+<h2><span class="section-number">5.10.3. </span>Smart Monte Carlo<a class="headerlink" href="#smart-monte-carlo" title="Link to this heading">#</a></h2>
+<p>I introduced ideas of the Smoluchowksi equation in class. You can also look at pages 257-269 in Allen and Tildesley. I am discussing this method in somewhat more detail because we will use it for Brownian dynamics, Smart Monte Carlo, and (later) quantum Monte Carlo. The Smoluchowski equation is the unique “master” equation which is:</p>
+<ol class="arabic simple">
+<li><p>local</p></li>
+<li><p>goes to the Boltzmann distribution</p></li>
+<li><p>is Markovian:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+-d \pi(R, t) / d t=-\nabla D[R](\nabla \pi-\beta \mathbf{F}(R) \pi)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(D(R)\)</span> is in general a many-body tensor but is usually taken to be a constant diagonal tensor. <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> is the force.</p>
+<p>The asymptotic solution of <span class="math notranslate nohighlight">\(\pi(R, t)\)</span> will be <span class="math notranslate nohighlight">\(\pi(R) \propto \exp (-\beta V(R))\)</span>. It is easy to see that this distribution satisfies <span class="math notranslate nohighlight">\(d \pi / d t=0\)</span>. If we assume ergodicity since the process is Markovian, this must be the only solution.</p>
+<p>Let us define the Green’s function as the solution <span class="math notranslate nohighlight">\(G\left(R, R_{0} ; t\right)\)</span> to the above equation. with the boundary condition at zero time: <span class="math notranslate nohighlight">\(G\left(R, R_{0} ; 0\right)=\delta\left(R-R_{0}\right)\)</span>. One can prove that the Green’s function satisfies detailed balance:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(R) G\left(R \rightarrow R^{\prime} ; t\right)=\pi\left(R^{\prime}\right) G\left(R^{\prime} \rightarrow R ; t\right)
+\]</div>
+<p>for any value of <span class="math notranslate nohighlight">\(t\)</span>. To do that one writes the evolution equation for the symmetrized Green’s function: <span class="math notranslate nohighlight">\(\left(\pi(R) / \pi\left(R^{\prime}\right)\right)^{1 / 2} G\left(R \rightarrow R^{\prime} ; t\right)\)</span>, and sees the right hand side of the master equation is an Hermitian operator which implies that the symmetrized Green’s function is symmetric in <span class="math notranslate nohighlight">\(R\)</span> and <span class="math notranslate nohighlight">\(R^{\prime}\)</span>. Then <span class="math notranslate nohighlight">\(G\)</span> can be used for a transition probability and it will always give an acceptance probability of unity. Also, it gives interesting dynamics (not MD but dynamics of viscous particles always in contact with a very light heat bath).</p>
+<p>However, we can only calculate <span class="math notranslate nohighlight">\(G\)</span> in the short-time limit. To do this let us calculate the first three moments of <span class="math notranslate nohighlight">\(G\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+I_{n}\left(R_{0}, t\right)=\int d R\left(R-R_{0}\right)^{n} G\left(R_{0} \rightarrow R ; t\right)
+\]</div>
+<p>Take the time derivative of this equation, use the master equation on the r.h.s., and Green’s theorem to get a simple integral over <span class="math notranslate nohighlight">\(G\)</span> on the r.h.s (we interpret this as an average <span class="math notranslate nohighlight">\(&lt;\ldots&gt;\)</span> ). We assume there are no absorbing surfaces of the random walks. Then,</p>
+<div class="math notranslate nohighlight">
+\[
+d I_{0} / d t=0
+\]</div>
+<p>This implies the normalization of <span class="math notranslate nohighlight">\(G\)</span> is always one so the evolution describes a process which neither creates nor destroys walks. The next moment is:</p>
+<div class="math notranslate nohighlight">
+\[
+d I_{1} / d t=&lt;\beta D \mathbf{F}+\nabla D&gt;
+\]</div>
+<p>Let us assume that <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> and <span class="math notranslate nohighlight">\(\nabla D\)</span> are slowly varying. Then we can replace them by the values at the initial points and integrate:</p>
+<div class="math notranslate nohighlight">
+\[
+&lt;R_{t}&gt;=R_{0}+t\left[\beta \mathbf{F}\left(R_{0}\right)+\nabla D\left(R_{0}\right)\right]+\mathcal{O}\left[t^{2}\right] .
+\]</div>
+<p>The equation for the second moment (in general a second rank tensor) is:</p>
+<div class="math notranslate nohighlight">
+\[
+d I_{2} / d t=2&lt;D&gt;+2&lt;\left(R-R_{0}\right)(\beta \mathbf{F}+\nabla D)&gt;
+\]</div>
+<p>Integrating,</p>
+<div class="math notranslate nohighlight">
+\[
+&lt;\left(R-R_{0}\right)^{2}&gt;=2 D\left(R_{0}\right) t+\mathcal{O}\left[t^{2}\right] .
+\]</div>
+<p>The solution at small time is a Gaussian distribution with the above mean and covariance.</p>
+<div class="math notranslate nohighlight">
+\[
+G_{g}\left(R, R_{0} ; t\right)=\exp \left[-\left(R-R_{t}\right)\left(2 D\left(R_{0}\right) t\right)^{-1}\left(R-R_{t}\right)\right]\left[2 \pi t \operatorname{det}\left(D\left(R_{0}\right)\right)\right]^{-1 / 2}
+\]</div>
+<p>According to the central limit theorem, Eqs. 11-13 are all that is needed to simulate the random walk if the time step <span class="math notranslate nohighlight">\(t\)</span> is sufficiently small.</p>
+<p>We have not yet discussed the diffusion tensor. For simplicity, one normally assumes that <span class="math notranslate nohighlight">\(D(R)=\)</span> <span class="math notranslate nohighlight">\(D_{0} \mathcal{I}\)</span> is a constant, unit tensor. Physically more complicated tensors are related to “hydrodynamic” interactions and will lead to different dynamics but the same static properties.</p>
+<p>Then the acceptance probability for the simple case of a constant diffusion is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+A=\min \left[1, \exp \left(-\beta\left(V\left(\mathbf{r}^{\prime}\right)-V(\mathbf{r})\right)-\beta\left(F(\mathbf{r})+F\left(\mathbf{r}^{\prime}\right)\right)\left(2\left(\mathbf{r}^{\prime}-\mathbf{r}\right)-\beta D\left(F^{\prime}-F\right)\right) / 4\right)\right] .
+\]</div>
+<p>As with force-bias Monte Carlo, the acceptance ratio goes to unity at small t. It differs because the sampled points are not bounded. Also, as mentioned above, the dynamics are interesting in themselves. Finally one can possibly make more accurate schemes by including off-diagonal components in the second moment. We can choose for a transition probability the most general correlated Gaussian in <span class="math notranslate nohighlight">\(3 n\)</span> variables,</p>
+<div class="math notranslate nohighlight">
+\[
+T_{S}(R)=\sqrt{(2 \pi)^{3 m} \operatorname{det}(\mathbf{A})} e^{-(R-\bar{R})(2 \mathbf{A})^{-1}(R-\bar{R})}
+\]</div>
+<p>where the <span class="math notranslate nohighlight">\(3 \times 3\)</span> positive-definite covariance matrix A and the mean position vector <span class="math notranslate nohighlight">\(\bar{R}\)</span> can be arbitrary. Suppose we solve equation (12) to one higher order:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{A}=2 \mathcal{I} t-t^{2} \nabla \nabla V\left(R_{0}\right) .
+\]</div>
+<p>We can sample the multivariate Gaussian distribution. One Cholesky-factorizes the covariance matrix as <span class="math notranslate nohighlight">\(\mathbf{A}=\mathbf{S S}^{T}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{S}\)</span> is an upper triangular matrix. Then if <span class="math notranslate nohighlight">\(\chi\)</span> is a vector of Gaussian random numbers with zero mean and unit variance, <span class="math notranslate nohighlight">\(\mathrm{S} \chi+\bar{R}\)</span> has the desired mean and variance. The diagonal divisors in the Cholesky decomposition of <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> are needed to find the actual value of <span class="math notranslate nohighlight">\(T\left(R \rightarrow R^{\prime}\right)\)</span> and the acceptance probability for a move. The effect of interactions is to push the mean position of an atom away from its current position if other particles are nearby. Similarly, the covariance is changed by interactions with neighboring particles. In directions where the curvature of the potential is positive, the cage of surrounding atoms results in a narrower Gaussian’s being sampled.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./monte-carlo"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ising-model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5.9. </span>The Ising Model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="kinetic-mc.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5.11. </span>Kinetic Monte Carlo</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preferential-monte-carlo">5.10.1. Preferential Monte Carlo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#force-bias-monte-carlo">5.10.2. Force-Bias Monte Carlo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smart-monte-carlo">5.10.3. Smart Monte Carlo</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

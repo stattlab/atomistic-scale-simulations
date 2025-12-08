@@ -1,0 +1,694 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5.7. Variance Reduction Techniques &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'monte-carlo/variance-reduction';</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/monte-carlo/variance-reduction.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.8. Metropolis Method" href="metropolis.html" />
+    <link rel="prev" title="5.6. Phase Transitions, Finite-size Scaling and Renormalization Group" href="finite-size.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity, and Other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">5. Monte Carlo Simulations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-numbers.html">5.2. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmonte-carlo/variance-reduction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/monte-carlo/variance-reduction.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Variance Reduction Techniques</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">5.7.1. Importance sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#antithetic-variates">5.7.2. Antithetic Variates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correlated-sampling">5.7.3. Correlated sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5.7.4. References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="variance-reduction-techniques">
+<h1><span class="section-number">5.7. </span>Variance Reduction Techniques<a class="headerlink" href="#variance-reduction-techniques" title="Link to this heading">#</a></h1>
+<p>Although the MC error always converges as <span class="math notranslate nohighlight">\(N^{-1 / 2}\)</span> where <span class="math notranslate nohighlight">\(N\)</span> is number of sampling points (or equivalently computer time), there are various ways to reduce the coefficient. These techniques go under the name of variance reduction. Consider the integral:</p>
+<div class="math notranslate nohighlight">
+\[
+I=\int d x f(x)
+\]</div>
+<p>( <span class="math notranslate nohighlight">\(x\)</span> could be a multidimensional variable.) Define the efficiency of a MC calculation as:</p>
+<div class="math notranslate nohighlight">
+\[
+\xi=1 /\left(t \sigma^{2}\right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(t\)</span> is the time to sample a given point and <span class="math notranslate nohighlight">\(\sigma^{2}\)</span> is the variance of a given sample. We want to devise an algorithm to maximize <span class="math notranslate nohighlight">\(\xi\)</span>. Usually one does this by reducing the variance. Of course, you can also get a faster computer, or write a more efficient code. It is the product that matters so doing both is even better. The final statistical error <span class="math notranslate nohighlight">\(\epsilon\)</span> is related to the efficiency as</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon=1 / \sqrt{\xi T}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(T=n t\)</span> is the total computer time of run.</p>
+<section id="importance-sampling">
+<h2><span class="section-number">5.7.1. </span>Importance sampling<a class="headerlink" href="#importance-sampling" title="Link to this heading">#</a></h2>
+<p>The most common MC variance reduction method is to optimize the sampling of <span class="math notranslate nohighlight">\(x\)</span>. Suppose we sample <span class="math notranslate nohighlight">\(x\)</span> from <span class="math notranslate nohighlight">\(p(x)\)</span> where <span class="math notranslate nohighlight">\(p(x)\)</span> is arbitrary for the moment. Then we rewrite the integral as:</p>
+<div class="math notranslate nohighlight">
+\[
+I=\int d x p[x](f(x) / p(x))=\langle f(x) / p(x)\rangle_{p}
+\]</div>
+<p>where the subscript indicates the sampling function. The estimator is <span class="math notranslate nohighlight">\(f(x) / p(x)\)</span>. The variance is:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma^{2}=\left\langle[f(x) / p(x)-I]^{2}\right\rangle=\int d x f(x)^{2} / p(x)-I^{2}
+\]</div>
+<p>The mean value of the estimator is independent of <span class="math notranslate nohighlight">\(p(x)\)</span> but the variance is not. To simplify things, let us assume that the CPU time/sample ( <span class="math notranslate nohighlight">\(t\)</span> ) is independent of <span class="math notranslate nohighlight">\(p(x)\)</span>. Then we can vary <span class="math notranslate nohighlight">\(p(x)\)</span> to minimize <span class="math notranslate nohighlight">\(\sigma^{2}\)</span>. Remember that <span class="math notranslate nohighlight">\(p(x)\)</span> must remain a probability distribution. The simplest way to maintain the constraints is to substitute <span class="math notranslate nohighlight">\(p(x)=q^{2}(x) / \int d x q^{2}(x)\)</span> where <span class="math notranslate nohighlight">\(q(x)\)</span> is a completely arbitrary real function. After solving for <span class="math notranslate nohighlight">\(\delta \sigma^{2} / \delta q(x)=0\)</span> we find the optimal sampling distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+p^{*}(x)=\frac{|f(x)|}{\int d x|f(x)|}
+\]</div>
+<p>The optimal estimator is:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) / p^{*}(x)=\operatorname{sign}(f(x)) \int d y|f(y)|
+\]</div>
+<p>Our estimator is <span class="math notranslate nohighlight">\(\pm\)</span> constant; it only changes when the sign of <span class="math notranslate nohighlight">\(f(x)\)</span> changes!
+We see that if <span class="math notranslate nohighlight">\(f\)</span> is entirely positive or negative, the optimal variance is zero. This is an example of a zero variance principle. As the sampling approaches the optimal sampling, the variance approaches zero. But notice that we can only obtain the optimal by performing the integral since we need <span class="math notranslate nohighlight">\(I\)</span> to be able to sample <span class="math notranslate nohighlight">\(p^{*}(x)\)</span>. This is typical. Optimal sampling requires first solving the problem! However, by using some improved sampling, incorporating some of the features of <span class="math notranslate nohighlight">\(p^{*}\)</span>, one can drastically reduce the variance.</p>
+<p>Example: let <span class="math notranslate nohighlight">\(f(x)=\exp \left(-x^{2} / 2\right) /\left(1+x^{2}\right)\)</span> be integrated from <span class="math notranslate nohighlight">\((-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty)\)</span>. Let us take as an importance sampling function <span class="math notranslate nohighlight">\(p(x)=(2 \pi a)^{-1 / 2} \exp \left(-x^{2} /(2 a)\right)\)</span> with <span class="math notranslate nohighlight">\(a\)</span> a free parameter. Numerically we find the minimum occurs at <span class="math notranslate nohighlight">\(a \approx 0.6\)</span> getting a reduction of 9 in the variance over the “obvious” value of <span class="math notranslate nohighlight">\(a=1\)</span>. The estimator is proportional to <span class="math notranslate nohighlight">\(\exp (-1 / 2(1-1 / a)) /\left(1+x^{2}\right)\)</span> and hence blows up at large <span class="math notranslate nohighlight">\(x\)</span> if <span class="math notranslate nohighlight">\(a&lt;1\)</span>. But the variance integral goes as <span class="math notranslate nohighlight">\(\exp (-1 / 2(2-1 / a))\)</span>. It exists only for <span class="math notranslate nohighlight">\(a&gt;1 / 2\)</span> ! The figures show what happens when you go ahead and importance sample in such a way that the variance does not exist.</p>
+<p>The code that produced these numbers is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        nsamp=10000 ! number of samples
+        a=0.6 ! sampling parameter
+! some constants
+        sa=sqrt(a)
+        pi=3.14159265
+        s2pia=sqrt(2*pi*a)
+        exa=(1/a-1)/2
+! zero mean and variance
+        xm=0
+        x2=0
+        do isamp=1, nsamp ! loop over samples
+            chi=sqrt(-2*log(ranf())*cos(pi*ranf()) ! compute ndrn
+            x=sa*chi ! scale by a
+            e=s2pia*exp(x*x*exa)/(x*x+1) !estimator
+            xm=xm+e ! add to mean
+        x2=x2+e**2 ! add to square
+    enddo
+    write (*,*) &#39;mean =&#39;,xm/nsamp,
+    +&#39; error=&#39;,sqrt((x2/nsamp-(xm/nsamp)**2)/(nsamp-1))
+    end
+</pre></div>
+</div>
+<p>Important rules on setting up an importance sampling:</p>
+<ol class="arabic simple">
+<li><p>Once you have chosen <span class="math notranslate nohighlight">\(p(x)\)</span>, prove that the variance exists. Look at the limits at large <span class="math notranslate nohighlight">\(x\)</span> and at places where <span class="math notranslate nohighlight">\(p(x)\)</span> or <span class="math notranslate nohighlight">\(f(x)\)</span> vanish. Look at the distribution of values to make sure it is Gaussian.</p></li>
+<li><p>In general, do not under sample. Make sure that <span class="math notranslate nohighlight">\(f(x) / p(x)\)</span> never gets too big. In the above example, increasing <span class="math notranslate nohighlight">\(a\)</span> is stable, decreasing <span class="math notranslate nohighlight">\(a\)</span> is dangerous.</p></li>
+<li><p>The value, with the computed errors, should be independent of <span class="math notranslate nohighlight">\(p(x)\)</span>. Make sure you pass this test. Otherwise you have a bug.</p></li>
+<li><p>Once you are close to the minimum variance, just run longer. You can waste a lot of time trying to further optimize.</p></li>
+</ol>
+<p>For functions with both positive and negative pieces, optimal sampling does not lead to zero variance. Let us define the fraction of time that one samples positive (or negative) values of <span class="math notranslate nohighlight">\(f\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[
+n_{+}=\int d x|f(x)| \theta(f(x)&gt;0) / Z
+\]</div>
+<p>with a similar definition for <span class="math notranslate nohighlight">\(n_{-}\)</span>and <span class="math notranslate nohighlight">\(Z=\int d x|f(x)|\)</span>. Clearly: <span class="math notranslate nohighlight">\(I=Z\left(n_{+}-n_{-}\right)\)</span>. The quantity in parentheses is known as the “average sign”. It can be shown by rearranging terms that the minimum variance is:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma^{2}=Z^{2}\left(1-\left(n_{+}-n_{-}\right)^{2}\right)=4 Z^{2} n_{+} n_{-}
+\]</div>
+<p>Hence we want to make sure that our integral is either mostly positive or mostly negative, otherwise there is a considerable loss of efficiency. The relative error is:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma / I=\sqrt{\left(n_{+}-n_{-}\right)^{-2}-1}
+\]</div>
+<p>which becomes very large if the average sign is close to zero. This is why we say: Monte Carlo is good at adding but cannot subtract. One might think that one could simply shift the function by adding a constant, but this rarely works very well, particularly in high dimensions or for integrals over infinite domains.</p>
+</section>
+<section id="antithetic-variates">
+<h2><span class="section-number">5.7.2. </span>Antithetic Variates<a class="headerlink" href="#antithetic-variates" title="Link to this heading">#</a></h2>
+<p>The idea here is to use negative correlation to reduce the variance. That is we couple a point where <span class="math notranslate nohighlight">\(f\)</span> is large ( <span class="math notranslate nohighlight">\(x\)</span> such that <span class="math notranslate nohighlight">\(f(x) / p(x)&gt;I\)</span> ) with a point <span class="math notranslate nohighlight">\(f\)</span> is small. Suppose <span class="math notranslate nohighlight">\(f\)</span> is generally positive for <span class="math notranslate nohighlight">\(x&gt;0\)</span> and generally negative for <span class="math notranslate nohighlight">\(x&lt;0\)</span>. Then we write the integral</p>
+<div class="math notranslate nohighlight">
+\[
+I=\int_{0}^{\infty} d x[f(x)+f(-x)]
+\]</div>
+<p>We couple the evaluation of <span class="math notranslate nohighlight">\(x\)</span> with <span class="math notranslate nohighlight">\(-x\)</span>. With the assumed properties, the variance of <span class="math notranslate nohighlight">\(\hat{f}(x)=\)</span> <span class="math notranslate nohighlight">\(1 / 2[f(x)+f(-x)]\)</span> may be much less than the variance of <span class="math notranslate nohighlight">\(f(x)\)</span>. Also <span class="math notranslate nohighlight">\(\hat{f}\)</span> may be more suitable for the application of importance sampling.</p>
+</section>
+<section id="correlated-sampling">
+<h2><span class="section-number">5.7.3. </span>Correlated sampling<a class="headerlink" href="#correlated-sampling" title="Link to this heading">#</a></h2>
+<p>Suppose what we really want is not a single integral but some function of several integrals. Let</p>
+<div class="math notranslate nohighlight">
+\[
+F_{k}=\int d x f_{k}(x)
+\]</div>
+<p>and what we want to calculate is <span class="math notranslate nohighlight">\(G\left(F_{1}, F_{2} \ldots\right)\)</span>. A common example (which is treated in homework) is <span class="math notranslate nohighlight">\(G=F_{1} / F_{2}\)</span>. The straightforward way of doing this is to run independent MC evaluations of <span class="math notranslate nohighlight">\(F_{1}, F_{2} \ldots\)</span> then combine the final results to get a good estimate of <span class="math notranslate nohighlight">\(G\)</span>. The idea of correlated sampling is to use the same points <span class="math notranslate nohighlight">\(\left\{x_{i}\right\}\)</span> to estimate all the integrals <span class="math notranslate nohighlight">\(F_{k}\)</span> at once. (One can either do the integrals altogether on the code or simply to the calculation again with the same random number sequence. It is just a question of convenience versus speed.)</p>
+<p>A particularly favorable situation is in estimating a derivative. Suppose we want to calculate the derivative of an integrand with respect to some parameter (say <span class="math notranslate nohighlight">\(a\)</span> ). One can either formally carry through the derivative and then analyze how to best sample the resulting integrand, or one can simply run the code twice with the parameter having two different but nearby values, but using the same random number sequence.</p>
+<p>The homework exercise is to develop an expression for the variance of G , then to optimize <span class="math notranslate nohighlight">\(p(x)\)</span> to minimize it. The optimal importance function is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+p^{*}(x) \propto\left|\sum_{k=1}^{N} f_{k}(x) \frac{d G}{d F_{k}}\right|
+\]</div>
+<p>Let us mention a related problem, namely for any non-linear function <span class="math notranslate nohighlight">\(G\)</span>, one will bias the result. This means that</p>
+<div class="math notranslate nohighlight">
+\[
+&lt;G&gt;_{N} \neq G\left(&lt;F_{1}&gt;_{N},&lt;F_{2}&gt;_{N} \ldots\right)
+\]</div>
+<p>where the average is over samples of size <span class="math notranslate nohighlight">\(N\)</span>. Our estimate of <span class="math notranslate nohighlight">\(G\)</span> may be systematically high or low. To get an estimate of this bias, let us assume we can do a Taylor expansion of <span class="math notranslate nohighlight">\(G\)</span> about the converged value.</p>
+<div class="math notranslate nohighlight">
+\[
+&lt;G&gt;_{N}-G\left(&lt;F_{1}&gt;_{N},&lt;F_{2}&gt;_{N} \ldots\right)=\left.\sum_{i, j} \frac{d^{2}}{d F_{i} d F_{j}} G\left(F_{1}, F_{2} \ldots\right)\right|_{&lt;F_{1}&gt;\ldots} \operatorname{covar}\left(F_{1}, F_{2}\right)
+\]</div>
+<p>Note that the bias is always order <span class="math notranslate nohighlight">\(N^{-1}\)</span> so for large number of samplings it should be smaller than the statistical error which is order <span class="math notranslate nohighlight">\(N^{-1 / 2}\)</span>.</p>
+<p>A disadvantage of correlated sampling is that the importance function for minimizing the variance of <span class="math notranslate nohighlight">\(G\)</span> may be bad for an individual <span class="math notranslate nohighlight">\(f_{k}\)</span>. It may be better to sample separately, particularly when the integrals have little in common.</p>
+</section>
+<section id="references">
+<h2><span class="section-number">5.7.4. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Hammersley and Handscomb, pgs 50-75.</p></li>
+<li><p>Kalos and Whitlock, pgs 89-114.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./monte-carlo"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="finite-size.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5.6. </span>Phase Transitions, Finite-size Scaling and Renormalization Group</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="metropolis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5.8. </span>Metropolis Method</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importance-sampling">5.7.1. Importance sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#antithetic-variates">5.7.2. Antithetic Variates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correlated-sampling">5.7.3. Correlated sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5.7.4. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
