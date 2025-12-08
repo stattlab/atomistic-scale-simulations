@@ -6,7 +6,7 @@
 
 Today we discuss the basic properties we can calculate with simulation and also can be compared to experiment. What we can calculate with MD are microcanonical averages but to within factors of order (1/N) these should equal canonical averages. Later we will calculate the same things with Monte Carlo. The main scalar properties are:
 
-* The Potential Energy, V\(R\).
+* The Potential Energy, $V(R)$.
 * The Kinetic energy (to estimate the temperature).
 * The Total energy (to test for energy conservation)
 * The Pressure using virial theorem.
@@ -139,8 +139,8 @@ If the system is:
 The radial distribution function has several key features which are visualized in 
 * First peak: nearest neighbor shell
 * Second peak: second shell
-* \( g(r) \to 1 \) as \( r \to \infty \)
-* \( g(r) = 0 \) at very small \( r \) due to core repulsion
+* g\(r\) $\to$ 1 as $r \to \infty$ 
+* g\(r\) = 0 at very small r due to core repulsion
 
 <figure style="background: white; display: inline-block; margin: 0; text-align: center;">
   <img src="statmech-thermo/_figures/Lennard-Jones_Radial_Distribution_Function.svg" 
@@ -159,7 +159,7 @@ The radial distribution function has several key features which are visualized i
   p(r_2 | r_1) = \frac{p(r_1, r_2)}{p(r_1)} = \rho g(r)
   $$
 
-* \( \rho g(r) \): average density at distance \( r \) from a particle at the origin
+* $\rho g(r)$ : average density at distance $r$ from a particle at the origin
 
 ## Pairwise Properties
 
@@ -195,11 +195,11 @@ $$
 u(r) = 4\epsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right]
 $$
 
-## How to Compute \( g(r) \)
+## How to Compute $g(r)$
 
-1. Choose a particle \( i \)
-2. Compute distances to all other particles \( j \)
-3. Count (histogram) distances into bins of width \( \Delta r \)
+1. Choose a particle $i$
+2. Compute distances to all other particles $j$
+3. Count (histogram) distances into bins of width $ \Delta r $
 4. Repeat for all particles
 5. Normalize histogram:
 
@@ -208,14 +208,14 @@ $$
    $$
 
    where:
-   * \( n_k \): number of particles in bin \( k \)
-   * \( V_k = 4\pi r_k^2 \Delta r \): volume of spherical shell
+   * $n_k$ : number of particles in bin $k$
+   * $V_k = 4\pi r_k^2 \Delta r $ : volume of spherical shell
 
-Typically define \( g(r_k) \) at \( r_k + \Delta r / 2 \)
+Typically define $g(r_k)$ at  $r_k + \Delta r / 2$
 
 ## Structure Factor
 
-The **structure factor** \( S(k) \) is obtained in scattering experiments and is related to \( g(r) \) via Fourier transform:
+The **structure factor** $S(k)$ is obtained in scattering experiments and is related to $g(r)$ via Fourier transform:
 
 $$
 S(k) = 1 + \rho \int d\vec{r} \, e^{i \vec{k} \cdot \vec{r}} [g(r) - 1]
@@ -248,39 +248,43 @@ $$
 
 ## Physical Structure Estimators
 
-## Density
+### Density
 
-### Real Space, $\rho(\vec{r})$
+#### Real Space, $\rho(\vec{r})$
 
 $$
-\rho(\vec{r}) & =\sum_{i=1}^{N}\left\langle\left(\delta\left(\vec{r}_{i}-\vec{r}\right)\right\rangle=\sum_{i=1}^{N} \frac{\left\langle\Theta\left(\vec{r}_{i} \in \operatorname{Bin}_{\vec{r}_{i}}\right)\right\rangle}{\text { Vol. of } \operatorname{Bin}_{\vec{r}_{i}}}\right. \\
+\begin{aligned}
+\rho(\vec{r}) & =\sum_{i=1}^{N}\left\langle\delta \left( \vec{r}_{i}-\vec{r}\right)\right\rangle=\sum_{i=1}^{N} \frac{\left\langle\Theta\left(\vec{r}_{i} \in \operatorname{Bin}_{\vec{r}_{i}}\right)\right\rangle}{\text { Vol. of } \operatorname{Bin}_{\vec{r}_{i}}}. \\
 & =\rho, \quad \text { (for uniform system) }
+\end{aligned}
 $$
 
 In a crystal, the mean-squared deviation from a set of lattice sites $\left\{\mathbf{Z}_{\mathbf{i}}\right\}$ is important.
 
 $$
-u^{2}=<\left(\mathbf{r}_{\mathbf{i}}-\mathbf{z}_{\mathbf{i}}\right)^{2}>
+u^{2}=\left\langle\left(\mathbf{r}_{\mathbf{i}}-\mathbf{z}_{\mathbf{i}}\right)^{2}\right\rangle
 $$
 
 A classical solid melts when $u^{2}>0.15 d_{n n}^{2}$ (Lindemann's ratio)
 
-### $\vec{k}$ - Space, $\rho_{\vec{k}}$
+#### $\vec{k}$ - Space and $\rho_{\vec{k}}$
 
 $$
+\begin{aligned}
 \rho(\vec{k}) & =\int d^{3} r e^{i \vec{k} \cdot \vec{r}} \rho(\vec{r})=\sum_{i=1}^{N} e^{i \vec{k} \cdot \vec{r}_{i}} \\
 \rho_{0} & =N \\
 \rho_{\vec{k} \neq 0} & =0, \quad \text { (for uniform system) }
+\end{aligned}
 $$
 
-Note: In rectangular periodic boundary conditions, $\vec{k}=\left(\frac{2 \pi}{L_{x}} n_{x}, \frac{2 \pi}{L_{z}} n_{z}, \frac{2 \pi}{L_{z}} n_{z}\right)$.\\
+Note: In rectangular periodic boundary conditions, $\vec{k}=\left(\frac{2 \pi}{L_{x}} n_{x}, \frac{2 \pi}{L_{z}} n_{z}, \frac{2 \pi}{L_{z}} n_{z}\right)$.
+
 Fourier smoothing is done by removing terms that have $k>k_{\text {cutof } f}$,
 
 $$
 \tilde{\rho}(\vec{r})=\frac{1}{\Omega} \sum_{|\vec{k}| \leq k_{\text {cutoff }}} \rho_{\vec{k}} e^{-\vec{k} \cdot \vec{r}}
 $$
 
-## Pair Correlation
 
 ### Pair Correlation Function, $g(\vec{r})$
 
@@ -290,8 +294,10 @@ $$
 g(\vec{r})=\frac{2 \Omega}{N^{2}} \sum_{i<j}\left\langle\delta\left(\vec{r}_{i}-\vec{r}_{j}-\vec{r}\right)\right\rangle
 $$
 
-For free particles, $g(r)=1-1 / N$.\\
-Sum rule is $\int d^{3} r g(r)=(1-1 / N) \Omega$.\\
+For free particles, $g(r)=1-1 / N$.
+
+Sum rule is $\int d^{3} r g(r)=(1-1 / N) \Omega$.
+
 The potential energy and the pressure estimator can be written in terms of $g(r)$,
 
 $$
@@ -310,8 +316,10 @@ assuming $g(r)=1$ for $r>r_{c}$.
 ### Structure Factor, $S_{k}$
 
 $$
+\begin{aligned}
 S_{\vec{k}} & =\frac{1}{N}\left\langle\rho_{\vec{k}} \rho_{-\vec{k}}\right\rangle \\
 S_{0} & =N
+\end{aligned}
 $$
 
 For a perfect crystal $S_{k}$ will be zero almost everywhere, except for some well-defined spikes. In particular, for a bravais lattice the spikes are located at reciprocal lattice points,
