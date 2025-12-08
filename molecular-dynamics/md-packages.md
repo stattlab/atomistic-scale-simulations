@@ -235,6 +235,7 @@ data/
 │   └── V-301/
 
 
+
 Clear organization makes it easier to track simulation conditions, automate
 workflows, and analyze results across parameter sets.
 
