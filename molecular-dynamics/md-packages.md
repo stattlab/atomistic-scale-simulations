@@ -21,7 +21,7 @@ Initialization defines the starting point of the simulation. It often provides t
 
 Packmol builds the initial coordinates of a system while enforcing minimum-distance constraints so that molecules do not overlap. It handles only geometry, not force fields. You must combine it with another package (Foyer, AmberTools, etc.) to assign force-field parameters.
 
-Official documentation:
+Documentation:
 https://m3g.github.io/packmol/userguide.shtml
 
 Using Packmol
@@ -36,15 +36,11 @@ Packmol can restrict groups of atoms to specified regions, such as ensuring hydr
 
 #### mBuild and Foyer
 
-
-
 mBuild is a molecular builder that constructs polymers, solvents, nanoparticles, and other structures.
 Foyer assigns classical force-field parameters (Lennard–Jones, bond/angle/dihedral terms, charges, etc.).
 
 Documentation:
-
 mBuild: https://mbuild.mosdef.org/en/stable/
-
 Foyer: https://foyer.mosdef.org/en/stable/
 
 Use mBuild to:
@@ -64,9 +60,22 @@ Use Foyer to:
 4. Export to LAMMPS, OpenMM XML, or GSD for simulation.
 
 
+#### AmberTools
 
+AmberTools specializes in biomolecular system preparation (proteins, DNA/RNA, ligands).
 
+Documentation:
+https://ambermd.org/AmberTools.php
 
+AmberTools provides workflows for:
+
+generating chemically accurate biomolecular topologies
+
+assigning AMBER and GAFF force fields
+
+adding hydrogens, water, and ions
+
+writing files for HOOMD-blue, GROMACS, OpenMM, AMBER, etc.
 
 
 
