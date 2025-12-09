@@ -102,21 +102,38 @@ This hybrid strategy offers several advantages. It reduces the total number of M
 
 Ultimately, the effectiveness of MPI + X parallelism depends heavily on the characteristics of the underlying network hardware. High-bandwidth, low-latency interconnects make it possible for MPI processes to exchange data frequently without stalling the whole computation. If the network is slow or oversubscribed, communication time can overwhelm any gains from adding more nodes, and strong scaling quickly breaks down.
 
-## Parallelization in Molecular Dynamics (MD)
 
-- **Force calculation** is the most expensive part.
 
-### Threaded
+## 3. Parallelization in Molecular Dynamics (MD)
 
-- Use multiple cores to evaluate pairwise forces.
-- Works, but limited scalability.
+Molecular dynamics (MD) simulations are a natural fit for HPC because they involve performing very similar computations over and over again on large numbers of particles. At each timestep, the equations of motion are integrated by first computing the forces on every atom, then updating positions and velocities. Among all steps in the algorithm, the force calculation is usually the most expensive. For short-ranged interactions, this means evaluating pairwise forces only for nearby neighbors within a cutoff radius. For long-ranged interactions (e.g., Coulombic forces), additional work is spent on mesh or Ewald-type methods. Either way, the bulk of the runtime is spent in loops that look at many particle pairs and accumulate forces, making them prime targets for parallelization.
 
-### Distributed
+Because the same operations are repeated over many atoms or grid points, MD codes can exploit multiple layers of parallelism. At the finest level, vector units and GPU cores handle many pairwise interactions simultaneously. At the next level, multiple CPU cores cooperate via threading on a single node. At the highest level, large simulations are split across many nodes, each responsible for a subregion of the simulation box. Modern production codes typically combine all of these strategies: threaded or GPU kernels accelerate force loops on each node, while distributed-memory parallelism spreads the system across the cluster and coordinates communication between subdomains.
 
-- **Domain decomposition**: Split simulation box among processors.
-- Each processor "owns" particles in its domain.
-- **Ghost particles**: Shared across boundaries for interactions.
-- Particles migrate between domains as they move.
+
+
+### 3.1. Threaded
+
+
+In the threaded (shared-memory) approach, an MD simulation running on one node uses multiple CPU cores to evaluate forces and related quantities in parallel. Conceptually, the main loop over atoms or interactions is divided among several threads: each thread is assigned a subset of atoms, neighbor-list entries, or spatial cells, and computes the corresponding contributions to the forces and energies. Because all threads share the same memory, they all see the same arrays of positions, velocities, and forces.
+
+There are different ways to organize this work. One common pattern is to parallelize over atoms: each thread takes a chunk of the atom index range and loops over the neighbors of those atoms. Another pattern parallelizes directly over pair interactions, distributing neighbor-list entries across threads. In both cases, care must be taken when multiple threads update the same force array. Many MD codes avoid these timing-dependent errors by assigning each atom to a "home" thread that accumulates its force, or by using per-thread temporary force buffers that are reduced at the end of the loop.
+
+Threading can deliver substantial speedups on a single node with relatively small changes to a serial code, especially when using OpenMP pragmas or similar directives. However, its scalability is ultimately limited by on-node resources. As the number of threads increases, they compete for the same memory bandwidth and cache hierarchy. At some point, adding more threads produces diminishing returns because the force loop becomes memory-bound rather than compute-bound. Moreover, threading alone cannot extend a simulation beyond the memory capacity of a single node: it can accelerate a given system size but cannot make arbitrarily large systems feasible. For truly large MD simulations, threaded parallelism should be combined with distributed-memory decomposition.
+
+
+
+### 3.2. Distributed
+
+
+To scale MD beyond a single node, most codes use domain decomposition in a distributed-memory (MPI) setting. The basic idea is to partition the simulation box into spatial subdomains and assign each subdomain to a different MPI rank (process). Each process "owns" the atoms whose positions lie inside its subdomain. It stores their positions, velocities, and forces locally and is responsible for updating them in time. In this way, the global system is broken into many smaller chunks that can be advanced largely in parallel.
+
+Interactions near subdomain boundaries require information about atoms in neighboring regions. To handle this, each process maintains a layer of **ghost particles** (also called halo atoms): copies of atoms that are actually owned by neighboring ranks but lie within the interaction cutoff of the local domain. At each timestep (or whenever needed), neighboring processes exchange boundary data: they send the coordinates of atoms near the boundary to their neighbors, which update their ghost layers. The local process can then compute forces involving both its owned atoms and the ghosts, ensuring that pairwise interactions across subdomain boundaries are correctly included.
+
+As the simulation evolves, atoms move and may cross from one subdomain into another. When this happens, ownership of the atom must be transferred: the old process sends the atom's state (position, velocity, identity, etc.) to the new process, which adds it to its own list of owned atoms. This particle migration step keeps the domain decomposition consistent with the physical configuration. In practice, domain decomposition and migration are tightly integrated with neighbor-list construction, so that communication and bookkeeping overhead are minimized.
+
+The efficiency of distributed MD parallelization depends on the balance between computation and communication. Each process spends most of its time computing forces for atoms in its subdomain, which roughly scales with the subdomain volume. Communication scales with the surface area of the subdomain, because only atoms near boundaries need to be exchanged. As the number of processes increases for a fixed global system size (strong scaling), subdomains become smaller and more "surface dominated," and the relative cost of communication grows. Good parallel performance therefore requires both a decomposition that keeps work balanced across ranks and a network fabric with low latency and high bandwidth, so that ghost exchanges and migrations do not dominate the timestep.
+
 
 ## Parallel Performance
 
