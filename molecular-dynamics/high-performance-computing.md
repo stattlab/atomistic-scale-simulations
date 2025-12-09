@@ -135,35 +135,67 @@ As the simulation evolves, atoms move and may cross from one subdomain into anot
 The efficiency of distributed MD parallelization depends on the balance between computation and communication. Each process spends most of its time computing forces for atoms in its subdomain, which roughly scales with the subdomain volume. Communication scales with the surface area of the subdomain, because only atoms near boundaries need to be exchanged. As the number of processes increases for a fixed global system size (strong scaling), subdomains become smaller and more "surface dominated," and the relative cost of communication grows. Good parallel performance therefore requires both a decomposition that keeps work balanced across ranks and a network fabric with low latency and high bandwidth, so that ghost exchanges and migrations do not dominate the timestep.
 
 
-## Parallel Performance
 
-- Not all code or problems parallelize well.
-- **Amdahl’s Law**: Speedup is limited by the non-parallel portion.
+## 4.7.4. Parallel Performance
 
-$$
-S = \frac{1}{(1 - P) + \frac{P}{N}}
-$$
+Even with a powerful cluster and a carefully parallelized code, performance is not unlimited. Some parts of a program are inherently serial, some algorithms do not expose enough independent work, and real hardware introduces overheads from communication, synchronization, memory bandwidth limits, and I/O. Understanding parallel performance means understanding both how much of your code can run concurrently and how efficiently your hardware can keep all workers busy.
 
-Where:
-
-- \( P \) = fraction of code that can be parallelized
-- \( N \) = number of processors
-
-### **Strong Scaling**
-
-- Measures speedup for a fixed problem size as resources increase.
+A simple but useful model for the limits of parallel speedup is **Amdahl's Law**. Suppose a fraction $P$ of your program's runtime can be perfectly parallelized, while the remaining fraction $1-P$ is intrinsically serial. If you run on $N$ processors, the best possible speedup $S$ (compared to a single processor) is
 
 $$
-\text{Efficiency} = \frac{N \times \text{base time}}{\text{actual time}} \quad (\text{Ideal} = 100\%)
+S=\frac{1}{(1-P)+\frac{P}{N}}
 $$
 
-> How fast can I go?
 
-### **Weak Scaling**
+Here, $S$ is the ratio of the original serial runtime to the parallel runtime, $P$ is the parallelizable fraction (between 0 and 1), and $N$ is the number of processors. As $N \rightarrow \infty$, the second term $P / N$ tends to zero, and the speedup approaches $1 /(1-P)$. In other words, no matter how many processors you add, the serial fraction of the code $1-P$ sets a hard ceiling. If only $90 \%$ of the code is parallelizable ( $P=0.9$ ), the maximum speedup is about $10 \times$, even on an arbitrarily large machine.
 
-- Measures how runtime changes when both problem size and resources increase proportionally.
+This model is deliberately optimistic because it assumes perfect load balance, no communication costs, and no caches or memory bottlenecks. In real applications, the "effective" serial fraction is often larger because communication, synchronization, and other overheads also scale badly with processor count. Nevertheless, Amdahl's reminds us that parallel performance is limited not just by hardware, but by algorithmic structure and software design. Improving performance often means refactoring the code to reduce serial regions and to restructure communication patterns, not just throwing more cores at the problem.
 
-> How big can I go?
+To reason more concretely about how your code behaves on a given system, two complementary metrics are commonly used: strong scaling and weak scaling. **Strong scaling** asks, "How much faster can I solve this fixed problem if I increase the number of processors?" **Weak scaling** asks, "How large can I make the problem if I grow it together with the processor count, without blowing up the runtime?"
+
+
+
+
+### 4.1. Strong Scaling
+
+Strong scaling measures how the runtime changes when you solve the same problem on increasing numbers of processors. You fix the total problem size-say, the number of atoms in an MD simulation or the number of grid points in a PDE solve-and then run the code with $N=1,2,4,8, \ldots$ processors, recording the time to solution in each case. If parallelization were perfect, doubling the number of processors would halve the runtime, and the speedup $S(N)$ would equal $N$.
+
+A useful quantity here is the parallel **efficiency**, which compares the achieved speedup to the ideal speedup. If we take the _base time_ to be the runtime on a single processor, then the efficiency at $N$ processors is
+
+$$
+\text { Efficiency }=\frac{N \times \text { base time }}{\text { actual time }} .
+$$
+
+
+An efficiency of 100\% corresponds to linear speedup, which means that every additional processor contributes fully, and the computation scales perfectly.
+
+In practice, efficiency drops as $N$ increases for several reasons. The serial portion of the code, as captured by Amdahl's law, becomes more prominent. Once the parallel region has been sped up, even a small serial region can dominate the total runtime. Communication and synchronization overheads also grow with processor count, because collective operations, halo exchanges, and global reductions become more frequent and more expensive relative to the purely local work. At the same time, load imbalance can emerge if the work is not distributed evenly, so that some processors finish early and sit idle while others are still computing. Finally, memory bandwidth and latency can become limiting, especially when many cores on a node compete for access to the same memory channels and caches.
+
+In molecular dynamics, strong scaling is often favorable up to a certain number of cores for a fixed system size, after which the efficiency deteriorates sharply. Beyond that point, the cost of communicating ghost particles and performing global operations such as energy reductions no longer shrinks in proportion to the added compute resources. Strong-scaling studies are therefore essential for deciding how many processors to request for a given simulation. Past some threshold, adding more cores increases the allocation cost or queue time more than it reduces the wall-clock time to solution.
+
+
+
+### 4.7.4.2. Weak Scaling
+
+
+Weak scaling takes a different perspective. Instead of fixing the total problem size, you fix the work per processor and ask how the runtime changes as you increase both the problem size and the number of processors together. For instance, you might assign a fixed number of atoms per core in an MD simulation and then run with $N=1,2,4,8, \ldots$ cores, each time increasing the total number of atoms proportionally. In an ideal world, the runtime would remain constant so that each processor does the same amount of local work, and any extra overhead from communication is negligible.
+
+In practice, weak scaling reveals how well an algorithm and implementation handle the overheads that grow with system size, which include the communication volume, the cost of collective operations, the pressure on the network fabric, and the increased load on shared services such as filesystems. If the runtime grows slowly with $N$, you have good weak scaling meaning that the code can handle larger and larger problems without a disastrous increase in time to solution. If the runtime grows rapidly, then some part of the computation-often communication, I/O, or global synchronization-does not scale with problem size as gracefully as the local work.
+
+From the user's point of view, weak scaling answers the question, "How big can I go?" If your application shows good weak scaling up to hundreds or thousands of processors, you can use larger allocations to handle much bigger systems than would fit on a single node, while keeping runtimes within reasonable limits. If weak scaling breaks down beyond a certain point, then the machine may still be capable, but the code or algorithm must be redesigned to reduce global communication, restructure data layouts, or exploit different parallel patterns.
+
+
 
 ## References
+
+(1) Department of Computer Science, PBR Visvodaya Institute of Science And Technology, India; Sravanthi, G.; Grace, B.; Kamakshamma, V. A Review of High Performance Computing. _IOSRJCE_ **2014**, _16_ (1), 36–43. [https://doi.org/10.9790/0661-16173643](https://doi.org/10.9790/0661-16173643).
+
+(2) Plimpton, S. "Fast Parallel Algorithms for Short-Range Molecular Dyanmics." _J. Comput. Phys._ **1995**, 117, 1-19.
+
+(3) Páll, S.; Zhmurov, A.; Bauer, P.; Abraham, M.; Lundborg, M.; Gray, A.; Hess, B.; Lindahl, E. Heterogeneous Parallelization and Acceleration of Molecular Dynamics Simulations in GROMACS. _The Journal of Chemical Physics_ **2020**, _153_ (13), 134110. [https://doi.org/10.1063/5.0018516](https://doi.org/10.1063/5.0018516).
+
+(4) Hill, M. D.; Marty, M. R. Amdahl’s Law in the Multicore Era.
+
+(5) Lawrence Livermore National Laboratory. **Introduction to Parallel Computing Tutorial;** High Performance Computing.
+https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial?utm_source=chatgpt.com (accessed 2025-12-06)
 
