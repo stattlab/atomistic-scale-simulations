@@ -1,40 +1,60 @@
-# Phase Transitions, Finite-size Scaling and Renormalization Group
 
-## Phase Transitions and Correlations
+# 1. Phase Transitions, Finite-Size Scaling and Renormalization Group
 
-**Critical points** are temperatures (T), densties $\rho$), etc., above which some parameter describing, say, _long-range order_ in a ferromagnetic, or the density change in liquid-gas transition, vanishes. For example, spontaneous Magnetization, M(T), is zero above some critical TC in a M(T) vs. T plot in a ferromagnet. The evidence for such increased _correlations_ was manifest in the so-called _critical opalescence_ observed in carbon dioxide over a hundered years ago by Andrews . As the critical point is approached from above, droplets of fluid acquire a size which is on the order of the wavelenght of light, hence they scatter light and provide a striking example of the critical point which can be observed with the naked eye!
 
-**Order Parameter** are a quantities which are non-zero below TC and zero above it and which are found to be a common feature associated with critical points in a large variety of physical systems. For example, M(T) is the magnetic _order parameter_, whereas $\rho_L - \rho_G$ is the _order parameter_ in the case of liquid-gas transition. In an alloy, it would be the deviations of the sublattice concentrations from the average concentration, i.e. c(r) - c0, which may be measured via scattering experiments using x-ray, electron, or neutrons.
+## 1. Phase Transitions and Correlations
 
-Note that while there is a correspondence between order parameters in different physical systems there is no correspondence of the topology of the individual phase diagrams. For example, for a fluid, P vs. T plot corresponds to a M vs. T in a magnetic system, but the do not look alike. In a magnetic systems H vs. T is a single line separating an "all up spin" from an "all down spin" configuration, and TC is a the point where the system obtains a non-zero M(T). Whereas, for a fluid there is a _critical point_ at the end of the vapor pressure curve where we can continuously transform a gas to a liquid. These are not to be confused with the curves which separate solid-gas (sublimation curve), gas-liquid (vapor pressure curve), and the liquid-solid (fusion curve).
+Phase transitions mark abrupt or qualitative changes in the macroscopic state of matter when one or more thermodynamic control parameters are varied. These control parameters include temperature $T$, pressure $P$, density $\rho$, and, for magnetic systems, and external magnetic field $H$. A **critical point** is a special point in this parameter space–typically denoted by ($P_{c}$, $\rho_{c}$, $T_{c}$) for fluids or ($H_{c}$, $M_{c}$, $T_{c}$) for magnets–at which the distinction between two phases disappears and fluctuations underlying microscopic degrees of freedom become long-ranged. Near such points, systems exhibit characteristic singular behavior that is largely independent of microscopic details.
 
-Therefore, such critical behavior can be manifest differently in any particular cut of a $(P, \rho, T)$ diagram or, equivalently, a (H, M, T) diagram for a magnetic system. Certainly, there are other types of global transitions, such as in percolation, which result from a cluster spanning a system and which occurs at some particular critical values of site occupation probability, pC. So such critical behavior, and it associated characteristics, are ubiquitous.
 
-A **Correlation Length**, $\xi$, is the distance over which a specific thermodynamic variable in the system are correlated with one another and is relevant in a system near a critical point, as evidenced from the critical opalescence experiments. In the 2-D Ising Model, for example, you can see correlations of spins over larger and larger distances as the TC is approached from above. It becomes larger than the simulation box, L, rapidly near TC. Above TC, such correlations of spins in the Ising model show _short-range order_ (correlations over short distances), whereas below TC the system exhibits _long-range order_ (infinitely-ranged correlations).
+A convenient way to characterize a phase transition is through an **order parameter**, a macroscopic quantity that distinguishes one phase from another and often vanishes continuously at a continuous (second-order) transition. In a ferromagnet, for instance, the order parameter is the spontaneous magnetization $M(T)$ in zero external field. Below the Curie temperature $T_c$, the spins align collectively and $M(T) \neq 0$. Above $T_c$, thermal agitation destroys long-range order and $M(T)=0$. The graph of $M(T)$ versus $T$ thus shows a continuous loss of magnetization as the system is heated through the critical temperature.
 
-**Generally speaking, we observed three things near a critical point, which are, in fact, interrelated.** There is an
 
-- **increase in density fluctuations**
-    As $T \rightarrow T_C$, correlations become as large as the wavelength of light
-    and the density inhomogeneities scatter light strongly (_critical opalescence_).
-- **increase in compressibility**
-    $K_T \rightarrow \infty $ as $T \rightarrow T_C$.
-- **increase in the range of the density-density correlations.**
-    $\xi \rightarrow \infty $ as $T \rightarrow T_C$.
+An analogous example appears in the liquid-gas transition of a simple fluid. At temperatures below the liquid-gas critical temperature $T_c$, the coexistence of liquid and gas phases is characterized by a density difference $\rho_L-\rho_G$, where $\rho_L$ and $\rho_G$ denote the equilibrium densities of the liquid and gas, respectively. This difference plays the role of an order parameter: it is nonzero along the coexistence curve and tends to zero as the critical point is approached. Exactly at the critical point, the liquid and gas become indistinguishable, and $\rho_L=\rho_G=\rho_c$.
 
-**Pair Correlations** are clearly important, especially since they are are directly related to thermodynamic quantities, such as KT. With KT0 = <N>kT/V the ideal gas compressibility, this is self-evident when we recall
+
+Order parameters can also be defined in more complex systems. In binary alloys, one natural order parameter is the deviation of the local composition from its average value,
 
 $$
-KT/KT0 = < (N - <N>)2 >/<N>
-$$
-and
-$$
-< (N - <N>)2 > = \int dr \int dr' G(r - r') = V \int dr G(r)
+c(\mathbf{r})-c_0,
 $$
 
-As $T \rightarrow T_C$,  $K_T \rightarrow \infty $  means that $G(r - r')$ becomes very long ranged, or $G(r - r') \rightarrow 0$ slowly as $|r - r'| >> 1$. Hence, the connection between the density fluctuations, compressibility and density-density correlations. In addition, it is clear that the **correlation length** diverges ($\xi \rightarrow \infty $  ) at the critical point in order for the density-density correlation to produce a divergent $K_T$.
+where $c(\mathbf{r})$ is the local concentration of one species (say, A atoms in an A-B alloy) and $c_0$ is the overall composition. Below an ordering temperature, the alloy may develop long-range compositional order (for example, alternating A and B on a lattice), and the fluctuations of $c(\mathbf{r})-c_0$ reflect the emergence of ordered domains. Such composition fluctuations are routinely probed by scattering experiments using x rays, electrons, or neutrons. The resulting structure factor encodes spatial correlations of $c(\mathbf{r})$, which grow in range and magnitude as the system approaches an ordering transition.
 
-**The increased correlation length, and associated change in thermodynamic quantities, lead to the concept of scaling in a finite-sized simulation, in order to estimate the proper critical points and critical exponents.**
+
+A particularly striking manifestation of critical behavior is **critical opalescence**, historically observed in fluids such as carbon dioxide near their liquid-gas critical point. As $T$ approaches $T_c$ from above at fixed pressure, the fluid becomes milky and strongly scatters visible light. Microscopically, this phenomenon arises because density fluctuations become both large in amplitude and long-ranged. Droplets of high- and low-density regions form and grow to sizes comparable to the wavelength of visible light. These density inhomogeneities act as efficient scatterers, leading to the observed opalescent appearance. Critical opalescence provided some of the earliest direct visual evidence that something singular occurs at the critical point.
+
+
+A central quantity in understanding these phenomena is the correlation length $\xi$, which measures the typical distance over which fluctuations of a local thermodynamic variable–such as the spin orientation in a magnet or the density of a fluid–remain significantly correlated. Far above the critical temperature, correlations decay rapidly and $\xi$ is microscopic, corresponding to short-range order. As the critical point is approached, however, $\xi$ grows rapidly, reflecting the emergence of large correlated regions like fluctuating high-and low density domains responsible for critical opalescence. In the two-dimensional Ising model, for example, the spin-spin correlation function decays exponentially with a characteristic length $\xi(T)$ for $T>T_c$, while below $T_c$ the system develops true long-range order and the correlations become effectively infinite in range due to the nonzero spontaneous magnetization. In numerical simulations with finite linear size $L$, this growth of $\xi$ is eventually cut off when $\xi(T)$ becomes comparable to or larger than $L$, so that the divergence of the correlation length that would occur at $T_{c}$ in an infinite system is rounded off and replaced by pronounced finite-size effects once $\xi \gtrsim L$.
+
+
+Generally speaking, three closely related signatures appear as a system approaches a critical point. First, density fluctuations grow dramatically. As $T$ -> $T_{c}$ at fixed pressure, correlated regions of high and low density become comparable in size to the wavelength of visible light, so these inhomogeneities scatter light strongly and give rise to critical opalescence. Second, the isothermal compressibility $K_{T}$ increases sharply and, in the thermodynamic limit, diverges according to
+
+$$K_T \rightarrow \infty \quad \text{as} \quad T \rightarrow T_c$$
+
+
+Physically, this means that an arbitrarily small change in pressure produces a very large change in volume or density near the critical point. Third, the range of density-density correlations grows without bound: the correlation length $\xi$, which measures the typical size of correlated density fluctuations, also diverges,
+
+$$\xi \rightarrow \infty \ \ \text{as} \ \ T \rightarrow T_{c}$$
+
+The divergence of $\xi$ underlies both the enhanced density fluctuations and the anomalous compressibility. All three reflect the same underlying fact that, at criticality, fluctuations are correlated over all length scales.
+
+
+To make the connection between these macroscopic signatures and microscopic structure more explicit, it is useful to introduce the **density-density pair correlation function**. In a fluid, fluctuations of the local density can be written as $\delta \rho(\mathbf{r})=\rho(\mathbf{r})- \langle\rho\rangle$, and the pair correlation function is defined as $G\left(\mathbf{r}-\mathbf{r}^{\prime}\right)=\left\langle\delta \rho(\mathbf{r}) \delta \rho\left(\mathbf{r}^{\prime}\right)\right\rangle$. This quantity measures how a fluctuation at one point is correlated with a fluctuation at another. Thermodynamic response functions such as the isothermal compressibility $K_{T}$ are not independent of these microscopic correlations. Rather, they can be expressed in terms of the integrated pair correlations. For an ideal gas, the compressibility is $K_T^0=\langle N\rangle k T / V$, while more generally one has the fluctuation relation
+
+$$
+\frac{K_T}{K_T^0}=\frac{\left\langle(N-\langle N\rangle)^2\right\rangle}{\langle N\rangle},
+$$
+which tells us that the compressibility of a fluid, compared to an ideal gas at the same condition, is determined by how large the particle the particle-number fluctuations are compared to the average number of particles. Here, the variance of the particle number in a volume $V$ can be written as
+
+$$
+\left\langle(N-\langle N\rangle)^2\right\rangle=\int d \mathbf{r} \int d \mathbf{r}^{\prime} G\left(\mathbf{r}-\mathbf{r}^{\prime}\right)=V \int d \mathbf{r} G(\mathbf{r}) .
+$$
+
+As the critical temperature is approached, the divergence $K_T \rightarrow \infty$ in the thermodynamic limit therefore implies that the integral of $G(\mathbf{r})$ diverges. This can only occur if the density-density correlations become very long-ranged, so that $G(\mathbf{r})$ decays only slowly for $|\mathbf{r}| \gg 1$. In other words, the divergence of the compressibility is a direct consequence of the divergence of the correlation length $\xi$ that characterizes the range of $G(\mathbf{r})$. This growing correlation length, together with the associated singular behavior of thermodynamic quantities, motivates the use of scaling ideas in finite-sized simulations. When $\xi$ becomes comparable to the system size $L$, finite-size effects encode how observables depend on the ratio $L / \xi$, and these finite-size scaling relations can be used to estimate the true critical point and critical exponents from data obtained in systems of limited size.
+
+
+
 
 ## Finite-size Scaling
 
