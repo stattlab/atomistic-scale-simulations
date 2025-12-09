@@ -3,9 +3,15 @@
 
 ## What is High-Performance Computing (HPC)?
 
-- **HPC** uses "supercomputers" or "clusters" to solve advanced computing problems.
-- Typically measured in **teraflops** or more (FLOPS = floating point operations per second).
-- Involves multiple computers connected via a network working together.
+High-performance computing (HPC) refers to the use of supercomputers and large compute clusters to solve problems that are too big, too slow, or too data-intensive for a typical desktop or laptop. Instead of running on a single machine with a handful of cores, HPC workloads run across tens, hundreds, or even thousands of processors working together on the same task. The performance of these systems is usually measured in floating-point operations per second (FLOPS). A modern laptop might sustain billions of FLOPS (gigaflops), while even a modest HPC cluster can reach trillions of FLOPS (teraflops), and nationalscale systems operate in the petaflop or exaflop range.
+
+Conceptually, an HPC system is just a large number of ordinary computers connected by a high-speed network and managed as a single machine. These individual computers-called nodes-each have their own processors, memory, and local storage. When you submit a job to the cluster, you are asking the system to reserve some number of these nodes (or CPU cores on them) for a certain amount of time, run your program there, and then return the results. From the user's point of view, this looks like logging into a login node, writing a job script, and handing that script to a scheduler. Behind the scenes, the cluster's software stack figures out where and when your job can run.
+
+The key reason to use HPC is that many scientific and engineering problems are naturally parallel. This means that different parts of the computation can be carried out at the same time. For example, you might simulate different spatial regions of a material on different processors, or evaluate forces on different atoms in parallel. To benefit from HPC, your code must be written to exploit this concurrency. A purely serial program-one that uses only one core-will not suddenly become dramatically faster just because it is launched on a supercomputer. At best, it will use a slightly newer CPU. Effective use of HPC therefore requires both appropriate algorithms and explicit parallelization strategies.
+
+Another hallmark of HPC is its emphasis on throughput and scalability rather than user interactivity. Jobs are typically run in batch mode, often for hours or days, and many users share the same cluster. Fair access and efficient utilization are handled by a job scheduler, which queues jobs, allocates resources, and enforces limits. As a result, the workflows and tools used in HPC (batch scripts, modules, environment management, parallel I/O) look very different from those in everyday desktop computing, even though the underlying hardware components are recognizable.
+
+
 
 ### Components
 
