@@ -88,9 +88,7 @@ Whether one is dealing with magnetic systems, ordinary fluids, or percolation mo
 ### 2.1.2 Scaling Properties
 
 More quantitatively, these observables obey power-law scaling near the critical point.
-The magnetization behaves as $M(T) \sim(-t)^\beta, \quad 0.33<\beta<0.37, \quad\left(T<T_c\right)$
-
-vanishing continuously as $T \rightarrow T_c^{-}$. The magnetic susceptibility diverges as
+The magnetization behaves as $M(T) \sim(-t)^\beta, \quad 0.33<\beta<0.37, \quad\left(T<T_c\right)$ vanishing continuously as $T \rightarrow T_c^{-}$. The magnetic susceptibility diverges as
 
 $$
 \chi(T) \sim|t|^{-\gamma}, \quad 1.3<\gamma<1.4
