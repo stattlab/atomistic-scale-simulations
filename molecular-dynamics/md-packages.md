@@ -250,7 +250,7 @@ reduce human error and make large simulation campaigns more repeatable and
 scalable.
 
 
-# Recommended MD Packages
+## Recommended MD Packages
 
 A wide range of molecular dynamics (MD) engines is available, each with its
 own strengths, target applications, and user community. Selecting an
