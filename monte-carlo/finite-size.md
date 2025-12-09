@@ -43,8 +43,9 @@ The divergence of $\xi$ underlies both the enhanced density fluctuations and the
 To make the connection between these macroscopic signatures and microscopic structure more explicit, it is useful to introduce the **density-density pair correlation function**. In a fluid, fluctuations of the local density can be written as $\delta \rho(\mathbf{r})=\rho(\mathbf{r})- \langle\rho\rangle$, and the pair correlation function is defined as $G\left(\mathbf{r}-\mathbf{r}^{\prime}\right)=\left\langle\delta \rho(\mathbf{r}) \delta \rho\left(\mathbf{r}^{\prime}\right)\right\rangle$. This quantity measures how a fluctuation at one point is correlated with a fluctuation at another. Thermodynamic response functions such as the isothermal compressibility $K_{T}$ are not independent of these microscopic correlations. Rather, they can be expressed in terms of the integrated pair correlations. For an ideal gas, the compressibility is $K_T^0=\langle N\rangle k T / V$, while more generally one has the fluctuation relation
 
 $$
-\frac{K_T}{K_T^0}=\frac{\left\langle(N-\langle N\rangle)^2\right\rangle}{\langle N\rangle},
+\frac{K_T}{K_T^0}=\frac{\left\langle(N-\langle N\rangle)^2\right\rangle}{\langle N\rangle}
 $$
+
 which tells us that the compressibility of a fluid, compared to an ideal gas at the same condition, is determined by how large the particle the particle-number fluctuations are compared to the average number of particles. Here, the variance of the particle number in a volume $V$ can be written as
 
 $$
