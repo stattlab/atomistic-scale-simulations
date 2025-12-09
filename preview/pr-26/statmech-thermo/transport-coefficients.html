@@ -461,7 +461,7 @@ document.write(`
 <h1><span class="section-number">3.7. </span>Transport Coefficients<a class="headerlink" href="#transport-coefficients" title="Link to this heading">#</a></h1>
 <section id="correlation-functions-for-dynamical-response">
 <h2><span class="section-number">3.7.1. </span>Correlation Functions for Dynamical Response<a class="headerlink" href="#correlation-functions-for-dynamical-response" title="Link to this heading">#</a></h2>
-<p>This section continues the discussion of the calculation of properties, in particular the calculation of dynamical properties and the response to perturbation. For static properties it would probably be more convenient to do Monte Carlo methods since they are more robust. Dynamics is the reason that we do MD.</p>
+<p>This section continues the discussion of the calculation of properties, in particular the calculation of dynamical properties and the response to perturbation. For static properties it would probably be more convenient to use Monte Carlo methods since they are more robust. Dynamics is the reason that we do MD.</p>
 <section id="linear-response-functions">
 <h3><span class="section-number">3.7.1.1. </span>Linear-Response Functions<a class="headerlink" href="#linear-response-functions" title="Link to this heading">#</a></h3>
 <p>The simplest dynamical properties are the linear response to an external perturbation. Most macroscopic measurements are in the linear regime because macroscopic perturbations are very small on the scale of microscopic forces.</p>
@@ -472,9 +472,9 @@ document.write(`
 <p>First let us consider static perturbations. Suppose our total Hamiltonian has the form:</p>
 <div class="math notranslate nohighlight">
 \[
-H = H0 + c A
+H = H_0 + c A
 \]</div>
-<p>where H0 is the unperturbed Hamiltonian, A is a perturbation and ‘c’ is the coupling constant. As shown on the formula page one can write the free energy as a power series in ‘c’. The linear response is simply the expectation of A in the unperturbed system. The second order term is the fluctuation about the mean. In fact if we neglect all terms above the first order we always get an upper bound to the free energy. Finally to calculate the free energy difference between the system at c=0 and c=1 we just need to integrate the average A over ensembles for various values of c between 0 and 1.</p>
+<p>where <span class="math notranslate nohighlight">\(H_0\)</span> is the unperturbed Hamiltonian, <span class="math notranslate nohighlight">\(A\)</span> is a perturbation and <span class="math notranslate nohighlight">\(c\)</span> is the coupling constant. As shown on the formula page, one can write the free energy as a power series in <span class="math notranslate nohighlight">\(c\)</span>. The linear response is simply the expectation of A in the unperturbed system. The second order term is the fluctuation about the mean. In fact if we neglect all terms above the first order we always get an upper bound to the free energy. Finally to calculate the free energy difference between the system at c=0 and c=1 we just need to integrate the average A over ensembles for various values of c between 0 and 1.</p>
 <p>We can also find the response of some property (B) to the perturbation; it equals the correlation between A and B.</p>
 <p>In class I did the application of cutting off the potential. Generally one expects that if the neglected potential is smooth it is pretty much independent of the phase space point R, and hence terms higher order than first can be neglected.</p>
 <p>A second example is to apply a sinusoidal potential and look at the response of the density. It is simply S k, the structure factor. That is essentially how neutrons and X-rays measure the structure factor.</p>

@@ -438,17 +438,16 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairwise-properties">3.6.5. Pairwise Properties</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tail-correction">3.6.6. Tail Correction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-compute-g-r">3.6.7. How to Compute <span class="math notranslate nohighlight">\(g(r)\)</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-factor">3.6.8. Structure Factor</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamic-estimators">3.6.9. Thermodynamic Estimators</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-structure-estimators">3.6.10. Physical Structure Estimators</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density">3.6.10.1. Density</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#real-space-rho-vec-r">3.6.10.1.1. Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vec-k-space-and-rho-vec-k">3.6.10.1.2. <span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space and <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamic-estimators">3.6.8. Thermodynamic Estimators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-structure-estimators">3.6.9. Physical Structure Estimators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density">3.6.9.1. Density</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#real-space-rho-vec-r">3.6.9.1.1. Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vec-k-space-and-rho-vec-k">3.6.9.1.2. <span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space and <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pair-correlation-function-g-vec-r">3.6.10.2. Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-factor-s-k">3.6.10.3. Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-between-g-r-and-s-k">3.6.10.4. Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pair-correlation-function-g-vec-r">3.6.9.2. Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-factor-s-k">3.6.9.3. Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-between-g-r-and-s-k">3.6.9.4. Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
 </ul>
 </li>
 </ul>
@@ -607,15 +606,13 @@ g(r) = \frac{f^{(2)}(r_1, r_2)}{\rho^2}
 <br>
 <br></p></li>
 </ul>
-<div style="text-align: center;">
-<figure style="background: white; display: inline-block; margin: 0; text-align: center;">
-  <img src="_figures/Lennard-Jones_Radial_Distribution_Function.svg" 
-       alt="Lennard-Jones Radial Distribution Function" 
-       style="max-width: 400px; display: block; margin: 0 auto;">
-  <figcaption style="font-size: 0.9em; color: #555; margin-top: 4px;">Figure 1: Lennard-Jones radial distribution function at T*=0.71.
-</figure>
-</div>
-<p><em><br>Source: Grigory Sarnitskiy, Lennard‑Jones Radial Distribution Function, Public domain (Wikimedia Commons).</em></p>
+<p align="center">
+  <img src="_figures/Lennard-Jones_Radial_Distribution_Function.jpg"
+       alt="Plot of the Lennard-Jones potential and force"
+       width="500">
+  <br>     
+  Figure 1. Lennard-Jones potential U(<em>r</em>) as a function of distance <em>r</em>. Here, <em>&sigma;</em> corresponds to a particle size, and <em>&epsilon;</em> is the interaction energy at the minimum of the potential, located at <em>r</em> = 2<sup>1/6</sup><em>&sigma;</em>.
+</p>
 </section>
 <section id="interpretation">
 <h3><span class="section-number">3.6.4.2. </span>Interpretation<a class="headerlink" href="#interpretation" title="Link to this heading">#</a></h3>
@@ -681,18 +678,14 @@ u(r) = 4\epsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sig
 </li>
 </ol>
 <p>Typically define <span class="math notranslate nohighlight">\(g(r_k)\)</span> at  <span class="math notranslate nohighlight">\(r_k + d r / 2\)</span></p>
-<div style="text-align: center;">
-<figure style="background: white; display: inline-block; margin: 0; text-align: center;">
-  <img src="_figures/Rdf_schematic.svg.png" 
-       alt="Diagram illustrating the calculation of g(r)" 
-       style="max-width: 300px; display: block; margin: 0 auto;">
-</figure>
-</div>
-<p><br><em>Source: RDF Schematic, Public domain (Wikimedia Commons).</em></p>
-</section>
-<section id="structure-factor">
-<h2><span class="section-number">3.6.8. </span>Structure Factor<a class="headerlink" href="#structure-factor" title="Link to this heading">#</a></h2>
-<p>The <strong>structure factor</strong> <span class="math notranslate nohighlight">\(S(k)\)</span> is obtained in scattering experiments and is related to <span class="math notranslate nohighlight">\(g(r)\)</span> via Fourier transform:</p>
+<p align="center">
+  <img src="_figures/Rdf_schematic.jpg"
+       alt="Plot of the Lennard-Jones potential and force"
+       width="350">
+  <br>     
+  Figure 2. Illusatration demonstrating the calculation of g(<em>r</em>).
+</p>
+<p>The <strong>structure factor</strong> <span class="math notranslate nohighlight">\(S(k)\)</span> is obtained in scattering experiments and is related to <span class="math notranslate nohighlight">\(g(r)\)</span> via a Fourier transform:</p>
 <div class="math notranslate nohighlight">
 \[
 S(k) = 1 + \rho \int d\vec{r} \, e^{i \vec{k} \cdot \vec{r}} [g(r) - 1]
@@ -702,7 +695,7 @@ S(k) = 1 + \rho \int d\vec{r} \, e^{i \vec{k} \cdot \vec{r}} [g(r) - 1]
 </div></blockquote>
 </section>
 <section id="thermodynamic-estimators">
-<h2><span class="section-number">3.6.9. </span>Thermodynamic Estimators<a class="headerlink" href="#thermodynamic-estimators" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.6.8. </span>Thermodynamic Estimators<a class="headerlink" href="#thermodynamic-estimators" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table" id="tab-thermodynamic-estimators">
 <caption><span class="caption-number">Table 3.1 </span><span class="caption-text">Thermodynamic Estimators</span><a class="headerlink" href="#tab-thermodynamic-estimators" title="Link to this table">#</a></caption>
 <thead>
@@ -733,11 +726,11 @@ S(k) = 1 + \rho \int d\vec{r} \, e^{i \vec{k} \cdot \vec{r}} [g(r) - 1]
 </div>
 </section>
 <section id="physical-structure-estimators">
-<h2><span class="section-number">3.6.10. </span>Physical Structure Estimators<a class="headerlink" href="#physical-structure-estimators" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.6.9. </span>Physical Structure Estimators<a class="headerlink" href="#physical-structure-estimators" title="Link to this heading">#</a></h2>
 <section id="density">
-<h3><span class="section-number">3.6.10.1. </span>Density<a class="headerlink" href="#density" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.6.9.1. </span>Density<a class="headerlink" href="#density" title="Link to this heading">#</a></h3>
 <section id="real-space-rho-vec-r">
-<h4><span class="section-number">3.6.10.1.1. </span>Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span><a class="headerlink" href="#real-space-rho-vec-r" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">3.6.9.1.1. </span>Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span><a class="headerlink" href="#real-space-rho-vec-r" title="Link to this heading">#</a></h4>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
@@ -753,7 +746,7 @@ u^{2}=\left\langle\left(\mathbf{r}_{\mathbf{i}}-\mathbf{z}_{\mathbf{i}}\right)^{
 <p>A classical solid melts when <span class="math notranslate nohighlight">\(u^{2}&gt;0.15 d_{n n}^{2}\)</span> (Lindemann’s ratio)</p>
 </section>
 <section id="vec-k-space-and-rho-vec-k">
-<h4><span class="section-number">3.6.10.1.2. </span><span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space and <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span><a class="headerlink" href="#vec-k-space-and-rho-vec-k" title="Link to this heading">#</a></h4>
+<h4><span class="section-number">3.6.9.1.2. </span><span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space and <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span><a class="headerlink" href="#vec-k-space-and-rho-vec-k" title="Link to this heading">#</a></h4>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
@@ -771,7 +764,7 @@ u^{2}=\left\langle\left(\mathbf{r}_{\mathbf{i}}-\mathbf{z}_{\mathbf{i}}\right)^{
 </section>
 </section>
 <section id="pair-correlation-function-g-vec-r">
-<h3><span class="section-number">3.6.10.2. </span>Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span><a class="headerlink" href="#pair-correlation-function-g-vec-r" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.6.9.2. </span>Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span><a class="headerlink" href="#pair-correlation-function-g-vec-r" title="Link to this heading">#</a></h3>
 <p>In the following formulas, realize the definitions may only make sense for <span class="math notranslate nohighlight">\(|\vec{r}| \leq L / 2\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
@@ -793,7 +786,7 @@ P=\rho k_{B} T-\frac{\rho^{2}}{6} \int d^{3} r g(r) r \frac{d \phi}{d r}
 <p>assuming <span class="math notranslate nohighlight">\(g(r)=1\)</span> for <span class="math notranslate nohighlight">\(r&gt;r_{c}\)</span>.</p>
 </section>
 <section id="structure-factor-s-k">
-<h3><span class="section-number">3.6.10.3. </span>Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span><a class="headerlink" href="#structure-factor-s-k" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.6.9.3. </span>Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span><a class="headerlink" href="#structure-factor-s-k" title="Link to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
@@ -821,7 +814,7 @@ The short-wavelength behavior of the structure factor is related to the compress
 \]</div>
 </section>
 <section id="relation-between-g-r-and-s-k">
-<h3><span class="section-number">3.6.10.4. </span>Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span><a class="headerlink" href="#relation-between-g-r-and-s-k" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.6.9.4. </span>Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span><a class="headerlink" href="#relation-between-g-r-and-s-k" title="Link to this heading">#</a></h3>
 <p>Exact formulas for periodic boundaries:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -934,17 +927,16 @@ g(r) &amp; =1+\frac{1}{2 \pi \rho} \int_{0}^{\infty} k d k J_{0}(k r)\left(S_{\v
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairwise-properties">3.6.5. Pairwise Properties</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tail-correction">3.6.6. Tail Correction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-compute-g-r">3.6.7. How to Compute <span class="math notranslate nohighlight">\(g(r)\)</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-factor">3.6.8. Structure Factor</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamic-estimators">3.6.9. Thermodynamic Estimators</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-structure-estimators">3.6.10. Physical Structure Estimators</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density">3.6.10.1. Density</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#real-space-rho-vec-r">3.6.10.1.1. Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vec-k-space-and-rho-vec-k">3.6.10.1.2. <span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space and <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamic-estimators">3.6.8. Thermodynamic Estimators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-structure-estimators">3.6.9. Physical Structure Estimators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density">3.6.9.1. Density</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#real-space-rho-vec-r">3.6.9.1.1. Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vec-k-space-and-rho-vec-k">3.6.9.1.2. <span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space and <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pair-correlation-function-g-vec-r">3.6.10.2. Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-factor-s-k">3.6.10.3. Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-between-g-r-and-s-k">3.6.10.4. Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pair-correlation-function-g-vec-r">3.6.9.2. Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-factor-s-k">3.6.9.3. Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-between-g-r-and-s-k">3.6.9.4. Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
 </ul>
 </li>
 </ul>
