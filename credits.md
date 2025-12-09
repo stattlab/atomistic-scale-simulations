@@ -8,6 +8,7 @@ This work (c) 2025 is licensed under
 ## Contributors
 
 - Antonia Statt
+- Grady Clopton
 - Yuning Zhang
 
 ## Attributions
