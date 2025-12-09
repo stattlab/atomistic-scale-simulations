@@ -29,7 +29,7 @@ To support many users and jobs, clusters rely on a **networked file system** tha
 All of these nodes and filesystems are tied together by a high-speed interconnect, the specialized network that lets nodes exchange data with low latency and high bandwidth. This network fabric is critical for distributed parallel applications, where the cost of communication can dominate the overall runtime if the interconnect is slow or congested. High-quality interconnects enable codes to scale to hundreds or thousands of nodes without being completely bottlenecked by communication overhead.
 
 
-Finally, the entire system is orchestrated by a **scheduler** or resource manager, such as SLURM (used on the Campus Cluster here at UIUC), PBS, or similar software. Users do not typically start jobs by directly launching programs on compute nodes. Instead, they write a job script specifying the resources they need, such as the number of nodes, the number of CPU cores per node, the number and type of GPUs, memory per node or per task, maximum runtime, and sometimes additional constraints like node features or queue/partition. A minimal SLURM job script illustrating these fields is shown below. The scheduler places the job in a queue, finds an appropriate set of nodes when they become available, and starts the job with the requested resources. It also enforces policies, such as limits per user or project, and can pack small jobs together on the same node to maximize utilization.
+Finally, the entire system is orchestrated by a **scheduler** or resource manager, such as SLURM (used on Campus Cluster here at UIUC), PBS, or similar software. Users do not typically start jobs by directly launching programs on compute nodes. Instead, they write a job script specifying the resources they need, such as the number of nodes, the number of CPU cores per node, the number and type of GPUs, memory per node or per task, maximum runtime, and sometimes additional constraints like node features or queue/partition. A minimal SLURM job script illustrating these fields is shown below. The scheduler places the job in a queue, finds an appropriate set of nodes when they become available, and starts the job with the requested resources. It also enforces policies, such as limits per user or project, and can pack small jobs together on the same node to maximize utilization.
 
 
 ```
@@ -53,40 +53,54 @@ srun my_md_executable input.in
 
 
 
-## Types of Parallelism
+## 2. Types of Parallelism
 
-### **Serial**
+The purpose of parallel computing is to take a computation that would normally run as a single stream of instructions and restructure it so that many operations can be carried out concurrently, allowing the work to be split across multiple hardware resources. In practice, most HPC applications combine several kinds of parallelism. They may exploit vector units inside a core, use multiple threads on a CPU socket, and spread work across many nodes in a cluster.
 
-- One worker does all tasks.
-- Easy to implement but doesn't scale.
+At a high level, we can distinguish between three main execution models. In **serial execution**, one worker performs all tasks in sequence. In **threaded** or **shared-memory parallelism**, multiple workers (threads) on the same node share a single address space and cooperate through common variables in memory. In **distributed-memory parallelism**, multiple processes, each with its own private memory on possibly different nodes, communicate explicitly by sending messages over the network. Modern large-scale codes often use a hybrid MPI +X model, where MPI handles distributed-memory parallelism across nodes and a secondary model (" $X$ ") such as OpenMP or CUDA handles shared-memory or accelerator parallelism on each node.
 
-### **Threaded (Shared Memory)**
+### 2.1. Serial
 
-- Multiple workers on one node/accelerator.
-- All share memory.
-- Examples:
-  - **OpenMP**: `#pragma omp`
-  - **CUDA**: GPU parallel programming
-- Easy to use, but not all code parallelizes well.
+In the serial model, the program is executed by a single worker, namely a single operating-system process with a single thread of execution. Instructions are carried out one after another according to the program order, and there is no explicit coordination with other workers because there are no other workers. This model is conceptually simple and is still the starting point for most algorithm development because it is easier to design, debug, and reason about a serial implementation before introducing parallel constructs.
 
-### **Distributed (Distributed Memory)**
+However, serial execution does not scale. Once the algorithm and its implementation are fixed, the only way to make it faster on a single core is to change hardware (e.g., higher clock speed or better microarchitecture) or rely on automatic forms of parallelism such as vectorization. But there is a hard upper bound: the program can never use more than one core at a time. On an HPC cluster with hundreds of thousands of cores available, this means a purely serial code is effectively leaving almost all the machine idle. For problems whose size or desired resolution keeps increasing-larger systems, finer grids, longer trajectories-serial execution quickly becomes a significant bottleneck.
 
-- Multiple nodes, each with its own memory.
-- Workers communicate over a network using **MPI** (Message Passing Interface).
-- Example: Split data, each node processes part, then results are combined.
+### 2.2. Threaded (Shared Memory)
 
-#### Communication Patterns
+Threaded or shared-memory parallelism extends the serial model by allowing multiple workers to run concurrently within the same process, all sharing a common address space. These workers are called **threads**. Each thread executes its own sequence of instructions, but they all see the same global variables and can read or write to the same arrays in memory. On a typical HPC node, threads are mapped to CPU cores. On a GPU, threads are mapped to lightweight hardware execution units.
 
-- Point-to-point
-- Point-to-all (broadcast)
-- All-to-point (reduction)
-- All-to-all
+High-level threading frameworks make it relatively easy to express this pattern. On CPUs, a common approach is to use **OpenMP**, which adds compiler directives (such as `#pragma omp parallel for`) that instruct the compiler to split a loop across multiple threads. On GPUs, **CUDA** or similar frameworks allow kernels to be launched with thousands of threads, each handling one or more elements of the data. In both cases, the programmer identifies parts of the code that can be executed independently-often loops over particles, grid points, or matrix rows-and marks them for parallel execution.
 
-#### **MPI + X**
+Shared-memory parallelism has two appealing properties. First, it can be adopted incrementally. A working serial code can often be accelerated by adding a relatively small number of directives or annotations to its most time-consuming loops. Second, because all threads share memory, passing data between them is conceptually simple. Any thread can access any variable in the process's address space without explicit messages. However, this same feature introduces new challenges. When multiple threads update the same data, the final result can depend on the precise timing and interleaving of their operations, leading to subtle and hard-to-reproduce bugs. Avoiding these issues requires synchronization mechanisms such as locks, barriers, and atomic operations. Poorly designed synchronization can easily erase the benefits of parallelism. Moreover, scalability is limited by the resources of a single node, such as the number of cores, the available memory bandwidth, and the cache hierarchy. Once an application has saturated the cores and memory of a node, further speedup requires a move to distributed-memory parallelism.
 
-- Combines distributed and threaded parallelism for large-scale computing.
+### 2.3. Distributed (Distributed Memory)
 
-> Performance depends on network hardware (fabric) for high bandwidth and low latency.
+Distributed-memory parallelism is the dominant model for cluster-scale computing. Instead of a single address space shared by all workers, each worker (an operating system process) has its own private memory, often on its own physical node. Processes cannot directly read or write each other's memory. To exchange data, they must communicate explicitly by sending and receiving messages over the network. The most widely used standard for this model in scientific computing is the **Message Passing Interface (MPI)**.
+
+A typical MPI program begins by launching many processes, often one or several per node. Each process is assigned a unique rank (an integer ID) and runs the same program, but on different portions of the data. For example, in a domain-decomposition scheme, the simulation box is partitioned into spatial subdomains, and each process is responsible for updating the particles or grid points in its subdomain. At each timestep, processes perform local computations, then exchange boundary data with their neighbors so that interactions across subdomain boundaries are correctly accounted for. At the end of a timestep or at output times, processes may send partial results to a designated root process or collectively write to disk.
+
+Because data movement is explicit, distributed-memory programming forces the programmer to think carefully about data layout and communication patterns. The cost of sending messages depends on both latency (how long it takes to initiate a communication) and bandwidth (how many bytes per second can be transferred), both determined by the cluster's network hardware or fabric. When the computation per process becomes small compared to the amount of data that must be exchanged, communication overhead can dominate the runtime. This is the fundamental reason why scalability is not unlimited: as the number of processes grows, maintaining efficient parallel execution increasingly depends on minimizing and overlapping communication.
+
+#### 2.3.1. Communication Patterns
+
+Within MPI and related libraries, communication occurs in a variety of patterns that reflect common algorithmic needs. The simplest is **point-to-point communication**, which occurs when one process sends a message directly to another. This is often used between neighboring subdomains in a spatial decomposition, where each process must exchange halo data (also called ghost data: copies of boundary values from neighboring subdomains needed to compute interactions near the boundary) only with a small set of neighbors.
+
+Many algorithms also require collective operations, where a group of processes cooperates in a higher-level communication pattern. In a **broadcast (point-to-all)**, a single process distributes a piece of data to all others-for example, sending updated parameters or control flags to every process participating in the computation. In a **reduction (all-to-point)**, many processes contribute local values (such as partial sums, minima, or maxima) that are combined and delivered to a single target process. A classic example is computing a global norm or total energy from local contributions. There are also **all-reduce operations**, which combine reduction and broadcast in one step, so that all processes receive the global result, and **all-to-all patterns**, where every process sends potentially different data to every other process.
+
+The performance of these communication patterns depends sensitively on the interconnect. High-bandwidth, low-latency network fabrics-the combination of the interconnect hardware and its topology (how the nodes and switches are connected) -allow collective operations to be implemented efficiently. MPI libraries exploit this by using tree-based or hierarchical algorithms that minimize the number of intermediate links and switches each message must traverse. By shortening these paths and reducing contention on shared links, they help prevent network congestion. On systems with slower or more heavily loaded networks, the same collectives can quickly become bottlenecks. Effective parallel algorithm design therefore involves not only balancing work across processes but also carefully managing how often and how much data is exchanged, and in which pattern.
+
+
+#### 2.3.2. MPI + X
+
+As HPC systems have evolved, individual nodes have become more powerful and more complex. A single node may have multiple CPU sockets with many cores, several GPUs, and a deep memory hierarchy. To exploit these resources efficiently, most large-scale applications now use a hybrid parallel model, often referred to as "MPI + X." In this approach, MPI provides distributed-memory parallelism across nodes (and sometimes across NUMA domains within a node), while " $X$ " represents an additional on-node parallel programming model such as OpenMP threads, CUDA kernels, HIP, SYCL, or another accelerator-focused framework.
+
+In a simple MPI + OpenMP configuration, a cluster might run one MPI process per node, with that process spawning many OpenMP threads to utilize all the cores on the node. The MPI level is responsible for dividing the global problem into large chunks, one per process, and coordinating communication between them. Within each process, OpenMP is used to parallelize loops and kernels over the local data. Similarly, in an MPI + CUDA setup, each MPI process might drive one or more GPUs on its node, offloading compute-intensive kernels while using MPI to exchange data between nodes.
+
+
+This hybrid strategy offers several advantages. It reduces the total number of MPI processes, which can mitigate pressure on the MPI implementation and the network, particularly in collectives and all-to-all communications. It also aligns naturally with the hardware hierarchy because it mirrors the two main levels of parallel hardware in a modern cluster: MPI handles communication across nodes over the network fabric, while threads or GPU kernels focus on exploiting the high-bandwidth, low-latency resources within each node (shared memory, caches, and device memory). At the same time, it introduces additional layers of complexity in load balancing, memory placement, and synchronization across and within nodes.
+
+
+Ultimately, the effectiveness of MPI + X parallelism depends heavily on the characteristics of the underlying network hardware. High-bandwidth, low-latency interconnects make it possible for MPI processes to exchange data frequently without stalling the whole computation. If the network is slow or oversubscribed, communication time can overwhelm any gains from adding more nodes, and strong scaling quickly breaks down.
 
 ## Parallelization in Molecular Dynamics (MD)
 
