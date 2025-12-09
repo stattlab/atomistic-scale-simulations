@@ -473,7 +473,7 @@ document.write(`
 <li><p>The Kinetic energy (to estimate the temperature).</p></li>
 <li><p>The Total energy (to test for energy conservation)</p></li>
 <li><p>The Pressure using virial theorem.</p></li>
-<li><p>The Specific Heat: The fluctuations in the potential energy can be used to estimate the specific heat. Danger: the canonical formula cannot be directly used since energy is conserved. See the discussion in A&amp;T</p></li>
+<li><p>The Specific Heat: The fluctuations in the potential energy can be used to estimate the specific heat. Danger: the canonical formula cannot be directly used since energy is conserved. See the discussion in Alan and Tildesley.</p></li>
 <li><p>See A&amp;T for more thermodynamic quantities.</p></li>
 </ul>
 <p>It would also be possible to estimate the specific heat as the difference in energy with runs at two different temperatures. The disadvantage of this approach is that the statistical errors are amplified as the temperatures get close together and that separate runs are required.</p>
@@ -489,7 +489,16 @@ document.write(`
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
 <span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Here’s what’s inside!</p>
+<p class="sd-card-text">For a system with average energy <span class="math notranslate nohighlight">\(E\)</span>, specific heat is defined as <span class="math notranslate nohighlight">\(C(T)=\delta E/ \delta T\)</span> (at either constant pressure or volume). For a simulation with finite temperature steps <span class="math notranslate nohighlight">\(dT\)</span>, it can be calculted as <span class="math notranslate nohighlight">\(C(T)=\frac{E(T+dT)-E(T)}{dT}\)</span>. Since <span class="math notranslate nohighlight">\(E\)</span> is an average temperature the stastical error of <span class="math notranslate nohighlight">\(C(T)\)</span> <span class="math notranslate nohighlight">\(\sigma_{stat}(C(T))\)</span> is given by the standard error propogation formula for the difference <span class="math notranslate nohighlight">\(E(T+dT)-E(T)\)</span>. It depends on the statistical error of E <span class="math notranslate nohighlight">\(\sigma_E\)</span> by <span class="math notranslate nohighlight">\(\sigma_{stat}(C)=\frac{\sigma_{E(T+dT)-E(T)}}{dT}=\frac{\sqrt{2}\sigma_E}{dT}\)</span>.</p>
+<ol class="arabic simple">
+<li><p class="sd-card-text">The systemic error emerges from approximating <span class="math notranslate nohighlight">\(C(T)\)</span> with a finite difference. The dependance on <span class="math notranslate nohighlight">\(dT\)</span> can be found from the Taylor expansion of the finite difference:
+<span class="math notranslate nohighlight">\(C(T) \approx \frac{E(T+dT)-E(T)}{dT}=\frac{1}{dT}\left[dT\frac{dE}{dT}+\frac{dT^2}{2}\frac{d^2E}{dT^2}+\frac{dT^3}{3!}\frac{d^3E}{dT^3}...\right]\)</span></p></li>
+</ol>
+<p class="sd-card-text">Since the leading term with a difference of this approximation is the second order term, the error depends linearly on <span class="math notranslate nohighlight">\(dT\)</span>.</p>
+<ol class="arabic simple" start="2">
+<li><p class="sd-card-text">As shown above <span class="math notranslate nohighlight">\(\sigma_{stat}\)</span> depends on <span class="math notranslate nohighlight">\(\frac{\sigma_E}{dT}\)</span> while <span class="math notranslate nohighlight">\(\sigma_{sys}\)</span> depends on <span class="math notranslate nohighlight">\(dT\)</span>. Setting <span class="math notranslate nohighlight">\(\sigma_{stat}=\sigma_{sys}\)</span> gives <span class="math notranslate nohighlight">\(\frac{\sigma_E}{dT}=dT\)</span> meaning that <span class="math notranslate nohighlight">\(dT=\sqrt{\sigma_E}\)</span>.</p></li>
+<li><p class="sd-card-text">Since each energy average <span class="math notranslate nohighlight">\(E\)</span> is comprised of <span class="math notranslate nohighlight">\(N\)</span> samples, the standard error scales with <span class="math notranslate nohighlight">\(1\)</span>/<span class="math notranslate nohighlight">\(\sqrt{N-1}\)</span>. Since we just showed how <span class="math notranslate nohighlight">\(dT\)</span> scales with <span class="math notranslate nohighlight">\(\sqrt{\sigma_E}\)</span>, this means that <span class="math notranslate nohighlight">\(dT\sim (N-1)^{1/4}\)</span>. In the limit of large <span class="math notranslate nohighlight">\(N\)</span> (typical for simulations), <span class="math notranslate nohighlight">\(dT\sim N^{1/4}\)</span></p></li>
+</ol>
 </div>
 </details></div>
 <p>It is not easy to calculate the free energy directly. We will discuss special methods to calculate it later.  Scalar quantities themselves are not usually very enlightening on the state of the system (e.g. liquid or solid). It is better to look at what is known as order parameters”; this is one of the main advantages of computer simulation over experiment. We will discuss correlation function in real and k-space next time.</p>
@@ -514,8 +523,8 @@ document.write(`
 <li><p>At end of run normalize the hits by total number of passes and volume element of bin.</p></li>
 </ul>
 <p>How do we set the histogramming size? By balancing the statistical error with the systematic error. The statistical error goes inversely as the square root of the volume size times the length of the run. It blows up for radial functions on a uniform mesh since the volume size goes at <span class="math notranslate nohighlight">\(r^2\)</span>. The systematic error depends on the physical system, if the system is spread out, the density is pretty smooth, only a few bins will be needed.</p>
-<div class="note admonition">
-<p class="admonition-title">Exercise: Density of Inhomogeneous System</p>
+<div class="admonition-example-density-of-inhomogeneous-system admonition">
+<p class="admonition-title">Example: Density of Inhomogeneous System</p>
 <p>Assume that you are computing the density in an inhomogenous system with <em>N particles</em> and <em>M independent samples</em> and the average density <span class="math notranslate nohighlight">\(f(r)\)</span> depends only on the radius r from the origin. Set up a radial grid with spacing dr. (This is a 3D system!)</p>
 <ol class="arabic simple">
 <li><p>What is the estimator for <span class="math notranslate nohighlight">\(f(r)\)</span>?</p></li>
@@ -538,12 +547,7 @@ document.write(`
 </ul>
 </li>
 </ol>
-<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Here’s what’s inside!</p>
 </div>
-</details></div>
 <p>Three dimensional histograms are a problem because, first the number of hits/bin is low so noise level is high, second they are hard to visualize, third they take alot of memory. You might want to use symmetry or projections to reduce a 3d function to 1 or 2 dimensional densities.</p>
 <p>It is also good to examine the density in Fourier space. In periodic boundary conditions  the allowed K-vectors are on a grid. The Fourier density can be used to either: 1) smooth out the real space part by setting to zero the FT density larger than some value and fourier transforming back. (Disadvantage: the resulting density might go negative.) 2) look for periodic structures.</p>
 </section>
