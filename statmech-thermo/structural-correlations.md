@@ -143,16 +143,15 @@ The radial distribution function has several key features which are visualized i
 * g\(r\) = 0 at very small r due to core repulsion 
 <br>
 <br>
-<div style="text-align: center;">
-<figure style="background: white; display: inline-block; margin: 0; text-align: center;">
-  <img src="_figures/Lennard-Jones_Radial_Distribution_Function.svg" 
-       alt="Lennard-Jones Radial Distribution Function" 
-       style="max-width: 400px; display: block; margin: 0 auto;">
-  <figcaption style="font-size: 0.9em; color: #555; margin-top: 4px;">Figure 1: Lennard-Jones radial distribution function at T*=0.71.
-</figure>
-</div>
 
-*<br>Source: Grigory Sarnitskiy, Lennard‑Jones Radial Distribution Function, Public domain (Wikimedia Commons).*
+<p align="center">
+  <img src="_figures/Lennard-Jones_Radial_Distribution_Function.jpg"
+       alt="Plot of the Lennard-Jones potential and force"
+       width="500">
+  <br>     
+  Figure 1. Lennard-Jones potential U(<em>r</em>) as a function of distance <em>r</em>. Here, <em>&sigma;</em> corresponds to a particle size, and <em>&epsilon;</em> is the interaction energy at the minimum of the potential, located at <em>r</em> = 2<sup>1/6</sup><em>&sigma;</em>.
+</p>
+
 ### Interpretation
 
 * $ g(r) $ is a **conditional probability**:
@@ -215,18 +214,15 @@ $$
 
 Typically define $g(r_k)$ at  $r_k + d r / 2$
 
-<div style="text-align: center;">
-<figure style="background: white; display: inline-block; margin: 0; text-align: center;">
-  <img src="_figures/Rdf_schematic.svg.png" 
-       alt="Diagram illustrating the calculation of g(r)" 
-       style="max-width: 300px; display: block; margin: 0 auto;">
-</figure>
-</div>
+<p align="center">
+  <img src="_figures/Rdf_schematic.jpg"
+       alt="Plot of the Lennard-Jones potential and force"
+       width="350">
+  <br>     
+  Figure 2. Illusatration demonstrating the calculation of g(<em>r</em>).
+</p>
 
-<br>*Source: RDF Schematic, Public domain (Wikimedia Commons).*
-## Structure Factor
-
-The **structure factor** $S(k)$ is obtained in scattering experiments and is related to $g(r)$ via Fourier transform:
+The **structure factor** $S(k)$ is obtained in scattering experiments and is related to $g(r)$ via a Fourier transform:
 
 $$
 S(k) = 1 + \rho \int d\vec{r} \, e^{i \vec{k} \cdot \vec{r}} [g(r) - 1]

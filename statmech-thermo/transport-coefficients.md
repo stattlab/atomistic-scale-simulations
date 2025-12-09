@@ -2,7 +2,7 @@
 
 ## Correlation Functions for Dynamical Response
 
-This section continues the discussion of the calculation of properties, in particular the calculation of dynamical properties and the response to perturbation. For static properties it would probably be more convenient to do Monte Carlo methods since they are more robust. Dynamics is the reason that we do MD.
+This section continues the discussion of the calculation of properties, in particular the calculation of dynamical properties and the response to perturbation. For static properties it would probably be more convenient to use Monte Carlo methods since they are more robust. Dynamics is the reason that we do MD.
 
 ### Linear-Response Functions
 
@@ -15,10 +15,10 @@ Onsager's made a well known conjecture (1935), called the Regression Hypothesis.
 First let us consider static perturbations. Suppose our total Hamiltonian has the form:
 
 $$
-H = H0 + c A
+H = H_0 + c A
 $$
 
-where H0 is the unperturbed Hamiltonian, A is a perturbation and 'c' is the coupling constant. As shown on the formula page one can write the free energy as a power series in 'c'. The linear response is simply the expectation of A in the unperturbed system. The second order term is the fluctuation about the mean. In fact if we neglect all terms above the first order we always get an upper bound to the free energy. Finally to calculate the free energy difference between the system at c=0 and c=1 we just need to integrate the average A over ensembles for various values of c between 0 and 1.
+where $H_0$ is the unperturbed Hamiltonian, $A$ is a perturbation and $c$ is the coupling constant. As shown on the formula page, one can write the free energy as a power series in $c$. The linear response is simply the expectation of A in the unperturbed system. The second order term is the fluctuation about the mean. In fact if we neglect all terms above the first order we always get an upper bound to the free energy. Finally to calculate the free energy difference between the system at c=0 and c=1 we just need to integrate the average A over ensembles for various values of c between 0 and 1.
 
 We can also find the response of some property (B) to the perturbation; it equals the correlation between A and B.
 
