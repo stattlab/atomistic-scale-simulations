@@ -10,7 +10,7 @@ Today we discuss the basic properties we can calculate with simulation and also 
 * The Kinetic energy (to estimate the temperature).
 * The Total energy (to test for energy conservation)
 * The Pressure using virial theorem.
-* The Specific Heat: The fluctuations in the potential energy can be used to estimate the specific heat. Danger: the canonical formula cannot be directly used since energy is conserved. See the discussion in Alan and Tildesley.
+* The Specific Heat: The fluctuations in the potential energy can be used to estimate the specific heat. Danger: the canonical formula cannot be directly used since energy is conserved. See the discussion in Allen and Tildesley.
 * See A&T for more thermodynamic quantities.
 
 It would also be possible to estimate the specific heat as the difference in energy with runs at two different temperatures. The disadvantage of this approach is that the statistical errors are amplified as the temperatures get close together and that separate runs are required.
