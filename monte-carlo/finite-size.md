@@ -80,7 +80,7 @@ $$
 \rho-\rho_c \sim(-t)^\beta \quad \text { for } \quad T<T_c
 $$
 
-with $\beta \approx 0.33$. More careful analyses reveal a range $0.33<\beta<0.37$; for instance, in liquid helium one finds $\beta=0.354$. Similar scaling laws are observed for other response functions, such as susceptibilities, which can also be analyzed in terms of appropriate power laws in the reduced temperature.
+with $\beta \approx 0.33$. More careful analyses reveal a range $0.33<\beta<0.37$. For instance, in liquid helium one finds $\beta=0.354$. Similar scaling laws are observed for other response functions, such as susceptibilities, which can also be analyzed in terms of appropriate power laws in the reduced temperature.
 
 
 Whether one is dealing with magnetic systems, ordinary fluids, or percolation models, the relevant order parameters and correlation measures-magnetization, density differences, pair-correlation functions, correlation lengths, and related quantities-all display analogous scaling behavior near their respective critical points. In the magnetic case, central quantities include (i) the magnetization $M(T)$, (ii) the isothermal susceptibility $\chi(T)$, (iii) the correlation length $\xi(T)$, and (iv) the zero-field specific heat $C(T)$. For percolation, the analogous set would consist of (i) the spanning probability $p_{\infty}$ (which plays the role of an order parameter), (ii) the mean cluster size $S(p)$, and (iii) the correlation length $\xi(p)$ that characterizes the typical size of connected clusters.
