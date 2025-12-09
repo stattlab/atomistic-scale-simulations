@@ -10,7 +10,7 @@ Today we discuss the basic properties we can calculate with simulation and also 
 * The Kinetic energy (to estimate the temperature).
 * The Total energy (to test for energy conservation)
 * The Pressure using virial theorem.
-* The Specific Heat: The fluctuations in the potential energy can be used to estimate the specific heat. Danger: the canonical formula cannot be directly used since energy is conserved. See the discussion in A&T
+* The Specific Heat: The fluctuations in the potential energy can be used to estimate the specific heat. Danger: the canonical formula cannot be directly used since energy is conserved. See the discussion in Alan and Tildesley.
 * See A&T for more thermodynamic quantities.
 
 It would also be possible to estimate the specific heat as the difference in energy with runs at two different temperatures. The disadvantage of this approach is that the statistical errors are amplified as the temperatures get close together and that separate runs are required.
@@ -26,7 +26,16 @@ Write the formula for the statistical error of the specific heat versus differen
 
 
 ```{solution}
-Here's what's inside!
+For a system with average energy $E$, specific heat is defined as $C(T)=\delta E/ \delta T$ (at either constant pressure or volume). For a simulation with finite temperature steps $dT$, it can be calculted as $C(T)=\frac{E(T+dT)-E(T)}{dT}$. Since $E$ is an average temperature the stastical error of $C(T)$ $\sigma_{stat}(C(T))$ is given by the standard error propogation formula for the difference $E(T+dT)-E(T)$. It depends on the statistical error of E $\sigma_E$ by $\sigma_{stat}(C)=\frac{\sigma_{E(T+dT)-E(T)}}{dT}=\frac{\sqrt{2}\sigma_E}{dT}$.
+
+1. The systemic error emerges from approximating $C(T)$ with a finite difference. The dependance on $dT$ can be found from the Taylor expansion of the finite difference: 
+$C(T) \approx \frac{E(T+dT)-E(T)}{dT}=\frac{1}{dT}\left[dT\frac{dE}{dT}+\frac{dT^2}{2}\frac{d^2E}{dT^2}+\frac{dT^3}{3!}\frac{d^3E}{dT^3}...\right]$
+
+Since the leading term with a difference of this approximation is the second order term, the error depends linearly on $dT$.
+
+2. As shown above $\sigma_{stat}$ depends on $\frac{\sigma_E}{dT}$ while $\sigma_{sys}$ depends on $dT$. Setting $\sigma_{stat}=\sigma_{sys}$ gives $\frac{\sigma_E}{dT}=dT$ meaning that $dT=\sqrt{\sigma_E}$.
+
+3. Since each energy average $E$ is comprised of $N$ samples, the standard error scales with $1$/$\sqrt{N-1}$. Since we just showed how $dT$ scales with $\sqrt{\sigma_E}$, this means that $dT\sim (N-1)^{1/4}$. In the limit of large $N$ (typical for simulations), $dT\sim N^{1/4}$
 ```
 ````
 
@@ -54,7 +63,7 @@ You find it by histogramming, that is subdividing the total volume into a set of
 
 How do we set the histogramming size? By balancing the statistical error with the systematic error. The statistical error goes inversely as the square root of the volume size times the length of the run. It blows up for radial functions on a uniform mesh since the volume size goes at $r^2$. The systematic error depends on the physical system, if the system is spread out, the density is pretty smooth, only a few bins will be needed.
 
-````{exercise} Density of Inhomogeneous System
+````{example} Density of Inhomogeneous System
 
 Assume that you are computing the density in an inhomogenous system with _N particles_ and _M independent samples_ and the average density $f(r)$ depends only on the radius r from the origin. Set up a radial grid with spacing dr. (This is a 3D system!)
 
@@ -69,9 +78,6 @@ Assume that you are computing the density in an inhomogenous system with _N part
 4. What is the value of dr which minimizes the total error? How does it scale with M and r?
     * Again, rather than minimize total error, equate the systemmatic statistical error so that one does not dominate the error.
 
-```{solution}
-Here's what's inside!
-```
 ````
 Three dimensional histograms are a problem because, first the number of hits/bin is low so noise level is high, second they are hard to visualize, third they take alot of memory. You might want to use symmetry or projections to reduce a 3d function to 1 or 2 dimensional densities.
 
