@@ -12,7 +12,7 @@
   - $\Delta u = 2\pi \rho \int_{r_c}^{\infty} \underbrace{r^2 \underbrace{u(r)}_{\sim 1/r^6}}_{\sim 1/r^4} dr $ converges
   - In MD, truncate forces: $ F(r > r_c) = 0 $
 
-The non-zero range of the short-ranged potential should not be greater than half the dimension of simulation box, otherwise the atom would "feel" itself if [periodic boundary conditions](./periodic-boundary-conditions.md) are imposed.
+The non-zero range of the short-ranged potential should not be greater than half of the smallest simulation box, otherwise the atom would "feel" itself if [periodic boundary conditions](./periodic-boundary-conditions.md) are imposed.
 
 ## Nonbonded Potentials
 
@@ -24,12 +24,12 @@ Here,
 $\epsilon$ is maximal well-depth of the attractive part of the potential. It is related to the cohesive energy.
 Here, $\sigma$ is an effective radii where the "hard core" repulsion is starting to be felt. (Note that $\sigma$ is about 0.34 nm and $\varepsilon/k_B$ is about 120 K for liquid Argon. Warning: these are not properties arising from isolated pairs of Argon atoms.)
 
-It is worth mentioning that the L-J potentials has been used to study dynamics in super-cooled liquids, in an effort to understand glass transitions, to study packing of hard-spheres of varying radii, and many other situations. Regarding L-J, as well as many of those to follow, there is a nice review of classical systems if interested (see, Caccamo, "Integral Equation Theory Description of Phase Equilibria in Classical Fluids," Physics Reports 274, 1 (1996)).
+It is worth mentioning that the L-J potential has been used to study dynamics in super-cooled liquids, in an effort to understand glass transitions, to study packing of hard-spheres of varying radii, and many other situations. Regarding L-J, as well as many of those to follow, there is a nice review of classical systems if interested (see, Caccamo, "Integral Equation Theory Description of Phase Equilibria in Classical Fluids," Physics Reports 274, 1 (1996)).
 
-LJ is by far the most wildely used intramolecular potential. We will focus is on the Lennard-Jones (LJ) potential due to its common use.
+LJ is by far the most widely used intremolecular potential. We will focus on the Lennard-Jones (LJ) potential due to its common use.{cite}`lennardjones1924`
 
 ```{tip}
-Once of the reasons why the LJ potential is so popular, is that one can re-use the $ \left( \frac{\sigma}{r} \right)^6$ term by squaring it - thus reducing computational cost. This is much less important with improved hardware.
+One of the reasons why the LJ potential is so popular, is that one can re-use the $ \left( \frac{\sigma}{r} \right)^6$ term by squaring it - thus reducing computational cost. This is much less important with improved hardware.
 ```
 
 ### Mie Potential
@@ -37,17 +37,17 @@ Once of the reasons why the LJ potential is so popular, is that one can re-use t
 $ u(r) = C \varepsilon \left[ \left( \frac{\sigma}{r} \right)^n - \left( \frac{\sigma}{r} \right)^m \right] $
 with $ C = \frac{nm}{n - m} \left( \frac{n}{m} \right)^{\frac{m}{n - m}} $
 
-This is a generaized LJ potential.
+This is a generalized LJ potential.
 
 ### Morse Potential
 
 $ u(r)=D_{e}\left(1-e^{-a(r-r_{e})}\right)^{2}$
 
-Here $r$ is the distance between the atoms, $r_{e}$ is the equilibrium  distance,
+Here $r$ is the distance between the atoms, $r_{e}$ is the equilibrium distance,
 $D_{e}$ is the well depth (defined relative to  dissociated atoms at $r \rightarrow \infty$), and
 $a$ controls the 'width' of the potential (the smaller  $a$ is, the larger the well).
 
-The Morse potential offers the same properties as Lennard-Jones, however, it allows more intermediate range of interaction and it is more of a bonding-type potential. Most elements, esp. metals, that form solids in the Periodic Table can be fit with this type of potential, at least locally near their equilibrium lattice constant, by choosing the lattice constant, s, the bulk moduli, and the cohesive energy. This is the basis for the so-called Rose Equation of State and the way the Effective Medium Theory choses to reduce parameters in the potential.
+The Morse potential offers the same properties as Lennard-Jones, however, it allows more intermediate range of interaction and it is more of a bonding-type potential. Most elements, esp. metals, that form solids in the Periodic Table can be fit with this type of potential, at least locally near their equilibrium lattice constant, by choosing the lattice constant, s, the bulk moduli, and the cohesive energy. This is the basis for the so-called Rose Equation of State and the way the Effective Medium Theory chooses to reduce parameters in the potential.{cite}`morse1929`
 
 
 ```{note} LJ vs Morse
@@ -66,7 +66,7 @@ $ u(r)=A{\frac {e^{-\alpha r}}{r}}$
 Double Yukawa
 $ u(r)=A{\frac {e^{-B r} + e^{-C r}}{r}}$
 
-For those in Physics, you may have come across this potential in regards to nuclear physics, in fact interactions within the nulceus, a field in which Yukawa was honored with a Nobel Prize.  Nonetheless, this is a potential with a functional form which has some appealing properties (see Caccamo, for example).
+For those in Physics, you may have come across this potential in regards to nuclear physics, in fact interactions within the nucleus, a field in which Yukawa was honored with a Nobel Prize.  Nonetheless, this is a potential with a functional form which has some appealing properties (see Caccamo, for example).
 
 For Soft-sphere-like interactions, the Yukawa offers advantages over the Soft-sphere potential for analytic investigations of thermodynamics. In addition, it can be shown that the Double-Yukawa form adequately reproduces the L-J spatial behavior, however, it offers the ability to perform useful analytic proceedures to study free-energy variationally in some restricted systems (e.g., "Variational Theory of Phase Separation in Binary Liquids," Foiles and Ashcroft, J. Chem. Phys. 75 3594 (1981)).
 
@@ -108,7 +108,7 @@ When written in this form, the  $\left( \frac{\sigma}{r} \right)^6$-term can be 
 ```
 
 ```{tip}
-Write $F_i= -F(r) \hat{r}_{ij} = - \frac{F(r_{ij})}{r_{ij}} \vec{r}_{ij}$. Then one can write the LJ force in such a way, that only ever $r^2_{ij}$ is needed, not $r_{ij}$, thus avoiding the need for a expensive sqrt operation.
+Write $F_i= -F(r) \hat{r}_{ij} = - \frac{F(r_{ij})}{r_{ij}} \vec{r}_{ij}$. Then one can write the LJ force in such a way, that only ever $r^2_{ij}$ is needed, not $r_{ij}$, thus avoiding the need for an expensive sqrt operation.
 ```
 
 ## Truncating and Shifting
@@ -118,7 +118,7 @@ Energy ($E= T+V$) conservation is impacted by the way how a short-ranged potenti
 **Truncate**:
 
 $$
-u(r) = u_o(r)\theta(r_c-r) = \begin{cases}  &U_o(r)\quad r\leq r_c \\
+u(r) = u_o(r)\theta(r_c-r) = \begin{cases}  &u_o(r)\quad r\leq r_c \\
 &0 \quad r\ge r_c  \end{cases}
 $$
 
@@ -127,12 +127,12 @@ Note that this means that the force has a "jump" at the cutoff, because $\frac{\
 **Truncate** and **shift**:
 
 $$
-u(r) = \left[u_o(r)-u_o(r_c)\right]\theta(r_c-r) =\begin{cases}  U_o(r)-u_o(r_c)\quad r\leq r_c \\
+u(r) = \left[u_o(r)-u_o(r_c)\right]\theta(r_c-r) =\begin{cases}  u_o(r)-u_o(r_c)\quad r\leq r_c \\
 0 \quad r\ge r_c  \end{cases}
 $$
 
 Here $\frac{\partial u}{\partial r}$ is finite but might be discontinous.
-Shifted potentials do contribute, i.e. technically their Hamiltonian and phase spache is not identical to the original potential anymore. This means that properties like their phase boundaries and critical points will be changed as well.  Moreover, the force is discontinous at $r_c$. (e.g. for L-J, the discontinuity is $0.039 \epsilon/\sigma$ for $r_c=2.5$.) This discontinuity can cause numerical instabilities, which may be eliminated using a **shifted-force potential**, for example. One can apply **smoothing functions**, e.g. polynominals (xplor).
+Shifted potentials do contribute, i.e. technically their Hamiltonian and phase space is not identical to the original potential anymore. This means that properties like their phase boundaries and critical points will be changed as well.  Moreover, the force is discontinous at $r_c$. (e.g. for L-J, the discontinuity is $0.039 \epsilon/\sigma$ for $r_c=2.5$.) This discontinuity can cause numerical instabilities, which may be eliminated using a **shifted-force potential**, for example. One can apply **smoothing functions**, e.g. polynominals (xplor).
 
 ```{admonition} Derivative of the Heaviside function
 :class: dropdown
@@ -148,40 +148,49 @@ $$
 is the Heaviside function.
 
 Define a test function $\phi(x)$ that goes to 0 sufficiently quickly as $x \rightarrow \pm \infty$.
-$$
-\int_{-\infty}^{\infty} dx \left[f(x) \theta\left(x-x_0\right)\right]^{\prime} \phi(x) =f\left(\left.x\left|\theta_{x-x_0}\right| \phi(x)\right|_{-\infty}^{\infty}-\int_{-\infty}^{\infty} d x f(x) \theta\left(x-x_0\right) \phi^{\prime}(x)\right. \\
-$$
-
-by parts, $\phi$ vanishes at $\infty$.
 
 $$
- =-\int_{x_0}^{\infty} dx f(x) \phi^{\prime}(x) \\
- =-\left[\left.f(x) \phi(x)\right|_{x_0} ^{\infty}-\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)\right]
- $$
- Then,
-
- $$
-=-\left[-f\left(x_0\right) \phi\left(x_0\right)-\int_{x_0}^{\infty} d x f^{\prime}(x) \phi(x)\right] \\
+\int_{-\infty}^{\infty} dx \left[f(x) \theta\left(x-x_0\right)\right]^{\prime} \phi(x) = \left[ f(x)\theta(x-x_0) \phi(x) \right]_{-\infty}^{\infty}-\int_{-\infty}^{\infty} d x f(x) \theta\left(x-x_0\right) \phi^{\prime}(x)
 $$
 
-$\phi$ vansles at $\infty$
+by parts, $\phi$ vanishes at $\pm \infty$.
+
+$$
+ =-\int_{x_0}^{\infty} dx f(x) \phi^{\prime}(x)
+$$
+
+Integrate by parts again:
+
+$$
+ =-\left[ \left. f(x) \phi(x)\right|_{x_0} ^{\infty}-\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)\right]
+$$
+
+Then, since $\phi$ vanishes at $\infty$:
+
+$$
+ =-\left[-f\left(x_0\right) \phi\left(x_0\right)-\int_{x_0}^{\infty} d x f^{\prime}(x) \phi(x)\right]
+$$
 
 $$
  =f\left(x_0\right) \phi\left(x_0\right)+\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)
 $$
 
-with $\int_{-\infty}^{\infty} d x f(x) \delta\left(x-x_0\right)=f\left(x_0\right)$.
+Using the property $\int_{-\infty}^{\infty} d x f(x) \delta\left(x-x_0\right)=f\left(x_0\right)$:
 
 $$
-=\int_{-\infty}^{\infty} d x f\left(x_0\right) \delta\left(x-x_0\right) \phi(x)+\int_{-\infty}^{\infty} d x f^{\prime}(x) \theta\left(x-x_0\right) \phi(x) \\
+=\int_{-\infty}^{\infty} d x f\left(x_0\right) \delta\left(x-x_0\right) \phi(x)+\int_{-\infty}^{\infty} d x f^{\prime}(x) \theta\left(x-x_0\right) \phi(x)
+$$
+
+Combining terms:
+
+$$
 =\int_{-\infty}^{\infty} d x \underbrace{\left[f\left(x_0\right) \delta\left(x-x_0\right)+f^{\prime}(x) \theta\left(x-x_0\right)\right]} \phi(x)
 $$
 
-combine terms.
+Note that we could also choose $f(x)$ rather than $f\left(x_0\right)$. Since $\delta\left(x-x_0\right)$ "clicks on" only at $x_0$, it doesn't really care about the other values of $f$.
 
-Note that could also choose $f(x)$ rater them $f\left(x_0\right)$. Since $\delta\left(x-x_0\right)$ "cicks on" only at $x_0$, it doesn't really care about the other values of $x$.
-
-This is a "product rule" for Heaviside function.
+This is a "product rule" for the Heaviside function.
+**Shifted-force Potential**:
 ```
 
 **Shifted-force Potential**:
@@ -210,20 +219,19 @@ For unlike atom types $i$ and $j$, use mixing rules on LJ parameters. There are 
 Commonly used mixing rules are:
 
 **Lorentz-Berthelot**:
-test
-
-$
-\sigma_{ij} = \frac{\sigma_{ii}+\sigma_{jj}}{2}
-\epsilon_{ij} = \sqrt{\epsilon_{ii}\epsilon_{jj}}
-$
+$$
+\sigma_{ij} = \frac{\sigma_{ii}+\sigma_{jj}}{2} \quad ; \quad \epsilon_{ij} = \sqrt{\epsilon_{ii}\epsilon_{jj}}
+$$
 
 **Kong**:
-test
 
-$
+$$
 \epsilon_{ij}\sigma_{ij}^{6} = \left(\epsilon _{ii}\sigma_{ii}^{6}\epsilon_{jj}\sigma_{jj}^{6}\right)^{1/2}
- \epsilon_{ij}\sigma_{ij}^{12} = \left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
-$
+$$
+
+$$
+\epsilon_{ij}\sigma_{ij}^{12} = \left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
+$$
 
 ### Criteria for Choosing a Potential
 
@@ -234,7 +242,7 @@ The three main criteria for choosing a potential are:
 - Transferability: Applicable to more situations for which the potential was NOT fit.
 - Computational Speed: Force calculations are the most time consuming part of simulation, e.g., so they should be as fast as possible (meaning potentials should be as simple as possible). A 2-body potential $V(rij)$  depends only on distance between atoms, i.e., $|ri-rj|$; whereas a 3-body potential will depend on orientation which will require more computation.
 
-Typical emphasis for various discplines include:
+Typical emphasis for various disciplines include:
 
 - Chemistry:    Accuracy
     Rate constants, for example, require very accurate reaction barriers.
@@ -270,13 +278,16 @@ Let us now discuss some of the theoretical ideas that go into determining potent
 
 ### Noble Gases
 
-These are the non-bonding, rare gases (e.g., Kr and Ar) where the electronic shells are closed. Thus means they are spherically symmetric, with rather weak, but long-ranged, van der Waals type interactions. They were the first systems to be simulated and pair potentials work best for them. For this case, a oft used pair potentials is the Lennard-Jones (6-12) potential.
+These are the non-bonding, rare gases (e.g., Kr and Ar) where the electronic shells are closed. Thus means they are spherically symmetric, with rather weak, but long-ranged, van der Waals type interactions. They were the first systems to be simulated and pair potentials work best for them. For this case, a commonly used pair potentials is the Lennard-Jones (6-12) potential.
 
-At large distances (r >> r0, the equilibrium distance) one can undestand the interaction by considering how two oscillators would interact, giving an r-6 attraction, where the coefficient is determined by the atomic polarizibility (arising due ot correlations between electron clouds surrounding atoms and give van der Waals (dipole-dipole) interactions.) On the other hand, at short distances (r << r0), the potentials are strongly repulsive because of the Pauli exclusion principle (electrons are fermions). Lennard-Jones assumed a stronger inverse power law, conveniently r-12. One should not think the Lennard-Jones (L-J) potential as anything more fundamental than this.
+At large distances (r >> r0, the equilibrium distance) one can undestand the interaction by considering how two oscillators would interact, giving an r-6 attraction, where the coefficient is determined by the atomic polarizibility (arising due to correlations between electron clouds surrounding atoms and give van der Waals (dipole-dipole) interactions.) On the other hand, at short distances (r << r0), the potentials are strongly repulsive because of the Pauli exclusion principle (electrons are fermions). Lennard-Jones assumed a stronger inverse power law, conveniently r-12. One should not think the Lennard-Jones (L-J) potential as anything more fundamental than this.
 
 Even for Argon it is only accurate to 10% or so. And three-body potentials can be significant at the 10% level (more in case of polarizable species). An example of the difference between the simple L-J 6-12 potential and one that has been constructed using a large quantity of experimental data is on pg. 8 of A&T. The potentials that are fit to bulk data are really effective potentials and could be somewhat different than the real 2-body potential that would be determined from gas-phase data because they include corrections for three- and higher-body interactions, for, in effect, the two-body potential is obtained by averaging over the third spatial coordinate:
 
-(1/Volume)  drk V3i (ri,rj,rk) = V2(3)(rij)      so that V(r)=(1/2)ij V2eff(rij).
+$$
+V(r) = \frac{1}{2} \sum_{i\neq j} V_2(r_{ij})，\qquad
+V_2(r_{ij})=\frac{1}{V} \int d\mathbf{r}_k\, V_3(\mathbf{r}_i,\mathbf{r}_j,\mathbf{r}_k)
+$$
 
 Hence, the effective potentials can be dependent upon density and less so on temperature.
 
@@ -315,4 +326,8 @@ For other systems there are extensive codes which handle real biomolecular syste
   - [GROMACS](https://manual.gromacs.org/current/reference-manual/functions/nonbonded-interactions.html)
 - more mixing rules from [Wikipedia](https://en.wikipedia.org/wiki/Combining_rules)
 
-test
+## References
+
+- [Diatomic Molecules According to the Wave Mechanics. II. Vibrational Levels, Morse, Philip M.](https://journals.aps.org/pr/abstract/10.1103/PhysRev.34.57){cite}`morse1929`
+
+- [On the Determination of Molecular Fields, Lennard-Jones, J. E. (1924)](https://royalsocietypublishing.org/rspa/article/106/738/463/1722/On-the-determination-of-molecular-fields-II-From){cite}`lennardjones1924`

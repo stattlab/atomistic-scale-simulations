@@ -203,7 +203,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. 4.6 Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. Initialization and Neighbor Searching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
 </ul>
 </details></li>
@@ -446,9 +446,10 @@ document.write(`
 <p>The formal definition is given over the integral</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-I = \int_R^D d^D r \frac{A}{r^n} = \begin{cases} \infty &amp;\text{ for } n \leq D \\
-  \text{finite} &amp;\text{ for } n &gt; D
-\end{cases}
+I(R) = \int_R^\infty dr\, r^{D-1}\,\frac{A}{r^n}
+      = \begin{cases} \infty &amp;\text{ for } n \le D\\
+    \text{finite} &amp;\text{ for } n &gt; D
+    \end{cases}
 \end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(D\)</span> is the dimension. I.e we look at the potential <span class="math notranslate nohighlight">\(u(r)\)</span> as <span class="math notranslate nohighlight">\(r \rightarrow \infty\)</span>. This integral then contains <span class="math notranslate nohighlight">\(\frac{r^{D-1}}{r^n}\)</span>. In 3D, a potential is short-ranged if it converges faster than <span class="math notranslate nohighlight">\(r^{-3}\)</span>. In 2D,  a potential is short-ranged if it converges faster than <span class="math notranslate nohighlight">\(r^{-2}\)</span>.</p>
 </div>
@@ -475,10 +476,12 @@ I = \int_R^D d^D r \frac{A}{r^n} = \begin{cases} \infty &amp;\text{ for } n \leq
 </ul>
 <p>For the calculation of the electric potential <span class="math notranslate nohighlight">\(U\)</span> of an ion at position <span class="math notranslate nohighlight">\(r_i\)</span> due to all other ions of the lattice, we need to compute a sum like this:
 $<span class="math notranslate nohighlight">\(
- U = \frac{1}{2} \sum_{\vec{m}\in \mathbb{Z}^3} \sum_{j}^N \sum_{j \neq i}^N \frac{q_i q_j}{4 \pi \epsilon_0 \lvert \mathbf{r}_i - \mathbf{r}_j + \vec{m}L\rvert}
+U = \frac{1}{2} \sum_{\vec m\in\mathbb Z^3}
+    \sum_{i=1}^N \sum_{\substack{j=1\\ j\neq i}}^N
+    \frac{q_i q_j}{4\pi\varepsilon_0 |\vec r_i - \vec r_j + \vec m L|}
 \)</span><span class="math notranslate nohighlight">\(
 where \)</span>\vec{m}<span class="math notranslate nohighlight">\( are the image vectors, and \)</span>L$ is the box size.</p>
-<p>This sum is conditionally convergent!</p>
+<p>This sum is conditionally convergent!<span id="id1"><sup><a class="reference internal" href="../references/references.html#id23" title="M. Widom. Shape-adapted ewald summation. https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf.">23</a></sup></span></p>
 <figure class="align-center" id="madelung-const-fig">
 <a class="reference internal image-reference" href="../_images/mandelung-sum.png"><img alt="Illustration of the summation of charges on a simple lattice." src="../_images/mandelung-sum.png" style="width: 200px;" />
 </a>
@@ -486,7 +489,7 @@ where \)</span>\vec{m}<span class="math notranslate nohighlight">\( are the imag
 <p><span class="caption-number">Fig. 2.21 </span><span class="caption-text">Illustration of the summation of charges on a simple lattice (NaCl). The particle in the center, <span class="math notranslate nohighlight">\(0\)</span>, indicates <span class="math notranslate nohighlight">\(i\)</span>, and the others are labeled by a possible order of how they could be summed.</span><a class="headerlink" href="#madelung-const-fig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p><a class="reference internal" href="#madelung-const-fig"><span class="std std-numref">Fig. 2.21</span></a> shows a simple NaCl crystal. Here, the nearest neighbors contribute <span class="math notranslate nohighlight">\(-\frac{e^2}{4\pi\epsilon_0}\frac{6}{a}\)</span>, then the second nearest neighbors contribute <span class="math notranslate nohighlight">\(+\frac{e^2}{4\pi\epsilon_0}\frac{12}{a\sqrt{2}}\)</span>, the third <span class="math notranslate nohighlight">\(-\frac{e^2}{4\pi\epsilon_0}\frac{8}{a\sqrt{3}}\)</span>, and so on. This doesn’t obviously converge without some math tricks and rearanging. This general challenge exist for any system with long range interactions, in various lattice tpyes.</p>
+<p><a class="reference internal" href="#madelung-const-fig"><span class="std std-numref">Fig. 2.21</span></a> shows a simple NaCl crystal. Here, the nearest neighbors contribute <span class="math notranslate nohighlight">\(-\frac{e^2}{4\pi\epsilon_0}\frac{6}{a}\)</span>, then the second nearest neighbors contribute <span class="math notranslate nohighlight">\(+\frac{e^2}{4\pi\epsilon_0}\frac{12}{a\sqrt{2}}\)</span>, the third <span class="math notranslate nohighlight">\(-\frac{e^2}{4\pi\epsilon_0}\frac{8}{a\sqrt{3}}\)</span>, and so on. This doesn’t obviously converge without some math tricks and rearranging. This general challenge exist for any system with long range interactions, in various lattice types.</p>
 <p><strong>Solution:</strong> Add and subtract a Gaussian charge at each point charge source:</p>
 <ul class="simple">
 <li><p>Point charge:<span class="math notranslate nohighlight">\( \rho(\vec{r}) = q_i\delta(\vec{r}-\vec{r}_i)\)</span></p></li>
@@ -510,63 +513,90 @@ where \)</span>\vec{m}<span class="math notranslate nohighlight">\( are the imag
 We use Poisson’s equation</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
- \Delta \phi^G = \nabla^2 \varphi^G &amp;= - \frac{\rho^G}{\epsilon_0}\\
-\frac{1}{r} \frac{d^2(r \phi^G)}{dr^2} &amp;= -\frac{q_i}{\epsilon_0(2 \pi \sigma^2)^{3/2}} e^{-r^2/2\sigma^2}\\
-\int_\infty^r dr \frac{d^2(r \phi^G)}{dr^2} &amp;= \int_\infty^r dr \left[-\frac{q_i r }{\epsilon_0(2 \pi \sigma^2)^{3/2}} \right] e^{-r^2/2\sigma^2}\\
-\frac{d(r \phi^G)}{dr} &amp;= \frac{\sigma^2}{\epsilon_0}\frac{q_i}{(2 \pi \sigma^2)^{3/2}} e^{-r^2/2\sigma^2}\\
-\int_0^r d(r \phi^G) &amp;= \frac{q_i\sigma^2}{\epsilon_0}\frac{1}{(2 \pi \sigma^2)^{3/2}} \int_0^r dr e^{-r^2/2\sigma^2}\\
-\dots
-\rightarrow \phi^G &amp;= \frac{q_i}{4\pi\epsilon_0r} \mathrm{erf}(\frac{r}{\sqrt{2}\sigma}) \quad .
+\begin{aligned}
+\nabla^2 \phi^G(r)
+ &amp; = - \frac{\rho^G(r)}{\varepsilon_0} \\
+ &amp; = - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} e^{-r^2/2\sigma^2} \\[4pt]
+\frac{1}{r}\,\frac{d^2}{dr^2}\!\bigl(r\,\phi^G(r)\bigr)
+ &amp; = - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} e^{-r^2/2\sigma^2} \\[4pt]
+\int_{\infty}^{r} \!dr'\, \frac{d^2}{dr'^2}\!\bigl(r'\,\phi^G(r')\bigr)
+ &amp; = - \frac{q_i}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} \int_{\infty}^{r} \!dr'\, e^{-r'^2/2\sigma^2} \\[4pt]
+\frac{d}{dr}\!\bigl(r\,\phi^G(r)\bigr)
+ &amp; = \frac{q_i\,\sigma^2}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} e^{-r^2/2\sigma^2} \\[4pt]
+\int_{0}^{r} d\!\bigl(r'\,\phi^G(r')\bigr)
+ &amp; = \frac{q_i\,\sigma^2}{\varepsilon_0 (2\pi\sigma^2)^{3/2}} \int_{0}^{r} dr'\, e^{-r'^2/2\sigma^2} \\[4pt]
+ &amp; \dots \\
+\phi^G(r)
+ &amp; = \frac{q_i}{4\pi\varepsilon_0 r}\, \mathrm{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\,.
+\end{aligned}
 \end{split}\]</div>
-<p>For a simple point charge, we get
-$<span class="math notranslate nohighlight">\(
+<p>For a simple point charge, we get</p>
+<div class="math notranslate nohighlight">
+\[
 \phi(r) = \frac{q_i}{4\pi\epsilon_0 r} \quad .
-\)</span>$</p>
+\]</div>
 <p>Using this, we can split the sum, called <strong>Ewald summation</strong>, which we will derive below.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\phi(\vec{r})&amp;=\frac{1}{4 \pi \varepsilon_0} \sum_{\vec{m}} \sum_{j=1}^N \frac{q_j}{\lvert\vec{r}_i \vec{r}+\vec{m}L\rvert}\\
-\rightarrow u&amp;=\frac{1}{2} \sum_{i=1}^N q_i[\phi(\vec{r}_i)-\underbrace{\phi_i(r_i)}_{\substack{\text{exclude self interactions}\\ \text{where } \vec{m}=0}}]
+\begin{aligned}
+\phi(\vec{r}) &amp;= \frac{1}{4 \pi \varepsilon_0}
+  \sum_{\vec{m}} \sum_{j=1}^N \frac{q_j}{\lvert \vec{r}_j - \vec{r} + \vec{m}L\rvert} \\
+\rightarrow\; u &amp;= \frac{1}{2} \sum_{i=1}^N
+  q_i\!\left[\phi(\vec{r}_i) - \underbrace{\phi_i(\vec{r}_i)}_{\substack{\text{exclude self interactions}\\ \text{where } \vec{m}=0}}\right]
+\end{aligned}
 \end{split}\]</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>We exclude self-interactions, but they can be kept in principle. In the final equation in the summary below, we list them explicitly, but commonly they are exlcuded or set to zero.</p>
+<p>We exclude self-interactions, but they can be kept in principle. In the final equation in the summary below, we list them explicitly, but commonly they are excluded or set to zero.</p>
 </div>
 <p>Now we split the sum:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
+\begin{aligned}
 \phi_i(r) &amp;= \underbrace{\phi_i(r)-\phi^G_i(r)}_{\text{short}} + \underbrace{\phi^G_i(r)}_{\text{long}}\\
-&amp; =\frac{q_i}{4 \pi \epsilon_0 r}-\frac{q_i}{4 \pi \epsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
-&amp; =\frac{q_i}{4 \pi \varepsilon_0 r}\left[1-\operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\right]+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
-&amp; =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)\\
-&amp; =\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\kappa r \right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\kappa r\right)
+&amp;= \frac{q_i}{4 \pi \varepsilon_0 r}-\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\\
+&amp;= \frac{q_i}{4 \pi \varepsilon_0 r}\!\left[1-\operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\right]+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\\
+&amp;= \frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\!\left(\frac{r}{\sqrt{2}\sigma}\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)\\
+&amp;= \frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\!\left(\kappa r\right)+\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\!\left(\kappa r\right)
+\end{aligned}
 \end{split}\]</div>
 <p>Where we have defined an inverse screening length <span class="math notranslate nohighlight">\(\kappa = \frac{1}{\sqrt{2}\sigma}\)</span> in the last step.</p>
 <p>Now we define a short ranged <span class="math notranslate nohighlight">\(\phi_i^S(r)\)</span> and a long ranged <span class="math notranslate nohighlight">\(\phi_i^L(r)\)</span>,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\phi_i^S(r)=\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erfc}\left(\frac{r}{\sqrt{2} \sigma}\right) \\
-\phi_i^L(r)=\frac{q_i}{4 \pi \varepsilon_0 r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)
+\begin{aligned}
+\phi_i^S(r) &amp;= \frac{q_i}{4 \pi \varepsilon_0 r}\,\operatorname{erfc}\!\left(\frac{r}{\sqrt{2}\sigma}\right) \\
+\phi_i^L(r) &amp;= \frac{q_i}{4 \pi \varepsilon_0 r}\,\operatorname{erf}\!\left(\frac{r}{\sqrt{2}\sigma}\right)
+\end{aligned}
 \end{split}\]</div>
 <p>so that we get</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\phi(r)&amp;=\sum_{\vec{m}} \sum_{j=1}^N \phi_j\left(\lvert\vec{r}_i-\vec{r}+\vec{m} L\rvert \right) \\
-&amp; =\sum_{\vec{m}} \sum_{j=1}^N \phi_j^S+\phi_j^L\\
-&amp;=\sum_{\vec{m}} \sum_{j=1}^N \phi_j^S+\sum_{\vec{m}} \sum_{j=1}^N\phi_j^L\\
-&amp;=\phi^S+\phi^L \quad , \\
+\begin{aligned}
+\phi(r) &amp;= \sum_{\vec{m}} \sum_{j=1}^N \phi_j\!\left(\lvert\vec{r}_i-\vec{r}+\vec{m}L\rvert\right) \\
+&amp;= \sum_{\vec{m}} \sum_{j=1}^N \phi_j^S + \phi_j^L\\
+&amp;= \sum_{\vec{m}} \sum_{j=1}^N \phi_j^S + \sum_{\vec{m}} \sum_{j=1}^N \phi_j^L\\
+&amp;= \phi^S + \phi^L \quad ,
+\end{aligned}
 \end{split}\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-u&amp;=\frac{1}{2} \sum_{i=1}^N q_i\left[\phi^S\left(r_i\right)-\phi_i^S\left(r_i\right)\right]+\frac{1}{2} \sum_{i=1}^N q_i\left[\phi^L\left(r_i\right)-\phi_i^L\left(r_i\right)\right] \\
-&amp;=\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S\left(\lvert r_j-r_i+\vec{m}L\rvert \right)+\frac{1}{2} \sum_{i=1}^N q_i \phi^L\left(r_i\right)-\frac{1}{2} \sum_{i=1}^N q_i \phi_i^L\left(r_i\right) \\
+\begin{aligned}
+u &amp;= \frac{1}{2} \sum_{i=1}^N q_i\!\left[\phi^S(r_i)-\phi_i^S(r_i)\right]
+   + \frac{1}{2} \sum_{i=1}^N q_i\!\left[\phi^L(r_i)-\phi_i^L(r_i)\right] \\
+&amp;= \frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{\substack{j=1\\ j\neq i}}^N
+   u^S\!\left(\lvert r_j-r_i+\vec{m}L\rvert\right)
+   + \frac{1}{2} \sum_{i=1}^N q_i \phi^L(r_i)
+   - \frac{1}{2} \sum_{i=1}^N q_i \phi_i^L(r_i)
+\end{aligned}
 \end{split}\]</div>
 <p>For the last sum, we can now look at the limit:</p>
 <div class="math notranslate nohighlight">
 \[
-\lim_{r \rightarrow 0} \frac{q_i}{4 \pi \varepsilon_i r} \operatorname{erf}\left(\frac{r}{\sqrt{2} \sigma}\right)=
-\frac{q_i}{4 \pi \varepsilon_i} \frac{1}{\sigma} \sqrt{\frac{2}{\pi}}
+\lim_{r \rightarrow 0} \frac{q_i}{4 \pi \varepsilon_0 r}
+  \operatorname{erf}\!\left(\frac{r}{\sqrt{2} \sigma}\right)
+= \frac{q_i}{4 \pi \varepsilon_0}\,\frac{1}{\sigma}\,\sqrt{\frac{2}{\pi}}
 \]</div>
 <p>This results in</p>
 <div class="math notranslate nohighlight">
@@ -576,54 +606,90 @@ u =\underbrace{\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S
 -\frac{1}{4 \pi \varepsilon_0} \frac{1}{\sqrt{2}\sigma} \frac{1}{\sqrt{\pi}}  \sum_{i=1}^N q_i^2
 \]</div>
 <p>The first term, turns into a normal pairwise sum, if <span class="math notranslate nohighlight">\(\operatorname{erfc}\)</span>  decays quickly. The middle term still needs to be evaluated.</p>
-<p>Long-ranged part is convieniently summed in Fourier space.
+<p>Long-ranged part is convieniently summed in Fourier space.<span id="id2"><sup><a class="reference internal" href="../references/references.html#id13" title="Harry A Stern and Keith G Calkins. On mesh-based ewald methods: optimal parameters for two differentiation schemes. The Journal of chemical physics, 2008.">19</a></sup></span>
 <strong>Fourier transform</strong>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\hat f(\vec{k}) &amp;= \int_V d\vec{r} f(\vec{r}) e^{-i\vec{k}\vec{r}}  \quad \text{for finite volumes. }\\
-\hat f(\vec{r}) &amp;= \frac{1}{L^3} \sum_{\vec{k}} \hat f(\vec{k}) e^{i\vec{k}\vec{r}} \quad \text{with } \vec{k} = \frac{2\pi \vec{n}}{L} \quad .
+\begin{aligned}
+\hat f(\vec{k}) &amp;= \int_V d\vec{r}\, f(\vec{r})\, e^{-i\vec{k}\cdot\vec{r}} \quad \text{for finite volumes} \\
+\hat f(\vec{r}) &amp;= \frac{1}{L^3} \sum_{\vec{k}} \hat f(\vec{k})\, e^{i\vec{k}\cdot\vec{r}} \quad \text{with } \vec{k}=\frac{2\pi \vec{n}}{L}\, .
+\end{aligned}
 \end{split}\]</div>
 <p>We need to Fourier transform Poisson’s equation for Gaussian charge (periodic array).</p>
 <div class="math notranslate nohighlight">
 \[
 \nabla^2 \phi^G=-\frac{\rho^G}{\varepsilon_0} \rightarrow -k^2 \hat{\phi}^G=-\frac{\hat{\rho}^G}{\varepsilon_0} \rightarrow \hat{\phi}^G=\frac{1}{k^2 \varepsilon_0} \hat{\rho}^G
 \]</div>
-<p>Now we can compute</p>
+<p>Now we can compute the Fourier transform of the Gaussian charge distribution.
+First, we recognize that summing over all lattice vectors <span class="math notranslate nohighlight">\(\vec{m}\)</span> effectively extends the domain of integration from the finite volume <span class="math notranslate nohighlight">\(V\)</span> to the entire space <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>. This allows us to remove the sum and integrate over infinity:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-&amp; \hat{\rho}^G(\vec{k})=\int_V dr -\frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-\lvert \vec{r}-\vec{r}_i+\vec{m}L\rvert^2 / 2 \sigma^2} e^{-i \vec{k} \cdot \vec{r}} \\
-&amp; =-\int dr \frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-\lvert\vec{r}-\vec{r}_i\rvert^2 / 2 \sigma^2} e^{-i \vec{k} \cdot \vec{r}} \\
+\begin{aligned}
+\hat{\rho}^G(\vec{k})
+ &amp; = \int_V d\vec{r}\, \sum_{\vec{m}} \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-\lvert \vec{r}-\vec{r}_i+\vec{m}L\rvert^2 / 2 \sigma^2}
+ e^{-i \vec{k} \cdot \vec{r}} \\
+ &amp; = \int_{\mathbb{R}^3} d\vec{r}\, \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-\lvert\vec{r}-\vec{r}_i\rvert^2 / 2 \sigma^2}
+ e^{-i \vec{k} \cdot \vec{r}}
+\end{aligned}
 \end{split}\]</div>
-<p>where we used the fact that the shifts <span class="math notranslate nohighlight">\(\vec{m}\)</span> add up to infinite space and we can convert the integral.</p>
+<p>Next, we perform a change of variables by substituting <span class="math notranslate nohighlight">\(\vec{r}' = \vec{r} - \vec{r}_i\)</span>. This shifts the origin to the particle position <span class="math notranslate nohighlight">\(\vec{r}_i\)</span>, pulling a phase factor <span class="math notranslate nohighlight">\(e^{-i \vec{k} \cdot \vec{r}_i}\)</span> out of the integral:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-&amp;=\int d r \frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-r^2 / 2 \sigma^2} e^{-i \vec{k} \cdot\left(\vec{r}+\vec{r}_i\right)} \\
-&amp;=e^{-i \vec{k} \cdot \vec{r}_i} \int_0^{\infty} dr r^2 \int_0^{2 \pi} d\theta \int_{-1}^1 d \cos \phi \frac{q_i}{\left(2 \pi \sigma^2\right)^{3 / 2}} e^{-r^2 / 2 \sigma^2} e^{-i k r \cos \phi}
+\begin{aligned}
+\hat{\rho}^G(\vec{k})
+ &amp; = \int_{\mathbb{R}^3} d\vec{r}'\, \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-r'^2 / 2 \sigma^2} e^{-i \vec{k} \cdot(\vec{r}'+\vec{r}_i)} \\
+ &amp; = e^{-i \vec{k} \cdot \vec{r}_i}
+ \int_{\mathbb{R}^3} d\vec{r}'\, \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-r'^2 / 2\sigma^2} e^{-i \vec{k} \cdot \vec{r}'}
+\end{aligned}
 \end{split}\]</div>
-<p>The integration here got changed to spherical coordinates.</p>
+<p>To solve the remaining integral, we switch to spherical coordinates <span class="math notranslate nohighlight">\((r', \theta, \phi)\)</span>. We align the <span class="math notranslate nohighlight">\(z\)</span>-axis with the wavevector <span class="math notranslate nohighlight">\(\vec{k}\)</span> so that <span class="math notranslate nohighlight">\(\vec{k} \cdot \vec{r}' = k r' \cos\theta\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[
-\dots
-\]</div>
+\[\begin{split}
+\begin{aligned}
+\hat{\rho}^G(\vec{k})
+ &amp; = e^{-i \vec{k} \cdot \vec{r}_i}
+ \int_0^{\infty} dr'\, r'^2
+ \int_0^{2\pi} d\phi \int_{-1}^{1} d(\cos\theta)\,
+ \frac{q_i}{(2 \pi \sigma^2)^{3/2}}
+ e^{-r'^2 / 2\sigma^2} e^{-i k r' \cos\theta} \\
+ &amp; = e^{-i \vec{k} \cdot \vec{r}_i} \frac{q_i}{(2 \pi \sigma^2)^{3/2}} \int_0^{\infty} dr'\, r'^2 e^{-r'^2 / 2\sigma^2} \underbrace{\left[ \int_0^{2\pi} d\phi \int_{-1}^{1} d(\cos\theta)\, e^{-i k r' \cos\theta} \right]}_{\text{Angular integration}}
+\end{aligned}
+\end{split}\]</div>
+<p>The angular integral yields <span class="math notranslate nohighlight">\(4\pi \frac{\sin(kr')}{kr'}\)</span>. Substituting this back and solving the radial Gaussian integral gives the final result:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\hat{\rho}^G(\vec{k})
+ &amp; = e^{-i \vec{k} \cdot \vec{r}_i} \frac{q_i}{(2 \pi \sigma^2)^{3/2}} \frac{4\pi}{k} \int_0^{\infty} dr'\, r' e^{-r'^2 / 2\sigma^2} \sin(k r') \\
+ &amp; = \mathbf{q_i e^{-\sigma^2 k^2/2} e^{-i\vec{k}\cdot\vec{r}_i}}
+\end{aligned}
+\end{split}\]</div>
 <p>Hence, <span class="math notranslate nohighlight">\(\hat{\phi}_i^G(k)=\frac{q_i}{\varepsilon_0 k^2} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot \vec{r}_i}\)</span>.</p>
 <p>Last, invert</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\phi^L(\vec{r}) &amp; =\frac{1}{L^3} \sum_{\vec{k}} \hat{\phi}(\vec{k}) e^{i \vec{k} \cdot \vec{r}} \\
-&amp; =\frac{1}{L^3} \sum_{\vec{k} \neq 0} \frac{q_j}{\varepsilon_0 k^2} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot\left(\vec{r}_j-\vec{r}\right)}
-\end{split}\]</div>
+\[
+\phi^L(\vec{r}) = \frac{1}{L^3} \sum_{\vec{k}\neq 0} \sum_{j=1}^N \frac{q_j}{\varepsilon_0 k^2} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot (\vec{r}_j - \vec{r})}
+\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight">
 \[
-U^L=\frac{1}{2} \sum_{i=1}^N \sum_{i=1}^N \sum_{\vec{k} \neq 0} \frac{q_i q_i}{\varepsilon_0 k^2 L^3} e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot \vec{r}_{i j}} \quad .
+U^L = \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N
+       \sum_{\vec{k} \neq 0}
+       \frac{q_i q_j}{\varepsilon_0 k^2 L^3}
+       e^{-k^2 \sigma^2 / 2} e^{-i \vec{k} \cdot \vec{r}_{ij}}
 \]</div>
 <section id="boundary-effects">
 <h3><span class="section-number">2.6.2.1. </span>Boundary Effects<a class="headerlink" href="#boundary-effects" title="Link to this heading">#</a></h3>
-<p>The lattice needs to be truncated somewhere, so it is effectively embedded in som medium.
+<p>The lattice needs to be truncated somewhere, so it is effectively embedded in some medium.
 At this boundary, there is a depolarizing field counteracting the fluctuatin dipole moment of the main cell.</p>
 <div class="math notranslate nohighlight">
 \[
-U^{BC} = \frac{1}{2(2\varepsilon_r+1)\varepsilon_0 L^3} \lvert\sum_{i=1}^N q_i r_i\rvert^2
+U^{BC} = \frac{1}{2(2\varepsilon_r+1)\,\varepsilon_0 L^3}
+  \left\lvert\sum_{i=1}^N q_i \vec{r}_i\right\rvert^2
 \]</div>
 <p>For so called “tin foil” BCs used in most simulations, set <span class="math notranslate nohighlight">\(\varepsilon_r=\infty\)</span>.</p>
 </section>
@@ -632,15 +698,31 @@ U^{BC} = \frac{1}{2(2\varepsilon_r+1)\varepsilon_0 L^3} \lvert\sum_{i=1}^N q_i r
 <p>In summary,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-u &amp;=\underbrace{\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{i=1, i\neq j}^N \frac{q_i q_i}{4 \pi \varepsilon_0 \lvert r_{i j}+mL\rvert } \operatorname{erfc}\left(\kappa \lvert r_{ij}+m L\rvert \right)}_{\text{short}} \\
-&amp; \underbrace{+\frac{1}{2} \sum_{\vec{k} \neq 0} \sum_{i=1}^N \sum_{j=1}^N \frac{q_i q_j}{\varepsilon_0 k^2 L^3} e^{-k^2 / 4 \kappa^2} e^{-i \vec{k} \cdot \vec{r}_{ij}}}_{\text{long}} \\
-&amp; \underbrace{-\frac{\kappa}{4 \pi^{3 / 2} \varepsilon_0} \sum_{i=1}^N q_i^2}_{\text{self}} \\
-&amp; \underbrace{+\frac{1}{2\left(2 \varepsilon_r+1\right) \varepsilon_0 L^3}\lvert\sum_{i=1}^N q_i \vec{r}_i\rvert^2}_{\text{BC}}
+u = \underbrace{
+      \frac{1}{2}
+      \sum_{\vec{m}} \sum_{i\neq j}
+      \frac{q_i q_j}{4\pi \varepsilon_0 \,\lvert \vec{r}_{ij} + \vec{m}L\rvert}
+      \operatorname{erfc}\!\bigl(\kappa \lvert \vec{r}_{ij} + \vec{m}L\rvert\bigr)
+    }_{\text{short}} \\
+\qquad
+  + \underbrace{
+      \frac{1}{2} \sum_{\vec{k} \neq 0} \sum_{i=1}^N \sum_{j=1}^N \frac{q_i q_j}{\varepsilon_0 k^2 L^3} e^{-k^2 / 4 \kappa^2} e^{-i \vec{k} \cdot \vec{r}_{ij}}
+    }_{\text{long}} \\
+\qquad
+  \underbrace{
+    - \frac{\kappa}{4\pi^{3/2} \varepsilon_0}
+      \sum_{i=1}^{N} q_i^{2}
+  }_{\text{self}}
+  \;+\;
+  \underbrace{
+    \frac{1}{2(2\varepsilon_r + 1)\,\varepsilon_0 L^{3}}
+    \left\lvert \sum_{i=1}^{N} q_i \vec{r}_i \right\rvert^{2}
+  }_{\text{BC}}
 \end{split}\]</div>
 <ul class="simple">
 <li><p>Real space: efficient for short-range potentials</p></li>
 <li><p>Reciprocal space: efficient way to treat smooth periodic functions</p></li>
-<li><p>Ewald: efficient way to sum a divergent and long-range interaction by summing part in real space and part in reciprocal space</p></li>
+<li><p>Ewald: efficient way to sum a divergent and long-range interaction by summing part in real space and part in reciprocal space<span id="id3"><sup><a class="reference internal" href="../references/references.html#id24" title="A. Y. Toukmaji and J. A. Board. Ewald summation techniques in perspective: a survey. Computer Physics Communications, 95(2–3):73–92, 1996. doi:10.1016/0010-4655(96)00016-1.">20</a></sup></span></p></li>
 </ul>
 <p>Choose <span class="math notranslate nohighlight">\(k=\frac{1}{\sqrt{2}\sigma}\)</span>, the inverse screening length, and the number of wavevectors to be accurate and efficient.</p>
 <ul class="simple">
@@ -666,9 +748,10 @@ u &amp;=\underbrace{\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{i=1, i\neq j}^
 <ul class="simple">
 <li><p><a class="reference external" href="https://doi.org/10.1063/1.2932253">“On mesh-based Ewald methods: Optimal parameters for two differentiation schemes”
 Harry A. Stern; Keith G. Calkins
-J. Chem. Phys. 128, 214106 (2008)</a><span id="id1"><sup><a class="reference internal" href="../references/references.html#id13" title="Harry A Stern and Keith G Calkins. On mesh-based ewald methods: optimal parameters for two differentiation schemes. The Journal of chemical physics, 2008.">17</a></sup></span></p></li>
+J. Chem. Phys. 128, 214106 (2008)</a><span id="id4"><sup><a class="reference internal" href="../references/references.html#id13" title="Harry A Stern and Keith G Calkins. On mesh-based ewald methods: optimal parameters for two differentiation schemes. The Journal of chemical physics, 2008.">19</a></sup></span></p></li>
 <li><p><a class="reference external" href="https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf">Shape-Adapted Ewald Summation,
-M. Widom</a></p></li>
+M. Widom</a><span id="id5"><sup><a class="reference internal" href="../references/references.html#id23" title="M. Widom. Shape-adapted ewald summation. https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf.">23</a></sup></span></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/0010-4655(96)00016-1">Ewald summation techniques in perspective: a survey, Toukmaji, A. Y. and Board, J. A.</a><span id="id6"><sup><a class="reference internal" href="../references/references.html#id24" title="A. Y. Toukmaji and J. A. Board. Ewald summation techniques in perspective: a survey. Computer Physics Communications, 95(2–3):73–92, 1996. doi:10.1016/0010-4655(96)00016-1.">20</a></sup></span></p></li>
 </ul>
 </section>
 </section>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>4.6. 4.6 Initialization and Neighbor Searching &#8212; Atomistic Scale Simulations</title>
+    <title>4.6. Initialization and Neighbor Searching &#8212; Atomistic Scale Simulations</title>
   
   
   
@@ -203,7 +203,7 @@
 <li class="toctree-l2"><a class="reference internal" href="thermostats.html">4.3. Thermostats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="md-packages.html">4.5. Using MD Packages</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.6. 4.6 Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.6. Initialization and Neighbor Searching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
 </ul>
 </details></li>
@@ -409,7 +409,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>4.6 Initialization and Neighbor Searching</h1>
+    <h1>Initialization and Neighbor Searching</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -419,17 +419,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-initialization">4.6.1. 4.6.1 System Initialization</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solid-lattices">4.6.1.1. 4.6.1.1 Solid Lattices</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liquids-and-gases">4.6.1.2. 4.6.1.2 Liquids and Gases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-initialization">4.6.1. System Initialization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solid-lattices">4.6.1.1. Solid Lattices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liquids-and-gases">4.6.1.2. Liquids and Gases</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbor-searching">4.6.2. 4.6.2 Neighbor Searching</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verlet-table">4.6.2.1. 4.6.2.1 Verlet Table</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-linked-list">4.6.2.2. 4.6.2.2 Cell Linked List</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbor-searching">4.6.2. Neighbor Searching</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verlet-table">4.6.2.1. Verlet Table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-linked-list">4.6.2.2. Cell Linked List</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">4.6.3. 4.6.3 Additional Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">4.6.3. Additional Resources</a></li>
 </ul>
             </nav>
         </div>
@@ -442,12 +442,12 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="initialization-and-neighbor-searching">
-<h1><span class="section-number">4.6. </span>4.6 Initialization and Neighbor Searching<a class="headerlink" href="#initialization-and-neighbor-searching" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">4.6. </span>Initialization and Neighbor Searching<a class="headerlink" href="#initialization-and-neighbor-searching" title="Link to this heading">#</a></h1>
 <section id="system-initialization">
-<h2><span class="section-number">4.6.1. </span>4.6.1 System Initialization<a class="headerlink" href="#system-initialization" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.6.1. </span>System Initialization<a class="headerlink" href="#system-initialization" title="Link to this heading">#</a></h2>
 <p>In order to perform any molecular dynamics simulations, it is necessary to have some sort of a starting point, from which the simulation parameters can take the model forward in time. However, identifying this starting point is not necessarily an easy task, and can often take some work.</p>
 <section id="solid-lattices">
-<h3><span class="section-number">4.6.1.1. </span>4.6.1.1 Solid Lattices<a class="headerlink" href="#solid-lattices" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">4.6.1.1. </span>Solid Lattices<a class="headerlink" href="#solid-lattices" title="Link to this heading">#</a></h3>
 <p>Within a Crystalline Lattice, the locations of all atoms follow a periodic ordering. Specifically, all lattices are composed of unit cells, which are the smallest periodic units which can be repeated throughout all of space (in 2 or 3 dimensions) in order to create the full lattice. These unit are defined by primitive lattice vectors, often denoted <span class="math notranslate nohighlight">\(\vec{a_1}\)</span>, <span class="math notranslate nohighlight">\(\vec{a_2}\)</span>, and <span class="math notranslate nohighlight">\(\vec{a_3}\)</span>, whose linear combinations can be used to identify the location of any unit cell within the lattice.</p>
 <div class="math notranslate nohighlight">
 \[
@@ -456,26 +456,26 @@ document.write(`
 <p>Once the structure of a lattice is defined, atoms can be added to each unit cell in order to create the overall crystal. The locations of each atom, often denoted <span class="math notranslate nohighlight">\(\vec{r_i}\)</span>, is defined relative to the location of the cell, <span class="math notranslate nohighlight">\(\vec{R}\)</span>, and is the same for the same corresponding atom in each unit cell. Relative to some defined origin of the overall system, the location of every atom is <span class="math notranslate nohighlight">\(\vec{R} + \vec{r_i}\)</span>. In 3 dimensions, there are a total of 14 different lattice types, and can be divided into the following groups: triclinic, monoclinic, orthorhombic, tetragonal, cubic, trigonal, and hexagonal, based on the relative lengths and angular separations between the primitive lattice vectors. This ordered structure makes it very straightforward to create a solid lattice computationally. Namely, if the cell structure is known, one can very easily repeat that througout space, populating every location of interest with the appropriate atom.</p>
 </section>
 <section id="liquids-and-gases">
-<h3><span class="section-number">4.6.1.2. </span>4.6.1.2 Liquids and Gases<a class="headerlink" href="#liquids-and-gases" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">4.6.1.2. </span>Liquids and Gases<a class="headerlink" href="#liquids-and-gases" title="Link to this heading">#</a></h3>
 <p>While ordered solids can be initialized in a straightforward manner due to their periodic structures, the same cannot be said for liquids and gases. While ideal gases, where there are no inter-atomic forces, can be initialized simply by populating a box with particles that have random locations, things get more complicated when those particles interact with each other. This is primarily because the presence of particle-particle interactions, such as Lennard-Jones potentials, often means that randomly set up configurations can be physically unrealistic, due to factors such as the potentials of the system making the overall energy too large. In cases like this, initialization often still starts by randomly populating a region with particles with velocities drawn from a Boltzmann distribution set at some temperature, but additional steps are necessary to turn this system into something that is more realistic.</p>
 <p>Specifically, it is necessary to ensure that the primary quantities describing the system, which are often pressure, volume, temperature, and total energy, are appropriately set up. If one were interested in doing a production run for an ensemble, it is usually necessary to first run a shorter equillibration process with at least one other ensemble that optimizes variables that the production run does not fix. For example, if the desired simulation is to describe an NVE ensemble, it is necessary to first start with an NVT ensemble simulation beforehand, so that the temperature can be brought to a reasonable value in preparation for the primary simulation. This situation is the case for virtually all models of liquids and gases, and the specific pre-simulation procedures that need to be done in order to ensure a system is properly equilibrated can vary depending on the situation. Typically, the equilibration process for a paramter, such as pressure, volume, or energy, as a function of time somewhat resembles the graph shown below.</p>
 <p><img alt="Diagram" src="../_images/Equilibration.png" /></p>
 </section>
 </section>
 <section id="neighbor-searching">
-<h2><span class="section-number">4.6.2. </span>4.6.2 Neighbor Searching<a class="headerlink" href="#neighbor-searching" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.6.2. </span>Neighbor Searching<a class="headerlink" href="#neighbor-searching" title="Link to this heading">#</a></h2>
 <p>Once a production run is in progress, neighbor searching is necessary in order to calculate the total force acting on each particle which, in turn, is needed to determine how that particle will move in the next time step. However, due to the large number of particles in various systems of interest, this process is often time-consuming, and can often lead to simulations taking a long time.</p>
 <section id="verlet-table">
-<h3><span class="section-number">4.6.2.1. </span>4.6.2.1 Verlet Table<a class="headerlink" href="#verlet-table" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">4.6.2.1. </span>Verlet Table<a class="headerlink" href="#verlet-table" title="Link to this heading">#</a></h3>
 <p>Probably one of the most straightforward methods of neighbor searching is to maintain a Verlet table. In essence, a Verlet table is a data structure that stores lists of each atoms neighbors within some cutoff radius, <span class="math notranslate nohighlight">\(r_{cut}\)</span>, as well as the atoms whose distance to the target atom is between <span class="math notranslate nohighlight">\(r_{cut}\)</span> and a larger radius, <span class="math notranslate nohighlight">\(r_{cut} + r_{skin}\)</span>. Only neighbors within <span class="math notranslate nohighlight">\(r_{cut}\)</span> of the target atom are assumed to interact with the target atom through some defined potential. Meanwhile, the presence of the secondary group is to ensure that at each step, only atoms in this second group need to be checked to see if any have entered into the inner radius, <span class="math notranslate nohighlight">\(r_{cut}\)</span>, and thus now would need to be included in the first neighbor list. In general, this method of keeping track of neighbors scales as <span class="math notranslate nohighlight">\(O(N^2)\)</span>, increasing quadratically with the number of atoms in the system.</p>
 </section>
 <section id="cell-linked-list">
-<h3><span class="section-number">4.6.2.2. </span>4.6.2.2 Cell Linked List<a class="headerlink" href="#cell-linked-list" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">4.6.2.2. </span>Cell Linked List<a class="headerlink" href="#cell-linked-list" title="Link to this heading">#</a></h3>
 <p>Meanwhile, another method for keeping track of particle neighbors is using a cell linked list. This method first subdivides the system using a grid, where each grid cell is usually larger than the spherical region defined by <span class="math notranslate nohighlight">\(r_{cut}\)</span>, as defined for the Verlet table. Next, for a target atom and its corresponding target cell, an adjacent cell is considered to be a neighbor if that adjacent cell contains an atom that is within a distance of <span class="math notranslate nohighlight">\(r_{cut}\)</span> from the target atom. Thus, for potential energy and force calculations at each step for each atom, this method also reduces the search space from all atoms in the entire system, to only the atoms within the target atom’s cell, and atoms in cells that neighbor the target atom’s cell.</p>
 </section>
 </section>
 <section id="additional-resources">
-<h2><span class="section-number">4.6.3. </span>4.6.3 Additional Resources<a class="headerlink" href="#additional-resources" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.6.3. </span>Additional Resources<a class="headerlink" href="#additional-resources" title="Link to this heading">#</a></h2>
 <p>Grossfield, Alan, et al. “Best practices for quantification of uncertainty and sampling quality in molecular simulations [Article v1. 0].” Living journal of computational molecular science 1.1 (2018): 5067.</p>
 <p>Kittel, Charles, and Paul McEuen. Introduction to solid state physics. John Wiley &amp; Sons, 2018.</p>
 <p>Yao, Zhenhua, et al. “Improved neighbor list algorithm in molecular simulations using cell decomposition and data sorting method.” Computer physics communications 161.1-2 (2004): 27-35.</p>
@@ -546,17 +546,17 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-initialization">4.6.1. 4.6.1 System Initialization</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solid-lattices">4.6.1.1. 4.6.1.1 Solid Lattices</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liquids-and-gases">4.6.1.2. 4.6.1.2 Liquids and Gases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-initialization">4.6.1. System Initialization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solid-lattices">4.6.1.1. Solid Lattices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liquids-and-gases">4.6.1.2. Liquids and Gases</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbor-searching">4.6.2. 4.6.2 Neighbor Searching</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verlet-table">4.6.2.1. 4.6.2.1 Verlet Table</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-linked-list">4.6.2.2. 4.6.2.2 Cell Linked List</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbor-searching">4.6.2. Neighbor Searching</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verlet-table">4.6.2.1. Verlet Table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-linked-list">4.6.2.2. Cell Linked List</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">4.6.3. 4.6.3 Additional Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">4.6.3. Additional Resources</a></li>
 </ul>
   </nav></div>
 
