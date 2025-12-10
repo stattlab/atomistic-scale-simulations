@@ -196,7 +196,7 @@ finding the optimal choice.
 
 ### Tune simulation parameters
 
-Hyperparameters such as neighbor-list update frequency, thermostat and
+Parameters such as neighbor-list update frequency, thermostat and
 barostat relaxation times, and cutoff distances should be tuned using
 representative systems rather than default settings. Well-chosen parameters
 reduce simulation time while maintaining accuracy.
