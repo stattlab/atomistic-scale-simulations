@@ -18,17 +18,17 @@ $$
 H = H_0 + c A
 $$
 
-where $H_0$ is the unperturbed Hamiltonian, $A$ is a perturbation and $c$ is the coupling constant. As shown on the formula page, one can write the free energy as a power series in $c$. The linear response is simply the expectation of A in the unperturbed system. The second order term is the fluctuation about the mean. In fact if we neglect all terms above the first order we always get an upper bound to the free energy. Finally to calculate the free energy difference between the system at c=0 and c=1 we just need to integrate the average A over ensembles for various values of c between 0 and 1.
+where $H_0$ is the unperturbed Hamiltonian, $A$ is a perturbation and $c$ is the coupling constant. As shown on the formula page, one can write the free energy as a power series in $c$. The linear response is simply the expectation of A in the unperturbed system. The second order term is the fluctuation about the mean. In fact if we neglect all terms above the first order we always get an upper bound to the free energy. Finally to calculate the free energy difference between the system at $c=0$ and $c=1$ we just need to integrate the average $A$ over ensembles for various values of $c$ between 0 and 1.
 
-We can also find the response of some property (B) to the perturbation; it equals the correlation between A and B.
+We can also find the response of some property $B$ to the perturbation; it equals the correlation between $A$ and $B$.
 
-In class I did the application of cutting off the potential. Generally one expects that if the neglected potential is smooth it is pretty much independent of the phase space point R, and hence terms higher order than first can be neglected.
+In class I did the application of cutting off the potential. Generally one expects that if the neglected potential is smooth it is pretty much independent of the phase space point $R$, and hence terms higher order than first can be neglected.
 
-A second example is to apply a sinusoidal potential and look at the response of the density. It is simply S k, the structure factor. That is essentially how neutrons and X-rays measure the structure factor.
+A second example is to apply a sinusoidal potential and look at the response of the density. It is simply $S_k$, the structure factor. That is essentially how neutrons and X-rays measure the structure factor.
 
 ### Diffusion Constant
 
-Now consider the simplest dynamical experiment, mix two types of atoms and see how quickly diffusion makes the system a homogeneous mixture. The diffusion constant D, together with the diffusion equation, governs this process on a macroscopic scale. The Green's function for the diffusion equation is a spreading Gaussian with the mean squared displacement equal to 6 D t. A little thought shows that a way to microscopically calculate D is to study the diffusion of a single atom. Again the equation is on the formula page. One can easily transform this expression to the integral of the velocity autocorrelation function.
+Now consider the simplest dynamical experiment, mix two types of atoms and see how quickly diffusion makes the system a homogeneous mixture. The diffusion constant $D$, together with the diffusion equation, governs this process on a macroscopic scale. The Green's function for the diffusion equation is a spreading Gaussian with the mean squared displacement equal to $6 D t$. A little thought shows that a way to microscopically calculate $D$ is to study the diffusion of a single atom. Again the equation is on the formula page. One can easily transform this expression to the integral of the velocity autocorrelation function.
 
 The transformation assumes that one is using the _unwound or unwrapped coordinates_; the positions of the atoms such that:
 
@@ -38,7 +38,7 @@ $$
 
 Don't use periodic boundary conditions to put particles back in the central cell.
 
-One of the key discoveries in the early days of computer simulation was the long-time tails on the v-v function. by Alder and Wainwright. The v-v correlation functions decay algebraically in time. (as t\-d/2) where d is the spatial dimension.) This implies that diffusion may not really exist in 2D. This is not Markovian (random) behavior which would decay exponentially in time. The momentum of a fast moving particle gets stored in the nearby liquid as a vortex and helps to keep it moving in the same direction for a very long time. (citation)
+One of the key discoveries in the early days of computer simulation was the long-time tails on the $v-v$ function by Alder and Wainwright. The $v-v$ correlation functions decay algebraically in time (as $t^{-d/2}$ where $d$ is the spatial dimension). This implies that diffusion may not really exist in 2D. This is not Markovian (random) behavior which would decay exponentially in time. The momentum of a fast moving particle gets stored in the nearby liquid as a vortex and helps to keep it moving in the same direction for a very long time. (citation)
 
 ### Response to a time varying perturbation
 
