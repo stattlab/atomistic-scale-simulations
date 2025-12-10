@@ -224,6 +224,7 @@ strength, or other parameters. To avoid confusion, maintain a consistent and
 hierarchical file structure. Below is an example layout for a parameter sweep
 over temperature ($T$) and interaction strength ($V$):
 
+'''text
 data/
 ├── T-1.0/
 │   ├── V-20/
