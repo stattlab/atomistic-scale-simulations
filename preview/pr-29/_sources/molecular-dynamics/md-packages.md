@@ -149,15 +149,6 @@ supports reproducibility, since it records exact system coordinates,
 velocities, and random-number states at specific points in the simulation.
 
 
-The following packages are common used MD packages for production. Note that they are the same as the packages used for equilibrium.
-Typically used for general-purpose physics simulations.
-- LAMMPS: https://docs.lammps.org/
-- HOOMD-blue: https://hoomd-blue.readthedocs.io/en/v6.0.0/
-
-Typically used for biophysics
-- GROMACS: https://manual.gromacs.org/current/index.html
-- NAMD, OpenMM, AMBER 
-
 ## Post-processing
 
 Post-processing refers to the analysis performed after the production
