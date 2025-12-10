@@ -137,12 +137,10 @@ is the **canonical partition function**.
 
 The partition function $Z$ plays several roles:
 
-* It is a *normalization constant*:
-    $$
-    \sum_i P_i = 1.
-    $$
+* It is a *normalization constant*: $\sum_i P_i = 1.$
 * It encodes the density of states and the Boltzmann weights of all microstates.
 * From $Z$, one can compute almost all thermodynamic properties.
+
 
 For an observable $A$ that takes the value $A_i$ in microstate $i$, the canonical ensemble average is
 
@@ -422,61 +420,45 @@ Even a single particle in a one-dimensional double-well potential can show non-e
 
 In the lab, systems are rarely perfectly isolated: they exchange energy, momentum, and sometimes particles with their environment. In simulations we mimic this contact with a "bath" by modifying the equations of motion or using stochastic algorithms. Common approaches include:
 
-* **Deterministic Molecular Dynamics (MD):**
-    Integrates Newton’s equations of motion:
-    $$
-    m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2} = \mathbf{F}_i = -\nabla_{\mathbf{r}_i} U(\mathbf{r}_1,\dots,\mathbf{r}_N),
-    $$
-    usually sampling (approximately) the NVE ensemble. When combined with additional dynamical variables (e.g. Nosé--Hoover thermostat, barostat degrees of freedom), MD can also sample NVT or NPT ensembles.
+* **Deterministic Molecular Dynamics (MD):**  
+  Integrates Newton’s equations of motion,
+  $m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2} = \mathbf{F}_i = -\nabla_{\mathbf{r}_i} U(\mathbf{r}_1,\dots,\mathbf{r}_N),$
+  usually sampling (approximately) the NVE ensemble. When combined with additional dynamical variables (e.g. Nosé–Hoover thermostat, barostat degrees of freedom), MD can also sample NVT or NPT ensembles.
 
-* **Langevin Dynamics:**
-    Adds friction and random forces to mimic a thermal bath:
-    $$
-    m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2}
-    = -\nabla_{\mathbf{r}_i} U
-      - \gamma m_i \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}
-      + \mathbf{R}_i(t),
-    $$
-    where $\gamma$ is a friction coefficient and $\mathbf{R}_i(t)$ is a random force satisfying fluctuation--dissipation relations. This samples the canonical (NVT) ensemble.
+* **Langevin Dynamics:**  
+  Adds friction and random forces to mimic a thermal bath:
+  $m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2}
+  = -\nabla_{\mathbf{r}_i} U
+    - \gamma m_i \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}
+    + \mathbf{R}_i(t),$
+  where $\gamma$ is a friction coefficient and $\mathbf{R}_i(t)$ is a random force satisfying fluctuation–dissipation relations. This samples the canonical (NVT) ensemble.
 
-    More precisely, the random forces are chosen to have:
-    $$
-    \begin{aligned}
-    \langle \mathbf{R}_i(t) \rangle &= \mathbf{0},\\
-    \langle R_{i\alpha}(t) R_{j\beta}(t') \rangle
-    &= 2\gamma m_i k_{\mathrm{B}}T\,\delta_{ij}\,\delta_{\alpha\beta}\,\delta(t-t'),
-    \end{aligned}
-    $$
-    where $\alpha,\beta$ label Cartesian components. These conditions ensure that, in equilibrium, momenta follow the Maxwell--Boltzmann distribution at temperature $T$.
+  More precisely, the random forces are chosen to have
+  $\langle \mathbf{R}_i(t) \rangle = \mathbf{0}$ and
+  $\langle R_{i\alpha}(t) R_{j\beta}(t') \rangle
+  = 2\gamma m_i k_{\mathrm{B}}T\,\delta_{ij}\,\delta_{\alpha\beta}\,\delta(t-t'),$
+  where $\alpha,\beta$ label Cartesian components. These conditions ensure that, in equilibrium, momenta follow the Maxwell–Boltzmann distribution at temperature $T$.
 
-    **Example: diffusion from Langevin dynamics.**
-    Consider a single Brownian particle (e.g. a colloid) in a solvent modeled via Langevin dynamics. In the limit of long times, its mean-squared displacement grows linearly with time:
-    $$
-    \langle [\mathbf{r}(t) - \mathbf{r}(0)]^2 \rangle \approx 6 D t,
-    $$
-    with diffusion constant
-    $$
-    D = \frac{k_{\mathrm{B}}T}{\zeta}, \qquad \zeta = \gamma m,
-    $$
-    consistent with the Einstein relation. By tuning $\gamma$, we can interpolate between nearly Hamiltonian dynamics (small friction) and strongly damped Brownian motion (large friction).
+  **Example: diffusion from Langevin dynamics.**  
+  Consider a single Brownian particle (e.g. a colloid) in a solvent modeled via Langevin dynamics. In the limit of long times, its mean-squared displacement grows linearly with time,
+  $\langle [\mathbf{r}(t) - \mathbf{r}(0)]^2 \rangle \approx 6 D t,$
+  with diffusion constant
+  $D = \frac{k_{\mathrm{B}}T}{\zeta}$ and $\zeta = \gamma m,$
+  consistent with the Einstein relation. By tuning $\gamma$, we can interpolate between nearly Hamiltonian dynamics (small friction) and strongly damped Brownian motion (large friction).
 
-    **Langevin thermostats in MD codes.**
-    In practice, Langevin thermostats are implemented using discrete-time integrators (e.g. BAOAB, OBABO, velocity Verlet with noise). Users typically choose a damping time $\tau_{\mathrm{damp}} = 1/\gamma$ on the order of a fraction of a picosecond to a few picoseconds. Too small $\tau_{\mathrm{damp}}$ (large friction) overdamps the dynamics and can slow down sampling of collective modes; too large $\tau_{\mathrm{damp}}$ (weak coupling) leads to slow temperature control.
+  **Langevin thermostats in MD codes.**  
+  In practice, Langevin thermostats are implemented using discrete-time integrators (e.g. BAOAB, OBABO, velocity Verlet with noise). Users typically choose a damping time $\tau_{\mathrm{damp}} = 1/\gamma$ on the order of a fraction of a picosecond to a few picoseconds. Too small $\tau_{\mathrm{damp}}$ (large friction) overdamps the dynamics and can slow down sampling of collective modes; too large $\tau_{\mathrm{damp}}$ (weak coupling) leads to slow temperature control.
 
-* **Brownian Dynamics:**
-    Overdamped limit where inertial terms are negligible compared to friction. The equation of motion reads
-    $$
-    \gamma \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}
-    = -\nabla_{\mathbf{r}_i} U + \mathbf{R}_i(t),
-    $$
-    and velocities are not explicitly followed. This is useful for simulations of large particles in viscous environments where momentum relaxes very quickly (e.g. coarse-grained polymer or colloid models).
+* **Brownian Dynamics:**  
+  Overdamped limit where inertial terms are negligible compared to friction. The equation of motion reads
+  $\gamma \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}
+  = -\nabla_{\mathbf{r}_i} U + \mathbf{R}_i(t),$
+  and velocities are not explicitly followed. This is useful for simulations of large particles in viscous environments where momentum relaxes very quickly (e.g. coarse-grained polymer or colloid models).
 
-* **Monte Carlo (MC):**
-    Random moves in configuration space accepted or rejected with a rule that ensures detailed balance, e.g. Metropolis MC. For the canonical ensemble, a trial move from microstate $i$ to $j$ with energy change $\Delta E = E_j - E_i$ is accepted with probability
-    $$
-    P_{\text{acc}}(i\to j) = \min\bigl[1,\exp(-\beta\Delta E)\bigr].
-    $$
-    Repeated moves generate configurations distributed according to $P_i \propto e^{-\beta E_i}$. MC algorithms can be designed to sample NVT, NPT, or other ensembles by including volume-change moves, particle insertions/deletions, etc.
+* **Monte Carlo (MC):**  
+  Random moves in configuration space accepted or rejected with a rule that ensures detailed balance, e.g. Metropolis MC. For the canonical ensemble, a trial move from microstate $i$ to $j$ with energy change $\Delta E = E_j - E_i$ is accepted with probability
+  $P_{\text{acc}}(i\to j) = \min\bigl[1,\exp(-\beta\Delta E)\bigr].$
+  Repeated moves generate configurations distributed according to $P_i \propto e^{-\beta E_i}$. MC algorithms can be designed to sample NVT, NPT, or other ensembles by including volume-change moves, particle insertions/deletions, etc.
 
 Once any randomness is introduced (Langevin, MC, etc.), ergodicity is usually improved, and convergence towards the canonical distribution is more robust—although for complex systems, equilibration can still be extremely slow.
 
@@ -484,38 +466,35 @@ Once any randomness is introduced (Langevin, MC, etc.), ergodicity is usually im
 
 In practice, to obtain meaningful averages from simulations:
 
-1.  **Equilibration:**
-    Start from some initial configuration (often artificial, e.g. a lattice or random packing). The early part of the trajectory is usually far from equilibrium. You should:
-    * Let the system evolve until observables (e.g. energy, pressure, structure) fluctuate around a steady mean.
-    * Discard this initial *equilibration* segment from your averages.
+1. **Equilibration:**  
+   Start from some initial configuration (often artificial, e.g. a lattice or random packing). The early part of the trajectory is usually far from equilibrium. You should:
+   * Let the system evolve until observables (e.g. energy, pressure, structure) fluctuate around a steady mean.
+   * Discard this initial *equilibration* segment from your averages.
 
-2.  **Check stationarity:**
-    Always plot the observable of interest $A(t)$ versus time. Ask:
-    * Does $A(t)$ fluctuate around a constant mean?
-    * Or does it drift slowly (still evolving)?
-    * How long does it take before the drift disappears?
+2. **Check stationarity:**  
+   Always plot the observable of interest $A(t)$ versus time. Ask:
+   * Does $A(t)$ fluctuate around a constant mean?
+   * Or does it drift slowly (still evolving)?
+   * How long does it take before the drift disappears?
 
-3.  **Time-window averaging:**
-    For non-stationary or slowly relaxing systems (e.g. glasses), be explicit about:
-    * The time window over which you averaged.
-    * How the average changes if you use a different time window.
-    * Whether results depend on when you start collecting data (early vs late segments).
+3. **Time-window averaging:**  
+   For non-stationary or slowly relaxing systems (e.g. glasses), be explicit about:
+   * The time window over which you averaged.
+   * How the average changes if you use a different time window.
+   * Whether results depend on when you start collecting data (early vs late segments).
 
-4.  **Block averaging and error estimates:**
-    Consecutive MD frames are correlated, so naive estimates of the standard error can be misleading. A common approach is *block averaging*:
-    * Split the production trajectory into $M$ blocks of duration $\tau_{\text{block}}$.
-    * Compute the block average $A_k$ in each block $k = 1,\dots,M$.
-    * Treat the $A_k$ as approximately independent samples and estimate the mean and standard error from them:
-        $$
-        \begin{aligned}
-        \bar{A} &= \frac{1}{M}\sum_{k=1}^M A_k,\\
-        \sigma_{\bar{A}} &= \sqrt{\frac{1}{M(M-1)} \sum_{k=1}^M (A_k - \bar{A})^2}.
-        \end{aligned}
-        $$
-    * Choosing $\tau_{\text{block}}$ several times larger than the correlation time of $A$ improves the reliability of these error estimates.
+4. **Block averaging and error estimates:**  
+   Consecutive MD frames are correlated, so naive estimates of the standard error can be misleading. A common approach is *block averaging*:
+   * Split the production trajectory into $M$ blocks of duration $\tau_{\text{block}}$.
+   * Compute the block average $A_k$ in each block $k = 1,\dots,M$.
+   * Treat the $A_k$ as approximately independent samples and estimate the mean and standard error from them:
+     $\bar{A} = \frac{1}{M}\sum_{k=1}^M A_k$ and
+     $\sigma_{\bar{A}} = \sqrt{\frac{1}{M(M-1)} \sum_{k=1}^M (A_k - \bar{A})^2}.$
+   * Choosing $\tau_{\text{block}}$ several times larger than the correlation time of $A$ improves the reliability of these error estimates.
 
-5.  **Protocol dependence:**
-    If your results depend on preparation protocol (cooling rate, compression rate, etc.), then you are *not* measuring equilibrium ensemble averages, but still something physically meaningful. You must report the protocol clearly.
+5. **Protocol dependence:**  
+   If your results depend on preparation protocol (cooling rate, compression rate, etc.), then you are *not* measuring equilibrium ensemble averages, but still something physically meaningful. You must report the protocol clearly.
+
 
 ## Summary
 
@@ -529,6 +508,9 @@ In practice, to obtain meaningful averages from simulations:
 
 ## References
 
-* D. Chandler, *Introduction to Modern Statistical Mechanics*.
-* M. E. Tuckerman, *Statistical Mechanics: Theory and Molecular Simulation*.
-* Course notes on statistical mechanics and ensembles (MSE 485 / atomistic-scale simulations).
+### Further reading
+
+* {cite}`chandler1987introduction` – *Introduction to Modern Statistical Mechanics*.
+* {cite}`tuckerman2010` – *Statistical Mechanics: Theory and Molecular Simulation*.
+* {cite}`mse485_notes` – Course notes on statistical mechanics and ensembles (MSE 485 / atomistic-scale simulations).
+
