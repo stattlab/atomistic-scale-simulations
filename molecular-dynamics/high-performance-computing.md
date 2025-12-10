@@ -1,7 +1,7 @@
 
 # HPC (High-Performance Computing)
 
-## 1. What is High-Performance Computing (HPC)?
+## What is High-Performance Computing (HPC)?
 
 High-performance computing (HPC) refers to the use of supercomputers and large compute clusters to solve problems that are too big, too slow, or too data-intensive for a typical desktop or laptop. Instead of running on a single machine with a handful of cores, HPC workloads run across tens, hundreds, or even thousands of processors working together on the same task. The performance of these systems is usually measured in **floating-point operations per second (FLOPS)**. A modern laptop might sustain billions of FLOPS (gigaflops), while even a modest HPC cluster can reach trillions of FLOPS (teraflops), and nationalscale systems operate in the petaflop or exaflop range.
 
@@ -14,7 +14,7 @@ Another hallmark of HPC is its emphasis on throughput and scalability rather tha
 
 
 
-### 1.1. Components
+### Components
 
 
 Although HPC systems can vary in size and architecture, they share a common set of building blocks. At the heart of the system are the **compute nodes**, the machines that actually execute user jobs. Each node contains one or more **CPUs**, and each CPU provides multiple cores. These **cores** run the main program logic and many parallel threads. In addition to CPUs, many modern nodes also provide accelerators such as GPUs. GPUs contain thousands of simpler cores optimized for massively parallel arithmetic, making them extremely effective for certain workloads that apply the same operations to many independent data elements, have high arithmetic intensity (many floating-point operations per byte moved), and exhibit regular control flow and memory access patterns.
@@ -53,19 +53,19 @@ srun my_md_executable input.in
 
 
 
-## 2. Types of Parallelism
+## Types of Parallelism
 
 The purpose of parallel computing is to take a computation that would normally run as a single stream of instructions and restructure it so that many operations can be carried out concurrently, allowing the work to be split across multiple hardware resources. In practice, most HPC applications combine several kinds of parallelism. They may exploit vector units inside a core, use multiple threads on a CPU socket, and spread work across many nodes in a cluster.
 
 At a high level, we can distinguish between three main execution models. In **serial execution**, one worker performs all tasks in sequence. In **threaded** or **shared-memory parallelism**, multiple workers (threads) on the same node share a single address space and cooperate through common variables in memory. In **distributed-memory parallelism**, multiple processes, each with its own private memory on possibly different nodes, communicate explicitly by sending messages over the network. Modern large-scale codes often use a hybrid MPI +X model, where MPI handles distributed-memory parallelism across nodes and a secondary model (" $X$ ") such as OpenMP or CUDA handles shared-memory or accelerator parallelism on each node.
 
-### 2.1. Serial
+### Serial
 
 In the serial model, the program is executed by a single worker, namely a single operating-system process with a single thread of execution. Instructions are carried out one after another according to the program order, and there is no explicit coordination with other workers because there are no other workers. This model is conceptually simple and is still the starting point for most algorithm development because it is easier to design, debug, and reason about a serial implementation before introducing parallel constructs.
 
 However, serial execution does not scale. Once the algorithm and its implementation are fixed, the only way to make it faster on a single core is to change hardware (e.g., higher clock speed or better microarchitecture) or rely on automatic forms of parallelism such as vectorization. But there is a hard upper bound: the program can never use more than one core at a time. On an HPC cluster with hundreds of thousands of cores available, this means a purely serial code is effectively leaving almost all the machine idle. For problems whose size or desired resolution keeps increasing-larger systems, finer grids, longer trajectories-serial execution quickly becomes a significant bottleneck.
 
-### 2.2. Threaded (Shared Memory)
+### Threaded (Shared Memory)
 
 Threaded or shared-memory parallelism extends the serial model by allowing multiple workers to run concurrently within the same process, all sharing a common address space. These workers are called **threads**. Each thread executes its own sequence of instructions, but they all see the same global variables and can read or write to the same arrays in memory. On a typical HPC node, threads are mapped to CPU cores. On a GPU, threads are mapped to lightweight hardware execution units.
 
@@ -73,7 +73,7 @@ High-level threading frameworks make it relatively easy to express this pattern.
 
 Shared-memory parallelism has two appealing properties. First, it can be adopted incrementally. A working serial code can often be accelerated by adding a relatively small number of directives or annotations to its most time-consuming loops. Second, because all threads share memory, passing data between them is conceptually simple. Any thread can access any variable in the process's address space without explicit messages. However, this same feature introduces new challenges. When multiple threads update the same data, the final result can depend on the precise timing and interleaving of their operations, leading to subtle and hard-to-reproduce bugs. Avoiding these issues requires synchronization mechanisms such as locks, barriers, and atomic operations. Poorly designed synchronization can easily erase the benefits of parallelism. Moreover, scalability is limited by the resources of a single node, such as the number of cores, the available memory bandwidth, and the cache hierarchy. Once an application has saturated the cores and memory of a node, further speedup requires a move to distributed-memory parallelism.
 
-### 2.3. Distributed (Distributed Memory)
+### Distributed (Distributed Memory)
 
 Distributed-memory parallelism is the dominant model for cluster-scale computing. Instead of a single address space shared by all workers, each worker (an operating system process) has its own private memory, often on its own physical node. Processes cannot directly read or write each other's memory. To exchange data, they must communicate explicitly by sending and receiving messages over the network. The most widely used standard for this model in scientific computing is the **Message Passing Interface (MPI)**.
 
@@ -81,7 +81,7 @@ A typical MPI program begins by launching many processes, often one or several p
 
 Because data movement is explicit, distributed-memory programming forces the programmer to think carefully about data layout and communication patterns. The cost of sending messages depends on both latency (how long it takes to initiate a communication) and bandwidth (how many bytes per second can be transferred), both determined by the cluster's network hardware or fabric. When the computation per process becomes small compared to the amount of data that must be exchanged, communication overhead can dominate the runtime. This is the fundamental reason why scalability is not unlimited: as the number of processes grows, maintaining efficient parallel execution increasingly depends on minimizing and overlapping communication.
 
-#### 2.3.1. Communication Patterns
+#### Communication Patterns
 
 Within MPI and related libraries, communication occurs in a variety of patterns that reflect common algorithmic needs. The simplest is **point-to-point communication**, which occurs when one process sends a message directly to another. This is often used between neighboring subdomains in a spatial decomposition, where each process must exchange halo data (also called ghost data: copies of boundary values from neighboring subdomains needed to compute interactions near the boundary) only with a small set of neighbors.
 
@@ -90,7 +90,7 @@ Many algorithms also require collective operations, where a group of processes c
 The performance of these communication patterns depends sensitively on the interconnect. High-bandwidth, low-latency network fabrics-the combination of the interconnect hardware and its topology (how the nodes and switches are connected) -allow collective operations to be implemented efficiently. MPI libraries exploit this by using tree-based or hierarchical algorithms that minimize the number of intermediate links and switches each message must traverse. By shortening these paths and reducing contention on shared links, they help prevent network congestion. On systems with slower or more heavily loaded networks, the same collectives can quickly become bottlenecks. Effective parallel algorithm design therefore involves not only balancing work across processes but also carefully managing how often and how much data is exchanged, and in which pattern.
 
 
-#### 2.3.2. MPI + X
+#### MPI + X
 
 As HPC systems have evolved, individual nodes have become more powerful and more complex. A single node may have multiple CPU sockets with many cores, several GPUs, and a deep memory hierarchy. To exploit these resources efficiently, most large-scale applications now use a hybrid parallel model, often referred to as "MPI + X." In this approach, MPI provides distributed-memory parallelism across nodes (and sometimes across NUMA domains within a node), while " $X$ " represents an additional on-node parallel programming model such as OpenMP threads, CUDA kernels, HIP, SYCL, or another accelerator-focused framework.
 
@@ -104,7 +104,7 @@ Ultimately, the effectiveness of MPI + X parallelism depends heavily on the char
 
 
 
-## 3. Parallelization in Molecular Dynamics (MD)
+## Parallelization in Molecular Dynamics (MD)
 
 Molecular dynamics (MD) simulations are a natural fit for HPC because they involve performing very similar computations over and over again on large numbers of particles. At each timestep, the equations of motion are integrated by first computing the forces on every atom, then updating positions and velocities. Among all steps in the algorithm, the force calculation is usually the most expensive. For short-ranged interactions, this means evaluating pairwise forces only for nearby neighbors within a cutoff radius. For long-ranged interactions (e.g., Coulombic forces), additional work is spent on mesh or Ewald-type methods. Either way, the bulk of the runtime is spent in loops that look at many particle pairs and accumulate forces, making them prime targets for parallelization.
 
@@ -112,7 +112,7 @@ Because the same operations are repeated over many atoms or grid points, MD code
 
 
 
-### 3.1. Threaded
+### Threaded
 
 
 In the threaded (shared-memory) approach, an MD simulation running on one node uses multiple CPU cores to evaluate forces and related quantities in parallel. Conceptually, the main loop over atoms or interactions is divided among several threads: each thread is assigned a subset of atoms, neighbor-list entries, or spatial cells, and computes the corresponding contributions to the forces and energies. Because all threads share the same memory, they all see the same arrays of positions, velocities, and forces.
@@ -123,7 +123,7 @@ Threading can deliver substantial speedups on a single node with relatively smal
 
 
 
-### 3.2. Distributed
+### Distributed
 
 
 To scale MD beyond a single node, most codes use domain decomposition in a distributed-memory (MPI) setting. The basic idea is to partition the simulation box into spatial subdomains and assign each subdomain to a different MPI rank (process). Each process "owns" the atoms whose positions lie inside its subdomain. It stores their positions, velocities, and forces locally and is responsible for updating them in time. In this way, the global system is broken into many smaller chunks that can be advanced largely in parallel.
@@ -136,7 +136,7 @@ The efficiency of distributed MD parallelization depends on the balance between 
 
 
 
-## 4.7.4. Parallel Performance
+## Parallel Performance
 
 Even with a powerful cluster and a carefully parallelized code, performance is not unlimited. Some parts of a program are inherently serial, some algorithms do not expose enough independent work, and real hardware introduces overheads from communication, synchronization, memory bandwidth limits, and I/O. Understanding parallel performance means understanding both how much of your code can run concurrently and how efficiently your hardware can keep all workers busy.
 
@@ -156,7 +156,7 @@ To reason more concretely about how your code behaves on a given system, two com
 
 
 
-### 4.1. Strong Scaling
+### Strong Scaling
 
 Strong scaling measures how the runtime changes when you solve the same problem on increasing numbers of processors. You fix the total problem size-say, the number of atoms in an MD simulation or the number of grid points in a PDE solve-and then run the code with $N=1,2,4,8, \ldots$ processors, recording the time to solution in each case. If parallelization were perfect, doubling the number of processors would halve the runtime, and the speedup $S(N)$ would equal $N$.
 
@@ -175,7 +175,7 @@ In molecular dynamics, strong scaling is often favorable up to a certain number 
 
 
 
-### 4.7.4.2. Weak Scaling
+### Weak Scaling
 
 
 Weak scaling takes a different perspective. Instead of fixing the total problem size, you fix the work per processor and ask how the runtime changes as you increase both the problem size and the number of processors together. For instance, you might assign a fixed number of atoms per core in an MD simulation and then run with $N=1,2,4,8, \ldots$ cores, each time increasing the total number of atoms proportionally. In an ideal world, the runtime would remain constant so that each processor does the same amount of local work, and any extra overhead from communication is negligible.
