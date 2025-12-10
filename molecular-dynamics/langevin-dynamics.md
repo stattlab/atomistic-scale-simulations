@@ -11,7 +11,7 @@ If we use an explicit solvent model, our system looks like this.
 
 ```{figure} ./_figures/Explicit_solvent_model_example.jpg
 :alt: Visualization of explicit solvent model with Au nanoparticles in water.
-:width: 200px
+:width: 400px
 :align: center
 :name: explicit_solvent_model_example
 
@@ -34,7 +34,7 @@ An implicit solvent model treats solvent molecules as a “bath”, which transf
 Example: Simulate nanoparticles in a solvent.
 ```{figure} ./_figures/Implicit_solvent_model_example.jpg
 :alt: Visualization of implicit solvent model with Au nanoparticles in water.
-:width: 200px
+:width: 400px
 :align: center
 :name: implicit_solvent_model_example
 
@@ -103,7 +103,11 @@ $$
 As $\langle dW_t \rangle = 0, \,\, \langle dW_t^2 \rangle = dt$, substituting $dv$ with $A(v,t) \,dt + B(v, t) \, dW_t$. Since $d W_t$ is a stochastic term, it is expanded and considered up to 2nd order.
 
 $$
-df = f_t \, dt + f_v \, dv + \frac{1}{2} f_{vv} \, (dv)^2 =f_t \, dt + f_v \, (A(v,t) \,dt + B(v, t) \, dW_t) + f_{vv} \, (A(v,t) \,dt + B(v, t) \, dW_t)^2
+df = f_t \, dt + f_v \, dv + \frac{1}{2} f_{vv} \, (dv)^2
+$$
+
+$$
+df = f_t \, dt + f_v \, (A(v,t) \,dt + B(v, t) \, dW_t) + f_{vv} \, (A(v,t) \,dt + B(v, t) \, dW_t)^2
 $$
 
 Using Itô’s lemma, $(dt)^2 = 0,\, dt dW_t = 0, \, (d W_t)^2 = dt$.
@@ -170,15 +174,17 @@ $$
 3. Half-step velocity update:
 
 $$
+\begin{aligned}
 v(t+\Delta t)
-= v\!\left(t+\frac{\Delta t}{2}\right)
-+ \frac{\Delta t}{2m} F(t+\Delta t)
-\,\, \rightarrow \,\,
-v(t+\Delta t)
-= v\!\left(t+\frac{\Delta t}{2}\right)
-+ \frac{\Delta t}{2m} F(t+\Delta t)
-- \frac{\gamma \Delta t}{2}v\!\left(t+\frac{\Delta t}{2}\right)
-+ \frac{\sigma}{2m}G_2\sqrt{\Delta t}
+&= v\!\left(t+\frac{\Delta t}{2}\right)
+ + \frac{\Delta t}{2m} F(t+\Delta t)
+\\
+&\rightarrow v(t+\Delta t)
+ = v\!\left(t+\frac{\Delta t}{2}\right)
+ + \frac{\Delta t}{2m} F(t+\Delta t)
+ - \frac{\gamma \Delta t}{2}v\!\left(t+\frac{\Delta t}{2}\right)
+ + \frac{\sigma}{2m}G_2\sqrt{\Delta t}
+\end{aligned}
 $$
 
 Note that $G_1 G_2$ are random standardized Gaussian variables, they represent the thermal noise and are independent of each other so $\langle G_1 G_2\rangle = 0$.
@@ -314,7 +320,7 @@ A good example of the Brownian motion is the **Perrin experiment**, where the ex
 
 ```{figure} ./_figures/Perrin_Experiment.jpg
 :alt: The Colloidal motions under microscope in Perrin experiment.
-:width: 200px
+:width: 400px
 :align: center
 :name: Perrin_Experiment
 
@@ -349,7 +355,10 @@ The variance can be calculated through Itô’s isometry for any square-integrab
 $$
 \mathrm{E}\!\left[\left(\int_0^t g_t\, dW_t \right)^2\right]
 = 
-\mathrm{E}\!\left[\int_0^t g_t^2\, dt \right] \rightarrow
+\mathrm{E}\!\left[\int_0^t g_t^2\, dt \right]
+$$
+
+$$
 \mathrm{Var} [x(t) - x(0)] = \mathrm{E}\!\left[ \int_0^t \sqrt{2D} \, dW_t\right] = \mathrm{E}\!\left[ \int_0^t 2D \, dt\right] = 2Dt
 $$
 

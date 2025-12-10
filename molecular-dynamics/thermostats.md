@@ -10,7 +10,7 @@ In this section, we will first focus on changing the constant energy (E) to cons
 
 ```{figure} ./_figures/Heat-bath.jpg
 :alt: Visualization of heat bath for simulation.
-:width: 200px
+:width: 400px
 :align: center
 :name: Heat-bath
 
@@ -229,6 +229,10 @@ The Lagrange multiplier $\zeta$ can be derived from the constant kinetic energy:
 $$
 \frac{d K}{dt}
 =\sum_i \frac{\mathbf p_i}{2 m_i}\cdot\dot{\mathbf p}_i + \sum_i \frac{\mathbf p_i}{2 m_i}\cdot\dot{\mathbf p}_i = \sum_i \frac{\mathbf p_i}{ m_i}\cdot\dot{\mathbf p}_i
+$$
+
+$$
+\frac{d K}{dt}
 =\sum_i \frac{\mathbf p_i}{m_i}\cdot(\mathbf f_i-\zeta\,\mathbf p_i)
 =\sum_i \frac{\mathbf p_i\cdot\mathbf f_i}{m_i}
 -\zeta \sum_i \frac{\mathbf p_i\cdot\mathbf p_i}{m_i}
@@ -239,7 +243,7 @@ $$
 {\sum_i \frac{\mathbf p_i\cdot\mathbf p_i}{m_i}}
 $$
 
-Equal mass m_i = m:
+Equal mass $m_i = m$:
 
 $$
 \zeta=\dfrac{\mathbf{p} \cdot \mathbf{f}}
@@ -278,7 +282,7 @@ With the constrained kinetic energy $K_0$, the system no longer obtained the var
 However, for a large system, the isokinetic thermostat can reproduce an equivalent effect comparable to the canonical ensemble. Statistically speaking, the suppression of kinetic energy fluctuations in the isokinetic ensemble becomes negligible at large N.
 
 $$
-v_\alpha \in \mathcal{N}(0, \, (\sqrt{\frac{k_B T}{m}})^2)
+v_\alpha \in \mathcal{N}(0, \, \big(\sqrt{\frac{k_B T}{m} \big)^2)
 $$
 
 It can be shown that the kinetic energy of one atom $K_i$ follows the chi-square distribution with a degree of 3.
@@ -374,7 +378,8 @@ However, similar to the isokinetic case, the rescaling process is not establishe
 
 In 1984, Shuichi Nosé introduced a deterministic thermostat that successfully simulated the canonical ensemble (NVT) by adding a **dynamical variable that acts as a thermal reservoir**, allowing natural fluctuations consistent with the canonical distribution. The idea was implemented by William G. Hoover, and the Nosé–Hoover thermostat has been commonly used as one of the most accurate and efficient methods for constant-temperature molecular dynamics simulations.
 
-** Nosé formulation**
+**Nosé formulation**
+
 Recall that in the Velocity Verlet algorithm, the equations are designed to numerically integrate Hamilton’s equations of motion, which define the time evolution of a system governed by the Hamiltonian $\mathcal{H}$.
 
 $$
@@ -507,14 +512,12 @@ $$
 Therefore, the divergence of the extended phase space is:
 
 $$
-\[
 \nabla \!\cdot\! \mathbf{v}
 = \sum_i \frac{\partial \dot{r}_i}{\partial r_i}
 + \sum_i \frac{\partial \dot{p}_i}{\partial p_i}
 + \frac{\partial \dot{\eta}}{\partial \eta}
 + \frac{\partial \dot{\zeta}}{\partial \zeta}
 = - g \zeta
-\]
 $$
 
 So the time invariant equation is:
@@ -673,11 +676,13 @@ $$
 Specifically, the operators are defined as:
 
 - Position update operator:
+
 $$
 i\hat{L}_1 = \frac{\mathbf{p}}{m} \cdot \frac{\partial}{\partial \mathbf{r}}
 $$
 
 - Momentum update operator:
+
 $$
 i\hat{L}_1 = \frac{\mathbf{p}}{m} \cdot \frac{\partial}{\partial \mathbf{r}}
 $$
@@ -782,7 +787,7 @@ $$
 \frac{\Delta t}{2Q}\Bigl(K^{n+1} - g k_B T\Bigr)
 $$
 
-** Nosé–Hoover chain**
+**Nosé–Hoover chain**
 
 For a single Nosé–Hoover thermostat, there is only one friction variable ($\zeta$) that rescales all momenta and drives the kinetic energy toward the target temperature.
 
@@ -982,7 +987,7 @@ Again the dynamics is unrealistic. In addition the size effects can be larger th
 
 - “General decomposition theory of ordered exponentials.” M. Suzuki (1991), Physics Letters A, 146, 319. {cite}`Suzuki1996General`
 
-- “Construction of higher order symplectic integrators. H. Yoshida (1990), Physics Letters A, 150, 262. {cite} `Yoshida1990Construction`
+- “Construction of higher order symplectic integrators. H. Yoshida (1990), Physics Letters A, 150, 262. {cite}`Yoshida1990Construction`
 
 - “Statistical Mechanics: Theory and Molecular Simulation.” Tuckerman, M. E. (2010), Oxford University Press. {cite}`Tuckerman2010Statistical`
 
