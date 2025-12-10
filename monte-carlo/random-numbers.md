@@ -42,5 +42,4 @@ Gilks, Walter R., and Pascal Wild. "Adaptive rejection sampling for Gibbs sampli
 
 Olver, Sheehan, and Alex Townsend. "Fast inverse transform sampling in one and two dimensions." arXiv preprint arXiv:1307.1223 (2013).
 
-
 Tezuka, Shu. "Linear congruential generators." Uniform Random Numbers: Theory and Practice. Boston, MA: Springer US, 1995. 57-82..
