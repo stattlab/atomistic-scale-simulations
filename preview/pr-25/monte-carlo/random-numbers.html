@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>5.2. 5.2 Random Numbers &#8212; Atomistic Scale Simulations</title>
+    <title>5.2. Random Numbers &#8212; Atomistic Scale Simulations</title>
   
   
   
@@ -209,7 +209,7 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">5. Monte Carlo Simulations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">5.1. Introduction</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.2. 5.2 Random Numbers</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.2. Random Numbers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html">5.4. Sampling Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
@@ -409,7 +409,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>5.2 Random Numbers</h1>
+    <h1>Random Numbers</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -419,11 +419,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-congruential-generator">5.2.1. 5.2.1 Linear Congruential Generator</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mersenne-twister">5.2.2. 5.2.2 Mersenne Twister</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-transform-sampling">5.2.3. 5.2.3 Inverse Transform Sampling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rejection-sampling">5.2.4. 5.2.4 Rejection Sampling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">5.2.5. 5.2.5 Additional Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-congruential-generator">5.2.1. Linear Congruential Generator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mersenne-twister">5.2.2. Mersenne Twister</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-transform-sampling">5.2.3. Inverse Transform Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rejection-sampling">5.2.4. Rejection Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">5.2.5. Additional Resources</a></li>
 </ul>
             </nav>
         </div>
@@ -436,10 +436,10 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="random-numbers">
-<h1><span class="section-number">5.2. </span>5.2 Random Numbers<a class="headerlink" href="#random-numbers" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">5.2. </span>Random Numbers<a class="headerlink" href="#random-numbers" title="Link to this heading">#</a></h1>
 <p>Throughout various aspects of molecular models, random numbers are crucial for everything ranging from creating initial configurations for a system to iterating through steps of a Monte Carlo simulation. However, the generation of such numbers is often not trivial, and different methods exist for accomplishing this task. In order to obtain truly random numbers, one must rely on natural phenomena. Some examples include the time at which a radioactive nucleus decays, as measured by a Geiger counter, or the fluctuations of the voltage across a resistor, which depend on environmental noise. However, it is often inconvenient to implement such processes in simulations due to time constraints and hardware requirements. Instead, pseudorandom numbers, which mimic the behavior of truly random numbers while being much more efficient to generate, are used extensively in various areas, such as molecular modeling.</p>
 <section id="linear-congruential-generator">
-<h2><span class="section-number">5.2.1. </span>5.2.1 Linear Congruential Generator<a class="headerlink" href="#linear-congruential-generator" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">5.2.1. </span>Linear Congruential Generator<a class="headerlink" href="#linear-congruential-generator" title="Link to this heading">#</a></h2>
 <div class="math notranslate nohighlight">
 \[
 X_{n + 1} = (a X_n + b) \bmod m
@@ -447,7 +447,7 @@ X_{n + 1} = (a X_n + b) \bmod m
 <p>The Linear Congruential Generator (LCG) is one of the simplest and oldest pseudorandom number generators. It produces a sequence of numbers using the formula shown above. Here, <span class="math notranslate nohighlight">\(X_n\)</span> is the current number in the sequence, <span class="math notranslate nohighlight">\(a\)</span> is the multiplier, <span class="math notranslate nohighlight">\(b\)</span> is the increment, and <span class="math notranslate nohighlight">\(m\)</span> is the modulus. Given an initial seed <span class="math notranslate nohighlight">\(X_0\)</span>, all subsequent values can be determined. LCGs are computationally fast and simple to implement, but they can potentially have short periods and correlations between generated numbers, which can negatively affect simulations.</p>
 </section>
 <section id="mersenne-twister">
-<h2><span class="section-number">5.2.2. </span>5.2.2 Mersenne Twister<a class="headerlink" href="#mersenne-twister" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">5.2.2. </span>Mersenne Twister<a class="headerlink" href="#mersenne-twister" title="Link to this heading">#</a></h2>
 <div class="math notranslate nohighlight">
 \[
 X_{k + N} = X_{k + M} \oplus AX_k
@@ -456,11 +456,11 @@ X_{k + N} = X_{k + M} \oplus AX_k
 <p>In order to find random number <span class="math notranslate nohighlight">\(k + N\)</span>, number <span class="math notranslate nohighlight">\(k + M\)</span> and number <span class="math notranslate nohighlight">\(k\)</span> must already have been generated, or are part of the predetermined set. Assuming this is the case, number <span class="math notranslate nohighlight">\(k\)</span> can be expressed as a 32-dimensional vector <span class="math notranslate nohighlight">\(X_k\)</span>, multiplied by a matrix A, and then taken to modulo 2. Next, the each element of the product vector is combined with <span class="math notranslate nohighlight">\(X_{k + M}\)</span> as a vector via a piecewise XOR (<span class="math notranslate nohighlight">\(\oplus\)</span>) operation in order to obtain <span class="math notranslate nohighlight">\(X_{k + N}\)</span>.</p>
 </section>
 <section id="inverse-transform-sampling">
-<h2><span class="section-number">5.2.3. </span>5.2.3 Inverse Transform Sampling<a class="headerlink" href="#inverse-transform-sampling" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">5.2.3. </span>Inverse Transform Sampling<a class="headerlink" href="#inverse-transform-sampling" title="Link to this heading">#</a></h2>
 <p>While pseudorandom number generators like the Linear Congruential Generator and the Mersenne Twister are very good at generating random numbers that are uniform within a range, many tasks related to simulating molecular behavior require more complex distributions, such as a Boltzmann distribution. To start, with the aforementioned generators, one can make uniform distributions over any range, simply by scaling and shifting the values obtained by the appropriate amounts. However, in order to get non-uniform distributions, some more complex techniques are required. Inverse Transform Sampling one such technique. It can produce samples from a probability density function <span class="math notranslate nohighlight">\(f(x)\)</span> assuming its associated cumulative distribution function (CDF) can be calculated as: <span class="math notranslate nohighlight">\(F(x) = \int_{-\infty}^x f(t)dt\)</span>. Samples from <span class="math notranslate nohighlight">\(f(x)\)</span> can be obtained by generating a uniform random number <span class="math notranslate nohighlight">\(u \in [0,1)\)</span>, and computing <span class="math notranslate nohighlight">\(F^{-1}(u)\)</span>.</p>
 </section>
 <section id="rejection-sampling">
-<h2><span class="section-number">5.2.4. </span>5.2.4 Rejection Sampling<a class="headerlink" href="#rejection-sampling" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">5.2.4. </span>Rejection Sampling<a class="headerlink" href="#rejection-sampling" title="Link to this heading">#</a></h2>
 <p>While inverse transform sampling is useful, it is sometimes inconvenient or not possible to calculate the cumulative distribution function, <span class="math notranslate nohighlight">\(F(x) = \int_{-\infty}^x f(t)dt\)</span>. In situations like this, a different techniques, such as rejection sampling, must be used. Rejection Sampling is used when the inverse CDF of a target distribution <span class="math notranslate nohighlight">\(f(x)\)</span> is difficult or impossible to compute. It can be described as follows:</p>
 <ol class="arabic simple">
 <li><p>Obtain a probability density <span class="math notranslate nohighlight">\(g(x)\)</span> from which sampling can be done.</p></li>
@@ -471,7 +471,7 @@ X_{k + N} = X_{k + M} \oplus AX_k
 </ol>
 </section>
 <section id="additional-resources">
-<h2><span class="section-number">5.2.5. </span>5.2.5 Additional Resources<a class="headerlink" href="#additional-resources" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">5.2.5. </span>Additional Resources<a class="headerlink" href="#additional-resources" title="Link to this heading">#</a></h2>
 <p>Bradley, T., et al. “Chapter 16-parallelization techniques for random number generators.” GPU Computing Gems Emerald Edition: 231-246</p>
 <p>Gilks, Walter R., and Pascal Wild. “Adaptive rejection sampling for Gibbs sampling.” Journal of the Royal Statistical Society: Series C (Applied Statistics) 41.2 (1992): 337-348.</p>
 <p>Olver, Sheehan, and Alex Townsend. “Fast inverse transform sampling in one and two dimensions.” arXiv preprint arXiv:1307.1223 (2013).</p>
@@ -543,11 +543,11 @@ X_{k + N} = X_{k + M} \oplus AX_k
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-congruential-generator">5.2.1. 5.2.1 Linear Congruential Generator</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mersenne-twister">5.2.2. 5.2.2 Mersenne Twister</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-transform-sampling">5.2.3. 5.2.3 Inverse Transform Sampling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rejection-sampling">5.2.4. 5.2.4 Rejection Sampling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">5.2.5. 5.2.5 Additional Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-congruential-generator">5.2.1. Linear Congruential Generator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mersenne-twister">5.2.2. Mersenne Twister</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-transform-sampling">5.2.3. Inverse Transform Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rejection-sampling">5.2.4. Rejection Sampling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">5.2.5. Additional Resources</a></li>
 </ul>
   </nav></div>
 
