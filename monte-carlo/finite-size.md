@@ -1,8 +1,8 @@
 
-# 1. Phase Transitions, Finite-Size Scaling and Renormalization Group
+# Phase Transitions, Finite-Size Scaling and Renormalization Group
 
 
-## 1. Phase Transitions and Correlations
+## Phase Transitions and Correlations
 
 Phase transitions mark abrupt or qualitative changes in the macroscopic state of matter when one or more thermodynamic control parameters are varied. These control parameters include temperature $T$, pressure $P$, density $\rho$, and, for magnetic systems, and external magnetic field $H$. A **critical point** is a special point in this parameter space–typically denoted by ($P_{c}$, $\rho_{c}$, $T_{c}$) for fluids or ($H_{c}$, $M_{c}$, $T_{c}$) for magnets–at which the distinction between two phases disappears and fluctuations underlying microscopic degrees of freedom become long-ranged. Near such points, systems exhibit characteristic singular behavior that is largely independent of microscopic details.
 
@@ -56,7 +56,7 @@ As the critical temperature is approached, the divergence $K_T \rightarrow \inft
 
 
 
-## 2. Finite-Size Scaling
+## Finite-Size Scaling
 
 Reduced coordinates are often convenient when discussing the scaling of thermodynamic quantities near a critical point. A standard example is the reduced temperature,
 
@@ -72,7 +72,7 @@ $$
 
 where $p$ is the site (or bond) occupation probability and $p_c$ is its critical value. These reduced variables provide convenient, dimensionless measures of distance from criticality and will be used repeatedly in what follows.
 
-### 2.1.1 Experimental Evidence for Scaling
+### Experimental Evidence for Scaling
 
 There is compelling experimental evidence that thermodynamic quantities exhibit such scaling behavior. When measured coexistence curves for a wide variety of simple fluids are plotted in reduced variables $T / T_c$ versus $\rho / \rho_c$, the data collapse onto a single universal curve (see, for example, E. Stanley, p. 10). Fitting the coexistence density difference $\rho-\rho_c$ along this curve shows that
 
@@ -86,7 +86,7 @@ with $\beta \approx 0.33$. More careful analyses reveal a range $0.33<\beta<0.37
 Whether one is dealing with magnetic systems, ordinary fluids, or percolation models, the relevant order parameters and correlation measures-magnetization, density differences, pair-correlation functions, correlation lengths, and related quantities-all display analogous scaling behavior near their respective critical points. In the magnetic case, central quantities include (i) the magnetization $M(T)$, (ii) the isothermal susceptibility $\chi(T)$, (iii) the correlation length $\xi(T)$, and (iv) the zero-field specific heat $C(T)$. For percolation, the analogous set would consist of (i) the spanning probability $p_{\infty}$ (which plays the role of an order parameter), (ii) the mean cluster size $S(p)$, and (iii) the correlation length $\xi(p)$ that characterizes the typical size of connected clusters.
 
 
-### 2.1.2 Scaling Properties
+### Scaling Properties
 
 More quantitatively, these observables obey power-law scaling near the critical point.
 The magnetization behaves as $M(T) \sim(-t)^\beta, \quad 0.33<\beta<0.37, \quad\left(T<T_c\right)$ vanishing continuously as $T \rightarrow T_c^{-}$. The magnetic susceptibility diverges as
@@ -111,7 +111,7 @@ with $\alpha \approx 0.1$ in many three-dimensional systems. The coefficients $\
 
 
 
-### 2.1.3 Scaling with Finite System Size
+### Scaling with Finite System Size
 
 
 Consider a simulation system with linear dimension $L$. Finite-size scaling can be understood by examining how the correlation length $\xi(T)$ compares with $L$. When $\xi(T) \ll L$, the system behaves essentially as if it were infinite. In this case, correlations remain local, do not feel the boundaries, and bulk power laws such as $M(T) \sim (-t)^\beta$ (for $T<T_c$ ) are expected to hold. As the temperature approaches the critical region, however, $\xi(T)$ grows. Once $\xi(T)$ becomes comparable to $L$, the correlation length can no longer increase significantly. In this case, its growth is effectively cut off by the system size. In this regime, the simple infinite-system law $M(T) \sim (-t)^\beta$ is no longer applicable, because the would-be divergence of $\xi$ is replaced by saturation at $\xi \sim L$, and observables acquire a nontrivial dependence on $L$.
@@ -192,7 +192,7 @@ while the mean cluster size $S(p)$ and the percolation correlation length $\xi(p
 
 
 
-### 2.1.4 Scaling Law for Homogeneous Functions
+### Scaling Law for Homogeneous Functions
 
 
 To formalize the notion of scaling, it is helpful to recall the concept of homogeneous and generalized homogeneous functions. A function $f(r)$ is said to scale (or to be homogeneous) if, for all values of $\lambda$,
@@ -228,7 +228,7 @@ Here the variables $x$ and $y$ scale with possibly different exponents $a$ and $
 
 
 
-### 2.1.5 Static Scaling Hypothesis for Thermodynamic Functions
+### Static Scaling Hypothesis for Thermodynamic Functions
 
 
 The (ad hoc) static scaling hypothesis asserts that the thermodynamic potential $G(t, H)$ near a continuous phase transition is a generalized homogeneous function of the reduced temperature $t$ and magnetic field $H$. More precisely, one postulates that there exist exponents $a_t$ and $a_H$ such that
