@@ -35,7 +35,3 @@ Probably one of the most straightforward methods of neighbor searching is to mai
 Meanwhile, another method for keeping track of particle neighbors is using a cell linked list. This method first subdivides the system using a grid, where each grid cell is usually larger than the spherical region defined by $r_{cut}$, as defined for the Verlet table. Next, for a target atom and its corresponding target cell, an adjacent cell is considered to be a neighbor if that adjacent cell contains an atom that is within a distance of $r_{cut}$ from the target atom. Thus, for potential energy and force calculations at each step for each atom, this method also reduces the search space from all atoms in the entire system, to only the atoms within the target atom's cell, and atoms in cells that neighbor the target atom's cell. 
 
 ## Additional Resources
-
-{cite}'grossfield2018best'
-{cite}'kittel2018introduction'
-{cite}'yao2004improved'
