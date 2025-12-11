@@ -447,14 +447,14 @@ document.write(`
 <h2><span class="section-number">5.12.1. </span>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
 <p>This is a brief overview of free energy estimation, much of which can be found in the article by D. Frenkel: \emph{Free-Energy Computation and First-Order Phase Transitions}, in \emph{MD simulation of Statistical Mechanical Systems}, edited by Ciccotti and Hoover. Generic remarks are given in A&amp;T on pg. 40. Specific methods refer to various relevant pages.</p>
 <p>The free energy is related to the partition function by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1da13fb1-689f-4abc-8228-a0983b9555b6">
-<span class="eqno">(5.1)<a class="headerlink" href="#equation-1da13fb1-689f-4abc-8228-a0983b9555b6" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-32ec076a-99c0-4507-b8f8-7df84135352f">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-32ec076a-99c0-4507-b8f8-7df84135352f" title="Permalink to this equation">#</a></span>\[\begin{equation}
     e^{-\beta F} = \frac{1}{N! \Lambda^{dN}} \int dR\, e^{-\beta V(R)} = Z
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(N\)</span> is the number of particles, <span class="math notranslate nohighlight">\(d\)</span> is the dimension, <span class="math notranslate nohighlight">\(\beta = (k_B T)^{-1}\)</span>, and <span class="math notranslate nohighlight">\(\Lambda = (4 \pi \lambda \beta)^{-3/2}\)</span> is the classical thermal de Broglie wavelength.</p>
 <p>The Gibbs free energy is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b7606c71-71a5-4616-8024-daa33dd15d55">
-<span class="eqno">(5.2)<a class="headerlink" href="#equation-b7606c71-71a5-4616-8024-daa33dd15d55" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-fae83526-36e9-44f8-824e-544524654573">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-fae83526-36e9-44f8-824e-544524654573" title="Permalink to this equation">#</a></span>\[\begin{equation}
     G = \mu N = F + PV
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mu\)</span> is the chemical potential per particle.</p>
@@ -491,8 +491,8 @@ e^{-\beta F} = \frac{1}{N! \Lambda^{3N}} \int dR\, p(R) \frac{e^{-\beta V(R)}}{p
 \]</div>
 <p>For non-trivial problems, this method gives a very large variance since it is very difficult to make p® large where V® is small.</p>
 <p><strong>Sample <span class="math notranslate nohighlight">\(e^{-\beta V}Z\)</span> Method</strong>: Calculate the following estimator.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2d32ff72-0229-4c0f-bb71-d4404b3740e4">
-<span class="eqno">(5.3)<a class="headerlink" href="#equation-2d32ff72-0229-4c0f-bb71-d4404b3740e4" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-aa3182f1-7102-4644-b4a4-77d4bd3d0079">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-aa3182f1-7102-4644-b4a4-77d4bd3d0079" title="Permalink to this equation">#</a></span>\[\begin{equation}
     Z^{-1} = \left\langle e^{-\beta H} \right\rangle
 \end{equation}\]</div>
 <p>However, this has a very large variance unless V® is very weak.</p>

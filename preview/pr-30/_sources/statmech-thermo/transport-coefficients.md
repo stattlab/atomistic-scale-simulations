@@ -59,13 +59,17 @@ C_{AB}(\tau)=\langle A(t)B(t+\tau) \rangle
 $$
 
 As this is an equilibrium property and it depends only on the time delay $\tau$, this must be independent of time origin, $t$. This means that the function $C(\tau)$ is stationary with respect to time origin, or $\frac{d}{dt}C(\tau) = 0$ . This time-origin invariance can be seen as:
+
 $$
 C(\tau)= \langle A(t) B(t + \tau)\rangle = \langle A(t + s) B(t + s + \tau)\rangle
 $$
+
 Let $s = -\tau$, then:
+
 $$
 C(\tau)= \langle A(t - \tau) B(t)\rangle
 $$
+
 In other words, either shifting $B$ forward by $\tau$, or $A$ backwards by $\tau$, gives the same average.
 
 For $\tau=0$, $C(0) = \langle A(t)B(t)\rangle$, and this is the time-averaged pair-correlation that we normally calculated for thermodynamic quantities, etc. Here it is important to note that for **non-periodic** or **chaotic** functions, $\lim _{t \rightarrow \infty} C(0)=\langle A\rangle \langle B\rangle $, whereas for periodic functions (which are not ergodic) this is not true. Typically, we choose to normalized the time correlation functions by $C(0)$, i.e. $c(\tau)= C(\tau)/C(0)$, so that $c(\tau)$ ranges from 1 to its uncorrelated value $\langle A\rangle \langle B\rangle /\langle A(0)B(0)\rangle$. Clearly, in cases where either $\langle A\rangle$ or $\langle B\rangle$ are zero, such as for a non-flowing (or a stationary center-of-mass) system of particles where $A=v=velocity$ and $\langle v\rangle=0$, $c(\tau)$ varies from 1 at time zero to 0 at long times. It can be negative in between.
