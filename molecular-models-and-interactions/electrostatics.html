@@ -481,7 +481,7 @@ U = \frac{1}{2} \sum_{\vec m\in\mathbb Z^3}
     \frac{q_i q_j}{4\pi\varepsilon_0 |\vec r_i - \vec r_j + \vec m L|}
 \)</span><span class="math notranslate nohighlight">\(
 where \)</span>\vec{m}<span class="math notranslate nohighlight">\( are the image vectors, and \)</span>L$ is the box size.</p>
-<p>This sum is conditionally convergent!<span id="id1"><sup><a class="reference internal" href="../references/references.html#id23" title="M. Widom. Shape-adapted ewald summation. https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf.">23</a></sup></span></p>
+<p>This sum is conditionally convergent!<span id="id1"><sup><a class="reference internal" href="../references/references.html#id25" title="M. Widom. Shape-adapted ewald summation. https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf.">25</a></sup></span></p>
 <figure class="align-center" id="madelung-const-fig">
 <a class="reference internal image-reference" href="../_images/mandelung-sum.png"><img alt="Illustration of the summation of charges on a simple lattice." src="../_images/mandelung-sum.png" style="width: 200px;" />
 </a>
@@ -606,7 +606,7 @@ u =\underbrace{\frac{1}{2} \sum_{\vec{m}} \sum_{i=1}^N \sum_{j=1, i\neq j}^N u^S
 -\frac{1}{4 \pi \varepsilon_0} \frac{1}{\sqrt{2}\sigma} \frac{1}{\sqrt{\pi}}  \sum_{i=1}^N q_i^2
 \]</div>
 <p>The first term, turns into a normal pairwise sum, if <span class="math notranslate nohighlight">\(\operatorname{erfc}\)</span>  decays quickly. The middle term still needs to be evaluated.</p>
-<p>Long-ranged part is convieniently summed in Fourier space.<span id="id2"><sup><a class="reference internal" href="../references/references.html#id13" title="Harry A Stern and Keith G Calkins. On mesh-based ewald methods: optimal parameters for two differentiation schemes. The Journal of chemical physics, 2008.">19</a></sup></span>
+<p>Long-ranged part is convieniently summed in Fourier space.<span id="id2"><sup><a class="reference internal" href="../references/references.html#id13" title="Harry A Stern and Keith G Calkins. On mesh-based ewald methods: optimal parameters for two differentiation schemes. The Journal of chemical physics, 2008.">21</a></sup></span>
 <strong>Fourier transform</strong>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -722,7 +722,7 @@ u = \underbrace{
 <ul class="simple">
 <li><p>Real space: efficient for short-range potentials</p></li>
 <li><p>Reciprocal space: efficient way to treat smooth periodic functions</p></li>
-<li><p>Ewald: efficient way to sum a divergent and long-range interaction by summing part in real space and part in reciprocal space<span id="id3"><sup><a class="reference internal" href="../references/references.html#id24" title="A. Y. Toukmaji and J. A. Board. Ewald summation techniques in perspective: a survey. Computer Physics Communications, 95(2–3):73–92, 1996. doi:10.1016/0010-4655(96)00016-1.">20</a></sup></span></p></li>
+<li><p>Ewald: efficient way to sum a divergent and long-range interaction by summing part in real space and part in reciprocal space<span id="id3"><sup><a class="reference internal" href="../references/references.html#id26" title="A. Y. Toukmaji and J. A. Board. Ewald summation techniques in perspective: a survey. Computer Physics Communications, 95(2–3):73–92, 1996. doi:10.1016/0010-4655(96)00016-1.">22</a></sup></span></p></li>
 </ul>
 <p>Choose <span class="math notranslate nohighlight">\(k=\frac{1}{\sqrt{2}\sigma}\)</span>, the inverse screening length, and the number of wavevectors to be accurate and efficient.</p>
 <ul class="simple">
@@ -748,10 +748,10 @@ u = \underbrace{
 <ul class="simple">
 <li><p><a class="reference external" href="https://doi.org/10.1063/1.2932253">“On mesh-based Ewald methods: Optimal parameters for two differentiation schemes”
 Harry A. Stern; Keith G. Calkins
-J. Chem. Phys. 128, 214106 (2008)</a><span id="id4"><sup><a class="reference internal" href="../references/references.html#id13" title="Harry A Stern and Keith G Calkins. On mesh-based ewald methods: optimal parameters for two differentiation schemes. The Journal of chemical physics, 2008.">19</a></sup></span></p></li>
+J. Chem. Phys. 128, 214106 (2008)</a><span id="id4"><sup><a class="reference internal" href="../references/references.html#id13" title="Harry A Stern and Keith G Calkins. On mesh-based ewald methods: optimal parameters for two differentiation schemes. The Journal of chemical physics, 2008.">21</a></sup></span></p></li>
 <li><p><a class="reference external" href="https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf">Shape-Adapted Ewald Summation,
-M. Widom</a><span id="id5"><sup><a class="reference internal" href="../references/references.html#id23" title="M. Widom. Shape-adapted ewald summation. https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf.">23</a></sup></span></p></li>
-<li><p><a class="reference external" href="https://doi.org/10.1016/0010-4655(96)00016-1">Ewald summation techniques in perspective: a survey, Toukmaji, A. Y. and Board, J. A.</a><span id="id6"><sup><a class="reference internal" href="../references/references.html#id24" title="A. Y. Toukmaji and J. A. Board. Ewald summation techniques in perspective: a survey. Computer Physics Communications, 95(2–3):73–92, 1996. doi:10.1016/0010-4655(96)00016-1.">20</a></sup></span></p></li>
+M. Widom</a><span id="id5"><sup><a class="reference internal" href="../references/references.html#id25" title="M. Widom. Shape-adapted ewald summation. https://euler.phys.cmu.edu/widom/pubs/drafts/Dipole/dip.pdf.">25</a></sup></span></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/0010-4655(96)00016-1">Ewald summation techniques in perspective: a survey, Toukmaji, A. Y. and Board, J. A.</a><span id="id6"><sup><a class="reference internal" href="../references/references.html#id26" title="A. Y. Toukmaji and J. A. Board. Ewald summation techniques in perspective: a survey. Computer Physics Communications, 95(2–3):73–92, 1996. doi:10.1016/0010-4655(96)00016-1.">22</a></sup></span></p></li>
 </ul>
 </section>
 </section>
