@@ -36,10 +36,7 @@ While inverse transform sampling is useful, it is sometimes inconvenient or not 
 
 ## Additional Resources
 
-Bradley, T., et al. "Chapter 16-parallelization techniques for random number generators." GPU Computing Gems Emerald Edition: 231-246
-
-Gilks, Walter R., and Pascal Wild. "Adaptive rejection sampling for Gibbs sampling." Journal of the Royal Statistical Society: Series C (Applied Statistics) 41.2 (1992): 337-348.
-
-Olver, Sheehan, and Alex Townsend. "Fast inverse transform sampling in one and two dimensions." arXiv preprint arXiv:1307.1223 (2013).
-
-Tezuka, Shu. "Linear congruential generators." Uniform Random Numbers: Theory and Practice. Boston, MA: Springer US, 1995. 57-82..
+{cite}'bradleychapter'
+{cite}'gilks1992adaptive'
+{cite}'olver2013fast'
+{cite}'tezuka1995linear'

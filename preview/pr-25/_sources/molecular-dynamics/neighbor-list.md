@@ -36,9 +36,6 @@ Meanwhile, another method for keeping track of particle neighbors is using a cel
 
 ## Additional Resources
 
-Grossfield, Alan, et al. "Best practices for quantification of uncertainty and sampling quality in molecular simulations [Article v1. 0]." Living journal of computational molecular science 1.1 (2018): 5067.
-
-Kittel, Charles, and Paul McEuen. Introduction to solid state physics. John Wiley & Sons, 2018.
-
-Yao, Zhenhua, et al. "Improved neighbor list algorithm in molecular simulations using cell decomposition and data sorting method." Computer physics communications 161.1-2 (2004): 27-35.
-
+{cite}'grossfield2018best'
+{cite}'kittel2018introduction'
+{cite}'yao2004improved'
