@@ -9,6 +9,7 @@ This work (c) 2025 is licensed under
 
 - Antonia Statt
 - Soroush Asadi
+- Yuning Zhang
 
 ## Attributions
 
