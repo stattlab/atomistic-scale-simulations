@@ -465,7 +465,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-with-a-heat-bath-thermostats-and-monte-carlo">3.3.10. Contact with a heat bath: thermostats and Monte Carlo</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-issues-equilibration-windowing-and-diagnostics">3.3.11. Practical issues: equilibration, windowing, and diagnostics</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">3.3.12. Summary</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">3.3.13. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">3.3.13. References</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">3.3.13.1. Further reading</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -602,10 +605,7 @@ Z = \sum_{i} \exp(-\beta E_i)
 <p>is the <strong>canonical partition function</strong>.</p>
 <p>The partition function <span class="math notranslate nohighlight">\(Z\)</span> plays several roles:</p>
 <ul class="simple">
-<li><p>It is a <em>normalization constant</em>:
-$<span class="math notranslate nohighlight">\(
-  \sum_i P_i = 1.
-  \)</span>$</p></li>
+<li><p>It is a <em>normalization constant</em>: <span class="math notranslate nohighlight">\(\sum_i P_i = 1.\)</span></p></li>
 <li><p>It encodes the density of states and the Boltzmann weights of all microstates.</p></li>
 <li><p>From <span class="math notranslate nohighlight">\(Z\)</span>, one can compute almost all thermodynamic properties.</p></li>
 </ul>
@@ -870,56 +870,44 @@ P(\mathbf{v}) = \left(\frac{m}{2\pi k_{\mathrm{B}}T}\right)^{3/2}
 <h2><span class="section-number">3.3.10. </span>Contact with a heat bath: thermostats and Monte Carlo<a class="headerlink" href="#contact-with-a-heat-bath-thermostats-and-monte-carlo" title="Link to this heading">#</a></h2>
 <p>In the lab, systems are rarely perfectly isolated: they exchange energy, momentum, and sometimes particles with their environment. In simulations we mimic this contact with a “bath” by modifying the equations of motion or using stochastic algorithms. Common approaches include:</p>
 <ul>
-<li><p><strong>Deterministic Molecular Dynamics (MD):</strong>
-Integrates Newton’s equations of motion:
-$<span class="math notranslate nohighlight">\(
-  m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2} = \mathbf{F}_i = -\nabla_{\mathbf{r}_i} U(\mathbf{r}_1,\dots,\mathbf{r}_N),
-  \)</span>$
+<li><p><strong>Deterministic Molecular Dynamics (MD):</strong><br />
+Integrates Newton’s equations of motion,
+<span class="math notranslate nohighlight">\(m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2} = \mathbf{F}_i = -\nabla_{\mathbf{r}_i} U(\mathbf{r}_1,\dots,\mathbf{r}_N),\)</span>
 usually sampling (approximately) the NVE ensemble. When combined with additional dynamical variables (e.g. Nosé–Hoover thermostat, barostat degrees of freedom), MD can also sample NVT or NPT ensembles.</p></li>
-<li><p><strong>Langevin Dynamics:</strong>
+<li><p><strong>Langevin Dynamics:</strong><br />
 Adds friction and random forces to mimic a thermal bath:
-$<span class="math notranslate nohighlight">\(
-  m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2}
-  = -\nabla_{\mathbf{r}_i} U
-    - \gamma m_i \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}
-    + \mathbf{R}_i(t),
-  \)</span><span class="math notranslate nohighlight">\(
-  where \)</span>\gamma<span class="math notranslate nohighlight">\( is a friction coefficient and \)</span>\mathbf{R}_i(t)$ is a random force satisfying fluctuation–dissipation relations. This samples the canonical (NVT) ensemble.</p>
-<p>More precisely, the random forces are chosen to have:
-$<span class="math notranslate nohighlight">\(
-  \begin{aligned}
-  \langle \mathbf{R}_i(t) \rangle &amp;= \mathbf{0},\\
-  \langle R_{i\alpha}(t) R_{j\beta}(t') \rangle
-  &amp;= 2\gamma m_i k_{\mathrm{B}}T\,\delta_{ij}\,\delta_{\alpha\beta}\,\delta(t-t'),
-  \end{aligned}
-  \)</span><span class="math notranslate nohighlight">\(
-  where \)</span>\alpha,\beta<span class="math notranslate nohighlight">\( label Cartesian components. These conditions ensure that, in equilibrium, momenta follow the Maxwell--Boltzmann distribution at temperature \)</span>T$.</p>
-<p><strong>Example: diffusion from Langevin dynamics.</strong>
-Consider a single Brownian particle (e.g. a colloid) in a solvent modeled via Langevin dynamics. In the limit of long times, its mean-squared displacement grows linearly with time:
-$<span class="math notranslate nohighlight">\(
-  \langle [\mathbf{r}(t) - \mathbf{r}(0)]^2 \rangle \approx 6 D t,
-  \)</span><span class="math notranslate nohighlight">\(
-  with diffusion constant
-  \)</span><span class="math notranslate nohighlight">\(
-  D = \frac{k_{\mathrm{B}}T}{\zeta}, \qquad \zeta = \gamma m,
-  \)</span><span class="math notranslate nohighlight">\(
-  consistent with the Einstein relation. By tuning \)</span>\gamma$, we can interpolate between nearly Hamiltonian dynamics (small friction) and strongly damped Brownian motion (large friction).</p>
-<p><strong>Langevin thermostats in MD codes.</strong>
+$m_i \frac{\mathrm{d}^2 \mathbf{r}<em>i}{\mathrm{d}t^2}
+= -\nabla</em>{\mathbf{r}_i} U</p>
+<ul class="simple">
+<li><p>\gamma m_i \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}</p></li>
+</ul>
+<ul class="simple">
+<li><p>\mathbf{R}_i(t),<span class="math notranslate nohighlight">\(
+where \)</span>\gamma<span class="math notranslate nohighlight">\( is a friction coefficient and \)</span>\mathbf{R}_i(t)$ is a random force satisfying fluctuation–dissipation relations. This samples the canonical (NVT) ensemble.</p></li>
+</ul>
+<p>More precisely, the random forces are chosen to have
+<span class="math notranslate nohighlight">\(\langle \mathbf{R}_i(t) \rangle = \mathbf{0}\)</span> and
+<span class="math notranslate nohighlight">\(\langle R_{i\alpha}(t) R_{j\beta}(t') \rangle
+= 2\gamma m_i k_{\mathrm{B}}T\,\delta_{ij}\,\delta_{\alpha\beta}\,\delta(t-t'),\)</span>
+where <span class="math notranslate nohighlight">\(\alpha,\beta\)</span> label Cartesian components. These conditions ensure that, in equilibrium, momenta follow the Maxwell–Boltzmann distribution at temperature <span class="math notranslate nohighlight">\(T\)</span>.</p>
+<p><strong>Example: diffusion from Langevin dynamics.</strong><br />
+Consider a single Brownian particle (e.g. a colloid) in a solvent modeled via Langevin dynamics. In the limit of long times, its mean-squared displacement grows linearly with time,
+<span class="math notranslate nohighlight">\(\langle [\mathbf{r}(t) - \mathbf{r}(0)]^2 \rangle \approx 6 D t,\)</span>
+with diffusion constant
+<span class="math notranslate nohighlight">\(D = \frac{k_{\mathrm{B}}T}{\zeta}\)</span> and <span class="math notranslate nohighlight">\(\zeta = \gamma m,\)</span>
+consistent with the Einstein relation. By tuning <span class="math notranslate nohighlight">\(\gamma\)</span>, we can interpolate between nearly Hamiltonian dynamics (small friction) and strongly damped Brownian motion (large friction).</p>
+<p><strong>Langevin thermostats in MD codes.</strong><br />
 In practice, Langevin thermostats are implemented using discrete-time integrators (e.g. BAOAB, OBABO, velocity Verlet with noise). Users typically choose a damping time <span class="math notranslate nohighlight">\(\tau_{\mathrm{damp}} = 1/\gamma\)</span> on the order of a fraction of a picosecond to a few picoseconds. Too small <span class="math notranslate nohighlight">\(\tau_{\mathrm{damp}}\)</span> (large friction) overdamps the dynamics and can slow down sampling of collective modes; too large <span class="math notranslate nohighlight">\(\tau_{\mathrm{damp}}\)</span> (weak coupling) leads to slow temperature control.</p>
 </li>
-<li><p><strong>Brownian Dynamics:</strong>
+<li><p><strong>Brownian Dynamics:</strong><br />
 Overdamped limit where inertial terms are negligible compared to friction. The equation of motion reads
-$<span class="math notranslate nohighlight">\(
-  \gamma \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}
-  = -\nabla_{\mathbf{r}_i} U + \mathbf{R}_i(t),
-  \)</span>$
+<span class="math notranslate nohighlight">\(\gamma \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}
+= -\nabla_{\mathbf{r}_i} U + \mathbf{R}_i(t),\)</span>
 and velocities are not explicitly followed. This is useful for simulations of large particles in viscous environments where momentum relaxes very quickly (e.g. coarse-grained polymer or colloid models).</p></li>
-<li><p><strong>Monte Carlo (MC):</strong>
+<li><p><strong>Monte Carlo (MC):</strong><br />
 Random moves in configuration space accepted or rejected with a rule that ensures detailed balance, e.g. Metropolis MC. For the canonical ensemble, a trial move from microstate <span class="math notranslate nohighlight">\(i\)</span> to <span class="math notranslate nohighlight">\(j\)</span> with energy change <span class="math notranslate nohighlight">\(\Delta E = E_j - E_i\)</span> is accepted with probability
-$<span class="math notranslate nohighlight">\(
-  P_{\text{acc}}(i\to j) = \min\bigl[1,\exp(-\beta\Delta E)\bigr].
-  \)</span><span class="math notranslate nohighlight">\(
-  Repeated moves generate configurations distributed according to \)</span>P_i \propto e^{-\beta E_i}$. MC algorithms can be designed to sample NVT, NPT, or other ensembles by including volume-change moves, particle insertions/deletions, etc.</p></li>
+<span class="math notranslate nohighlight">\(P_{\text{acc}}(i\to j) = \min\bigl[1,\exp(-\beta\Delta E)\bigr].\)</span>
+Repeated moves generate configurations distributed according to <span class="math notranslate nohighlight">\(P_i \propto e^{-\beta E_i}\)</span>. MC algorithms can be designed to sample NVT, NPT, or other ensembles by including volume-change moves, particle insertions/deletions, etc.</p></li>
 </ul>
 <p>Once any randomness is introduced (Langevin, MC, etc.), ergodicity is usually improved, and convergence towards the canonical distribution is more robust—although for complex systems, equilibration can still be extremely slow.</p>
 </section>
@@ -927,14 +915,14 @@ $<span class="math notranslate nohighlight">\(
 <h2><span class="section-number">3.3.11. </span>Practical issues: equilibration, windowing, and diagnostics<a class="headerlink" href="#practical-issues-equilibration-windowing-and-diagnostics" title="Link to this heading">#</a></h2>
 <p>In practice, to obtain meaningful averages from simulations:</p>
 <ol class="arabic simple">
-<li><p><strong>Equilibration:</strong>
+<li><p><strong>Equilibration:</strong><br />
 Start from some initial configuration (often artificial, e.g. a lattice or random packing). The early part of the trajectory is usually far from equilibrium. You should:</p>
 <ul class="simple">
 <li><p>Let the system evolve until observables (e.g. energy, pressure, structure) fluctuate around a steady mean.</p></li>
 <li><p>Discard this initial <em>equilibration</em> segment from your averages.</p></li>
 </ul>
 </li>
-<li><p><strong>Check stationarity:</strong>
+<li><p><strong>Check stationarity:</strong><br />
 Always plot the observable of interest <span class="math notranslate nohighlight">\(A(t)\)</span> versus time. Ask:</p>
 <ul class="simple">
 <li><p>Does <span class="math notranslate nohighlight">\(A(t)\)</span> fluctuate around a constant mean?</p></li>
@@ -942,7 +930,7 @@ Always plot the observable of interest <span class="math notranslate nohighlight
 <li><p>How long does it take before the drift disappears?</p></li>
 </ul>
 </li>
-<li><p><strong>Time-window averaging:</strong>
+<li><p><strong>Time-window averaging:</strong><br />
 For non-stationary or slowly relaxing systems (e.g. glasses), be explicit about:</p>
 <ul class="simple">
 <li><p>The time window over which you averaged.</p></li>
@@ -950,22 +938,18 @@ For non-stationary or slowly relaxing systems (e.g. glasses), be explicit about:
 <li><p>Whether results depend on when you start collecting data (early vs late segments).</p></li>
 </ul>
 </li>
-<li><p><strong>Block averaging and error estimates:</strong>
+<li><p><strong>Block averaging and error estimates:</strong><br />
 Consecutive MD frames are correlated, so naive estimates of the standard error can be misleading. A common approach is <em>block averaging</em>:</p>
 <ul class="simple">
 <li><p>Split the production trajectory into <span class="math notranslate nohighlight">\(M\)</span> blocks of duration <span class="math notranslate nohighlight">\(\tau_{\text{block}}\)</span>.</p></li>
 <li><p>Compute the block average <span class="math notranslate nohighlight">\(A_k\)</span> in each block <span class="math notranslate nohighlight">\(k = 1,\dots,M\)</span>.</p></li>
 <li><p>Treat the <span class="math notranslate nohighlight">\(A_k\)</span> as approximately independent samples and estimate the mean and standard error from them:
-$<span class="math notranslate nohighlight">\(
-  \begin{aligned}
-  \bar{A} &amp;= \frac{1}{M}\sum_{k=1}^M A_k,\\
-  \sigma_{\bar{A}} &amp;= \sqrt{\frac{1}{M(M-1)} \sum_{k=1}^M (A_k - \bar{A})^2}.
-  \end{aligned}
-  \)</span>$</p></li>
+<span class="math notranslate nohighlight">\(\bar{A} = \frac{1}{M}\sum_{k=1}^M A_k\)</span> and
+<span class="math notranslate nohighlight">\(\sigma_{\bar{A}} = \sqrt{\frac{1}{M(M-1)} \sum_{k=1}^M (A_k - \bar{A})^2}.\)</span></p></li>
 <li><p>Choosing <span class="math notranslate nohighlight">\(\tau_{\text{block}}\)</span> several times larger than the correlation time of <span class="math notranslate nohighlight">\(A\)</span> improves the reliability of these error estimates.</p></li>
 </ul>
 </li>
-<li><p><strong>Protocol dependence:</strong>
+<li><p><strong>Protocol dependence:</strong><br />
 If your results depend on preparation protocol (cooling rate, compression rate, etc.), then you are <em>not</em> measuring equilibrium ensemble averages, but still something physically meaningful. You must report the protocol clearly.</p></li>
 </ol>
 </section>
@@ -983,11 +967,14 @@ If your results depend on preparation protocol (cooling rate, compression rate, 
 </section>
 <section id="references">
 <h2><span class="section-number">3.3.13. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<section id="further-reading">
+<h3><span class="section-number">3.3.13.1. </span>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>D. Chandler, <em>Introduction to Modern Statistical Mechanics</em>.</p></li>
-<li><p>M. E. Tuckerman, <em>Statistical Mechanics: Theory and Molecular Simulation</em>.</p></li>
-<li><p>Course notes on statistical mechanics and ensembles (MSE 485 / atomistic-scale simulations).</p></li>
+<li><p><span id="id1"><sup><a class="reference internal" href="../references/references.html#id23" title="David Chandler. Introduction to Modern Statistical Mechanics. Oxford University Press, 1987.">3</a></sup></span> – <em>Introduction to Modern Statistical Mechanics</em>.</p></li>
+<li><p><span id="id2"><sup><a class="reference internal" href="../references/references.html#id24" title="Mark E. Tuckerman. Statistical Mechanics: Theory and Molecular Simulation. Oxford University Press, 2010.">26</a></sup></span> – <em>Statistical Mechanics: Theory and Molecular Simulation</em>.</p></li>
+<li><p><span id="id3"><sup><a class="reference internal" href="../references/references.html#id25" title="Antonia Statt. Mse 485: atomistic-scale simulations – statistical mechanics and ensembles. 2025. Course notes, University of Illinois at Urbana–Champaign.">21</a></sup></span> – Course notes on statistical mechanics and ensembles (MSE 485 / atomistic-scale simulations).</p></li>
 </ul>
+</section>
 </section>
 </section>
 
@@ -1101,7 +1088,10 @@ If your results depend on preparation protocol (cooling rate, compression rate, 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-with-a-heat-bath-thermostats-and-monte-carlo">3.3.10. Contact with a heat bath: thermostats and Monte Carlo</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-issues-equilibration-windowing-and-diagnostics">3.3.11. Practical issues: equilibration, windowing, and diagnostics</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">3.3.12. Summary</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">3.3.13. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">3.3.13. References</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">3.3.13.1. Further reading</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

@@ -42,17 +42,17 @@ $$
 
 where:
 
-- $r_{ij} = \lVert \bm r_i - \bm r_j \rVert$ is the bond length,
+- $r_{ij} = \lVert \mathbf r_i - \mathbf r_j \rVert$ is the bond length,
 
 - $\theta_{ijk}$ is the angle at atom $j$ between bonds $ij$ and $jk$, and
 
 - $\varphi_{ijkl}$ is the dihedral angle defined by the two planes
 $(i,j,k)$ and $(j,k,\ell)$.
 
-For molecular dynamics, we do not only need energies but also forces. For any potential $U({\bm r_i})$ the force on atom $i$ is given by:
+For molecular dynamics, we do not only need energies but also forces. For any potential $U({\mathbf r_i})$ the force on atom $i$ is given by:
 
 $$
-\bm F_i = - \nabla_i U
+\mathbf F_i = - \nabla_i U
 = - \left(
     \frac{\partial U}{\partial x_i},
     \frac{\partial U}{\partial y_i},
@@ -130,7 +130,7 @@ F_j = F_b(r_{ij}) \hat r_{ij} \quad.
 $$
 This shows that for a bond, $F_i = -F_j$, which illustrates that action has a equal and opposite reaction.
 
-Thus the bond force is always collinear with the bond and equal and opposite on the two atoms --- a direct manifestation of Newton's third law. In code, one can compute the force once and apply $\bm F_i$ and $-\bm F_i$ to save work.
+Thus the bond force is always collinear with the bond and equal and opposite on the two atoms --- a direct manifestation of Newton's third law. In code, one can compute the force once and apply $\mathbf F_i$ and $-\mathbf F_i$ to save work.
 
 
 ```{tip}
@@ -240,7 +240,7 @@ For polymers and coarse-grained models it is often desirable to prevent bonds fr
 
 $ U(r) = -\frac{1}{2}k r_0^2 \ln\left(1 - \left(\frac{r}{r_0}\right)^2\right) $
 
-Diverges at $r_0$, minimum at 0. This is usually used in conjuction with a repulsive, short-ranged force (WCA = cut LJ at minimum and shift up to get a purely repulsive potential).
+Diverges at $r_0$, minimum at 0. This is usually used in conjuction with a repulsive, short-ranged force (WCA = cut LJ at minimum and shift up to get a purely repulsive potential).{cite}`weeks1971`
 
 with parameters:
 
@@ -254,7 +254,7 @@ Key properties:
 
 - As $r_{ij} \to R_0$, the logarithm diverges and the potential
 goes to $+\infty$:
-the bond cannot extend beyond $R_0$ (\emph{finite extensibility}).
+the bond cannot extend beyond $R_0$ (*finite extensibility*).
 
 - For moderate extensions ($r_{ij} \ll R_0$), the potential is roughly
 quadratic and behaves similarly to a harmonic spring.
@@ -267,7 +267,8 @@ $k_f = 30$, $r_0 = 1.5$
 (in reduced Lennard--Jones units), which allows bonds to stretch up to about 1.5 times their typical length before the potential diverges.
 
 **Example.**
-In the Kremer--Grest polymer model, beads connected by FENE+WCA bonds behave like flexible springs that can fluctuate but never break, making them ideal for studying polymer melts and entangled chains.
+In the Kremer--Grest polymer model, beads connected by FENE+WCA bonds behave like flexible springs that can fluctuate but never break, making them ideal for studying polymer melts and entangled chains.{cite}`kremer1990`
+
 
 ```{code-cell} ipython3
 :tags: [hide-cell]
@@ -380,7 +381,8 @@ The explicit expression for $\nabla_i \cos\theta_{ijk}$ is algebraically long, s
 
 One must also be careful with units: some force fields use *degrees* in the input files and convert internally to radians when evaluating the potential.
 
-For this, we then need $ \nabla_i \cos\theta_{ijk}$. Eq.7 of [J. Chem. Phys. 146, 226101 (2017)](https://doi.org/10.1063/1.4985251) offers a compact form.
+For this, we then need $ \nabla_i \cos\theta_{ijk}$. Eq. 7 of [J. Chem. Phys. 146, 226101 (2017)](https://doi.org/10.1063/1.4985251){cite}`howard2017note` offers a compact form.
+
 
 ```{warning}
 $F_i$ is singlular if $\theta_{ijk}=0^\circ$ or $180^\circ$ if $F_\theta$ is not zero at these points!
@@ -409,9 +411,9 @@ Harmonic angle potentia fixes average angle around set point of $\theta_0$. Like
 
 - Larger $k_\theta$ means narrower fluctuations (stiffer angle).
 
-- The same ``factor of $1/2$'' remark as for harmonic bonds applies here:
-check whether your simulation package includes it in the definition of
-$k_\theta$ or not.
+- The same "factor of $1/2$" remark as for harmonic bonds applies here:
+  check whether your simulation package includes it in the definition of
+  $k_\theta$ or not.
 
 ### Cosine
 A common alternative that avoids computing $\arccos$ is a cosine angle potential. One simple form is:
@@ -658,8 +660,12 @@ Mathematically, the computation of improper dihedral forces is very similar to t
 
 ## References
 
-- Allen & Tildesley, "Simulations of liquids" Appendix C.2 - Calculation of forces and torques {cite}`allen1987computer`
-- "Note: Smooth torsional potentials for degenerate dihedral angles" Michael P. Howard, Antonia Statt, Athanassios Z. Panagiotopoulos, J. Chem. Phys. 146, 226101 (2017){cite}`howard2017note`
-- Blondel, A. and Karplus, M., "New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: Elimination of singularities." J. Comput. Chem., 17: 1132-1141. (1996){cite}`blondel1996new`
-- [Gromacs Documentation on Intramolecular Potentials](https://manual.gromacs.org/current/reference-manual/functions/bonded-interactions.html)
+## References
+
+- Allen, Michael P., and Dominic J. Tildesley. *Computer Simulation of Liquids*. Clarendon Press, Oxford (1987). Appendix C.2: “Calculation of forces and torques.” {cite}`allen1987computer`  
+- Howard, Michael P., Antonia Statt, and Athanassios Z. Panagiotopoulos. “Note: Smooth torsional potentials for degenerate dihedral angles.” *The Journal of Chemical Physics* 146, 226101 (2017). {cite}`howard2017note`  
+- Blondel, Arnaud, and Martin Karplus. “New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: Elimination of singularities.” *Journal of Computational Chemistry* 17, 1132–1141 (1996). {cite}`blondel1996new`  
+- Weeks, John D., David Chandler, and Hans C. Andersen. “Role of repulsive forces in determining the equilibrium structure of simple liquids.” *The Journal of Chemical Physics* 54, 5237–5247 (1971). {cite}`weeks1971`  
+- Kremer, Kurt, and Gary S. Grest. “Dynamics of entangled linear polymer melts: A molecular-dynamics simulation.” *The Journal of Chemical Physics* 92, 5057–5086 (1990). {cite}`kremer1990`  
+- GROMACS development team. *GROMACS Reference Manual*: “Bonded interactions” section. (Accessed 2025.) {cite}`gromacs_bonded`
 
