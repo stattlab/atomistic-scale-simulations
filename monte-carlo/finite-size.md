@@ -1,114 +1,309 @@
-# Phase Transitions, Finite-size Scaling and Renormalization Group
+
+# Phase Transitions, Finite-Size Scaling and Renormalization Group
+
 
 ## Phase Transitions and Correlations
 
-**Critical points** are temperatures (T), densties $\rho$), etc., above which some parameter describing, say, _long-range order_ in a ferromagnetic, or the density change in liquid-gas transition, vanishes. For example, spontaneous Magnetization, M(T), is zero above some critical TC in a M(T) vs. T plot in a ferromagnet. The evidence for such increased _correlations_ was manifest in the so-called _critical opalescence_ observed in carbon dioxide over a hundered years ago by Andrews . As the critical point is approached from above, droplets of fluid acquire a size which is on the order of the wavelenght of light, hence they scatter light and provide a striking example of the critical point which can be observed with the naked eye!
+Phase transitions mark abrupt or qualitative changes in the macroscopic state of matter when one or more thermodynamic control parameters are varied. These control parameters include temperature $T$, pressure $P$, density $\rho$, and, for magnetic systems, and external magnetic field $H$. A **critical point** is a special point in this parameter space–typically denoted by ($P_{c}$, $\rho_{c}$, $T_{c}$) for fluids or ($H_{c}$, $M_{c}$, $T_{c}$) for magnets–at which the distinction between two phases disappears and fluctuations underlying microscopic degrees of freedom become long-ranged. Near such points, systems exhibit characteristic singular behavior that is largely independent of microscopic details.
 
-**Order Parameter** are a quantities which are non-zero below TC and zero above it and which are found to be a common feature associated with critical points in a large variety of physical systems. For example, M(T) is the magnetic _order parameter_, whereas $\rho_L - \rho_G$ is the _order parameter_ in the case of liquid-gas transition. In an alloy, it would be the deviations of the sublattice concentrations from the average concentration, i.e. c(r) - c0, which may be measured via scattering experiments using x-ray, electron, or neutrons.
 
-Note that while there is a correspondence between order parameters in different physical systems there is no correspondence of the topology of the individual phase diagrams. For example, for a fluid, P vs. T plot corresponds to a M vs. T in a magnetic system, but the do not look alike. In a magnetic systems H vs. T is a single line separating an "all up spin" from an "all down spin" configuration, and TC is a the point where the system obtains a non-zero M(T). Whereas, for a fluid there is a _critical point_ at the end of the vapor pressure curve where we can continuously transform a gas to a liquid. These are not to be confused with the curves which separate solid-gas (sublimation curve), gas-liquid (vapor pressure curve), and the liquid-solid (fusion curve).
+A convenient way to characterize a phase transition is through an **order parameter**, a macroscopic quantity that distinguishes one phase from another and often vanishes continuously at a continuous (second-order) transition. In a ferromagnet, for instance, the order parameter is the spontaneous magnetization $M(T)$ in zero external field. Below the Curie temperature $T_c$, the spins align collectively and $M(T) \neq 0$. Above $T_c$, thermal agitation destroys long-range order and $M(T)=0$. The graph of $M(T)$ versus $T$ thus shows a continuous loss of magnetization as the system is heated through the critical temperature.
 
-Therefore, such critical behavior can be manifest differently in any particular cut of a $(P, \rho, T)$ diagram or, equivalently, a (H, M, T) diagram for a magnetic system. Certainly, there are other types of global transitions, such as in percolation, which result from a cluster spanning a system and which occurs at some particular critical values of site occupation probability, pC. So such critical behavior, and it associated characteristics, are ubiquitous.
 
-A **Correlation Length**, $\xi$, is the distance over which a specific thermodynamic variable in the system are correlated with one another and is relevant in a system near a critical point, as evidenced from the critical opalescence experiments. In the 2-D Ising Model, for example, you can see correlations of spins over larger and larger distances as the TC is approached from above. It becomes larger than the simulation box, L, rapidly near TC. Above TC, such correlations of spins in the Ising model show _short-range order_ (correlations over short distances), whereas below TC the system exhibits _long-range order_ (infinitely-ranged correlations).
+An analogous example appears in the liquid-gas transition of a simple fluid. At temperatures below the liquid-gas critical temperature $T_c$, the coexistence of liquid and gas phases is characterized by a density difference $\rho_L-\rho_G$, where $\rho_L$ and $\rho_G$ denote the equilibrium densities of the liquid and gas, respectively. This difference plays the role of an order parameter: it is nonzero along the coexistence curve and tends to zero as the critical point is approached. Exactly at the critical point, the liquid and gas become indistinguishable, and $\rho_L=\rho_G=\rho_c$.
 
-**Generally speaking, we observed three things near a critical point, which are, in fact, interrelated.** There is an
 
-- **increase in density fluctuations**
-    As $T \rightarrow T_C$, correlations become as large as the wavelength of light
-    and the density inhomogeneities scatter light strongly (_critical opalescence_).
-- **increase in compressibility**
-    $K_T \rightarrow \infty $ as $T \rightarrow T_C$.
-- **increase in the range of the density-density correlations.**
-    $\xi \rightarrow \infty $ as $T \rightarrow T_C$.
-
-**Pair Correlations** are clearly important, especially since they are are directly related to thermodynamic quantities, such as KT. With KT0 = <N>kT/V the ideal gas compressibility, this is self-evident when we recall
+Order parameters can also be defined in more complex systems. In binary alloys, one natural order parameter is the deviation of the local composition from its average value,
 
 $$
-KT/KT0 = < (N - <N>)2 >/<N>
-$$
-and
-$$
-< (N - <N>)2 > = \int dr \int dr' G(r - r') = V \int dr G(r)
+c(\mathbf{r})-c_0,
 $$
 
-As $T \rightarrow T_C$,  $K_T \rightarrow \infty $  means that $G(r - r')$ becomes very long ranged, or $G(r - r') \rightarrow 0$ slowly as $|r - r'| >> 1$. Hence, the connection between the density fluctuations, compressibility and density-density correlations. In addition, it is clear that the **correlation length** diverges ($\xi \rightarrow \infty $  ) at the critical point in order for the density-density correlation to produce a divergent $K_T$.
+where $c(\mathbf{r})$ is the local concentration of one species (say, A atoms in an A-B alloy) and $c_0$ is the overall composition. Below an ordering temperature, the alloy may develop long-range compositional order (for example, alternating A and B on a lattice), and the fluctuations of $c(\mathbf{r})-c_0$ reflect the emergence of ordered domains. Such composition fluctuations are routinely probed by scattering experiments using x rays, electrons, or neutrons. The resulting structure factor encodes spatial correlations of $c(\mathbf{r})$, which grow in range and magnitude as the system approaches an ordering transition.
 
-**The increased correlation length, and associated change in thermodynamic quantities, lead to the concept of scaling in a finite-sized simulation, in order to estimate the proper critical points and critical exponents.**
 
-## Finite-size Scaling
+A particularly striking manifestation of critical behavior is **critical opalescence**, historically observed in fluids such as carbon dioxide near their liquid-gas critical point. As $T$ approaches $T_c$ from above at fixed pressure, the fluid becomes milky and strongly scatters visible light. Microscopically, this phenomenon arises because density fluctuations become both large in amplitude and long-ranged. Droplets of high- and low-density regions form and grow to sizes comparable to the wavelength of visible light. These density inhomogeneities act as efficient scatterers, leading to the observed opalescent appearance. Critical opalescence provided some of the earliest direct visual evidence that something singular occurs at the critical point.
 
-**Reduced Coordinates** are often convenient to define when discussing scaling of thermodynamic quantities. For example, reduced temperature t = (T - TC)/TC, which is a temperature relative to the critical point. You can define reduced densities. Or, in percolation problems, reduced units would be x = (p - pC)/pC. Its use in what follows should be apparent.
 
-**Experimental Evidence for Scaling --** When measured coexistence curves of numerous **fluids**, e.g., are plotted as T/TC vs. $\rho/ \rho_C$, a single curve is found (see, e.g. E. Stanley, pg. 10). A fit to this curve reveals that $\rho - \rho_C ~ (-t)\beta$, and $\beta=0.33$. However, it is generally found that there is a range: 0.33 < \beta < 0.37. For example, in Helium, $\beta=0.354$. Measurements for other quantities, such as susceptibilities, also lend themselves to this type of scaling analysis.
+A central quantity in understanding these phenomena is the correlation length $\xi$, which measures the typical distance over which fluctuations of a local thermodynamic variable–such as the spin orientation in a magnet or the density of a fluid–remain significantly correlated. Far above the critical temperature, correlations decay rapidly and $\xi$ is microscopic, corresponding to short-range order. As the critical point is approached, however, $\xi$ grows rapidly, reflecting the emergence of large correlated regions like fluctuating high-and low density domains responsible for critical opalescence. In the two-dimensional Ising model, for example, the spin-spin correlation function decays exponentially with a characteristic length $\xi(T)$ for $T>T_c$, while below $T_c$ the system develops true long-range order and the correlations become effectively infinite in range due to the nonzero spontaneous magnetization. In numerical simulations with finite linear size $L$, this growth of $\xi$ is eventually cut off when $\xi(T)$ becomes comparable to or larger than $L$, so that the divergence of the correlation length that would occur at $T_{c}$ in an infinite system is rounded off and replaced by pronounced finite-size effects once $\xi \gtrsim L$.
 
-Whether talking of magnetic systems, fluids, or percolation problems, the order parameters (pair-correlations, correlation lengths, and so on) exhibit this type of scaling behavior. Here we only discuss the named quantities in the magnetic case, (i) Magnetization, M(T), (ii) the isothermal susceptibility, \chi(T), and (iii) the correlation length, \xi(T), and (iv) the zero-field specific heat, C(T). For percolation, they would be the (i) spanning probability, pinf, (ii) the mean cluster size, S(p), and (iii) the correlation length, \xi(p).
 
-**Scaling Properties and Critical Exponents***   **Magnetization**
-    M(T) ~ (-t)\beta           0.33 < \beta < 0.37.           (for T < TC)
+Generally speaking, three closely related signatures appear as a system approaches a critical point. First, density fluctuations grow dramatically. As $T$ -> $T_{c}$ at fixed pressure, correlated regions of high and low density become comparable in size to the wavelength of visible light, so these inhomogeneities scatter light strongly and give rise to critical opalescence. Second, the isothermal compressibility $K_{T}$ increases sharply and, in the thermodynamic limit, diverges according to
 
-- **Magnetic Susceptibility**
-    \chi(T) ~ |t|\-\gamma           1.3 < \gamma < 1.4.
-- **Correlation Length**
-    \xi(T) ~ |t|\-\nu           \nu depends on dimension of problem.
-- **Zero-field Specific Heat**
-    C(T) ~ |t|\-\alpha           \alpha ~ 0.1.
+$$K_T \rightarrow \infty \quad \text{as} \quad T \rightarrow T_c$$
 
-The coefficients defining the power law behavior (i.e., \beta, \gamma, \nu, etc.) are referred to as **critical exponents**
+
+Physically, this means that an arbitrarily small change in pressure produces a very large change in volume or density near the critical point. Third, the range of density-density correlations grows without bound: the correlation length $\xi$, which measures the typical size of correlated density fluctuations, also diverges,
+
+$$\xi \rightarrow \infty \ \ \text{as} \ \ T \rightarrow T_{c}$$
+
+The divergence of $\xi$ underlies both the enhanced density fluctuations and the anomalous compressibility. All three reflect the same underlying fact that, at criticality, fluctuations are correlated over all length scales.
+
+
+To make the connection between these macroscopic signatures and microscopic structure more explicit, it is useful to introduce the **density-density pair correlation function**. In a fluid, fluctuations of the local density can be written as $\delta \rho(\mathbf{r})=\rho(\mathbf{r})- \langle\rho\rangle$, and the pair correlation function is defined as $G\left(\mathbf{r}-\mathbf{r}^{\prime}\right)=\left\langle\delta \rho(\mathbf{r}) \delta \rho\left(\mathbf{r}^{\prime}\right)\right\rangle$. This quantity measures how a fluctuation at one point is correlated with a fluctuation at another. Thermodynamic response functions such as the isothermal compressibility $K_{T}$ are not independent of these microscopic correlations. Rather, they can be expressed in terms of the integrated pair correlations. For an ideal gas, the compressibility is $K_T^0=\langle N\rangle k T / V$, while more generally one has the fluctuation relation
+
+$$
+\frac{K_T}{K_T^0}=\frac{\left\langle(N-\langle N\rangle)^2\right\rangle}{\langle N\rangle}
+$$
+
+which tells us that the compressibility of a fluid, compared to an ideal gas at the same condition, is determined by how large the particle the particle-number fluctuations are compared to the average number of particles. Here, the variance of the particle number in a volume $V$ can be written as
+
+$$
+\left\langle(N-\langle N\rangle)^2\right\rangle=\int d \mathbf{r} \int d \mathbf{r}^{\prime} G\left(\mathbf{r}-\mathbf{r}^{\prime}\right)=V \int d \mathbf{r} G(\mathbf{r}) .
+$$
+
+As the critical temperature is approached, the divergence $K_T \rightarrow \infty$ in the thermodynamic limit therefore implies that the integral of $G(\mathbf{r})$ diverges. This can only occur if the density-density correlations become very long-ranged, so that $G(\mathbf{r})$ decays only slowly for $|\mathbf{r}| \gg 1$. In other words, the divergence of the compressibility is a direct consequence of the divergence of the correlation length $\xi$ that characterizes the range of $G(\mathbf{r})$. This growing correlation length, together with the associated singular behavior of thermodynamic quantities, motivates the use of scaling ideas in finite-sized simulations. When $\xi$ becomes comparable to the system size $L$, finite-size effects encode how observables depend on the ratio $L / \xi$, and these finite-size scaling relations can be used to estimate the true critical point and critical exponents from data obtained in systems of limited size.
+
+
+
+## Finite-Size Scaling
+
+Reduced coordinates are often convenient when discussing the scaling of thermodynamic quantities near a critical point. A standard example is the reduced temperature,
+
+$$
+t=\frac{T-T_c}{T_c},
+$$
+
+which measures the temperature relative to the critical temperature $T_c$. One can similarly introduce reduced densities, such as $\rho / \rho_c$, or, in percolation problems, a reduced occupation probability,
+
+$$
+x=\frac{p-p_c}{p_c},
+$$
+
+where $p$ is the site (or bond) occupation probability and $p_c$ is its critical value. These reduced variables provide convenient, dimensionless measures of distance from criticality and will be used repeatedly in what follows.
+
+### Experimental Evidence for Scaling
+
+There is compelling experimental evidence that thermodynamic quantities exhibit such scaling behavior. When measured coexistence curves for a wide variety of simple fluids are plotted in reduced variables $T / T_c$ versus $\rho / \rho_c$, the data collapse onto a single universal curve (see, for example, E. Stanley, p. 10). Fitting the coexistence density difference $\rho-\rho_c$ along this curve shows that
+
+$$
+\rho-\rho_c \sim(-t)^\beta \quad \text { for } \quad T<T_c
+$$
+
+with $\beta \approx 0.33$. More careful analyses reveal a range $0.33<\beta<0.37$. For instance, in liquid helium one finds $\beta=0.354$. Similar scaling laws are observed for other response functions, such as susceptibilities, which can also be analyzed in terms of appropriate power laws in the reduced temperature.
+
+
+Whether one is dealing with magnetic systems, ordinary fluids, or percolation models, the relevant order parameters and correlation measures-magnetization, density differences, pair-correlation functions, correlation lengths, and related quantities-all display analogous scaling behavior near their respective critical points. In the magnetic case, central quantities include (i) the magnetization $M(T)$, (ii) the isothermal susceptibility $\chi(T)$, (iii) the correlation length $\xi(T)$, and (iv) the zero-field specific heat $C(T)$. For percolation, the analogous set would consist of (i) the spanning probability $p_{\infty}$ (which plays the role of an order parameter), (ii) the mean cluster size $S(p)$, and (iii) the correlation length $\xi(p)$ that characterizes the typical size of connected clusters.
+
+
+### Scaling Properties
+
+More quantitatively, these observables obey power-law scaling near the critical point.
+The magnetization behaves as $M(T) \sim(-t)^\beta, \quad 0.33<\beta<0.37, \quad\left(T<T_c\right)$ vanishing continuously as $T \rightarrow T_c^{-}$. The magnetic susceptibility diverges as
+
+$$
+\chi(T) \sim|t|^{-\gamma}, \quad 1.3<\gamma<1.4
+$$
+
+reflecting the growth of the response to an applied field. The correlation length scales as
+
+$$
+\xi(T) \sim|t|^{-\nu},
+$$
+
+where the exponent $\nu$ depends on the spatial dimension of the system and controls how rapidly the range of correlations diverges. Finally, the zero-field specific heat exhibits a (typically weak) singularity,
+
+$$
+C(T) \sim|t|^{-\alpha}
+$$
+
+with $\alpha \approx 0.1$ in many three-dimensional systems. The coefficients $\beta, \gamma, \nu, \alpha$, and their analogues for other observables are known as **critical exponents**, and they encapsulate the universal scaling properties of systems near continuous phase transitions.
+
+
 
 ### Scaling with Finite System Size
 
-Consider a simulation system with linear dimension L.
 
-**Scaling revealed from behavior of Correlation Length***   If \xi(T) < < L, power law behavior is expected because the correlations are local and do not exceed L.
+Consider a simulation system with linear dimension $L$. Finite-size scaling can be understood by examining how the correlation length $\xi(T)$ compares with $L$. When $\xi(T) \ll L$, the system behaves essentially as if it were infinite. In this case, correlations remain local, do not feel the boundaries, and bulk power laws such as $M(T) \sim (-t)^\beta$ (for $T<T_c$ ) are expected to hold. As the temperature approaches the critical region, however, $\xi(T)$ grows. Once $\xi(T)$ becomes comparable to $L$, the correlation length can no longer increase significantly. In this case, its growth is effectively cut off by the system size. In this regime, the simple infinite-system law $M(T) \sim (-t)^\beta$ is no longer applicable, because the would-be divergence of $\xi$ is replaced by saturation at $\xi \sim L$, and observables acquire a nontrivial dependence on $L$.
 
-- If \xi(T) ~ L, however, \xi cannot change appreciably and M(T) ~ (-t)\beta is no longer applicable.
-- For \xi(T) ~ L ~ |t|\-\nu, a quantitative change will occur in the system.
-- **This last relation obviously implies (for a given L) that**
+Near criticality, the correlation length follows the power law
 
-    **|T - TC(L)| ~ L\-1/\nu.         Scaling Relation of TC**
+$$
+\xi(T) \sim|t|^{-\nu},
+$$
 
-Note that for a 2-dimensional system, like the square lattice, \nu\=1. Thus, TC(L) should scale linearly with L and the final TC should be (within error bars) close to the exact 2-D square lattice in zero field, 2.269. To determine TC(L), CV(L,T) vs. T is calculated for various L = (4, 8, 16, 32, ...) and the maximum CV(L,T) is used to indicate TC(L). Recall CV(T) = (<E2\> - <E>2)/kT2, which reveals the energy fluctuations of the system and the distribution of configurations over energy, i.e. the more possible configurations, the higher the specific heat.
+where $t=\left(T-T_c\right) / T_c$ is the reduced temperature and $\nu$ is the correlation-length exponent. The condition $\xi(T) \sim L$ therefore implies
 
-**Why not use E vs. T plots to reveal the transition temperature, instead of CV?**
+$$
+L \sim|t|^{-\nu} \quad \Longrightarrow \quad|t| \sim L^{-1 / \nu}.
+$$
 
-**Determining the Critical Exponents***   From TC scaling relation (when \xi(T) ~ L as L \rightarrow\infty),         **M(T=TC(L)) ~ L\-\beta/\nu** .
 
-- A similar analysis may be made for susceptibility or specific heats.
-- Or, for order paramters in other problems, such as percolation, **pinf(T=TC) ~ L\-\beta/\nu** .
-- Hence, the critical exponents can be determined through scaling analysis. ### A Preliminary: Scaling Law for Homogeneous Functions
+Equivalently, for a system of finite size $L$, the apparent critical temperature $T_c(L)$ -for example, the temperature at which some response function is maximal-shifts away from the infinite-system value $T_c(\infty)$ according to the finite-size scaling relation
 
-**A function, f(r), is said to scale if for all values of \lambda, f(\lambda r) = g(\lambda) f(r)**.
-A function with this property is **homogeneous**, e.g., f(r)= Br2 \rightarrow f(\lambda r)= \lambda2f(r), and g(\lambda)= \lambda2.
-For a homogeneous function, if we know f(r=r0) and we know g(\lambda), then we know f(r) everywhere!
+$$
+\left|T_c(L)-T_c(\infty)\right| \sim L^{-1 / \nu}
+$$
 
-**The scaling function is not arbitrary. It must be g(\lambda) = \lambdaP.**
-P is the degree of homogeneity.
-See Stanley, pg 176 for "proof".
 
-**A generalized homogeneous function is given by f(\lambdaa x, \lambdab y) = \lambda f(x,y).**
-There is no \lambdaP on R.H.S. because you could always re-scale with \lambda1/P and change a'=a/P and b'=b/P, without loss of generality.
-Notice this is NOT f(\lambda x, \lambda y) = \lambdaP f(x,y), as you might suspect, because functions can be scaled differently in different directions. ### Static Scaling Hypothesis for Thermodynamic Functions
+This is often referred to as the scaling relation for $T_c(L)$. For a two-dimensional system such as the square-lattice Ising model, one has $\nu=1$, so $1 / \nu=1$. In that case the shift scales as
 
-**The (ad hoc) static scaling hypothesis asserts that G(t,H) is a generalized homogeneous function.** Hence, G(\lambdaat t, \lambdaaH H) = \lambda G(t,H).
+$$
+T_c(L)-T_c(\infty) \sim \frac{1}{L},
+$$
 
-**If G(t,H) is a generalized homogeneous function, then so are all other forms of Free Energy, as they are just Legendre transforms of G.**
+and an extrapolation of $T_c(L)$ versus $1 / L$ should converge, within error bars, to the exact critical temperature $T_c(\infty) \approx 2.269$.
 
-**Relations amongst critical exponents may be obtained by application of thermodynamic relations, e.g., M(t,H) = -dG(t,H)/dH.** Taking this derivative, we find (try it!):
+In practice, one convenient way to determine $T_c(L)$ from simulations is to compute the specific heat per site $C_V(L, T)$ as a function of temperature for various system sizes $L=4,8,16,32, \ldots$. For each $L$, the temperature $T$ at which $C_V(L, T)$ attains its maximum is taken as the finite-size critical temperature $T_c(L)$. The specific heat can be expressed in terms of energy fluctuations as
 
-\lambdaaH M(\lambdaat t, \lambdaaH H) = \lambda M(t,H).
+$$
+C_V(T)=\frac{\left\langle E^2\right\rangle-\langle E\rangle^2}{k_B T^2},
+$$
 
-**For zero field, M(t,0) = \lambdaaH\-1 M(\lambdaat t, 0).**
+which makes clear that $C_V$ measures how broadly the system's energy is distributed among accessible configurations. The larger the fluctuations $\left\langle E^2\right\rangle- \langle E\rangle^2$, the higher the specific heat and the richer the ensemble of thermally accessible states.
 
-- Letting \lambda = (- t\-1)1/at yields the scaling **M(t,0) = (-t)(1-aH)/at M(-1,0)**
-- And, because we know M(t,0) ~ (-t)\beta, then **\beta = (1-aH)/at** .
-- The same can be done for all observables which are derivatives of G(t,H).
-- e.g. \chiT ~ (-t)\-\gamma' from below TC, **\gamma' = (2 - aH)/at**.
-- e.g. \chiT ~ (t)\-\gamma from above TC, **\gamma = (2 - aH)/at** , and \gamma' = \gamma.
 
-**From SCALING of the thermodynamic functions, the critical exponents can be determined in terms of ratios of only 2 quantities, aH and at.** Hence, by plotting the thermodynamic functions according to the derived scaling relations, both aH and at can be determined.
+One might ask why not simply plot $\langle E\rangle$ versus $T$ to locate the transition, instead of examining $C_V(T)$. The reason is that for a continuous (second-order) phase transition, $\langle E\rangle(T)$ remains a smooth function of temperature (the singularity appears in its derivative with respect to $T$). The specific heat $C_V=\partial\langle E\rangle / \partial T$ exhibits a pronounced peak that sharpens and grows with system size, and in the thermodynamic limit this peak becomes a true divergence (when $\alpha>0$ ) or at least a cusp-like singularity. Thus $C_V(L, T)$, rather than $\langle E\rangle(T)$, is a much more sensitive diagnostic for pinpointing the location of the critical region and extracting $T_c(L)$.
 
-You can perform the same type of analysis for other Thermodynamic functions or quantities to derive the scaling equalities, which from another analysis are given as inequalities (but you must remember that the scaling hypothesis was, in fact, an ad hoc idea -- but seems to be born out).
+Once $T_c(L)$ is known as a function of $L$, finite-size scaling can also be used to determine the critical exponents. At the critical point of the infinite system, the order parameter and other observables obey power laws such as
+
+$$
+M(T) \sim(-t)^\beta, \quad \chi(T) \sim|t|^{-\gamma}, \quad \xi(T) \sim|t|^{-\nu}, \quad C(T) \sim|t|^{-\alpha} .
+$$
+
+
+For a finite system, a standard finite-size scaling ansatz shows that at the (size-dependent) critical temperature $T=T_c(L)$, the order parameter scales with system size as
+
+$$
+M\left(T_c(L)\right) \sim L^{-\beta / \nu} .
+$$
+
+
+Thus, plotting $M\left(T_c(L)\right)$ versus $L$ on a log-log scale yields a straight line whose slope is $-\beta / \nu$. A similar analysis applies to other quantities. For example, the susceptibility at $T_c(L)$ scales as
+
+$$
+\chi\left(T_c(L)\right) \sim L^{\gamma / \nu},
+$$
+
+and, when $\alpha>0$, the specific heat peak typically scales as
+
+$$
+C_V^{\max }(L) \sim L^{\alpha / \nu} .
+$$
+
+
+In problems where the order parameter is of a different type-for instance, in percolation-the same logic holds. The spanning probability $p_{\infty}$ at the percolation threshold $p=p_c$ plays the role of an order parameter and obeys
+
+$$
+p_{\infty}\left(p_c, L\right) \sim L^{-\beta / \nu},
+$$
+
+while the mean cluster size $S(p)$ and the percolation correlation length $\xi(p)$ exhibit their own characteristic finite-size scaling forms. In all these cases, the critical exponents can be extracted from how observables depend on $L$ at or near the finite-size critical point, providing a route to determining $\beta, \gamma, \nu_{\text {, and }}$ related exponents.
+
+
+
+### Scaling Law for Homogeneous Functions
+
+
+To formalize the notion of scaling, it is helpful to recall the concept of homogeneous and generalized homogeneous functions. A function $f(r)$ is said to scale (or to be homogeneous) if, for all values of $\lambda$,
+
+$$
+f(\lambda r)=g(\lambda) f(r) .
+$$
+
+
+An example is $f(r)=B r^2$, for which
+
+$$
+f(\lambda r)=B(\lambda r)^2=\lambda^2 f(r),
+$$
+
+so $g(\lambda)=\lambda^2$. In general, for a homogeneous function, the scaling function $g(\lambda)$ cannot be arbitrary. It must be a pure power,
+
+$$
+g(\lambda)=\lambda^p,
+$$
+
+where $p$ is called the degree of homogeneity. Once $f\left(r_0\right)$ and $g(\lambda)$ are known, the value of $f(r)$ at any $r$ can be obtained by choosing an appropriate scaling factor $\lambda=r / r_0$.
+
+A generalized homogeneous function involves more than one variable and can be written in the form
+
+$$
+f\left(\lambda^a x, \lambda^b y\right)=\lambda f(x, y) .
+$$
+
+
+Here the variables $x$ and $y$ scale with possibly different exponents $a$ and $b$, but the function as a whole is homogeneous of degree 1 with respect to the transformation. There is no extra factor $\lambda^p$ on the right-hand side because one can always rescale $\lambda$ by $\lambda^{1 / p}$ and redefine the exponents as $a^{\prime}=a / p$ and $b^{\prime}= b / p$ without loss of generality. The important point is that generalized homogeneous functions allow different directions in the $(x, y)$ space to scale with different exponents, while preserving an overall scaling form.
+
+
+
+
+### Static Scaling Hypothesis for Thermodynamic Functions
+
+
+The (ad hoc) static scaling hypothesis asserts that the thermodynamic potential $G(t, H)$ near a continuous phase transition is a generalized homogeneous function of the reduced temperature $t$ and magnetic field $H$. More precisely, one postulates that there exist exponents $a_t$ and $a_H$ such that
+
+$$
+G\left(\lambda^{a_t} t, \lambda^{a_H} H\right)=\lambda G(t, H)
+$$
+
+for all $\lambda>0$. If $G(t, H)$ has this property, then all other free-energy representations (Helmholtz, Gibbs, etc.) obtained by Legendre transforms will also be generalized homogeneous, since Legendre transforms preserve homogeneity.
+
+Thermodynamic observables are derivatives of $G(t, H)$ and therefore inherit corresponding scaling forms. For instance, the magnetization is given by
+
+$$
+M(t, H)=-\frac{\partial G(t, H)}{\partial H} .
+$$
+
+
+Differentiating the scaling form of $G$ with respect to $H$ and using the chain rule (try it!), one finds that
+
+$$
+\lambda^{a_H} M\left(\lambda^{a_t} t, \lambda^{a_H} H\right)=\lambda M(t, H) .
+$$
+
+
+This implies that, at zero field $H=0$, the magnetization satisfies
+
+$$
+M(t, 0)=\lambda^{1-a_H} M\left(\lambda^{a_t} t, 0\right) .
+$$
+
+
+Choosing $\lambda=(-t)^{-1 / a_t}$ for $t<0$ gives
+
+$$
+M(t, 0)=(-t)^{\left(1-a_H\right) / a_t} M(-1,0) .
+$$
+
+
+Since we already know from standard critical behavior that
+
+$$
+M(t, 0) \sim(-t)^\beta \quad \text { as } \quad t \rightarrow 0^{-},
+$$
+
+
+we can identify the order-parameter exponent as
+
+$$
+\beta=\frac{1-a_H}{a_t} .
+$$
+
+
+The same procedure applies to other observables that are derivatives of $G(t, H)$. For example, the isothermal susceptibility $\chi_T(t, H)$ is given by
+
+$$
+\chi_T(t, H)=\frac{\partial M(t, H)}{\partial H},
+$$
+
+and its scaling form implies power laws of the form
+
+$$
+\chi_T(t, 0) \sim(-t)^{-\gamma^{\prime}} \quad \text { for } t \rightarrow 0^{-}, \quad \chi_T(t, 0) \sim t^{-\gamma} \quad \text { for } t \rightarrow 0^{+},
+$$
+
+with
+
+$$
+\gamma^{\prime}=\frac{2-a_H}{a_t}, \quad \gamma=\frac{2-a_H}{a_t},
+$$
+
+so that $\gamma^{\prime}=\gamma$ in this simple scaling picture. Analogous relations can be derived for the specific heat, correlation length, and other thermodynamic quantities, all expressed in terms of the two basic scaling exponents $a_t$ and $a_H$.
+
+Thus, from the scaling form of the thermodynamic functions, all critical exponents can be written as ratios of just two quantities, $a_t$ and $a_H$. By plotting thermodynamic observables according to the scaling relations implied by the generalized homogeneity of $G(t, H)$, one can in principle determine $a_t$ and $a_H$, and hence obtain the full set of critical exponents. The same style of analysis can be extended to other thermodynamic functions or order parameters, yielding a network of scaling equalities among exponents-relations that, in more rigorous treatments, often appear as inequalities. It is important to remember that the static scaling hypothesis is an assumption rather than a theorem, but it is strongly supported by experimental data, simulations, and renormalization-group theory, and forms the conceptual backbone of the modern theory of critical phenomena.
+
+
 
 ### Renormalization Group
 
