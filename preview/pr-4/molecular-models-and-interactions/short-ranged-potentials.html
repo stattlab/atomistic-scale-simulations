@@ -444,6 +444,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metals-other-problems-with-2-body-interactions">2.5.7. Metals: Other problems with 2-body interactions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#covalently-bonded-molecules">2.5.8. Covalently-bonded Molecules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resorces">2.5.9. Additional Resorces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.5.10. References</a></li>
 </ul>
             </nav>
         </div>
@@ -475,7 +476,7 @@ document.write(`
 </ul>
 </li>
 </ul>
-<p>The non-zero range of the short-ranged potential should not be greater than half the dimension of simulation box, otherwise the atom would “feel” itself if <a class="reference internal" href="periodic-boundary-conditions.html"><span class="std std-doc">periodic boundary conditions</span></a> are imposed.</p>
+<p>The non-zero range of the short-ranged potential should not be greater than half of the smallest simulation box, otherwise the atom would “feel” itself if <a class="reference internal" href="periodic-boundary-conditions.html"><span class="std std-doc">periodic boundary conditions</span></a> are imposed.</p>
 </section>
 <section id="nonbonded-potentials">
 <h2><span class="section-number">2.5.2. </span>Nonbonded Potentials<a class="headerlink" href="#nonbonded-potentials" title="Link to this heading">#</a></h2>
@@ -484,27 +485,27 @@ document.write(`
 <p><span class="math notranslate nohighlight">\( u(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right] \)</span></p>
 <p>Here,
 <span class="math notranslate nohighlight">\(\epsilon\)</span> is maximal well-depth of the attractive part of the potential. It is related to the cohesive energy.
-Here, <span class="math notranslate nohighlight">\(\sigma\)</span> is an effective radii where the “hard core” repulsion is starting to be felt. (Note that <span class="math notranslate nohighlight">\(\sigma\)</span> is about 0.34 nm and <span class="math notranslate nohighlight">\(k_B\)</span> is about 120 K for liquid Argon. Warning: these are not properties arising from isolated pairs of Argon atoms.)</p>
-<p>It is worth mentioning that the L-J potentials has been used to study dynamics in super-cooled liquids, in an effort to understand glass transitions, to study packing of hard-spheres of varying radii, and many other situations. Regarding L-J, as well as many of those to follow, there is a nice review of classical systems if interested (see, Caccamo, “Integral Equation Theory Description of Phase Equilibria in Classical Fluids,” Physics Reports 274, 1 (1996)).</p>
-<p>LJ is by far the most wildely used intramolecular potential. We will focus is on the Lennard-Jones (LJ) potential due to its common use.</p>
+Here, <span class="math notranslate nohighlight">\(\sigma\)</span> is an effective radii where the “hard core” repulsion is starting to be felt. (Note that <span class="math notranslate nohighlight">\(\sigma\)</span> is about 0.34 nm and <span class="math notranslate nohighlight">\(\varepsilon/k_B\)</span> is about 120 K for liquid Argon. Warning: these are not properties arising from isolated pairs of Argon atoms.)</p>
+<p>It is worth mentioning that the L-J potential has been used to study dynamics in super-cooled liquids, in an effort to understand glass transitions, to study packing of hard-spheres of varying radii, and many other situations. Regarding L-J, as well as many of those to follow, there is a nice review of classical systems if interested (see, Caccamo, “Integral Equation Theory Description of Phase Equilibria in Classical Fluids,” Physics Reports 274, 1 (1996)).</p>
+<p>LJ is by far the most widely used intremolecular potential. We will focus on the Lennard-Jones (LJ) potential due to its common use.<span id="id1"><sup><a class="reference internal" href="../references/references.html#id43" title="J. E. Lennard-Jones. On the determination of molecular fields. Proceedings of the Royal Society A, 106(738):463–477, 1924. doi:10.1098/rspa.1924.0082.">17</a></sup></span></p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Once of the reasons why the LJ potential is so popular, is that one can re-use the <span class="math notranslate nohighlight">\( \left( \frac{\sigma}{r} \right)^6\)</span> term by squaring it - thus reducing computational cost. This is much less important with improved hardware.</p>
+<p>One of the reasons why the LJ potential is so popular, is that one can re-use the <span class="math notranslate nohighlight">\( \left( \frac{\sigma}{r} \right)^6\)</span> term by squaring it - thus reducing computational cost. This is much less important with improved hardware.</p>
 </div>
 </section>
 <section id="mie-potential">
 <h3><span class="section-number">2.5.2.2. </span>Mie Potential<a class="headerlink" href="#mie-potential" title="Link to this heading">#</a></h3>
 <p><span class="math notranslate nohighlight">\( u(r) = C \varepsilon \left[ \left( \frac{\sigma}{r} \right)^n - \left( \frac{\sigma}{r} \right)^m \right] \)</span>
 with <span class="math notranslate nohighlight">\( C = \frac{nm}{n - m} \left( \frac{n}{m} \right)^{\frac{m}{n - m}} \)</span></p>
-<p>This is a generaized LJ potential.</p>
+<p>This is a generalized LJ potential.</p>
 </section>
 <section id="morse-potential">
 <h3><span class="section-number">2.5.2.3. </span>Morse Potential<a class="headerlink" href="#morse-potential" title="Link to this heading">#</a></h3>
 <p><span class="math notranslate nohighlight">\( u(r)=D_{e}\left(1-e^{-a(r-r_{e})}\right)^{2}\)</span></p>
-<p>Here <span class="math notranslate nohighlight">\(r\)</span> is the distance between the atoms, <span class="math notranslate nohighlight">\(r_{e}\)</span> is the equilibrium  distance,
+<p>Here <span class="math notranslate nohighlight">\(r\)</span> is the distance between the atoms, <span class="math notranslate nohighlight">\(r_{e}\)</span> is the equilibrium distance,
 <span class="math notranslate nohighlight">\(D_{e}\)</span> is the well depth (defined relative to  dissociated atoms at <span class="math notranslate nohighlight">\(r \rightarrow \infty\)</span>), and
 <span class="math notranslate nohighlight">\(a\)</span> controls the ‘width’ of the potential (the smaller  <span class="math notranslate nohighlight">\(a\)</span> is, the larger the well).</p>
-<p>The Morse potential offers the same properties as Lennard-Jones, however, it allows more intermediate range of interaction and it is more of a bonding-type potential. Most elements, esp. metals, that form solids in the Periodic Table can be fit with this type of potential, at least locally near their equilibrium lattice constant, by choosing the lattice constant, s, the bulk moduli, and the cohesive energy. This is the basis for the so-called Rose Equation of State and the way the Effective Medium Theory choses to reduce parameters in the potential.</p>
+<p>The Morse potential offers the same properties as Lennard-Jones, however, it allows more intermediate range of interaction and it is more of a bonding-type potential. Most elements, esp. metals, that form solids in the Periodic Table can be fit with this type of potential, at least locally near their equilibrium lattice constant, by choosing the lattice constant, s, the bulk moduli, and the cohesive energy. This is the basis for the so-called Rose Equation of State and the way the Effective Medium Theory chooses to reduce parameters in the potential.<span id="id2"><sup><a class="reference internal" href="../references/references.html#id42" title="Philip M. Morse. Diatomic molecules according to the wave mechanics. ii. vibrational levels. Physical Review, 34:57–64, 1929. doi:10.1103/PhysRev.34.57.">22</a></sup></span></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>LJ vs Morse
@@ -521,7 +522,7 @@ Generally: the Morse potential is well suited for modeling diatomic molecules th
 <span class="math notranslate nohighlight">\( u(r)=A{\frac {e^{-\alpha r}}{r}}\)</span></p>
 <p>Double Yukawa
 <span class="math notranslate nohighlight">\( u(r)=A{\frac {e^{-B r} + e^{-C r}}{r}}\)</span></p>
-<p>For those in Physics, you may have come across this potential in regards to nuclear physics, in fact interactions within the nulceus, a field in which Yukawa was honored with a Nobel Prize.  Nonetheless, this is a potential with a functional form which has some appealing properties (see Caccamo, for example).</p>
+<p>For those in Physics, you may have come across this potential in regards to nuclear physics, in fact interactions within the nucleus, a field in which Yukawa was honored with a Nobel Prize.  Nonetheless, this is a potential with a functional form which has some appealing properties (see Caccamo, for example).</p>
 <p>For Soft-sphere-like interactions, the Yukawa offers advantages over the Soft-sphere potential for analytic investigations of thermodynamics. In addition, it can be shown that the Double-Yukawa form adequately reproduces the L-J spatial behavior, however, it offers the ability to perform useful analytic proceedures to study free-energy variationally in some restricted systems (e.g., “Variational Theory of Phase Separation in Binary Liquids,” Foiles and Ashcroft, J. Chem. Phys. 75 3594 (1981)).</p>
 </section>
 <section id="hard-sphere">
@@ -564,7 +565,7 @@ u(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Write <span class="math notranslate nohighlight">\(F_i= -F(r) \hat{r}_{ij} = - \frac{F(r_{ij})}{r_{ij}} \vec{r}_{ij}\)</span>. Then one can write the LJ force in such a way, that only ever <span class="math notranslate nohighlight">\(r^2_{ij}\)</span> is needed, not <span class="math notranslate nohighlight">\(r_{ij}\)</span>, thus avoiding the need for a expensive sqrt operation.</p>
+<p>Write <span class="math notranslate nohighlight">\(F_i= -F(r) \hat{r}_{ij} = - \frac{F(r_{ij})}{r_{ij}} \vec{r}_{ij}\)</span>. Then one can write the LJ force in such a way, that only ever <span class="math notranslate nohighlight">\(r^2_{ij}\)</span> is needed, not <span class="math notranslate nohighlight">\(r_{ij}\)</span>, thus avoiding the need for an expensive sqrt operation.</p>
 </div>
 </section>
 <section id="truncating-and-shifting">
@@ -573,18 +574,18 @@ u(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\
 <p><strong>Truncate</strong>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-u(r) = u_o(r)\theta(r_c-r) = \begin{cases}  &amp;U_o(r)\quad r\leq r_c \\
+u(r) = u_o(r)\theta(r_c-r) = \begin{cases}  &amp;u_o(r)\quad r\leq r_c \\
 &amp;0 \quad r\ge r_c  \end{cases}
 \end{split}\]</div>
 <p>Note that this means that the force has a “jump” at the cutoff, because <span class="math notranslate nohighlight">\(\frac{\partial u}{\partial r}\)</span> now has a <span class="math notranslate nohighlight">\(\delta(r_c-r)\)</span> term from the Heaviside function <span class="math notranslate nohighlight">\(\theta\)</span>, if <span class="math notranslate nohighlight">\(U_o(r_c) \neq 0\)</span>. These jumps contribute to the energy and can compromise energy <span class="math notranslate nohighlight">\(E=U+T\)</span> conservation.</p>
 <p><strong>Truncate</strong> and <strong>shift</strong>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-u(r) = \left[u_o(r)-u_o(r_c)\right]\theta(r_c-r) =\begin{cases}  U_o(r)-u_o(r_c)\quad r\leq r_c \\
+u(r) = \left[u_o(r)-u_o(r_c)\right]\theta(r_c-r) =\begin{cases}  u_o(r)-u_o(r_c)\quad r\leq r_c \\
 0 \quad r\ge r_c  \end{cases}
 \end{split}\]</div>
 <p>Here <span class="math notranslate nohighlight">\(\frac{\partial u}{\partial r}\)</span> is finite but might be discontinous.
-Shifted potentials do contribute, i.e. technically their Hamiltonian and phase spache is not identical to the original potential anymore. This means that properties like their phase boundaries and critical points will be changed as well.  Moreover, the force is discontinous at <span class="math notranslate nohighlight">\(r_c\)</span>. (e.g. for L-J, the discontinuity is <span class="math notranslate nohighlight">\(0.039 \epsilon/\sigma\)</span> for <span class="math notranslate nohighlight">\(r_c=2.5\)</span>.) This discontinuity can cause numerical instabilities, which may be eliminated using a <strong>shifted-force potential</strong>, for example. One can apply <strong>smoothing functions</strong>, e.g. polynominals (xplor).</p>
+Shifted potentials do contribute, i.e. technically their Hamiltonian and phase space is not identical to the original potential anymore. This means that properties like their phase boundaries and critical points will be changed as well.  Moreover, the force is discontinous at <span class="math notranslate nohighlight">\(r_c\)</span>. (e.g. for L-J, the discontinuity is <span class="math notranslate nohighlight">\(0.039 \epsilon/\sigma\)</span> for <span class="math notranslate nohighlight">\(r_c=2.5\)</span>.) This discontinuity can cause numerical instabilities, which may be eliminated using a <strong>shifted-force potential</strong>, for example. One can apply <strong>smoothing functions</strong>, e.g. polynominals (xplor).</p>
 <div class="dropdown admonition">
 <p class="admonition-title">Derivative of the Heaviside function</p>
 <div class="math notranslate nohighlight">
@@ -596,35 +597,43 @@ $<span class="math notranslate nohighlight">\(
 \theta\left(x-x_0\right)= \begin{cases}1, &amp; x \geqslant x_0 \\ 0, &amp; x&lt;x_0\end{cases}
 \)</span>$
 is the Heaviside function.</p>
-<p>Define a test function <span class="math notranslate nohighlight">\(\phi(x)\)</span> that goes to 0 sufficiently quickly as <span class="math notranslate nohighlight">\(x \rightarrow \pm \infty\)</span>.
-$<span class="math notranslate nohighlight">\(
-\int_{-\infty}^{\infty} dx \left[f(x) \theta\left(x-x_0\right)\right]^{\prime} \phi(x) =f\left(\left.x\left|\theta_{x-x_0}\right| \phi(x)\right|_{-\infty}^{\infty}-\int_{-\infty}^{\infty} d x f(x) \theta\left(x-x_0\right) \phi^{\prime}(x)\right. \\
-\)</span>$</p>
-<p>by parts, <span class="math notranslate nohighlight">\(\phi\)</span> vanishes at <span class="math notranslate nohighlight">\(\infty\)</span>.</p>
+<p>Define a test function <span class="math notranslate nohighlight">\(\phi(x)\)</span> that goes to 0 sufficiently quickly as <span class="math notranslate nohighlight">\(x \rightarrow \pm \infty\)</span>.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
- =-\int_{x_0}^{\infty} dx f(x) \phi^{\prime}(x) \\
- =-\left[\left.f(x) \phi(x)\right|_{x_0} ^{\infty}-\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)\right]
- \end{split}\]</div>
-<p>Then,</p>
+\[
+\int_{-\infty}^{\infty} dx \left[f(x) \theta\left(x-x_0\right)\right]^{\prime} \phi(x) = \left[ f(x)\theta(x-x_0) \phi(x) \right]_{-\infty}^{\infty}-\int_{-\infty}^{\infty} d x f(x) \theta\left(x-x_0\right) \phi^{\prime}(x)
+\]</div>
+<p>by parts, <span class="math notranslate nohighlight">\(\phi\)</span> vanishes at <span class="math notranslate nohighlight">\(\pm \infty\)</span>.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-=-\left[-f\left(x_0\right) \phi\left(x_0\right)-\int_{x_0}^{\infty} d x f^{\prime}(x) \phi(x)\right] \\
-\end{split}\]</div>
-<p><span class="math notranslate nohighlight">\(\phi\)</span> vansles at <span class="math notranslate nohighlight">\(\infty\)</span></p>
+\[
+ =-\int_{x_0}^{\infty} dx f(x) \phi^{\prime}(x)
+\]</div>
+<p>Integrate by parts again:</p>
+<div class="math notranslate nohighlight">
+\[
+ =-\left[ \left. f(x) \phi(x)\right|_{x_0} ^{\infty}-\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)\right]
+\]</div>
+<p>Then, since <span class="math notranslate nohighlight">\(\phi\)</span> vanishes at <span class="math notranslate nohighlight">\(\infty\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+ =-\left[-f\left(x_0\right) \phi\left(x_0\right)-\int_{x_0}^{\infty} d x f^{\prime}(x) \phi(x)\right]
+\]</div>
 <div class="math notranslate nohighlight">
 \[
  =f\left(x_0\right) \phi\left(x_0\right)+\int_{x_0}^{\infty} dx f^{\prime}(x) \phi(x)
 \]</div>
-<p>with <span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} d x f(x) \delta\left(x-x_0\right)=f\left(x_0\right)\)</span>.</p>
+<p>Using the property <span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} d x f(x) \delta\left(x-x_0\right)=f\left(x_0\right)\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-=\int_{-\infty}^{\infty} d x f\left(x_0\right) \delta\left(x-x_0\right) \phi(x)+\int_{-\infty}^{\infty} d x f^{\prime}(x) \theta\left(x-x_0\right) \phi(x) \\
+\[
+=\int_{-\infty}^{\infty} d x f\left(x_0\right) \delta\left(x-x_0\right) \phi(x)+\int_{-\infty}^{\infty} d x f^{\prime}(x) \theta\left(x-x_0\right) \phi(x)
+\]</div>
+<p>Combining terms:</p>
+<div class="math notranslate nohighlight">
+\[
 =\int_{-\infty}^{\infty} d x \underbrace{\left[f\left(x_0\right) \delta\left(x-x_0\right)+f^{\prime}(x) \theta\left(x-x_0\right)\right]} \phi(x)
-\end{split}\]</div>
-<p>combine terms.</p>
-<p>Note that could also choose <span class="math notranslate nohighlight">\(f(x)\)</span> rater them <span class="math notranslate nohighlight">\(f\left(x_0\right)\)</span>. Since <span class="math notranslate nohighlight">\(\delta\left(x-x_0\right)\)</span> “cicks on” only at <span class="math notranslate nohighlight">\(x_0\)</span>, it doesn’t really care about the other values of <span class="math notranslate nohighlight">\(x\)</span>.</p>
-<p>This is a “product rule” for Heaviside function.</p>
+\]</div>
+<p>Note that we could also choose <span class="math notranslate nohighlight">\(f(x)\)</span> rather than <span class="math notranslate nohighlight">\(f\left(x_0\right)\)</span>. Since <span class="math notranslate nohighlight">\(\delta\left(x-x_0\right)\)</span> “clicks on” only at <span class="math notranslate nohighlight">\(x_0\)</span>, it doesn’t really care about the other values of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>This is a “product rule” for the Heaviside function.
+<strong>Shifted-force Potential</strong>:</p>
 </div>
 <p><strong>Shifted-force Potential</strong>:</p>
 <div class="math notranslate nohighlight">
@@ -646,17 +655,18 @@ energy and the force go smoothly to zero at the desired cutoff distance. Polynom
 <p>For unlike atom types <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>, use mixing rules on LJ parameters. There are many different ones, falling into two categories, arithmetic <span class="math notranslate nohighlight">\(x_{ij}=(x_j+x_i)/2\)</span> or geometric <span class="math notranslate nohighlight">\(x_{ij}=\sqrt{x_i\cdot x_j}\)</span>.</p>
 <p>Commonly used mixing rules are:</p>
 <p><strong>Lorentz-Berthelot</strong>:
-test</p>
-<p><span class="math notranslate nohighlight">\(
-\sigma_{ij} = \frac{\sigma_{ii}+\sigma_{jj}}{2}
-\epsilon_{ij} = \sqrt{\epsilon_{ii}\epsilon_{jj}}
-\)</span></p>
-<p><strong>Kong</strong>:
-test</p>
-<p><span class="math notranslate nohighlight">\(
+$<span class="math notranslate nohighlight">\(
+\sigma_{ij} = \frac{\sigma_{ii}+\sigma_{jj}}{2} \quad ; \quad \epsilon_{ij} = \sqrt{\epsilon_{ii}\epsilon_{jj}}
+\)</span>$</p>
+<p><strong>Kong</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
 \epsilon_{ij}\sigma_{ij}^{6} = \left(\epsilon _{ii}\sigma_{ii}^{6}\epsilon_{jj}\sigma_{jj}^{6}\right)^{1/2}
- \epsilon_{ij}\sigma_{ij}^{12} = \left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
-\)</span></p>
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_{ij}\sigma_{ij}^{12} = \left[{\frac {(\epsilon_{ii}\sigma_{ii}^{12})^{1/13}+(\epsilon_{jj}\sigma_{jj}^{12})^{1/13}}{2}}\right]^{13}
+\]</div>
 <section id="criteria-for-choosing-a-potential">
 <h3><span class="section-number">2.5.5.1. </span>Criteria for Choosing a Potential<a class="headerlink" href="#criteria-for-choosing-a-potential" title="Link to this heading">#</a></h3>
 <p>What science are you wanting to address?  What does it require, as far as accuracy of forces or energetics, and so on?
@@ -666,7 +676,7 @@ The three main criteria for choosing a potential are:</p>
 <li><p>Transferability: Applicable to more situations for which the potential was NOT fit.</p></li>
 <li><p>Computational Speed: Force calculations are the most time consuming part of simulation, e.g., so they should be as fast as possible (meaning potentials should be as simple as possible). A 2-body potential <span class="math notranslate nohighlight">\(V(rij)\)</span>  depends only on distance between atoms, i.e., <span class="math notranslate nohighlight">\(|ri-rj|\)</span>; whereas a 3-body potential will depend on orientation which will require more computation.</p></li>
 </ul>
-<p>Typical emphasis for various discplines include:</p>
+<p>Typical emphasis for various disciplines include:</p>
 <ul class="simple">
 <li><p>Chemistry:    Accuracy
 Rate constants, for example, require very accurate reaction barriers.</p></li>
@@ -701,10 +711,14 @@ For example, to model Polyethylene, one requires a potential to deal with   bond
 <p>Let us now discuss some of the theoretical ideas that go into determining potentials. Looking at the periodic table, there are three common situations.</p>
 <section id="noble-gases">
 <h3><span class="section-number">2.5.6.1. </span>Noble Gases<a class="headerlink" href="#noble-gases" title="Link to this heading">#</a></h3>
-<p>These are the non-bonding, rare gases (e.g., Kr and Ar) where the electronic shells are closed. Thus means they are spherically symmetric, with rather weak, but long-ranged, van der Waals type interactions. They were the first systems to be simulated and pair potentials work best for them. For this case, a oft used pair potentials is the Lennard-Jones (6-12) potential.</p>
-<p>At large distances (r &gt;&gt; r0, the equilibrium distance) one can undestand the interaction by considering how two oscillators would interact, giving an r-6 attraction, where the coefficient is determined by the atomic polarizibility (arising due ot correlations between electron clouds surrounding atoms and give van der Waals (dipole-dipole) interactions.) On the other hand, at short distances (r &lt;&lt; r0), the potentials are strongly repulsive because of the Pauli exclusion principle (electrons are fermions). Lennard-Jones assumed a stronger inverse power law, conveniently r-12. One should not think the Lennard-Jones (L-J) potential as anything more fundamental than this.</p>
+<p>These are the non-bonding, rare gases (e.g., Kr and Ar) where the electronic shells are closed. Thus means they are spherically symmetric, with rather weak, but long-ranged, van der Waals type interactions. They were the first systems to be simulated and pair potentials work best for them. For this case, a commonly used pair potentials is the Lennard-Jones (6-12) potential.</p>
+<p>At large distances (r &gt;&gt; r0, the equilibrium distance) one can undestand the interaction by considering how two oscillators would interact, giving an r-6 attraction, where the coefficient is determined by the atomic polarizibility (arising due to correlations between electron clouds surrounding atoms and give van der Waals (dipole-dipole) interactions.) On the other hand, at short distances (r &lt;&lt; r0), the potentials are strongly repulsive because of the Pauli exclusion principle (electrons are fermions). Lennard-Jones assumed a stronger inverse power law, conveniently r-12. One should not think the Lennard-Jones (L-J) potential as anything more fundamental than this.</p>
 <p>Even for Argon it is only accurate to 10% or so. And three-body potentials can be significant at the 10% level (more in case of polarizable species). An example of the difference between the simple L-J 6-12 potential and one that has been constructed using a large quantity of experimental data is on pg. 8 of A&amp;T. The potentials that are fit to bulk data are really effective potentials and could be somewhat different than the real 2-body potential that would be determined from gas-phase data because they include corrections for three- and higher-body interactions, for, in effect, the two-body potential is obtained by averaging over the third spatial coordinate:</p>
-<p>(1/Volume)  drk V3i (ri,rj,rk) = V2(3)(rij)      so that V®=(1/2)ij V2eff(rij).</p>
+<div class="math notranslate nohighlight">
+\[
+V(r) = \frac{1}{2} \sum_{i\neq j} V_2(r_{ij})，\qquad
+V_2(r_{ij})=\frac{1}{V} \int d\mathbf{r}_k\, V_3(\mathbf{r}_i,\mathbf{r}_j,\mathbf{r}_k)
+\]</div>
 <p>Hence, the effective potentials can be dependent upon density and less so on temperature.</p>
 </section>
 </section>
@@ -742,7 +756,13 @@ In the formula page we show the potential used in the Embedded Atom Method (EAM)
 </li>
 <li><p>more mixing rules from <a class="reference external" href="https://en.wikipedia.org/wiki/Combining_rules">Wikipedia</a></p></li>
 </ul>
-<p>test</p>
+</section>
+<section id="references">
+<h2><span class="section-number">2.5.10. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://journals.aps.org/pr/abstract/10.1103/PhysRev.34.57">Diatomic Molecules According to the Wave Mechanics. II. Vibrational Levels, Morse, Philip M.</a><span id="id3"><sup><a class="reference internal" href="../references/references.html#id42" title="Philip M. Morse. Diatomic molecules according to the wave mechanics. ii. vibrational levels. Physical Review, 34:57–64, 1929. doi:10.1103/PhysRev.34.57.">22</a></sup></span></p></li>
+<li><p><a class="reference external" href="https://royalsocietypublishing.org/rspa/article/106/738/463/1722/On-the-determination-of-molecular-fields-II-From">On the Determination of Molecular Fields, Lennard-Jones, J. E. (1924)</a><span id="id4"><sup><a class="reference internal" href="../references/references.html#id43" title="J. E. Lennard-Jones. On the determination of molecular fields. Proceedings of the Royal Society A, 106(738):463–477, 1924. doi:10.1098/rspa.1924.0082.">17</a></sup></span></p></li>
+</ul>
 </section>
 </section>
 
@@ -835,6 +855,7 @@ In the formula page we show the potential used in the Embedded Atom Method (EAM)
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metals-other-problems-with-2-body-interactions">2.5.7. Metals: Other problems with 2-body interactions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#covalently-bonded-molecules">2.5.8. Covalently-bonded Molecules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resorces">2.5.9. Additional Resorces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.5.10. References</a></li>
 </ul>
   </nav></div>
 

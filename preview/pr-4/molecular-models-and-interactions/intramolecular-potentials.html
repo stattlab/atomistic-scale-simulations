@@ -571,13 +571,13 @@ F_j = F_b(r_{ij}) \hat r_{ij} \quad.
 &lt;&gt;:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:26: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_2167/129747257.py:26: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_2283/129747257.py:26: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   axs[0].set_ylabel(&#39;$U_{\mathrm{bond}}(r)$&#39;)
-/tmp/ipykernel_2167/129747257.py:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_2283/129747257.py:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   axs[1].set_ylabel(&#39;$F_{\mathrm{bond}}(r)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/aa627fd4da2cb8f487be8ffbdbc6b0edf88916080b55d1cf452e179b4c7bdd3a.png" src="../_images/aa627fd4da2cb8f487be8ffbdbc6b0edf88916080b55d1cf452e179b4c7bdd3a.png" />
+<img alt="../_images/b6c0481e239f9054b4e69e23ff3eaab33a2648211e48b8953ca5f38597dbbc31.png" src="../_images/b6c0481e239f9054b4e69e23ff3eaab33a2648211e48b8953ca5f38597dbbc31.png" />
 </div>
 </details>
 </div>
@@ -657,11 +657,11 @@ F_j &amp;= - (r_{ij}-r_0) \hat r_{ij} \quad .
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_2167/912570185.py:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_2283/912570185.py:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   axs.set_ylabel(&#39;$U_{\mathrm{bond}}(r)-U_\mathrm{min}$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/b13c0a68ee496f4a27fd0f36c886bcf1b21657bbf82029f15221e9e9255630af.png" src="../_images/b13c0a68ee496f4a27fd0f36c886bcf1b21657bbf82029f15221e9e9255630af.png" />
+<img alt="../_images/735b873e66e986296ee0bdb0ced125639e92b67d0737e253aed71d6092b749d5.png" src="../_images/735b873e66e986296ee0bdb0ced125639e92b67d0737e253aed71d6092b749d5.png" />
 </div>
 </details>
 </div>
@@ -794,7 +794,7 @@ U_\theta(\theta) = \frac{k}{2} (\cos\theta - \cos\theta_O)^2
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/34fb8bd2f1f43ecce6cbea73b222e80df1c86383ca61fa130a4ed4117232d45d.png" src="../_images/34fb8bd2f1f43ecce6cbea73b222e80df1c86383ca61fa130a4ed4117232d45d.png" />
+<img alt="../_images/77324d6601039ccbbe218779c11af9159325878b7e3a11c85bbdd12db85c3536.png" src="../_images/77324d6601039ccbbe218779c11af9159325878b7e3a11c85bbdd12db85c3536.png" />
 </div>
 </details>
 </div>
@@ -833,10 +833,10 @@ F_i &amp;= -\nabla_i U_\phi(\phi_{ijkl})\\
 &amp;= - \frac{\partial U_\phi}{\partial \phi_{ijkl} } \frac{\partial \phi_{ijkl}}{\partial \cos(\phi_{ijkl})} \nabla_i \cos\phi_{ijkl} \\
 &amp;= -F_\phi \frac{1}{\sin(\phi_{ijkl})} \nabla_i \cos\phi_{ijkl}\quad .
 \end{split}\]</div>
-<p>This results in some involved computations, see Allen &amp; Tildesley<span id="id2"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">1</a></sup></span> for a step by step derivation in Appendix C.</p>
+<p>This results in some involved computations, see Allen &amp; Tildesley<span id="id2"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span> for a step by step derivation in Appendix C.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The same singularities as for the angle forces show up at <span class="math notranslate nohighlight">\(\phi_{ijkl}=0^\circ\)</span> and <span class="math notranslate nohighlight">\(180^\circ\)</span> but one can eliminate them (details in <a class="reference external" href="https://doi.org/10.1002/(SICI)1096-987X(19960715)17:9%3C1132::AID-JCC5%3E3.0.CO;2-T">Bondel, Karplus, J. Comput. Chem., 17: 1132-1141, 1996</a>)<span id="id3"><sup><a class="reference internal" href="../references/references.html#id18" title="Arnaud Blondel and Martin Karplus. New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: elimination of singularities. Journal of computational chemistry, 17(9):1132–1141, 1996.">3</a></sup></span>.</p>
+<p>The same singularities as for the angle forces show up at <span class="math notranslate nohighlight">\(\phi_{ijkl}=0^\circ\)</span> and <span class="math notranslate nohighlight">\(180^\circ\)</span> but one can eliminate them (details in <a class="reference external" href="https://doi.org/10.1002/(SICI)1096-987X(19960715)17:9%3C1132::AID-JCC5%3E3.0.CO;2-T">Bondel, Karplus, J. Comput. Chem., 17: 1132-1141, 1996</a>)<span id="id3"><sup><a class="reference internal" href="../references/references.html#id18" title="Arnaud Blondel and Martin Karplus. New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: elimination of singularities. Journal of computational chemistry, 17(9):1132–1141, 1996.">4</a></sup></span>.</p>
 <p>However, <span class="math notranslate nohighlight">\(\phi\)</span> becomes also degenerate if <span class="math notranslate nohighlight">\(\theta_{ijk}\)</span> or <span class="math notranslate nohighlight">\(\theta_{jkl}\)</span> approaches <span class="math notranslate nohighlight">\(0^\circ\)</span> or <span class="math notranslate nohighlight">\(180^\circ\)</span> because the two planes to define the dihedral cannot be defined in these cases. This is important for models with “soft” interactions, where these configurations are possible, e.g. coarse-grained models.</p>
 </div>
 <section id="periodic">
@@ -878,9 +878,9 @@ so called <strong>improper</strong> dihedrals, that can be applied to keep plana
 <section id="references">
 <h2><span class="section-number">2.4.5. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix C.2 - Calculation of forces and torques <span id="id4"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">1</a></sup></span></p></li>
-<li><p>“Note: Smooth torsional potentials for degenerate dihedral angles” Michael P. Howard, Antonia Statt, Athanassios Z. Panagiotopoulos, J. Chem. Phys. 146, 226101 (2017)<span id="id5"><sup><a class="reference internal" href="../references/references.html#id19" title="Michael P Howard, Antonia Statt, and Athanassios Z Panagiotopoulos. Note: smooth torsional potentials for degenerate dihedral angles. The Journal of chemical physics, 2017.">10</a></sup></span></p></li>
-<li><p>Blondel, A. and Karplus, M., “New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: Elimination of singularities.” J. Comput. Chem., 17: 1132-1141. (1996)<span id="id6"><sup><a class="reference internal" href="../references/references.html#id18" title="Arnaud Blondel and Martin Karplus. New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: elimination of singularities. Journal of computational chemistry, 17(9):1132–1141, 1996.">3</a></sup></span></p></li>
+<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix C.2 - Calculation of forces and torques <span id="id4"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
+<li><p>“Note: Smooth torsional potentials for degenerate dihedral angles” Michael P. Howard, Antonia Statt, Athanassios Z. Panagiotopoulos, J. Chem. Phys. 146, 226101 (2017)<span id="id5"><sup><a class="reference internal" href="../references/references.html#id19" title="Michael P Howard, Antonia Statt, and Athanassios Z Panagiotopoulos. Note: smooth torsional potentials for degenerate dihedral angles. The Journal of chemical physics, 2017.">12</a></sup></span></p></li>
+<li><p>Blondel, A. and Karplus, M., “New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: Elimination of singularities.” J. Comput. Chem., 17: 1132-1141. (1996)<span id="id6"><sup><a class="reference internal" href="../references/references.html#id18" title="Arnaud Blondel and Martin Karplus. New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: elimination of singularities. Journal of computational chemistry, 17(9):1132–1141, 1996.">4</a></sup></span></p></li>
 <li><p><a class="reference external" href="https://manual.gromacs.org/current/reference-manual/functions/bonded-interactions.html">Gromacs Documentation on Intramolecular Potentials</a></p></li>
 </ul>
 </section>

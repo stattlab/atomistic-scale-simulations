@@ -447,7 +447,7 @@ document.write(`
 <p>Example: Simulate nanoparticles in a solvent.
 If we use an explicit solvent model, our system looks like this.</p>
 <figure class="align-center" id="explicit-solvent-model-example">
-<a class="reference internal image-reference" href="../_images/Explicit_solvent_model_example.jpg"><img alt="Visualization of explicit solvent model with Au nanoparticles in water." src="../_images/Explicit_solvent_model_example.jpg" style="width: 200px;" />
+<a class="reference internal image-reference" href="../_images/Explicit_solvent_model_example.jpg"><img alt="Visualization of explicit solvent model with Au nanoparticles in water." src="../_images/Explicit_solvent_model_example.jpg" style="width: 400px;" />
 </a>
 <figcaption>
 <p><span class="caption-number">Fig. 4.2 </span><span class="caption-text">Schematic of the visualization for a modeling of Au nanoparticles in water by explicit solvent model.</span><a class="headerlink" href="#explicit-solvent-model-example" title="Link to this image">#</a></p>
@@ -465,7 +465,7 @@ If we use an explicit solvent model, our system looks like this.</p>
 </ul>
 <p>Example: Simulate nanoparticles in a solvent.</p>
 <figure class="align-center" id="implicit-solvent-model-example">
-<a class="reference internal image-reference" href="../_images/Implicit_solvent_model_example.jpg"><img alt="Visualization of implicit solvent model with Au nanoparticles in water." src="../_images/Implicit_solvent_model_example.jpg" style="width: 200px;" />
+<a class="reference internal image-reference" href="../_images/Implicit_solvent_model_example.jpg"><img alt="Visualization of implicit solvent model with Au nanoparticles in water." src="../_images/Implicit_solvent_model_example.jpg" style="width: 400px;" />
 </a>
 <figcaption>
 <p><span class="caption-number">Fig. 4.3 </span><span class="caption-text">Schematic of the visualization for a modeling of Au nanoparticles in water by implicit solvent model.</span><a class="headerlink" href="#implicit-solvent-model-example" title="Link to this image">#</a></p>
@@ -525,7 +525,11 @@ df = \frac{\partial f}{\partial t}\, dt + \frac{\partial f}{\partial v}\, dv \,\
 <p>As <span class="math notranslate nohighlight">\(\langle dW_t \rangle = 0, \,\, \langle dW_t^2 \rangle = dt\)</span>, substituting <span class="math notranslate nohighlight">\(dv\)</span> with <span class="math notranslate nohighlight">\(A(v,t) \,dt + B(v, t) \, dW_t\)</span>. Since <span class="math notranslate nohighlight">\(d W_t\)</span> is a stochastic term, it is expanded and considered up to 2nd order.</p>
 <div class="math notranslate nohighlight">
 \[
-df = f_t \, dt + f_v \, dv + \frac{1}{2} f_{vv} \, (dv)^2 =f_t \, dt + f_v \, (A(v,t) \,dt + B(v, t) \, dW_t) + f_{vv} \, (A(v,t) \,dt + B(v, t) \, dW_t)^2
+df = f_t \, dt + f_v \, dv + \frac{1}{2} f_{vv} \, (dv)^2
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+df = f_t \, dt + f_v \, (A(v,t) \,dt + B(v, t) \, dW_t) + f_{vv} \, (A(v,t) \,dt + B(v, t) \, dW_t)^2
 \]</div>
 <p>Using Itô’s lemma, <span class="math notranslate nohighlight">\((dt)^2 = 0,\, dt dW_t = 0, \, (d W_t)^2 = dt\)</span>.</p>
 <div class="math notranslate nohighlight">
@@ -584,17 +588,19 @@ x(t+\Delta t)
 <li><p>Half-step velocity update:</p></li>
 </ol>
 <div class="math notranslate nohighlight">
-\[
+\[\begin{split}
+\begin{aligned}
 v(t+\Delta t)
-= v\!\left(t+\frac{\Delta t}{2}\right)
-+ \frac{\Delta t}{2m} F(t+\Delta t)
-\,\, \rightarrow \,\,
-v(t+\Delta t)
-= v\!\left(t+\frac{\Delta t}{2}\right)
-+ \frac{\Delta t}{2m} F(t+\Delta t)
-- \frac{\gamma \Delta t}{2}v\!\left(t+\frac{\Delta t}{2}\right)
-+ \frac{\sigma}{2m}G_2\sqrt{\Delta t}
-\]</div>
+&amp;= v\!\left(t+\frac{\Delta t}{2}\right)
+ + \frac{\Delta t}{2m} F(t+\Delta t)
+\\
+&amp;\rightarrow v(t+\Delta t)
+ = v\!\left(t+\frac{\Delta t}{2}\right)
+ + \frac{\Delta t}{2m} F(t+\Delta t)
+ - \frac{\gamma \Delta t}{2}v\!\left(t+\frac{\Delta t}{2}\right)
+ + \frac{\sigma}{2m}G_2\sqrt{\Delta t}
+\end{aligned}
+\end{split}\]</div>
 <p>Note that <span class="math notranslate nohighlight">\(G_1 G_2\)</span> are random standardized Gaussian variables, they represent the thermal noise and are independent of each other so <span class="math notranslate nohighlight">\(\langle G_1 G_2\rangle = 0\)</span>.</p>
 <p>However, to retain symplectic properties, sophisticated schemes are highly recommended. A good reference for sophisticated algorithms that implement Langevin dynamics is “[Robust and eﬀicient configurational molecular sampling via Langevin dynamics, Leimkuhler; Matthews, J. Chem. Phys. 138, 174102 (2013)]”.</p>
 <p>One popular algorithm is “BAOAB”, which means “B (force) <span class="math notranslate nohighlight">\(\rightarrow\)</span> A (drift) <span class="math notranslate nohighlight">\(\rightarrow\)</span> O (thermostat) <span class="math notranslate nohighlight">\(\rightarrow\)</span> A (drift) <span class="math notranslate nohighlight">\(\rightarrow\)</span> B (force)”.</p>
@@ -702,7 +708,7 @@ dx = \frac{F(r(t))}{\gamma} dt + \sqrt{2D} dW_t
 <p>The Brownian equation describes the motion of a particle in highly viscous environments. At each infinitesimal timestep, the particle moves in the direction of force with a velocity of <span class="math notranslate nohighlight">\(\frac{F(r(t))}{\gamma}\)</span> and diffuses due to the random thermal kick by the surrounding fluid.</p>
 <p>A good example of the Brownian motion is the <strong>Perrin experiment</strong>, where the experiment used a microscope to observe the three tracings of the motion of colloidal particles of radius <span class="math notranslate nohighlight">\(0.53 \mu m\)</span>.</p>
 <figure class="align-center" id="perrin-experiment">
-<a class="reference internal image-reference" href="../_images/Perrin_Experiment.jpg"><img alt="The Colloidal motions under microscope in Perrin experiment." src="../_images/Perrin_Experiment.jpg" style="width: 200px;" />
+<a class="reference internal image-reference" href="../_images/Perrin_Experiment.jpg"><img alt="The Colloidal motions under microscope in Perrin experiment." src="../_images/Perrin_Experiment.jpg" style="width: 400px;" />
 </a>
 <figcaption>
 <p><span class="caption-number">Fig. 4.4 </span><span class="caption-text">The Colloidal motions under microscope in Perrin experiment.</span><a class="headerlink" href="#perrin-experiment" title="Link to this image">#</a></p>
@@ -732,7 +738,10 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
 \[
 \mathrm{E}\!\left[\left(\int_0^t g_t\, dW_t \right)^2\right]
 = 
-\mathrm{E}\!\left[\int_0^t g_t^2\, dt \right] \rightarrow
+\mathrm{E}\!\left[\int_0^t g_t^2\, dt \right]
+\]</div>
+<div class="math notranslate nohighlight">
+\[
 \mathrm{Var} [x(t) - x(0)] = \mathrm{E}\!\left[ \int_0^t \sqrt{2D} \, dW_t\right] = \mathrm{E}\!\left[ \int_0^t 2D \, dt\right] = 2Dt
 \]</div>
 <p>Therefore, the mean square can be calculated as:</p>
@@ -922,15 +931,15 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
 <section id="references">
 <h2><span class="section-number">4.4.8. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span id="id2"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">1</a></sup></span></p></li>
-<li><p>Seifert, U. (2025). Stochastic Thermodynamics. Cambridge University Press. <span id="id3"><sup><a class="reference internal" href="../references/references.html#id23" title="Udo Seifert. Stochastic Thermodynamics. Cambridge University Press, 2025.">25</a></sup></span></p></li>
-<li><p>Gardiner, C. W. (2009). Stochastic Methods: A Handbook for the Natural and Social Sciences. Springer. <span id="id4"><sup><a class="reference internal" href="../references/references.html#id24" title="Crispin W. Gardiner. Stochastic Methods: A Handbook for the Natural and Social Sciences. Springer Series in Synergetics, 2009.">8</a></sup></span></p></li>
-<li><p>Ermak, D. L., &amp; McCammon, J. A. (1978). <em>Brownian dynamics with hydrodynamic interactions</em>. <em>J. Chem. Phys.</em>, 69(4), 1352–1360. <span id="id5"><sup><a class="reference internal" href="../references/references.html#id25" title="Donald L. Ermak and J. Andrew McCammon. Brownian dynamics with hydrodynamic interactions. The Journal of Chemical Physics, 69(4):1352-1360, 1978.">5</a></sup></span></p></li>
-<li><p>Kubo, R. (1966). <em>The fluctuation–dissipation theorem</em>. <em>Rep. Prog. Phys.</em>, 29(1), 255–284. <span id="id6"><sup><a class="reference internal" href="../references/references.html#id26" title="Ryogo Kubo. The fluctuation-dissipation theorem. Reports on Progress in Physics, 29(1):255-284, 1966.">12</a></sup></span></p></li>
-<li><p>Risken, H. (1996). <em>The Fokker–Planck Equation: Methods of Solution and Applications</em>. Springer. <span id="id7"><sup><a class="reference internal" href="../references/references.html#id27" title="H. Risken. Fokker-planck equation: methods of solution and applications. Springer Series in Synergetics, 1996.">23</a></sup></span></p></li>
-<li><p>van Kampen, N. G. (2007). <em>Stochastic Processes in Physics and Chemistry</em>. North-Holland. <span id="id8"><sup><a class="reference internal" href="../references/references.html#id28" title="N. G. van Kampen. Stochastic Processes in Physics and Chemistry. North-Holland, 2007.">33</a></sup></span></p></li>
-<li><p>Leimkuhler, B., &amp; Matthews, C. (2013). <em>Robust and efficient configurational molecular sampling via Langevin dynamics</em>. <em>J. Chem. Phys.</em>, 138(17), 174102. <span id="id9"><sup><a class="reference internal" href="../references/references.html#id29" title="Benedict Leimkuhler and Charles Matthews. Robust and efficient configurational molecular sampling via langevin dynamics. The Journal of Chemical Physics, 138(17):174102, 2013.">14</a></sup></span></p></li>
-<li><p>R. W. Balluffi, S. A. Allen, W. C. Carter (2005), <em>Kinetics of materials</em>, John Wiley  &amp; Sons, Inc. <span id="id10"><sup><a class="reference internal" href="../references/references.html#id30" title="R. W. Balluffi, S. M. Allen, and W. C. Carter. Kinetics of Materials. Wiley-Interscience, 2005.">2</a></sup></span></p></li>
+<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span id="id2"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
+<li><p>Seifert, U. (2025). Stochastic Thermodynamics. Cambridge University Press. <span id="id3"><sup><a class="reference internal" href="../references/references.html#id23" title="Udo Seifert. Stochastic Thermodynamics. Cambridge University Press, 2025.">29</a></sup></span></p></li>
+<li><p>Gardiner, C. W. (2009). Stochastic Methods: A Handbook for the Natural and Social Sciences. Springer. <span id="id4"><sup><a class="reference internal" href="../references/references.html#id24" title="Crispin W. Gardiner. Stochastic Methods: A Handbook for the Natural and Social Sciences. Springer Series in Synergetics, 2009.">9</a></sup></span></p></li>
+<li><p>Ermak, D. L., &amp; McCammon, J. A. (1978). <em>Brownian dynamics with hydrodynamic interactions</em>. <em>J. Chem. Phys.</em>, 69(4), 1352–1360. <span id="id5"><sup><a class="reference internal" href="../references/references.html#id25" title="Donald L. Ermak and J. Andrew McCammon. Brownian dynamics with hydrodynamic interactions. The Journal of Chemical Physics, 69(4):1352-1360, 1978.">6</a></sup></span></p></li>
+<li><p>Kubo, R. (1966). <em>The fluctuation–dissipation theorem</em>. <em>Rep. Prog. Phys.</em>, 29(1), 255–284. <span id="id6"><sup><a class="reference internal" href="../references/references.html#id26" title="Ryogo Kubo. The fluctuation-dissipation theorem. Reports on Progress in Physics, 29(1):255-284, 1966.">14</a></sup></span></p></li>
+<li><p>Risken, H. (1996). <em>The Fokker–Planck Equation: Methods of Solution and Applications</em>. Springer. <span id="id7"><sup><a class="reference internal" href="../references/references.html#id27" title="H. Risken. Fokker-planck equation: methods of solution and applications. Springer Series in Synergetics, 1996.">27</a></sup></span></p></li>
+<li><p>van Kampen, N. G. (2007). <em>Stochastic Processes in Physics and Chemistry</em>. North-Holland. <span id="id8"><sup><a class="reference internal" href="../references/references.html#id28" title="N. G. van Kampen. Stochastic Processes in Physics and Chemistry. North-Holland, 2007.">38</a></sup></span></p></li>
+<li><p>Leimkuhler, B., &amp; Matthews, C. (2013). <em>Robust and efficient configurational molecular sampling via Langevin dynamics</em>. <em>J. Chem. Phys.</em>, 138(17), 174102. <span id="id9"><sup><a class="reference internal" href="../references/references.html#id29" title="Benedict Leimkuhler and Charles Matthews. Robust and efficient configurational molecular sampling via langevin dynamics. The Journal of Chemical Physics, 138(17):174102, 2013.">16</a></sup></span></p></li>
+<li><p>R. W. Balluffi, S. A. Allen, W. C. Carter (2005), <em>Kinetics of materials</em>, John Wiley  &amp; Sons, Inc. <span id="id10"><sup><a class="reference internal" href="../references/references.html#id30" title="R. W. Balluffi, S. M. Allen, and W. C. Carter. Kinetics of Materials. Wiley-Interscience, 2005.">3</a></sup></span></p></li>
 </ul>
 </section>
 </section>

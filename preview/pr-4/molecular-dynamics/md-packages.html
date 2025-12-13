@@ -60,6 +60,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'molecular-dynamics/md-packages';</script>
     <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/molecular-dynamics/md-packages.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -417,16 +419,46 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-an-md-simulation-workflow">4.5.1. Anatomy of an MD Simulation Workflow</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">4.5.1.1. Initialization</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibration">4.5.1.2. Equilibration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-an-md-simulation-workflow">4.5.1. Anatomy of an MD Simulation Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">4.5.2. Initialization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#packmol">4.5.2.1. Packmol</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mbuild-and-foyer">4.5.2.2. mBuild and Foyer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ambertools">4.5.2.3. AmberTools</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#production">4.5.2. Production</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-processing">4.5.3. Post-processing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips">4.5.4. Tips</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-md-packages">4.5.5. Recommended MD Packages</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.5.6. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibration">4.5.3. Equilibration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-minimization">4.5.3.1. Energy minimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvt-npt-equilibration">4.5.3.2. NVT/NPT equilibration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-equilibration">4.5.3.3. Monitoring equilibration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assessment-of-equilibration">4.5.3.4. Assessment of equilibration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#production">4.5.4. Production</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-and-simulation-length">4.5.4.1. Sampling and simulation length</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trajectory-output">4.5.4.2. Trajectory output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checkpointing-and-reproducibility">4.5.4.3. Checkpointing and reproducibility</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-processing">4.5.5. Post-processing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-properties">4.5.5.1. Computing properties</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-analysis-is-performed">4.5.5.2. Where analysis is performed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-existing-tools">4.5.5.3. Using existing tools</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips">4.5.6. Tips</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-an-appropriate-time-step">4.5.6.1. Choose an appropriate time step</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tune-simulation-parameters">4.5.6.2. Tune simulation parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-multiple-simulation-replicas">4.5.6.3. Use multiple simulation replicas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maintain-clear-file-organization">4.5.6.4. Maintain clear file organization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-tools-to-manage-simulation-campaigns">4.5.6.5. Use tools to manage simulation campaigns</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-md-packages">4.5.7. Recommended MD Packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biophysics-and-atomistic-simulations">4.5.7.1. Biophysics and atomistic simulations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general-purpose-and-materials-focused-simulations">4.5.7.2. General-purpose and materials-focused simulations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.5.8. References</a></li>
 </ul>
             </nav>
         </div>
@@ -442,87 +474,270 @@ document.write(`
 <h1><span class="section-number">4.5. </span>Using MD Packages<a class="headerlink" href="#using-md-packages" title="Link to this heading">#</a></h1>
 <section id="anatomy-of-an-md-simulation-workflow">
 <h2><span class="section-number">4.5.1. </span>Anatomy of an MD Simulation Workflow<a class="headerlink" href="#anatomy-of-an-md-simulation-workflow" title="Link to this heading">#</a></h2>
+<p>A molecular dynamics (MD) simulation typically proceeds through four major stages:</p>
+<ol class="arabic simple">
+<li><p>Initialization — Define the starting configuration and parameters.</p></li>
+<li><p>Equilibration — Remove overlaps and unphysical forces and bring the system to the desired thermodynamic state.</p></li>
+<li><p>Production — Collect statistically meaningful simulation data after the system has equilibrated.</p></li>
+<li><p>Post-processing — Analyze and visualize trajectories to obtain physical insights.</p></li>
+</ol>
+</section>
 <section id="initialization">
-<h3><span class="section-number">4.5.1.1. </span>Initialization<a class="headerlink" href="#initialization" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Create initial configuration and parameterize the force field.</p></li>
-<li><p><strong>Tools:</strong> <code class="docutils literal notranslate"><span class="pre">packmol</span></code>, <code class="docutils literal notranslate"><span class="pre">mbuild/Foyer</span></code>, <code class="docutils literal notranslate"><span class="pre">ambertools</span></code>, etc.</p></li>
-</ul>
+<h2><span class="section-number">4.5.2. </span>Initialization<a class="headerlink" href="#initialization" title="Link to this heading">#</a></h2>
+<p>Initialization defines the starting point of the simulation. It often provides the easiest place to modify system size, composition, force fields, and other parameters before running MD. Several tools are commonly used for system setup.</p>
+<section id="packmol">
+<h3><span class="section-number">4.5.2.1. </span>Packmol<a class="headerlink" href="#packmol" title="Link to this heading">#</a></h3>
+<p>Packmol builds the initial coordinates of a system while enforcing minimum-distance constraints so that molecules do not overlap. It handles only geometry, not force fields. You must combine it with another package (Foyer, AmberTools, etc.) to assign force-field parameters.</p>
+<p>Documentation:
+<a class="reference external" href="https://m3g.github.io/packmol/userguide.shtml">https://m3g.github.io/packmol/userguide.shtml</a></p>
+<p>To apply the Packmol, you need to firstly create or insert a particle file (pdb format). Then, a Packmol input script needs to be set so that it can be used to run the initialization. You can restrain a part of the molecule to be in a specified region of the space. This is useful for building vesicles where the hydrophilic part of the surfactants must be pointing to the aqueous environment.</p>
+</section>
+<section id="mbuild-and-foyer">
+<h3><span class="section-number">4.5.2.2. </span>mBuild and Foyer<a class="headerlink" href="#mbuild-and-foyer" title="Link to this heading">#</a></h3>
+<p>mBuild is a molecular builder that constructs polymers, solvents, nanoparticles, and other structures.
+Foyer assigns classical force-field parameters (Lennard–Jones, bond/angle/dihedral terms, charges, etc.).</p>
+<p>Documentation:
+mBuild: <a class="reference external" href="https://mbuild.mosdef.org/en/stable/">https://mbuild.mosdef.org/en/stable/</a>
+Foyer: <a class="reference external" href="https://foyer.mosdef.org/en/stable/">https://foyer.mosdef.org/en/stable/</a></p>
+<p>First step is to use mBuild in order to build molecular components in mBuild (monomers, solvents, nanoparticles, polymer chains). Then assemble them into a simulation box using fill_box or Packmol. For the next move, you can use Foyer to assign atom types in order to apply force-field parameters. The output can be used to export to LAMMPS, OpenMM XML, or GSD for simulation.</p>
+</section>
+<section id="ambertools">
+<h3><span class="section-number">4.5.2.3. </span>AmberTools<a class="headerlink" href="#ambertools" title="Link to this heading">#</a></h3>
+<p>AmberTools specializes in biomolecular system preparation (proteins, DNA/RNA, ligands).</p>
+<p>Documentation:
+<a class="reference external" href="https://ambermd.org/AmberTools.php">https://ambermd.org/AmberTools.php</a></p>
+<p>AmberTools provides workflows for generating chemically accurate biomolecular topologies for assigning AMBER and GAFF force fields. In this method, you can add hydrogens, water, and ions to the system.</p>
+</section>
 </section>
 <section id="equilibration">
-<h3><span class="section-number">4.5.1.2. </span>Equilibration<a class="headerlink" href="#equilibration" title="Link to this heading">#</a></h3>
+<h2><span class="section-number">4.5.3. </span>Equilibration<a class="headerlink" href="#equilibration" title="Link to this heading">#</a></h2>
+<p>After the initialization process, the next stage of the molecular
+dynamics workflow is equilibration. The goal of equilibration is to remove
+unfavorable contacts, stabilize the system, and bring it to the desired
+thermodynamic state. This process typically includes energy minimization
+followed by simulations in the NVT and NPT ensembles.</p>
+<section id="energy-minimization">
+<h3><span class="section-number">4.5.3.1. </span>Energy minimization<a class="headerlink" href="#energy-minimization" title="Link to this heading">#</a></h3>
+<p>The equilibration process begins with an energy minimization step. This step
+removes steric clashes and relaxes any distorted geometries created during
+packing or system construction. Common minimization algorithms include
+steepest descent, conjugate gradient, L-BFGS, and the FIRE algorithm. By
+reducing the forces acting on atoms, minimization ensures that the system is
+numerically stable when molecular dynamics integration starts.</p>
+</section>
+<section id="nvt-npt-equilibration">
+<h3><span class="section-number">4.5.3.2. </span>NVT/NPT equilibration<a class="headerlink" href="#nvt-npt-equilibration" title="Link to this heading">#</a></h3>
+<p>Once the system is minimized, an NVT (canonical ensemble) equilibration stage
+sets the system to the target temperature. A thermostat—such as Langevin,
+Berendsen, or an isokinetic thermostat—controls the kinetic energy and helps
+the system reach the correct thermal distribution. It is important to
+initialize velocities properly, since starting with zero velocities can cause
+divide-by-zero errors in temperature calculations. During this stage, atomic
+velocities relax toward a Maxwell–Boltzmann distribution. Another way is to use NPT (isothermal–isobaric ensemble)
+simulation. The barostat generally
+responds more slowly than the thermostat, so this phase often requires longer
+simulation times. When switching from thermostats that do not conserve
+momentum, the center-of-mass momentum should be removed before beginning NPT.
+Volume, density, and internal pressure gradually stabilize during this stage.</p>
+</section>
+<section id="monitoring-equilibration">
+<h3><span class="section-number">4.5.3.3. </span>Monitoring equilibration<a class="headerlink" href="#monitoring-equilibration" title="Link to this heading">#</a></h3>
+<p>Throughout equilibration, several observables help indicate whether the
+The system has reached steady behavior. These include the potential energy <span class="math notranslate nohighlight">\(U\)</span>,
+system density, and the radial distribution function <span class="math notranslate nohighlight">\(g(r)\)</span>. Depending on
+the system, transport properties such as the diffusion coefficient may also
+guide decisions about the required equilibration time. Once these properties
+stop drifting and fluctuate around stable values, the system is ready for
+production molecular dynamics.</p>
+</section>
+<section id="assessment-of-equilibration">
+<h3><span class="section-number">4.5.3.4. </span>Assessment of equilibration<a class="headerlink" href="#assessment-of-equilibration" title="Link to this heading">#</a></h3>
+<p>Equilibration was monitored by tracking macroscopic observables, including
+the potential energy <span class="math notranslate nohighlight">\(U\)</span>, system density, and the radial distribution
+function <span class="math notranslate nohighlight">\(g(r)\)</span>. Transport coefficients, such as diffusion constants, were
+used when appropriate to estimate the timescales required for the system to
+relax. Production simulations were initiated only after these quantities had
+reached stationary behavior.</p>
+<p>The following packages are the commonly used MD packages for equilibrium.
+Typically used for general-purpose physics simulations.</p>
 <ul class="simple">
-<li><p><strong>Energy Minimization:</strong> Removes overlaps or poor initial configurations to prevent simulation instability.</p>
-<ul>
-<li><p>Methods: Steepest Descent, Conjugate Gradient, L-BFGS, FIRE.</p></li>
+<li><p>LAMMPS: <a class="reference external" href="https://docs.lammps.org/">https://docs.lammps.org/</a></p></li>
+<li><p>HOOMD-blue: <a class="reference external" href="https://hoomd-blue.readthedocs.io/en/v6.0.0/">https://hoomd-blue.readthedocs.io/en/v6.0.0/</a></p></li>
 </ul>
-</li>
-<li><p><strong>NVT Ensemble:</strong> Brings system to correct temperature.</p>
-<ul>
-<li><p>Use aggressive thermostats (e.g., Isokinetic, Berendsen, Langevin).</p></li>
-<li><p>Be cautious if initial velocities are zero (can cause divide-by-zero errors).</p></li>
-</ul>
-</li>
-<li><p><strong>NPT Ensemble:</strong> Brings system to correct density.</p>
-<ul>
-<li><p>Barostat usually has a longer time constant than thermostat.</p></li>
-<li><p>Ensure momentum is zeroed when switching from non-conserving thermostats.</p></li>
-</ul>
-</li>
-<li><p>Simulate for multiple relaxation times to ensure equilibrium.</p>
-<ul>
-<li><p>Use transport coefficients to estimate required time.</p></li>
-<li><p>Monitor observables like energy (U), radial distribution function (g®), and density.</p></li>
-</ul>
-</li>
+<p>Typically used for biophysics</p>
+<ul class="simple">
+<li><p>GROMACS: <a class="reference external" href="https://manual.gromacs.org/current/index.html">https://manual.gromacs.org/current/index.html</a></p></li>
+<li><p>NAMD, OpenMM, AMBER</p></li>
 </ul>
 </section>
 </section>
 <section id="production">
-<h2><span class="section-number">4.5.2. </span>Production<a class="headerlink" href="#production" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Run long enough to gather statistically independent samples of quantities of interest.</p></li>
-<li><p>Trajectory dumping can be disk-intensive—choose frequency wisely.</p></li>
-<li><p>Use <strong>checkpointing</strong> (saving restart files) to recover from hardware failures.</p></li>
-</ul>
+<h2><span class="section-number">4.5.4. </span>Production<a class="headerlink" href="#production" title="Link to this heading">#</a></h2>
+<p>After the system completes equilibration, the simulation enters the production
+phase. The goal of this stage is to generate statistically meaningful data
+for analysis. Unlike equilibration, where system properties evolve toward
+steady values, production simulations assume that the system is already in
+a stable thermodynamic state.</p>
+<section id="sampling-and-simulation-length">
+<h3><span class="section-number">4.5.4.1. </span>Sampling and simulation length<a class="headerlink" href="#sampling-and-simulation-length" title="Link to this heading">#</a></h3>
+<p>The production run must be long enough to collect statistically independent
+samples of the quantities of interest. Correlations between configurations
+mean that successive frames are not fully independent, so the effective
+number of samples depends on the autocorrelation time of the observable.
+Longer simulations generally improve statistical accuracy but also increase
+computational cost.</p>
+</section>
+<section id="trajectory-output">
+<h3><span class="section-number">4.5.4.2. </span>Trajectory output<a class="headerlink" href="#trajectory-output" title="Link to this heading">#</a></h3>
+<p>Trajectory files record particle positions and other observables over time.
+Because storing full trajectories can be disk-intensive, the output
+frequency should be chosen carefully. Writing too frequently produces large
+files without adding meaningful information, while writing too infrequently
+may miss important dynamics. A common strategy is to save frames at intervals
+longer than the decorrelation time of fast molecular motions.</p>
+</section>
+<section id="checkpointing-and-reproducibility">
+<h3><span class="section-number">4.5.4.3. </span>Checkpointing and reproducibility<a class="headerlink" href="#checkpointing-and-reproducibility" title="Link to this heading">#</a></h3>
+<p>To ensure robustness and recoverability, checkpoint files (or restart files)
+are saved periodically during the production run. These files store the
+complete simulation state, allowing the run to be resumed after hardware
+failures, queue interruptions, or unexpected shutdowns. Checkpointing also
+supports reproducibility, since it records exact system coordinates,
+velocities, and random-number states at specific points in the simulation.</p>
+</section>
 </section>
 <section id="post-processing">
-<h2><span class="section-number">4.5.3. </span>Post-processing<a class="headerlink" href="#post-processing" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Write scripts to compute properties, averages, etc., from simulation outputs.</p></li>
-<li><p>Can be done on HPC clusters or downloaded to local machines.</p></li>
-<li><p>Use existing tools and methods when possible—avoid reinventing the wheel.</p></li>
-</ul>
+<h2><span class="section-number">4.5.5. </span>Post-processing<a class="headerlink" href="#post-processing" title="Link to this heading">#</a></h2>
+<p>Post-processing refers to the analysis performed after the production
+simulation completes. At this stage, the goal is to extract meaningful
+physical quantities from the raw trajectory data and to interpret the
+results in terms of the underlying molecular behavior.</p>
+<section id="computing-properties">
+<h3><span class="section-number">4.5.5.1. </span>Computing properties<a class="headerlink" href="#computing-properties" title="Link to this heading">#</a></h3>
+<p>Custom analysis scripts are often written to compute observables such as
+energies, radial distribution functions, diffusion coefficients, structural
+order parameters, or time-averaged quantities. These scripts typically use
+analysis libraries such as \texttt{MDTraj}, \texttt{MDAnalysis}, or
+\texttt{hoomd}’s built-in readers. Post-processing enables the conversion of
+large raw trajectories into quantitative results suitable for comparison
+with theory or experiment.</p>
+</section>
+<section id="where-analysis-is-performed">
+<h3><span class="section-number">4.5.5.2. </span>Where analysis is performed<a class="headerlink" href="#where-analysis-is-performed" title="Link to this heading">#</a></h3>
+<p>Post-processing can be performed directly on high-performance computing
+(HPC) clusters, especially when trajectories are large or many simulations
+need to be analyzed. Alternatively, trajectory files can be transferred to a
+local workstation for interactive or exploratory analysis. The choice depends
+on storage, bandwidth, and computational requirements.</p>
+</section>
+<section id="using-existing-tools">
+<h3><span class="section-number">4.5.5.3. </span>Using existing tools<a class="headerlink" href="#using-existing-tools" title="Link to this heading">#</a></h3>
+<p>The most common tools to use will be through Python packages. Packages such as Matplotlib, which is a package for creating graphs, allows for students and researchers to focus on the scientific interpretation rather than data handling.</p>
+<p>An additional tool for post processing is OVTIO. This can visualize trajectory data in the form of a 3D model. This tool allows for frame by frame visualization to visualize how the particles move. More documentation can be found here: <a class="reference external" href="https://www.ovito.org/docs/current/">https://www.ovito.org/docs/current/</a></p>
+</section>
 </section>
 <section id="tips">
-<h2><span class="section-number">4.5.4. </span>Tips<a class="headerlink" href="#tips" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Choose the largest time step (Δt) that still ensures accurate integration—test this.</p></li>
-<li><p>Tune hyperparameters for performance using representative simulations.</p></li>
-<li><p>Run multiple simulation copies to improve statistics and estimate errors.</p></li>
-<li><p>Organize files clearly during parameter sweeps. Example structure:</p></li>
-</ul>
-<p>data/ ├── T-1.0/ │ ├── V-20/ │ │ └── <a class="reference external" href="http://input.sh">input.sh</a> │ ├── V-30/ │ │ └── <a class="reference external" href="http://input.sh">input.sh</a> ├── T-1.5/ │ ├── V-205/ │ └── V-301/</p>
-<ul class="simple">
-<li><p>Consider using tools to manage simulation campaigns.</p></li>
-</ul>
+<h2><span class="section-number">4.5.6. </span>Tips<a class="headerlink" href="#tips" title="Link to this heading">#</a></h2>
+<p>The following guidelines help improve efficiency, stability, and
+reproducibility when running molecular dynamics simulations in an educational
+or research setting.</p>
+<section id="choose-an-appropriate-time-step">
+<h3><span class="section-number">4.5.6.1. </span>Choose an appropriate time step<a class="headerlink" href="#choose-an-appropriate-time-step" title="Link to this heading">#</a></h3>
+<p>Select the largest time step <span class="math notranslate nohighlight">\(\Delta t\)</span> that still produces accurate and
+stable integration. A time step that is too small wastes computational
+resources, while one that is too large can cause numerical instability.
+Testing several values during a short trial run is an effective strategy for
+finding the optimal choice.</p>
+</section>
+<section id="tune-simulation-parameters">
+<h3><span class="section-number">4.5.6.2. </span>Tune simulation parameters<a class="headerlink" href="#tune-simulation-parameters" title="Link to this heading">#</a></h3>
+<p>Parameters such as neighbor-list update frequency, thermostat and
+barostat relaxation times, and cutoff distances should be tuned using
+representative systems rather than default settings. Well-chosen parameters
+reduce simulation time while maintaining accuracy.</p>
+</section>
+<section id="use-multiple-simulation-replicas">
+<h3><span class="section-number">4.5.6.3. </span>Use multiple simulation replicas<a class="headerlink" href="#use-multiple-simulation-replicas" title="Link to this heading">#</a></h3>
+<p>Running several independent copies of the same simulation improves the
+statistical quality of measured quantities. Independent trajectories allow
+students to compute error bars and assess reproducibility, which is important
+when comparing results or performing parameter sweeps.</p>
+</section>
+<section id="maintain-clear-file-organization">
+<h3><span class="section-number">4.5.6.4. </span>Maintain clear file organization<a class="headerlink" href="#maintain-clear-file-organization" title="Link to this heading">#</a></h3>
+<p>Simulations often involve variations in temperature, pressure, interaction
+strength, or other parameters. To avoid confusion, maintain a consistent and
+hierarchical file structure. Below is an example layout for a parameter sweep
+over temperature (<span class="math notranslate nohighlight">\(T\)</span>) and interaction strength (<span class="math notranslate nohighlight">\(V\)</span>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>data/
+├── T-1.0/
+│   ├── V-20/
+│   │   └── input.sh
+│   ├── V-30/
+│   │   └── input.sh
+├── T-1.5/
+│   ├── V-205/
+│   └── V-301/
+</pre></div>
+</div>
+<p>Clear organization makes it easier to track simulation conditions, automate
+workflows, and analyze results across parameter sets.</p>
+</section>
+<section id="use-tools-to-manage-simulation-campaigns">
+<h3><span class="section-number">4.5.6.5. </span>Use tools to manage simulation campaigns<a class="headerlink" href="#use-tools-to-manage-simulation-campaigns" title="Link to this heading">#</a></h3>
+<p>Large MD projects often involve many simulations with different parameters,
+replicas, or initial configurations. Workflow managers and job-launching
+tools—such as \texttt{signac-flow}, \texttt{Snakemake}, or simple shell
+scripts—help automate job submission, monitor progress, handle restart files,
+and ensure that all simulations follow a consistent protocol. These tools
+reduce human error and make large simulation campaigns more repeatable and
+scalable.</p>
+</section>
 </section>
 <section id="recommended-md-packages">
-<h2><span class="section-number">4.5.5. </span>Recommended MD Packages<a class="headerlink" href="#recommended-md-packages" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><strong>GROMACS, NAMD, OpenMM, AMBER</strong> – widely used in biophysics.</p></li>
-<li><p><strong>LAMMPS, HOOMD-blue</strong> – general-purpose physics simulations.</p></li>
-</ul>
-<p>Always read the documentation for your chosen tool carefully!</p>
+<h2><span class="section-number">4.5.7. </span>Recommended MD Packages<a class="headerlink" href="#recommended-md-packages" title="Link to this heading">#</a></h2>
+<p>A wide range of molecular dynamics (MD) engines is available, each with its
+own strengths, target applications, and user community. Selecting an
+appropriate package depends on the system being studied, the desired level of
+detail, and available computational resources.</p>
+<section id="biophysics-and-atomistic-simulations">
+<h3><span class="section-number">4.5.7.1. </span>Biophysics and atomistic simulations<a class="headerlink" href="#biophysics-and-atomistic-simulations" title="Link to this heading">#</a></h3>
+<p>Several MD packages are widely used for biomolecular systems such as
+proteins, nucleic acids, and membranes:</p>
+<ol class="arabic simple">
+<li><p>GROMACS — optimized for speed and highly efficient on both CPUs and GPUs.</p></li>
+<li><p>NAMD — scalable to very large systems and supercomputing architectures.</p></li>
+<li><p>OpenMM — flexible, Python-driven, and ideal for custom workflows.</p></li>
+<li><p>AMBER — traditionally used for biomolecular force fields and free-energy methods.</p></li>
+</ol>
+</section>
+<section id="general-purpose-and-materials-focused-simulations">
+<h3><span class="section-number">4.5.7.2. </span>General-purpose and materials-focused simulations<a class="headerlink" href="#general-purpose-and-materials-focused-simulations" title="Link to this heading">#</a></h3>
+<p>Other MD engines support a broad range of classical and coarse-grained
+models, making them suitable for soft matter, polymers, and materials
+science:</p>
+<ol class="arabic simple">
+<li><p>LAMMPS — extremely versatile, with support for many force fields and custom potentials.</p></li>
+<li><p>HOOMD-blue — highly efficient for GPU-accelerated simulations of soft-matter and coarse-grained systems.</p></li>
+</ol>
+</section>
 </section>
 <section id="references">
-<h2><span class="section-number">4.5.6. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.5.8. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://docs.lammps.org">LAMMPS documentation</a></p></li>
 <li><p><a class="reference external" href="https://hoomd-blue.readthedocs.io">HOOMD-blue documentation</a></p></li>
 <li><p><a class="reference external" href="https://manual.gromacs.org/current/index.html">GROMACS documentation</a></p></li>
-<li><p>“Simulations: The Dark Side,” Daan Frenkel, 2013 <span id="id1"><sup><a class="reference internal" href="../references/references.html#id17" title="Daan Frenkel. Simulations: the dark side. The European Physical Journal Plus, 128(1):10, 2013.">6</a></sup></span></p></li>
-<li><p>Braun, E., Gilmer, J., Mayes, H. B., Mobley, D. L. ., Monroe, J. I., Prasad, S., &amp; Zuckerman, D. M. . (2018). Best Practices for Foundations in Molecular Simulations [Article v1.0]. Living Journal of Computational Molecular Science, 1(1), 5957. <span id="id2"><sup><a class="reference internal" href="../references/references.html#id16" title="S Prasad, DL Mobley, E Braun, HB Mayes, JI Monroe, DM Zuckerman, and others. Best practices for foundations in molecular simulations [article v1. 0]. Living Journal of Computational Molecular Science, 1:1–28, 2018.">22</a></sup></span></p></li>
+<li><p><a class="reference external" href="https://www.ks.uiuc.edu/Research/namd/documentation.html">NAMD documentation</a></p></li>
+<li><p><a class="reference external" href="https://docs.openmm.org/latest/userguide/">OpenMM</a></p></li>
+<li><p><a class="reference external" href="https://ambermd.org/Manuals.php">AMBER</a></p></li>
+<li><p><a class="reference external" href="https://m3g.github.io/packmol/userguide.shtml">Packmol</a></p></li>
+<li><p><a class="reference external" href="https://mbuild.mosdef.org/en/stable/">mBuild</a></p></li>
+<li><p><a class="reference external" href="https://foyer.mosdef.org/en/stable/">Foyer</a></p></li>
+<li><p><a class="reference external" href="https://ambermd.org/AmberTools.php">AmberTools</a></p></li>
+<li><p><a class="reference external" href="https://www.ovito.org/docs/current/">OVITO</a></p></li>
+<li><p>“Simulations: The Dark Side,” Daan Frenkel, 2013 <span id="id1"><sup><a class="reference internal" href="../references/references.html#id17" title="Daan Frenkel. Simulations: the dark side. The European Physical Journal Plus, 128(1):10, 2013.">7</a></sup></span></p></li>
+<li><p>Braun, E., Gilmer, J., Mayes, H. B., Mobley, D. L. ., Monroe, J. I., Prasad, S., &amp; Zuckerman, D. M. . (2018). Best Practices for Foundations in Molecular Simulations [Article v1.0]. Living Journal of Computational Molecular Science, 1(1), 5957. <span id="id2"><sup><a class="reference internal" href="../references/references.html#id16" title="S Prasad, DL Mobley, E Braun, HB Mayes, JI Monroe, DM Zuckerman, and others. Best practices for foundations in molecular simulations [article v1. 0]. Living Journal of Computational Molecular Science, 1:1–28, 2018.">26</a></sup></span></p></li>
 <li><p>In general, the Journal <a class="reference external" href="https://livecomsjournal.org/index.php/livecoms/index">Living Journal of Computational Molecular Science</a> has excellent how to articles, tutorials, and best practices.</p></li>
 </ul>
 </section>
@@ -592,16 +807,46 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-an-md-simulation-workflow">4.5.1. Anatomy of an MD Simulation Workflow</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">4.5.1.1. Initialization</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibration">4.5.1.2. Equilibration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-an-md-simulation-workflow">4.5.1. Anatomy of an MD Simulation Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">4.5.2. Initialization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#packmol">4.5.2.1. Packmol</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mbuild-and-foyer">4.5.2.2. mBuild and Foyer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ambertools">4.5.2.3. AmberTools</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#production">4.5.2. Production</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-processing">4.5.3. Post-processing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips">4.5.4. Tips</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-md-packages">4.5.5. Recommended MD Packages</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.5.6. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibration">4.5.3. Equilibration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-minimization">4.5.3.1. Energy minimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvt-npt-equilibration">4.5.3.2. NVT/NPT equilibration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-equilibration">4.5.3.3. Monitoring equilibration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assessment-of-equilibration">4.5.3.4. Assessment of equilibration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#production">4.5.4. Production</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-and-simulation-length">4.5.4.1. Sampling and simulation length</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trajectory-output">4.5.4.2. Trajectory output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checkpointing-and-reproducibility">4.5.4.3. Checkpointing and reproducibility</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-processing">4.5.5. Post-processing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-properties">4.5.5.1. Computing properties</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-analysis-is-performed">4.5.5.2. Where analysis is performed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-existing-tools">4.5.5.3. Using existing tools</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips">4.5.6. Tips</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-an-appropriate-time-step">4.5.6.1. Choose an appropriate time step</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tune-simulation-parameters">4.5.6.2. Tune simulation parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-multiple-simulation-replicas">4.5.6.3. Use multiple simulation replicas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maintain-clear-file-organization">4.5.6.4. Maintain clear file organization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-tools-to-manage-simulation-campaigns">4.5.6.5. Use tools to manage simulation campaigns</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-md-packages">4.5.7. Recommended MD Packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biophysics-and-atomistic-simulations">4.5.7.1. Biophysics and atomistic simulations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general-purpose-and-materials-focused-simulations">4.5.7.2. General-purpose and materials-focused simulations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.5.8. References</a></li>
 </ul>
   </nav></div>
 

@@ -446,7 +446,7 @@ document.write(`
 <p>Experimentalists may not be happy about this, as the system volume and the total energy are very hard to control in real experiments. Practically, it is much easier to control the pressure (P) and temperature (T) experimentally. Ideally, an isothermal-isobaric NPT ensemble is the best to simulate the particles, just like doing an experiment. With the NPT ensemble, the phase of the system is unique based on the phase diagram. Then, phenomena such as phase transitions can be directly captured through precise temperature and pressure controls.</p>
 <p>In this section, we will first focus on changing the constant energy (E) to constant temperature (T) with an implementation called <strong>thermostat</strong>. Adding a thermostat to the original MD simulation setup changes our system from a microcanonical ensemble (NVE) to a canonical ensemble (NVT).  With a thermostat, the system is allowed to exchange energy with a <strong>heat bath</strong>, which is just like a large reservoir for an experimentalist, so the kinetic energy of atoms can be regulated. It also mimics thermal fluctuations of atoms in a real physical system. A thermostat is exactly like the one you have in your home, where the thermostat drives the simulated system to the target temperature, like an “air conditioner.”</p>
 <figure class="align-center" id="heat-bath">
-<a class="reference internal image-reference" href="../_images/Heat-bath.jpg"><img alt="Visualization of heat bath for simulation." src="../_images/Heat-bath.jpg" style="width: 200px;" />
+<a class="reference internal image-reference" href="../_images/Heat-bath.jpg"><img alt="Visualization of heat bath for simulation." src="../_images/Heat-bath.jpg" style="width: 400px;" />
 </a>
 <figcaption>
 <p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">Schematic of the visualization for a heat bath for simulation.</span><a class="headerlink" href="#heat-bath" title="Link to this image">#</a></p>
@@ -634,6 +634,10 @@ K = \sum_i \frac{\mathbf{p}_i^2}{2 m_i} \equiv \frac{3 N k_B T_0}{2} = K_0
 \[
 \frac{d K}{dt}
 =\sum_i \frac{\mathbf p_i}{2 m_i}\cdot\dot{\mathbf p}_i + \sum_i \frac{\mathbf p_i}{2 m_i}\cdot\dot{\mathbf p}_i = \sum_i \frac{\mathbf p_i}{ m_i}\cdot\dot{\mathbf p}_i
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{d K}{dt}
 =\sum_i \frac{\mathbf p_i}{m_i}\cdot(\mathbf f_i-\zeta\,\mathbf p_i)
 =\sum_i \frac{\mathbf p_i\cdot\mathbf f_i}{m_i}
 -\zeta \sum_i \frac{\mathbf p_i\cdot\mathbf p_i}{m_i}
@@ -643,7 +647,7 @@ K = \sum_i \frac{\mathbf{p}_i^2}{2 m_i} \equiv \frac{3 N k_B T_0}{2} = K_0
 \frac{dK}{dt}=0 \;\Rightarrow\;\zeta=\dfrac{\sum_i \frac{\mathbf p_i\cdot\mathbf f_i}{m_i}}
 {\sum_i \frac{\mathbf p_i\cdot\mathbf p_i}{m_i}}
 \]</div>
-<p>Equal mass m_i = m:</p>
+<p>Equal mass <span class="math notranslate nohighlight">\(m_i = m\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
 \zeta=\dfrac{\mathbf{p} \cdot \mathbf{f}}
@@ -676,7 +680,7 @@ f_{\mathrm{iso}}(\mathbf r,\mathbf p)
 <p>However, for a large system, the isokinetic thermostat can reproduce an equivalent effect comparable to the canonical ensemble. Statistically speaking, the suppression of kinetic energy fluctuations in the isokinetic ensemble becomes negligible at large N.</p>
 <div class="math notranslate nohighlight">
 \[
-v_\alpha \in \mathcal{N}(0, \, (\sqrt{\frac{k_B T}{m}})^2)
+v_\alpha \in \mathcal{N}(0, \, \big(\sqrt{\frac{k_B T}{m} \big)^2)
 \]</div>
 <p>It can be shown that the kinetic energy of one atom <span class="math notranslate nohighlight">\(K_i\)</span> follows the chi-square distribution with a degree of 3.</p>
 <div class="math notranslate nohighlight">
@@ -755,8 +759,8 @@ X = \frac{2 K}{k_B T}
 <section id="deterministic-thermostats-ii-nose-hoover-thermostat">
 <h2><span class="section-number">4.3.6. </span>Deterministic thermostats II: Nosé-Hoover thermostat.<a class="headerlink" href="#deterministic-thermostats-ii-nose-hoover-thermostat" title="Link to this heading">#</a></h2>
 <p>In 1984, Shuichi Nosé introduced a deterministic thermostat that successfully simulated the canonical ensemble (NVT) by adding a <strong>dynamical variable that acts as a thermal reservoir</strong>, allowing natural fluctuations consistent with the canonical distribution. The idea was implemented by William G. Hoover, and the Nosé–Hoover thermostat has been commonly used as one of the most accurate and efficient methods for constant-temperature molecular dynamics simulations.</p>
-<p>** Nosé formulation**
-Recall that in the Velocity Verlet algorithm, the equations are designed to numerically integrate Hamilton’s equations of motion, which define the time evolution of a system governed by the Hamiltonian <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>.</p>
+<p><strong>Nosé formulation</strong></p>
+<p>Recall that in the Velocity Verlet algorithm, the equations are designed to numerically integrate Hamilton’s equations of motion, which define the time evolution of a system governed by the Hamiltonian <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
 \mathcal{H}(\mathbf{r}, \mathbf{p}) = K(\mathbf{p}) + U(\mathbf{r}) = \sum_i \frac{\mathbf{p}_i^2}{2 m_i} + U(\mathbf{r}_1, \mathbf{r}_2, ..., \mathbf{r}_N)
@@ -872,14 +876,12 @@ Recall that in the Velocity Verlet algorithm, the equations are designed to nume
 <p>Therefore, the divergence of the extended phase space is:</p>
 <div class="math notranslate nohighlight">
 \[
-\[
 \nabla \!\cdot\! \mathbf{v}
 = \sum_i \frac{\partial \dot{r}_i}{\partial r_i}
 + \sum_i \frac{\partial \dot{p}_i}{\partial p_i}
 + \frac{\partial \dot{\eta}}{\partial \eta}
 + \frac{\partial \dot{\zeta}}{\partial \zeta}
 = - g \zeta
-\]
 \]</div>
 <p>So the time invariant equation is:</p>
 <div class="math notranslate nohighlight">
@@ -1007,14 +1009,20 @@ e^{i \hat{L} \Delta t} \approx e^{i \hat{L}_T \frac{\Delta t}{2}} e^{i \hat{L}_2
 \]</div>
 <p>Specifically, the operators are defined as:</p>
 <ul class="simple">
-<li><p>Position update operator:
-$<span class="math notranslate nohighlight">\(
+<li><p>Position update operator:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
 i\hat{L}_1 = \frac{\mathbf{p}}{m} \cdot \frac{\partial}{\partial \mathbf{r}}
-\)</span>$</p></li>
-<li><p>Momentum update operator:
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<ul class="simple">
+<li><p>Momentum update operator:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
 i\hat{L}_1 = \frac{\mathbf{p}}{m} \cdot \frac{\partial}{\partial \mathbf{r}}
-\)</span>$</p></li>
+\]</div>
+<ul class="simple">
 <li><p>Thermostat update operator:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
@@ -1104,7 +1112,7 @@ w_1 = w_3 = \frac{1}{2 - 2^{\frac{1}{3}}} \approx 1.35120719196 \quad w_2 = -\fr
 +
 \frac{\Delta t}{2Q}\Bigl(K^{n+1} - g k_B T\Bigr)
 \]</div>
-<p>** Nosé–Hoover chain**</p>
+<p><strong>Nosé–Hoover chain</strong></p>
 <p>For a single Nosé–Hoover thermostat, there is only one friction variable (<span class="math notranslate nohighlight">\(\zeta\)</span>) that rescales all momenta and drives the kinetic energy toward the target temperature.</p>
 <p>The simulation works well for simple fluids. However, for a complex system, such as an FCC crystal or a polymer chain, the thermostat couples strongly only to some collective modes with pathological resonances, so the dynamics can become non-ergodic.</p>
 <p>To improve the energy flow that captures multiple time scales, the idea of recursive coupling arises, and a chain of thermostat variables is coupled together:</p>
@@ -1259,18 +1267,18 @@ Q_i = k_B T \tau_i^2, \quad \tau_i \approx c \tau_{i-1} \quad c\approx 5-10
 <li><p><a class="reference external" href="https://docs.lammps.org/fix_nh.html">LAMMPS Nose-Hoover thermostat documentation</a></p></li>
 <li><p><a class="reference external" href="https://hoomd-blue.readthedocs.io/en/stable/hoomd/md/methods/module-thermostats.html">HOOMD-blue thermostat documentation</a></p></li>
 <li><p><a class="reference external" href="https://manual.gromacs.org/current/reference-manual/algorithms/molecular-dynamics.html#temperature-coupling">GROMACS thermostat documentation</a></p></li>
-<li><p>Tuckerman, Mark E., et al. “A Liouville-operator derived measure-preserving integrator for molecular dynamics simulations in the isothermal–isobaric ensemble.” Journal of Physics A: Mathematical and General 39.19 (2006): 5629. <span id="id1"><sup><a class="reference internal" href="../references/references.html#id15" title="Mark E Tuckerman, José Alejandre, Roberto López-Rendón, Andrea L Jochim, and Glenn J Martyna. A liouville-operator derived measure-preserving integrator for molecular dynamics simulations in the isothermal–isobaric ensemble. Journal of Physics A: Mathematical and General, 39(19):5629, 2006.">30</a></sup></span></p></li>
-<li><p>Tuckerman, Mark E., and Glenn J. Martyna. “Understanding modern molecular dynamics: Techniques and applications.” The Journal of Physical Chemistry B 104.2 (2000): 159-178 <span id="id2"><sup><a class="reference internal" href="../references/references.html#id14" title="Mark E Tuckerman and Glenn J Martyna. Understanding modern molecular dynamics: techniques and applications. 2000.">31</a></sup></span></p></li>
-<li><p>Martyna, Glenn J., Douglas J. Tobias, and Michael L. Klein. “Constant pressure molecular dynamics algorithms.” J. chem. Phys 101.4177 (1994): 10-1063. <span id="id3"><sup><a class="reference internal" href="../references/references.html#id12" title="Glenn J Martyna, Douglas J Tobias, and Michael L Klein. Constant pressure molecular dynamics algorithms. J. chem. Phys, 101(4177):10–1063, 1994.">17</a></sup></span></p></li>
-<li><p>Parrinello and Rahman, J Appl Phys, 52, 7182 (1981).<span id="id4"><sup><a class="reference internal" href="../references/references.html#id5" title="Michele Parrinello and Aneesur Rahman. Polymorphic transitions in single crystals: a new molecular dynamics method. Journal of Applied physics, 52(12):7182–7190, 1981.">21</a></sup></span></p></li>
-<li><p>A unified formulation of the constant temperature molecular dynamics methods. Nosé, S., The Journal of Chemical Physics 81, 511. <span id="id5"><sup><a class="reference internal" href="../references/references.html#id31" title="Shuichi Nosé. A molecular dynamics method for simulations in the canonical ensemble. Molecular Physics, 52(2):255-268, 1984.">19</a></sup></span></p></li>
-<li><p>“A unified formulation of the constant temperature molecular dynamics methods.” S. Nosé (1984), The Journal of Chemical Physics, 81, 511. DOI: 10.1063/1.447334. <span id="id6"><sup><a class="reference internal" href="../references/references.html#id32" title="Shuichi Nosé. A unified formulation of the constant temperature molecular dynamics methods. The Journal of Chemical Physics, 81(1):511-519, 1984.">20</a></sup></span></p></li>
-<li><p>Canonical dynamics: Equilibrium phase-space distributions., W. G. Hoover, Phys. Rev. A 31, 1695 (1985). <span id="id7"><sup><a class="reference internal" href="../references/references.html#id33" title="William G. Hoover. Canonical dynamics: equilibrium phase-space distributions. Physical Review A, 31(3):1695-1697, 1985.">9</a></sup></span></p></li>
-<li><p>“Nosé–Hoover chains: The canonical ensemble via continuous dynamics.” G. J. Martyna, M. L. Klein, M. E. Tuckerman (1992), The Journal of Chemical Physics, 97, 2635. DOI: 10.1063/1.463940. <span id="id8"><sup><a class="reference internal" href="../references/references.html#id34" title="Glenn J. Martyna, Michael L. Klein, and Mark E. Tuckerman. Nosé–hoover chains: the canonical ensemble via continuous dynamics. The Journal of Chemical Physics, 97(4):2635-2643, 1992.">18</a></sup></span></p></li>
-<li><p>“General decomposition theory of ordered exponentials.” M. Suzuki (1991), Physics Letters A, 146, 319. <span id="id9"><sup><a class="reference internal" href="../references/references.html#id35" title="Masuo Suzuki. General theory of higher-order decomposition of exponential operators and symplectic integrators. Physics Letters A, 201(5-6):425-428, 1996.">29</a></sup></span></p></li>
-<li><p>“Construction of higher order symplectic integrators. H. Yoshida (1990), Physics Letters A, 150, 262. {cite} <code class="docutils literal notranslate"><span class="pre">Yoshida1990Construction</span></code></p></li>
-<li><p>“Statistical Mechanics: Theory and Molecular Simulation.” Tuckerman, M. E. (2010), Oxford University Press. <span id="id10"><sup><a class="reference internal" href="../references/references.html#id37" title="Mark E. Tuckerman. Statistical mechanics: theory and molecular simulation. Oxford University Press, 2010.">32</a></sup></span></p></li>
-<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span id="id11"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">1</a></sup></span></p></li>
+<li><p>Tuckerman, Mark E., et al. “A Liouville-operator derived measure-preserving integrator for molecular dynamics simulations in the isothermal–isobaric ensemble.” Journal of Physics A: Mathematical and General 39.19 (2006): 5629. <span id="id1"><sup><a class="reference internal" href="../references/references.html#id15" title="Mark E Tuckerman, José Alejandre, Roberto López-Rendón, Andrea L Jochim, and Glenn J Martyna. A liouville-operator derived measure-preserving integrator for molecular dynamics simulations in the isothermal–isobaric ensemble. Journal of Physics A: Mathematical and General, 39(19):5629, 2006.">35</a></sup></span></p></li>
+<li><p>Tuckerman, Mark E., and Glenn J. Martyna. “Understanding modern molecular dynamics: Techniques and applications.” The Journal of Physical Chemistry B 104.2 (2000): 159-178 <span id="id2"><sup><a class="reference internal" href="../references/references.html#id14" title="Mark E Tuckerman and Glenn J Martyna. Understanding modern molecular dynamics: techniques and applications. 2000.">36</a></sup></span></p></li>
+<li><p>Martyna, Glenn J., Douglas J. Tobias, and Michael L. Klein. “Constant pressure molecular dynamics algorithms.” J. chem. Phys 101.4177 (1994): 10-1063. <span id="id3"><sup><a class="reference internal" href="../references/references.html#id12" title="Glenn J Martyna, Douglas J Tobias, and Michael L Klein. Constant pressure molecular dynamics algorithms. J. chem. Phys, 101(4177):10–1063, 1994.">20</a></sup></span></p></li>
+<li><p>Parrinello and Rahman, J Appl Phys, 52, 7182 (1981).<span id="id4"><sup><a class="reference internal" href="../references/references.html#id5" title="Michele Parrinello and Aneesur Rahman. Polymorphic transitions in single crystals: a new molecular dynamics method. Journal of Applied physics, 52(12):7182–7190, 1981.">25</a></sup></span></p></li>
+<li><p>A unified formulation of the constant temperature molecular dynamics methods. Nosé, S., The Journal of Chemical Physics 81, 511. <span id="id5"><sup><a class="reference internal" href="../references/references.html#id31" title="Shuichi Nosé. A molecular dynamics method for simulations in the canonical ensemble. Molecular Physics, 52(2):255-268, 1984.">23</a></sup></span></p></li>
+<li><p>“A unified formulation of the constant temperature molecular dynamics methods.” S. Nosé (1984), The Journal of Chemical Physics, 81, 511. DOI: 10.1063/1.447334. <span id="id6"><sup><a class="reference internal" href="../references/references.html#id32" title="Shuichi Nosé. A unified formulation of the constant temperature molecular dynamics methods. The Journal of Chemical Physics, 81(1):511-519, 1984.">24</a></sup></span></p></li>
+<li><p>Canonical dynamics: Equilibrium phase-space distributions., W. G. Hoover, Phys. Rev. A 31, 1695 (1985). <span id="id7"><sup><a class="reference internal" href="../references/references.html#id33" title="William G. Hoover. Canonical dynamics: equilibrium phase-space distributions. Physical Review A, 31(3):1695-1697, 1985.">11</a></sup></span></p></li>
+<li><p>“Nosé–Hoover chains: The canonical ensemble via continuous dynamics.” G. J. Martyna, M. L. Klein, M. E. Tuckerman (1992), The Journal of Chemical Physics, 97, 2635. DOI: 10.1063/1.463940. <span id="id8"><sup><a class="reference internal" href="../references/references.html#id34" title="Glenn J. Martyna, Michael L. Klein, and Mark E. Tuckerman. Nosé–hoover chains: the canonical ensemble via continuous dynamics. The Journal of Chemical Physics, 97(4):2635-2643, 1992.">21</a></sup></span></p></li>
+<li><p>“General decomposition theory of ordered exponentials.” M. Suzuki (1991), Physics Letters A, 146, 319. <span id="id9"><sup><a class="reference internal" href="../references/references.html#id35" title="Masuo Suzuki. General theory of higher-order decomposition of exponential operators and symplectic integrators. Physics Letters A, 201(5-6):425-428, 1996.">33</a></sup></span></p></li>
+<li><p>“Construction of higher order symplectic integrators. H. Yoshida (1990), Physics Letters A, 150, 262. <span id="id10"><sup><a class="reference internal" href="../references/references.html#id36" title="Haruo Yoshida. Construction of higher order symplectic integrators. Physics Letters A, 150(5-7):262-268, 1990.">40</a></sup></span></p></li>
+<li><p>“Statistical Mechanics: Theory and Molecular Simulation.” Tuckerman, M. E. (2010), Oxford University Press. <span id="id11"><sup><a class="reference internal" href="../references/references.html#id37" title="Mark E. Tuckerman. Statistical mechanics: theory and molecular simulation. Oxford University Press, 2010.">37</a></sup></span></p></li>
+<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span id="id12"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
 </ul>
 </section>
 </section>
