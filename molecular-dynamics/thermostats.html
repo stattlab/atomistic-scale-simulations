@@ -419,16 +419,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-canonical-ensemble-in-md">4.3.1. 1. Generating Canonical Ensemble in MD</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-thermostats">4.3.1.1. Stochastic Thermostats</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-thermostats">4.3.1.2. Deterministic Thermostats</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isokinetic-thermostat-constant-kinetic-energy">4.3.2. 2. Isokinetic Thermostat: Constant Kinetic Energy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#berendsen-thermostat-proportional-control">4.3.3. 3. Berendsen Thermostat: Proportional Control</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nosehoover-thermostat">4.3.4. 4. Nosé–Hoover Thermostat</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nosehoover-chains">4.3.5. 5. Nosé–Hoover Chains</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-via-operator-splitting">4.3.6. 6. Implementation via Operator Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-canonical-ensemble-in-md">4.3.1. Generate canonical ensemble in MD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#microscopic-and-macroscopic-connectivity-of-the-thermostat">4.3.2. Microscopic and macroscopic connectivity of the thermostat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-thermostats">4.3.3. Types of thermostats</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-thermostats-anderson-thermostat-and-lowe-anderson-thermostat">4.3.4. Stochastic thermostats: Anderson thermostat and Lowe - Anderson thermostat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-thermostats-i-isokinetic-thermostat-berendsen-thermostat">4.3.5. Deterministic thermostats I: Isokinetic thermostat, Berendsen thermostat.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-thermostats-ii-nose-hoover-thermostat">4.3.6. Deterministic thermostats II: Nosé-Hoover thermostat.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pressure-controls">4.3.7. Pressure Controls</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.3.8. References</a></li>
 </ul>
@@ -444,178 +440,820 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="thermostats">
 <h1><span class="section-number">4.3. </span>Thermostats<a class="headerlink" href="#thermostats" title="Link to this heading">#</a></h1>
-<section id="generating-canonical-ensemble-in-md">
-<h2><span class="section-number">4.3.1. </span>1. Generating Canonical Ensemble in MD<a class="headerlink" href="#generating-canonical-ensemble-in-md" title="Link to this heading">#</a></h2>
-<p>The basic MD ensemble is constant energy and constant volume. However, experimentally it is usually more convenient to specify the pressure and temperature. In those variables the phase of the system is unique except precisely at a phase transition. If we input the number of particles and volume near a phase boundary, then it is possible we will be in the two phase region, for example we could have a mixture of ice and water. This is unlikely to occur in a simulation because our system is usually so small. The interface between the two phases would cost too much energy and inhibits the system from moving freely from one phase to the other. Temperature controls and pressure controls allow one to do such simulations more directly.</p>
-<p>Molecular dynamics (MD) naturally gives the <strong>NVE ensemble</strong>. To obtain the <strong>NVT ensemble</strong>, apply a <strong>thermostat</strong> (heat reservoir) that drives the system to the correct temperature.</p>
-<p>The disadvantage of all thermostatting methods for working at constant temperature is that the dynamics is changed in an artificial way and dynamics is the reason why we do MD and not MC. Real dynamics obey the rules of special relativity (in principle). Effects need to be mediated by the transport of particles since we don’t have any photons. Heat is transported at the speed of sound or slower. But if there is a kinetic energy fluctuation, the effect on the other particles with the various temperature thermostats is immediate. All three methods have a coupling constant (e.g. the frequency of rescaling, the friction coefficient or the mass of the N-H variable.) It should be chosen as small possible to alter the dynamics as little as possible. If this is done, the non-physical effects will be order <span class="math notranslate nohighlight">\(1/N\)</span> in general. If this is a problem one should use a more physical method to control temperature fluctuations, for example put in a real heat bath at the edge of the physical system. Extremely accurate estimations of dyanmical quantites like the diffusion constants or other transport coefficients should be done in the <strong>NVE</strong> if possible. Often, it is useful to first equilibrate with <strong>NVT</strong>, and then switch to <strong>NVE</strong> for production runs in these cases.</p>
-<section id="stochastic-thermostats">
-<h3><span class="section-number">4.3.1.1. </span>Stochastic Thermostats<a class="headerlink" href="#stochastic-thermostats" title="Link to this heading">#</a></h3>
-<p>We want to do simulations at constant temperature. How do we do it?</p>
-<ul class="simple">
-<li><p><strong>Andersen</strong>: At random intervals, assign new momenta to particles.</p>
-<ul>
-<li><p>❌ Not momentum conserving.</p></li>
-</ul>
-</li>
-<li><p><strong>Lowe-Andersen</strong>: Pairwise stochastic velocity changes.</p>
-<ul>
-<li><p>✅ Momentum conserving.</p></li>
-</ul>
-</li>
-<li><p><strong>Langevin</strong>: Add deterministic friction and random forces.</p>
-<ul>
-<li><p>❌ Not momentum conserving.</p></li>
-</ul>
-</li>
-<li><p><strong>DPD (Dissipative Particle Dynamics)</strong>: Pairwise friction and random forces.</p>
-<ul>
-<li><p>✅ Momentum conserving.</p></li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<div><p>✅ Random thermostats are usually stable.
-⚠️ They add computational cost due to random number generation.
-⚠️ Must tune friction strength carefully to avoid distorting dynamics.</p>
-</div></blockquote>
+<section id="generate-canonical-ensemble-in-md">
+<h2><span class="section-number">4.3.1. </span>Generate canonical ensemble in MD<a class="headerlink" href="#generate-canonical-ensemble-in-md" title="Link to this heading">#</a></h2>
+<p>Before, we covered how the Velocity Verlet algorithm can be implemented to perform a microcanonical ensemble (NVE). The Velocity Verlet algorithm provides an efficient, time-reversible, and symplectic approach for simulating materials with a constant number of particles (N), constant system volume (V), and a constant total energy (E).</p>
+<p>Experimentalists may not be happy about this, as the system volume and the total energy are very hard to control in real experiments. Practically, it is much easier to control the pressure (P) and temperature (T) experimentally. Ideally, an isothermal-isobaric NPT ensemble is the best to simulate the particles, just like doing an experiment. With the NPT ensemble, the phase of the system is unique based on the phase diagram. Then, phenomena such as phase transitions can be directly captured through precise temperature and pressure controls.</p>
+<p>In this section, we will first focus on changing the constant energy (E) to constant temperature (T) with an implementation called <strong>thermostat</strong>. Adding a thermostat to the original MD simulation setup changes our system from a microcanonical ensemble (NVE) to a canonical ensemble (NVT).  With a thermostat, the system is allowed to exchange energy with a <strong>heat bath</strong>, which is just like a large reservoir for an experimentalist, so the kinetic energy of atoms can be regulated. It also mimics thermal fluctuations of atoms in a real physical system. A thermostat is exactly like the one you have in your home, where the thermostat drives the simulated system to the target temperature, like an “air conditioner.”</p>
+<figure class="align-center" id="heat-bath">
+<a class="reference internal image-reference" href="../_images/Heat-bath.jpg"><img alt="Visualization of heat bath for simulation." src="../_images/Heat-bath.jpg" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">Schematic of the visualization for a heat bath for simulation.</span><a class="headerlink" href="#heat-bath" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Ultimately, thermostats bridge the gap between theoretical ensembles and realistic simulations. They enable MD systems to reproduce experimental thermodynamic conditions while maintaining stable numerical integration, making them indispensable tools in computational materials science and statistical mechanics.</p>
+<p><strong>As a reminder, while it is convenient to use open-source packages like LAMMPS, HOOMD-blue, and GROMACS, it is very important to check how the thermostats are defined and implemented so your simulations are physically reliable and reproducible.</strong></p>
 </section>
-<section id="deterministic-thermostats">
-<h3><span class="section-number">4.3.1.2. </span>Deterministic Thermostats<a class="headerlink" href="#deterministic-thermostats" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Add a scaling variable acting as a controller.</p>
-<ul>
-<li><p><strong>Isokinetic</strong>: Constant kinetic energy.</p></li>
-<li><p><strong>Berendsen</strong>: Weak velocity rescaling.</p></li>
-<li><p><strong>Nosé / Nosé-Hoover / Nosé-Hoover chains</strong>: Canonical (sometimes).</p></li>
-</ul>
-</li>
-</ul>
+<section id="microscopic-and-macroscopic-connectivity-of-the-thermostat">
+<h2><span class="section-number">4.3.2. </span>Microscopic and macroscopic connectivity of the thermostat<a class="headerlink" href="#microscopic-and-macroscopic-connectivity-of-the-thermostat" title="Link to this heading">#</a></h2>
+<p>In an atomic view, the temperature is described by the average kinetic energy per atom. Recall that the <strong>Maxwell-Boltzmann distribution</strong> describes the probability that a particle in thermal equilibrium has a velocity <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> and magnitude <span class="math notranslate nohighlight">\(v\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{v}) = (\frac{m}{2 \pi k_B T})^{\frac{3}{2}} \,\mathrm{exp}\,(-\frac{m (v_x^2 + v_y^2 + v_z^2)}{2 k_B T}) \quad d^3v = dv_x dv_y dv_z
+\]</div>
+<p>For directions <span class="math notranslate nohighlight">\(\alpha = (x,y,z)\)</span>, it can be factorized into three independent 1-D Gaussians:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{v}) = f_x (v_x) \, f_y (v_y) \, f_z (v_z) \quad \leftarrow \quad f_{\alpha} (v_\alpha) = (\frac{m}{2 \pi k_B T})^{\frac{1}{2}} \,\mathrm{exp}\,(-\frac{m v_\alpha^2}{2 k_B T})
+\]</div>
+<p>To find the average kinetic energy per atom, we need to find the mean square velocity, which can be done with the Gaussian integral.</p>
+<div class="math notranslate nohighlight">
+\[
+I(a)=\int_{-\infty}^{\infty}e^{-a x^2}dx=\sqrt{\frac{\pi}{a}} \Rightarrow \int_{-\infty}^{\infty} x^{2} e^{-a x^{2}} \, dx
+= -\frac{d}{da}\!\int_{-\infty}^{\infty} e^{-a x^{2}} dx
+= -\frac{d}{da}\!\left(\sqrt{\frac{\pi}{a}}\right)
+= \frac{\sqrt{\pi}}{2\,a^{3/2}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\langle v_\alpha^2 \rangle 
+&amp;= \int_{-\infty}^{\infty} v_\alpha^2 f_\alpha(v_\alpha)\, dv_\alpha \\
+&amp;= \left( \frac{m}{2\pi k_B T} \right)^{1/2} 
+    \int_{-\infty}^{\infty} v_\alpha^2 e^{-a v_\alpha^2} \, dv_\alpha \\
+&amp;= \left( \frac{m}{2\pi k_B T} \right)^{1/2} 
+    \frac{\sqrt{\pi}}{2 a^{3/2}} \\
+&amp;= \left( \frac{m}{2\pi k_B T} \right)^{1/2} 
+    \frac{\sqrt{\pi}}{2} 
+    \left( \frac{2k_B T}{m} \right)^{3/2} \\
+&amp;= \frac{k_B T}{m}, \quad (\alpha = x, y, z)
+\end{aligned}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[
+\langle v^2 \rangle = \langle v_x^2 + v_y^2 + v_z^2 \rangle = 3 \frac{k_B T}{m}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\langle \mathrm{KE} \rangle = N \cdot \frac{1}{2} m  \langle v^2 \rangle = \frac{3}{2} N k_B T
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+T = \frac{2}{3 N k_B} \sum_{i = 1}^N \frac{1}{2} m_i v_i^2
+\]</div>
+<p>Therefore, microscopic motions are closely linked to the macroscopic temperature. The insight for choosing a good thermostat is that it must regulate the correct kinetic energy or conserved momentum.</p>
+<p>In addition, the thermostat should not affect the phase-space structure. Similarly, we want to maintain the advantage of Velocity Verlet, where the time-reversible and symplectic integration properties ensure energy conservation in the long run.</p>
 </section>
-</section>
-<section id="isokinetic-thermostat-constant-kinetic-energy">
-<h2><span class="section-number">4.3.2. </span>2. Isokinetic Thermostat: Constant Kinetic Energy<a class="headerlink" href="#isokinetic-thermostat-constant-kinetic-energy" title="Link to this heading">#</a></h2>
-<p>The simplest method is to start the simulation with random velocities. If the system is ergodic, the only thing that matters is the total energy. One could give all the extra energy to a single particle and the energy would cascade down to all the particles, and the velocity would have a normal distribution after a few collisions. But to minimize simulation time, you want to start as close as possible to the final true distribution, a normal distribution. In the <strong>constant kinetic energy</strong> or <strong>velocity rescaling method</strong>, every so often one re-scales the velocity, multiplying by a constant chosen so that the kinetic energy is <span class="math notranslate nohighlight">\(3/2K T\)</span> per particle. Once the system reaches equilibrium, the scaling is no longer necessary.</p>
-<p>Use a Lagrange multiplier to constrain kinetic energy:</p>
-<div class="math notranslate nohighlight">
-\[
-K = \frac{p^2}{2m} = \text{constant}
-\]</div>
-<p>Differentiating:</p>
-<div class="math notranslate nohighlight">
-\[
-\frac{dK}{dt} = \frac{p \cdot f}{m} = 0
-\]</div>
-<p>This leads to:</p>
-<div class="math notranslate nohighlight">
-\[
-f = \lambda p
-\]</div>
-<p>The resulting ensemble has probability:</p>
-<div class="math notranslate nohighlight">
-\[
-P \propto \delta(K(p) - K_0) \cdot e^{-\beta U(q)}
-\]</div>
-<blockquote>
-<div><p>⚠️ Not canonical, but for large systems, it’s a good approximation.
-✅ Configurations have correct distribution.</p>
-</div></blockquote>
-<p>Can also use velocity rescaling:</p>
-<div class="math notranslate nohighlight">
-\[
-p \leftarrow \alpha p, \quad \alpha = \sqrt{\frac{T_0}{T}}
-\]</div>
-<blockquote>
-<div><p>⚠️ Discontinuous, but useful for initial equilibration.</p>
-</div></blockquote>
-</section>
-<section id="berendsen-thermostat-proportional-control">
-<h2><span class="section-number">4.3.3. </span>3. Berendsen Thermostat: Proportional Control<a class="headerlink" href="#berendsen-thermostat-proportional-control" title="Link to this heading">#</a></h2>
-<p>Control temperature via exponential relaxation:</p>
-<div class="math notranslate nohighlight">
-\[
-\frac{dT}{dt} = -\gamma (T - T_0)
-\]</div>
-<p>Velocity rescaling:</p>
-<div class="math notranslate nohighlight">
-\[
-p \leftarrow \lambda p, \quad \lambda = \sqrt{1 + \frac{\Delta t}{\tau} \left( \frac{T_0}{T} - 1 \right)}
-\]</div>
-<blockquote>
-<div><p>⚠️ Not canonical.
-✅ Useful for steering system to target temperature.</p>
-</div></blockquote>
-</section>
-<section id="nosehoover-thermostat">
-<h2><span class="section-number">4.3.4. </span>4. Nosé–Hoover Thermostat<a class="headerlink" href="#nosehoover-thermostat" title="Link to this heading">#</a></h2>
-<p>An approach pioneered in 1984 by Nose adds a single heat bath particle. A new variable with the dimensions of a friction constant is added to the system. This approach gives reversible deterministic dynamics and if the system is ergodic we will be guaranteed to go to the canonical distribution. The approach of adding a new fictitious particle is very common trick in simulation.</p>
-<p>Nosé introduced an <strong>extended Hamiltonian</strong>:</p>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{H} = \sum \frac{p^2}{2ms^2} + U(q) + \frac{p_s^2}{2Q} + gk_BT \ln s
-\]</div>
+<section id="types-of-thermostats">
+<h2><span class="section-number">4.3.3. </span>Types of thermostats<a class="headerlink" href="#types-of-thermostats" title="Link to this heading">#</a></h2>
+<p>The type of thermostat is determined by how the thermostat contributes to the kinetic energy ensemble controls.</p>
+<p><strong>Stochastic Thermostat</strong>:
+A stochastic process is a fancy way to say “random process”. So the stochastic thermostat means <strong>random fluctuations</strong> are created from the heat bath. Then, the momenta of the atoms are stochastically updated according to the Maxwell-Boltzmann distribution.</p>
+<p>Implementing a stochastic thermostat is usually stable. However, it is noticeable that random number generation would increase the computational cost. In addition, the strength of stochastic fluctuations needs to be carefully controlled, or the random thermal forces would disrupt the conserved momentum and alter the system dynamics.</p>
+<p><strong>Deterministic Thermostat</strong>:
+The deterministic thermostats modify the system’s equations of motion by introducing additional <strong>scaling variables</strong> (frictional drag) that adjust particles’ velocities and ensure that the system evolves toward the target temperature.</p>
+<p>A deterministic thermostat is usually accurate when obtaining physically realistic dynamics, as the coupling has no randomness. However, it is often hard to implement the deterministic thermostat correctly to simulate under the canonical ensemble (NVT). One crucial factor is the parameter tuning:</p>
 <ul class="simple">
-<li><p>( s ): scaling variable</p></li>
-<li><p>( Q ): thermal mass</p></li>
-<li><p>( g = 3N - 3 ): degrees of freedom</p></li>
+<li><p>If the coupling of the frictional drag is too weak, the system may not reach the equilibrium temperature efficiently.</p></li>
+<li><p>If the scaling is too large, the mechanical behaviors of the atoms would be completely controlled by the frictional forces, which can lead to non-physical oscillations in temperature.</p></li>
 </ul>
-<p>Equations of motion:</p>
-<div class="math notranslate nohighlight">
-\[
-\dot{q} = \frac{p}{ms^2}, \quad \dot{p} = f - \frac{p_s}{Q} p, \quad \dot{s} = \frac{p_s}{Q}, \quad \dot{p_s} = \sum \frac{p^2}{ms^3} - gk_BT
-\]</div>
-<blockquote>
-<div><p>✅ Extended system is microcanonical
-✅ Subsystem (q, p) is canonical</p>
-</div></blockquote>
-<p>Hoover reformulated to avoid time scaling:</p>
-<div class="math notranslate nohighlight">
-\[
-\dot{q} = \frac{p}{m}, \quad \dot{p} = f - \zeta p, \quad \dot{\zeta} = \frac{1}{Q} \left( \frac{p^2}{m} - gk_BT \right)
-\]</div>
-<ul class="simple">
-<li><p>Generates canonical distribution if ergodic</p></li>
-<li><p>Conserves extended energy:</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[
-\mathcal{H} = K + U + \frac{Q\zeta^2}{2} + gk_BT \eta
-\]</div>
-<p>Choose ( Q ) carefully:</p>
-<div class="math notranslate nohighlight">
-\[
-Q \sim gk_BT \tau^2
-\]</div>
+<p><strong>Langevin Thermostat</strong>:
+A Langevin thermostat introduces <strong>both the stochastic thermal fluctuations and the deterministic frictional drag</strong> to each particle. The Langevin dynamics controls the system temperatures with a balance between energy dissipation and thermal fluctuation called the fluctuation-dissipation theorem.</p>
+<p>It is noticeable that the deterministic friction in the Langevin thermostat is dependent on the stochastic thermal fluctuation strength. The Langevin dynamics is actually adding an “implicit solvent”, where the coupling strength indicates how strongly the solvents may interfere with the simulated system.</p>
+<p>The dissipative particle dynamics (DPD) thermostat is the extension of the Langevin thermostat. It shares the same concepts, but assigns the friction and random forces pairwise instead of individually. This ensures that the random force does not perturb the conserved momentum, which can be crucial for simulations that require stability to maintain proper momentum transport, such as soft matter.</p>
+<p>While it is easy to perform a stable canonical ensemble (NVT) with Langevin dynamics, note that the stochastic force requires random number generation with large computational cost, and the thermostat coupling also needs to be carefully chosen.
+A detailed descriptions of the underlying physics and implementations of Langevin dynamics are included in the section “Langevin dynamics”.</p>
 </section>
-<section id="nosehoover-chains">
-<h2><span class="section-number">4.3.5. </span>5. Nosé–Hoover Chains<a class="headerlink" href="#nosehoover-chains" title="Link to this heading">#</a></h2>
-<p>Single Nosé–Hoover thermostat may not be ergodic (e.g., harmonic oscillator).</p>
-<p>Solution: Add a chain of thermostat variables:</p>
+<section id="stochastic-thermostats-anderson-thermostat-and-lowe-anderson-thermostat">
+<h2><span class="section-number">4.3.4. </span>Stochastic thermostats: Anderson thermostat and Lowe - Anderson thermostat<a class="headerlink" href="#stochastic-thermostats-anderson-thermostat-and-lowe-anderson-thermostat" title="Link to this heading">#</a></h2>
+<p><strong>Anderson thermostat</strong>:</p>
+<p>The Anderson thermostat maintains the target temperature by randomly reassigning particle velocities to mimic collisions with an external heat bath.</p>
+<p>At each timestep, every particle has a small possibility of being collided with the heat bath. When the particle collides, the momentum is then randomly replaced <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> with a new value drawn from the Maxwell-Boltzmann distribution at the target temperature <span class="math notranslate nohighlight">\(T\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
-\dot{\zeta}_1 = \frac{1}{Q_1} \left( \frac{p^2}{m} - gk_BT \right), \quad \dot{\zeta}_2 = \frac{1}{Q_2} \left( Q_1 \zeta_1^2 - k_BT \right), \dots
+f(\mathbf{v}) = (\frac{m}{2 \pi k_B T})^{\frac{3}{2}} \,\mathrm{exp}\,(-\frac{m (v_x^2 + v_y^2 + v_z^2)}{2 k_B T})
 \]</div>
-<ul class="simple">
-<li><p>Improves ergodicity</p></li>
-<li><p>Commonly used in modern MD simulations</p></li>
-</ul>
+<p>As the velocity components <span class="math notranslate nohighlight">\(v_x, v_y, v_z\)</span> are independent of each other. An equivalent way of sampling is drawing random numbers for each component from a normal distribution with mean 0 and standard deviation <span class="math notranslate nohighlight">\(\sqrt{\frac{k_B T}{m}}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+f_{\alpha} (v_\alpha) = (\frac{m}{2 \pi k_B T})^{\frac{1}{2}} \,\mathrm{exp}\,(-\frac{m v_\alpha^2}{2 k_B T}) \quad \rightarrow \quad v_\alpha \in \mathcal{N}(0, \, (\sqrt{\frac{k_B T}{m}})^2)
+\]</div>
+<p>The Anderson thermostat is a simple and effective way for equilibration by quickly generating the correct Maxwell-Boltzmann distribution. Therefore, the Anderson thermostat can be utilized for fast equilibration if the system does not have the correct target kinetic energy.</p>
+<p>However, the clear issue with the Anderson thermostat is that it does not follow the momentum conservation properties. So the center-of-mass motion is non-zero, and a drift would occur in the system with the wrong physical transport behavior.</p>
+<p><strong>Lowe-Anderson thermostat</strong>:</p>
+<p>The Lowe-Anderson thermostat is an extension of the Anderson thermostat, but it solves the flaw of non-conserved momentum. A good reference for this is [An alternative approach to dissipative particle dynamics, Lowe, C. P., EPL 47 145, (1999)].</p>
+<p>At each timestep, instead of considering the collisions of particles with the heat bath, we consider collisions of pairs of particles <span class="math notranslate nohighlight">\(i, j\)</span>. Assume a collision frequency <span class="math notranslate nohighlight">\(\nu\)</span>, then for each pair at a timestep <span class="math notranslate nohighlight">\(\Delta t\)</span>, the probability of a collision happening is:</p>
+<div class="math notranslate nohighlight">
+\[
+P = \nu \Delta t
+\]</div>
+<p>If a collision happens, their relative velocity along the line <span class="math notranslate nohighlight">\(v_{ij}^{\parallel}\)</span> connecting them is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbf{r}}_{ij} = \frac{\mathbf{r}_i - \mathbf{r}_j}{| \mathbf{r}_i - \mathbf{r}_j |}, \quad \mathbf{v}_{ij} = \mathbf{v}_i - \mathbf{v}_j
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+v_{ij}^{\parallel} = \mathbf{v}_{ij} \cdot \hat{\mathbf{r}}_{ij} 
+\]</div>
+<p>Only the parallel relative speed is randomized with the Maxwell-Boltzmann distribution, which saves the angular momentum. To preserve the momentum, a term called reduced mass <span class="math notranslate nohighlight">\(m_{ij}\)</span> is introduced.</p>
+<div class="math notranslate nohighlight">
+\[
+v_{ij}^{\parallel, \mathrm{new}} \in \mathcal{N}(0, \, (\sqrt{\frac{k_B T}{m_{ij}}})^2) \quad \leftarrow \quad m_{ij} = \frac{m_i m_j}{m_i + m_j}
+\]</div>
+<p>So the change in the parallel relative speed <span class="math notranslate nohighlight">\(\Delta v_{ij}^\parallel \)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta v_{ij}^\parallel = v_{ij}^{\parallel, \mathrm{new}} - v_{ij}^{\parallel}
+\]</div>
+<p>Then apply the change to update the velocity vectors of two particles:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{v}_i^{\mathrm{new}} = \mathbf{v}_i +  \frac{m_j}{m_i + m_j} \, \Delta v_{ij}^\parallel \,\hat{\mathbf{r}}_{ij}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{v}_j^{\mathrm{new}} = \mathbf{v}_j +  \frac{m_i}{m_i + m_j} \, \Delta v_{ij}^\parallel \,\hat{\mathbf{r}}_{ij}
+\]</div>
+<p>For equal mass, the magnitude of the update reduces to <span class="math notranslate nohighlight">\(\frac{1}{2} \Delta v_{ij}^\parallel\)</span>, it can be shown that both the linear momentum and the angular momentum are conserved.</p>
+<p>Linear momentum conservation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+m_i\mathbf{v}_i^{\mathrm{new}} + m_j\mathbf{v}_j^{\mathrm{new}}
+&amp;= m_i\left(\mathbf{v}_i + \frac{m_j}{m_i + m_j}\,\Delta v_{ij}^{\parallel}\hat{\mathbf{r}}_{ij}\right)
+ + m_j\left(\mathbf{v}_j - \frac{m_i}{m_i + m_j}\,\Delta v_{ij}^{\parallel}\hat{\mathbf{r}}_{ij}\right) \\
+&amp;= m_i\mathbf{v}_i + m_j\mathbf{v}_j
+ + \left( \frac{m_i m_j}{m_i + m_j} - \frac{m_i m_j}{m_i + m_j} \right)
+   \Delta v_{ij}^{\parallel}\hat{\mathbf{r}}_{ij} \\
+&amp;= m_i\mathbf{v}_i + m_j\mathbf{v}_j
+\end{aligned}
+\end{split}\]</div>
+<p>Angular momentum conservation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\Delta \mathbf{L} 
+&amp;= m_i\,\mathbf{r}_i \times \Delta \mathbf{v}_i 
+  + m_j\,\mathbf{r}_j \times \Delta \mathbf{v}_j \\
+&amp;= m_i\,\mathbf{r}_i \times 
+   \left( \frac{m_j}{m_i + m_j}\,\Delta v_{ij}^{\parallel}\hat{\mathbf{r}}_{ij} \right)
+ - m_j\,\mathbf{r}_j \times 
+   \left( \frac{m_i}{m_i + m_j}\,\Delta v_{ij}^{\parallel}\hat{\mathbf{r}}_{ij} \right) \\
+&amp;= \frac{m_i m_j}{m_i + m_j}\,
+   \Delta v_{ij}^{\parallel}\,
+   \left( \mathbf{r}_i \times \hat{\mathbf{r}}_{ij} 
+        - \mathbf{r}_j \times \hat{\mathbf{r}}_{ij} \right) \\
+&amp;= \frac{m_i m_j}{m_i + m_j}\,
+   \Delta v_{ij}^{\parallel}\,
+   \left( (\mathbf{r}_i - \mathbf{r}_j) \times \hat{\mathbf{r}}_{ij} \right) \\
+&amp;= \frac{m_i m_j}{m_i + m_j}\,
+   \Delta v_{ij}^{\parallel}\,
+   \left( \mathbf{r}_{ij} \times \hat{\mathbf{r}}_{ij} \right)
+= \mathbf{0}
+\end{aligned}
+\end{split}\]</div>
+<p>In practice, the collision frequency <span class="math notranslate nohighlight">\(\nu\)</span> controls the strength of stochastic fluctuations. With a large <span class="math notranslate nohighlight">\(\nu\)</span>, the system experiences a faster thermalization, but the dynamics are more random. With a small <span class="math notranslate nohighlight">\(\nu\)</span>, the system is closer to the Newtonian dynamics, but the temperature equilibration is slower. In addition, the computational cost of the mechanism is large, so using a neighbor list and a cutoff radius  <span class="math notranslate nohighlight">\(r_C\)</span> can be efficient for implementing the Lowe-Anderson thermostat.</p>
 </section>
-<section id="implementation-via-operator-splitting">
-<h2><span class="section-number">4.3.6. </span>6. Implementation via Operator Splitting<a class="headerlink" href="#implementation-via-operator-splitting" title="Link to this heading">#</a></h2>
-<p>Nosé–Hoover thermostat can be implemented using <strong>operator splitting</strong>:</p>
-<p>Split Liouville operator:</p>
+<section id="deterministic-thermostats-i-isokinetic-thermostat-berendsen-thermostat">
+<h2><span class="section-number">4.3.5. </span>Deterministic thermostats I: Isokinetic thermostat, Berendsen thermostat.<a class="headerlink" href="#deterministic-thermostats-i-isokinetic-thermostat-berendsen-thermostat" title="Link to this heading">#</a></h2>
+<p><strong>Isokinetic thermostat</strong>:
+The isokinetic thermostat approaches the target temperature by constraining the kinetic energy of the system at the target temperature.</p>
 <div class="math notranslate nohighlight">
 \[
-e^{\mathcal{L} \Delta t} \approx e^{\mathcal{L}_1 \Delta t/2} e^{\mathcal{L}_2 \Delta t} e^{\mathcal{L}_1 \Delta t/2}
+K = \sum_i \frac{\mathbf{p}_i^2}{2 m_i} \equiv \frac{3 N k_B T_0}{2} = K_0
+\]</div>
+<p>To constrain constant kinetic energy, the equations of motion are modified with a Lagrange multiplier <span class="math notranslate nohighlight">\(\zeta\)</span> that acts as the constraint, such that the change of kinetic energy is 0 (<span class="math notranslate nohighlight">\(\dot{K} = 0\)</span>).</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{\mathbf{r}} = \frac{\mathbf{p}}{m}, \quad \dot{\mathbf{p}} = \mathbf{f} - \zeta \mathbf{p}
+\]</div>
+<p>The Lagrange multiplier <span class="math notranslate nohighlight">\(\zeta\)</span> can be derived from the constant kinetic energy:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d K}{dt}
+=\sum_i \frac{\mathbf p_i}{2 m_i}\cdot\dot{\mathbf p}_i + \sum_i \frac{\mathbf p_i}{2 m_i}\cdot\dot{\mathbf p}_i = \sum_i \frac{\mathbf p_i}{ m_i}\cdot\dot{\mathbf p}_i
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{d K}{dt}
+=\sum_i \frac{\mathbf p_i}{m_i}\cdot(\mathbf f_i-\zeta\,\mathbf p_i)
+=\sum_i \frac{\mathbf p_i\cdot\mathbf f_i}{m_i}
+-\zeta \sum_i \frac{\mathbf p_i\cdot\mathbf p_i}{m_i}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{dK}{dt}=0 \;\Rightarrow\;\zeta=\dfrac{\sum_i \frac{\mathbf p_i\cdot\mathbf f_i}{m_i}}
+{\sum_i \frac{\mathbf p_i\cdot\mathbf p_i}{m_i}}
+\]</div>
+<p>Equal mass <span class="math notranslate nohighlight">\(m_i = m\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\zeta=\dfrac{\mathbf{p} \cdot \mathbf{f}}
+{\mathbf{p} \cdot \mathbf{p}}
+\]</div>
+<p>Thus, <span class="math notranslate nohighlight">\(\zeta\)</span> continuously rescales the momenta to keep kinetic energy constant.</p>
+<p>While the isokinetic thermostat provides an efficient and fast approach toward the target temperature, the simulated result is actually not canonical. It can be shown that the probability density of isokinetic particles is different compared with the canonical particles. Recall for the NVT case, the canonical distribution is:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf r,\mathbf p)
+= \frac{1}{Z}\exp\!\big[-\beta\big(U(\mathbf r)+K(\mathbf p)\big)\big]
+\qquad
+K(\mathbf p)=\sum_{i=1}^{N}\frac{\mathbf p_i^{\,2}}{2m_i}
+\]</div>
+<p>For the isokinetic case, the result is imposed with a Dirac delta function as the constraint that the kinetic energy should be a constant value <span class="math notranslate nohighlight">\(K_0\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+f_{\mathrm{iso}}(\mathbf r,\mathbf p)
+\propto f_{\mathrm{can}}(\mathbf r,\mathbf p)\,
+\delta\!\big(K(\mathbf p)-K_0\big)
+\]</div>
+<p>For the part <span class="math notranslate nohighlight">\(\mathrm{exp}(-\beta K(\mathbf p))\)</span>, as the kinetic energy is constrained, the density is changed to:</p>
+<div class="math notranslate nohighlight">
+\[
+f_{\mathrm{iso}}(\mathbf r,\mathbf p)
+= \frac{1}{Z}\exp\!\big[-\beta\big(U(\mathbf r)+K(\mathbf p)\big)\big] \propto  \,
+\delta\!\big(K(\mathbf p)-K_0\big) \mathrm{exp}(-\beta K_0-\beta U(\mathbf{r})) 
+\]</div>
+<p>With the constrained kinetic energy <span class="math notranslate nohighlight">\(K_0\)</span>, the system no longer obtained the variance from the kinetic energy fluctuation. So the isokinetic thermostat cannot reproduce kinetic-dependent observables (e.g., heat capacity or velocity autocorrelation functions) exactly as in a canonical ensemble.</p>
+<p>However, for a large system, the isokinetic thermostat can reproduce an equivalent effect comparable to the canonical ensemble. Statistically speaking, the suppression of kinetic energy fluctuations in the isokinetic ensemble becomes negligible at large N.</p>
+<div class="math notranslate nohighlight">
+\[
+v_\alpha \in \mathcal{N}(0, \, \big(\sqrt{\frac{k_B T}{m} \big)^2)
+\]</div>
+<p>It can be shown that the kinetic energy of one atom <span class="math notranslate nohighlight">\(K_i\)</span> follows the chi-square distribution with a degree of 3.</p>
+<div class="math notranslate nohighlight">
+\[
+K_i = \tfrac{1}{2}m\!\left(v_{x,i}^2 + v_{y,i}^2 + v_{z,i}^2\right) \quad \rightarrow \quad \frac{2 K_i}{k_B T} \in \chi_3^2
+\]</div>
+<p>Then, for <span class="math notranslate nohighlight">\(N\)</span> particles, the total kinetic energy <span class="math notranslate nohighlight">\(K\)</span> followed the chi-square distribution with a degree of <span class="math notranslate nohighlight">\(3N\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+K = \sum_{i = 1}^N K_i \quad \rightarrow \quad \frac{2 K}{k_B T} \in \chi_{3N}^2
+\]</div>
+<p>For a chi-square variable <span class="math notranslate nohighlight">\(X \in \chi_n^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\langle X \rangle = n, \quad \mathrm{Var}(X) = 2n
+\]</div>
+<p>Bring back the kinetic energy variations:</p>
+<div class="math notranslate nohighlight">
+\[
+X = \frac{2 K}{k_B T}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\langle X \rangle = 3N \quad \rightarrow \quad \langle K \rangle = \frac{3}{2} N k_B T
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{Var}(K) = \frac{(k_B T)^2}{4} \mathrm{Var}(X) = \frac{(k_B T)^2}{4} (2 \cdot 3N) = \frac{3}{2} N (k_B T)^2 \quad \rightarrow \quad \langle (\Delta K)^2 \rangle = \frac{3}{2} N (k_B T)^2
+\]</div>
+<p>So the relative kinetic fluctuation of the canonical ensemble compared to the isokinetic ensemble converges with large N.</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\sigma_K}{\langle K \rangle} = \frac{\sqrt{\mathrm{Var}(K)}}{\langle K \rangle} = \frac{\sqrt{\frac{3}{2} N (k_B T)^2}}{\frac{3}{2} N k_B T} = \frac{1}{\sqrt{\frac{3N}{2}}}=\propto O(\frac{1}{\sqrt{N}}) \xrightarrow[N \to \infty]{} 0
+\]</div>
+<p>Therefore, the isokinetic thermostat can effectively simulate the canonical ensemble for a large system or at the thermodynamic limit.</p>
+<p>In addition, the isokinetic thermostat is very efficient to achieve the target temperature, which can be useful for equilibrating the system before applying other thermostats that equilibrate less efficiently (ex. Nosé–Hoover thermostat).</p>
+<p>An equivalent approach is the velocity rescaling, suppose <span class="math notranslate nohighlight">\(T_0\)</span> is the target temperature:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{p} \leftarrow \lambda \mathbf{p} \quad \lambda = \sqrt{\frac{T_0}{T}}
+\]</div>
+<p>It is noticeable that the momentum <span class="math notranslate nohighlight">\(p\)</span> is not continuous, and the result is not a canonical ensemble. Nevertheless, it is an efficient way for initial equilibration.</p>
+<p><strong>Berendsen thermostat</strong></p>
+<p>The Berendsen thermostat couples the simulated system to the heat bath by relaxing the system from the instantaneous temperature <span class="math notranslate nohighlight">\(T\)</span> toward the target temperature <span class="math notranslate nohighlight">\(T_0\)</span> with a characteristic time constant <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{dT}{dt} = - \frac{T-T_0}{\tau} \quad \rightarrow \quad T(t) = T_0 + (T - T_0)\, e^{-\frac{t}{\tau}}
+\]</div>
+<p>Or for the small timestep, the temperature change can be written as:</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta T = -\frac{\Delta t}{\tau} (T - T_0)
+\]</div>
+<p>The idea of velocity rescaling is applied in the Berendsen thermostat. Consider a scaling factor <span class="math notranslate nohighlight">\(\lambda\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{v}_i \leftarrow \lambda \mathbf{v}_i \quad T \propto v_i^2 \Rightarrow T' = \lambda^2 T
+\]</div>
+<p>Therefore, bringing to the equation of <span class="math notranslate nohighlight">\(\Delta T\)</span>, the scaling factor <span class="math notranslate nohighlight">\(\lambda\)</span> can be found as:</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda^2 T = T + \frac{\Delta t}{\tau} (T_0 - T) \quad \rightarrow \quad \lambda^2 = 1 + \frac{\Delta t}{\tau}(\frac{T_0}{T} - 1)
+\]</div>
+<p>So the momentum rescaling is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{p} \leftarrow \lambda \mathbf{p} \quad \lambda = \sqrt{1 + \frac{\Delta t}{\tau} (\frac{T_0}{T}-1)}
+\]</div>
+<p>The characteristic time constant  determines how strongly the system couples to the heat bath:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\tau \rightarrow \infty \quad \Leftrightarrow \quad \lambda \rightarrow 1\)</span>: no coupling, simulating the microcanonical ensemble (NVE).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau \rightarrow 0 \quad \Leftrightarrow \quad \lambda \rightarrow \infty\)</span>: instantaneous rescaling, which is equivalent to the isokinetic limit with temperature fixed at each step.</p></li>
+</ul>
+<p>However, similar to the isokinetic case, the rescaling process is not established based on the Maxwell-Boltzmann distribution. All velocities are updated uniformly and deterministically instead of addressing the thermal fluctuations in the velocity distribution. As a result, the ensemble it generates is not canonical (NVT).</p>
+</section>
+<section id="deterministic-thermostats-ii-nose-hoover-thermostat">
+<h2><span class="section-number">4.3.6. </span>Deterministic thermostats II: Nosé-Hoover thermostat.<a class="headerlink" href="#deterministic-thermostats-ii-nose-hoover-thermostat" title="Link to this heading">#</a></h2>
+<p>In 1984, Shuichi Nosé introduced a deterministic thermostat that successfully simulated the canonical ensemble (NVT) by adding a <strong>dynamical variable that acts as a thermal reservoir</strong>, allowing natural fluctuations consistent with the canonical distribution. The idea was implemented by William G. Hoover, and the Nosé–Hoover thermostat has been commonly used as one of the most accurate and efficient methods for constant-temperature molecular dynamics simulations.</p>
+<p><strong>Nosé formulation</strong></p>
+<p>Recall that in the Velocity Verlet algorithm, the equations are designed to numerically integrate Hamilton’s equations of motion, which define the time evolution of a system governed by the Hamiltonian <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{H}(\mathbf{r}, \mathbf{p}) = K(\mathbf{p}) + U(\mathbf{r}) = \sum_i \frac{\mathbf{p}_i^2}{2 m_i} + U(\mathbf{r}_1, \mathbf{r}_2, ..., \mathbf{r}_N)
+\]</div>
+<p>Nosé introduced an extended Hamiltonian, which conserves the total energy of the combined system with the thermostat.</p>
+<p>\mathcal{H}’(\mathbf{r}, \mathbf{p}, s, p_s) = \mathcal{H}(\mathbf{r}, \mathbf{p}) + \frac{p_s^2}{2 Q} + g k_B T \mathrm{ln} s</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(s\)</span>: Time-scaling variable.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{p}_s\)</span>: Conjugate momentum of time-scaling variable.</p></li>
+<li><p><span class="math notranslate nohighlight">\(Q\)</span>: Thermal mass, which controls the thermostat force strength.</p></li>
+<li><p><span class="math notranslate nohighlight">\(g = 3N - 3\)</span>: number of degrees of freedom for a system in 3D space with conserved momentum.</p></li>
+</ul>
+<p>Originally, Nosé defined the equations of motion as:</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+\dot{\mathbf{r}} = \frac{\mathbf{p}}{m s^2}, \quad \dot{s} = \frac{p_s}{Q},\quad
+\dot{\mathbf{p}} = \mathbf{f}, \quad \dot{p}_s &amp;= \frac{\mathbf{p}\cdot\mathbf{p}}{m s^2} - g k_B T.
+\end{align}
+\]</div>
+<p>As the time-scaling variable <span class="math notranslate nohighlight">\(s\)</span> is combined into the position change <span class="math notranslate nohighlight">\(\dot{\mathbf{r}}\)</span> and momentum change <span class="math notranslate nohighlight">\(\dot{\mathbf{p}}\)</span>, with the connection toward the thermal mass <span class="math notranslate nohighlight">\(Q\)</span>, it creates a coupling between the system’s kinetic energy and the thermal reservoir. However, it is noticeable that the system is not defined under an actual time but a scaled time <span class="math notranslate nohighlight">\(\tau\)</span>, which may not be the best option for simulation.</p>
+<p><strong>Nosé–Hoover transformation</strong></p>
+<p>Hoover removed the explicit time scaling variable <span class="math notranslate nohighlight">\(s\)</span>, as it is unrealistic to simulate under a scaled time. Therefore, Hoover rewrote the equations in real physical time <span class="math notranslate nohighlight">\(dt =  s d \tau\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{p}' = \frac{\mathbf{p}}{s} \quad \eta = \mathrm{ln} s \quad \zeta = \frac{p_s}{Q}
+\]</div>
+<p>Then the equations of motion can be derived with the rewritten equations and <span class="math notranslate nohighlight">\(\frac{d}{dt} = \frac{1}{s} \frac{d}{d \tau}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{\mathbf r}
+=\frac{1}{s}\frac{d\mathbf r}{d\tau}
+=\frac{1}{s}\left(\frac{\mathbf p}{m s^{2}}\right)
+=\frac{\mathbf p/s}{m}
+=\frac{\mathbf p'}{m}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot{\mathbf p}'
+=\frac{d}{dt}\!\left(\frac{\mathbf p}{s}\right)
+=\frac{1}{s}\frac{d\mathbf p}{d\tau}-\frac{\dot s}{s}\,\mathbf p'
+=\frac{1}{s}\mathbf f-\frac{p_s}{Q}\,\mathbf p'
+=\mathbf f-\zeta\,\mathbf p'
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot\eta
+=\frac{d}{dt}\ln s
+=\frac{\dot s}{s}
+=\frac{1}{s}\frac{ds}{d\tau}\,\frac{1}{s}
+=\frac{p_s}{Q}
+=\zeta
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot\zeta
+=\frac{1}{Q}\,\dot p_s
+=\frac{1}{Q}\!\left(\frac{1}{s}\frac{dp_s}{d\tau}\right)
+=\frac{1}{Q}\!\left(\frac{1}{s}\Big[\frac{\mathbf p\!\cdot\!\mathbf p}{m s^{2}}-gk_B T\Big]\right)
+=\frac{1}{Q}\!\left(\frac{\mathbf p'\!\cdot\!\mathbf p'}{m}-gk_B T\right)
+\]</div>
+<p>The consequence of the reformulation is that the equations of motion are no longer Hamiltonian with the non-symplectic frictional term. There is no true Hamiltonian that generates these equations exactly. Some good references are listed: [A unified formulation of the constant temperature molecular dynamics methods. Nosé, S., The Journal of Chemical Physics 81, 511.] and [Canonical dynamics: Equilibrium phase-space distributions., W. G. Hoover, Phys. Rev. A 31, 1695 (1985)]  A short summary is put below:</p>
+<p>Start from the extended Hamiltonian, consider the following transformations:</p>
+<div class="math notranslate nohighlight">
+\[
+\eta = \mathrm{ln}s \quad \rightarrow \quad s = e^\eta, \quad \zeta = \frac{p_s}{Q} \quad \rightarrow \quad p_s = Q \zeta
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{H}'(\mathbf{r}, \mathbf{p}, s, p_s) = \sum_i \frac{p_i^2}{2 m_i e^{2 \zeta}} + U(\mathbf{r}) + g k_B T \eta
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{p}' = \frac{\mathbf{p}}{s} \quad \rightarrow \quad \frac{p_i^2}{2 m_i e^{2 \eta}} = \frac{p_i'^2}{2 m_i} = K(\mathbf{p}')
+\]</div>
+<p>So the extended Hamiltonian can be transformed as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{H}'(\mathbf{r}', \mathbf{p}', \eta, \zeta) = U(\mathbf{r}) + K(\mathbf{p}') + \frac{Q \zeta^2}{2} + g k_B T \eta
+\]</div>
+<p>For the flow <span class="math notranslate nohighlight">\(\mathbf{v} = (\dot{\mathbf{r}}, \dot{\mathbf{p}'}, \dot{\eta}, \dot{\zeta})\)</span>, the distribution of the thermostat <span class="math notranslate nohighlight">\(f\)</span> should follow the Liouville equation:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial t} + \nabla \cdot (f \cdot \mathbf{v}) = 0
+\]</div>
+<p>Instead of directly showing this, Nosé and Hoover considered the chain rules and showed the time invariant as:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial \mathbf{r}} \cdot \dot{\mathbf{r}} + \frac{\partial f}{\partial \mathbf{p}'} \cdot \dot{\mathbf{p}'} +\frac{\partial f}{\partial \eta} \cdot \dot{\eta} + \frac{\partial f}{\partial \zeta} \cdot \dot{\zeta} + f(\nabla \cdot \mathbf{v}) = 0
+\]</div>
+<p>Specifically, the divergence of the extended phase space can be found as:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla \!\cdot\! \mathbf{v}
+= \sum_i \frac{\partial \dot{r}_i}{\partial r_i}
++ \sum_i \frac{\partial \dot{p}_i}{\partial p_i}
++ \frac{\partial \dot{\eta}}{\partial \eta}
++ \frac{\partial \dot{\zeta}}{\partial \zeta}
 \]</div>
 <ul class="simple">
-<li><p>(\mathcal{L}_1): thermostat part</p></li>
-<li><p>(\mathcal{L}_2): velocity Verlet</p></li>
+<li><p><span class="math notranslate nohighlight">\(\dot{\mathbf{r}_i} =\frac{\mathbf p'}{m}\)</span>, there is no dependence on the original positions, so the first sum comes to 0.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\dot{\mathbf{p}}_i = =\mathbf f-\zeta\,\mathbf p_i'\)</span>, so for each particle <span class="math notranslate nohighlight">\(i\)</span>, the dependence comes to <span class="math notranslate nohighlight">\(-\zeta\)</span>, and there are in total <span class="math notranslate nohighlight">\(g\)</span> (degrees of freedom) moment components (for each particle at x, y, z directions).</p></li>
 </ul>
-<p>Further split thermostat operator for accuracy:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_i \frac{\partial \dot{p}_i}{\partial p_i}
+ =  \sum_{i, \alpha} (-\zeta) = -g\zeta 
+\]</div>
 <ul class="simple">
-<li><p>Use multiple substeps</p></li>
-<li><p>See: Martyna et al., Mol. Phys. 87, 1117 (1996)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\dot\eta = \zeta\)</span>, which has no dependence on <span class="math notranslate nohighlight">\(\eta\)</span>, so the sum comes to 0.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\dot{\zeta} = \frac{1}{Q}\!\left(\frac{\mathbf p'\!\cdot\!\mathbf p'}{m}-gk_B T\right)\)</span>, which has no dependence on <span class="math notranslate nohighlight">\(\zeta\)</span>, so the sum comes to 0.</p></li>
+</ul>
+<p>Therefore, the divergence of the extended phase space is:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla \!\cdot\! \mathbf{v}
+= \sum_i \frac{\partial \dot{r}_i}{\partial r_i}
++ \sum_i \frac{\partial \dot{p}_i}{\partial p_i}
++ \frac{\partial \dot{\eta}}{\partial \eta}
++ \frac{\partial \dot{\zeta}}{\partial \zeta}
+= - g \zeta
+\]</div>
+<p>So the time invariant equation is:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial \mathbf{r}} \cdot \dot{\mathbf{r}} + \frac{\partial f}{\partial \mathbf{p}'} \cdot \dot{\mathbf{p}'} +\frac{\partial f}{\partial \eta} \cdot \dot{\eta} + \frac{\partial f}{\partial \zeta} \cdot \dot{\zeta} - g \zeta = 0
+\]</div>
+<p>A proposed solution should work for the above time-invariant condition and include the terms described in the extended Hamiltonian. Nosé and Hoover proposed the solution as:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{r}, \mathbf{p}, \eta, \zeta) \propto 
+\mathrm{exp}{\!\big\{-\beta [ U(\mathbf{r}) + K(\mathbf{p}) + \frac{Q\zeta^{2}}{2} + g k_B T \eta]}\!\big\}
+\]</div>
+<p>It can be shown that the distribution is time-invariant by the Liouville theorem. Integrating over the thermostat variables (<span class="math notranslate nohighlight">\(\zeta, \eta\)</span>), the resulting distribution is exactly canonical, which means the system is ergodic.</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{r}, \mathbf{p})
+= \int f(\mathbf{r}, \mathbf{p}, \eta, \zeta)\, d\eta\, d\zeta
+\propto e^{-\beta [U(\mathbf{r}) + K(\mathbf{p})]}
+\]</div>
+<p>Even though the Hamiltonian is no longer valid for the Nosé–Hoover equations of motion, a shadow Hamiltonian (energy-like invariant) is still conserved.</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{H}^* = U(\mathbf{r}) + K(\mathbf{p}) + \frac{Q\zeta^2}{2} + gk_B T \eta
+\]</div>
+<p>The first two terms are the original Hamiltonian <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>, where the shadow Hamiltonian <span class="math notranslate nohighlight">\(\mathcal{H}^*\)</span> obtained two additional terms that are related to the thermostat. Specifically, <span class="math notranslate nohighlight">\(\frac{Q \eta^2}{2}\)</span> is the thermostat kinetic term, <span class="math notranslate nohighlight">\(g k_B T \eta\)</span> is the “potential” term that relates to coupling strength and entropy exchange. So <span class="math notranslate nohighlight">\(\mathcal{H}^*\)</span> is constant along the trajectory, serving as a conserved energy in the extended phase space with the addition of thermal fluctuations.</p>
+<p><strong>Thermal mass</strong></p>
+<p>In Nosé–Hoover thermostat, the thermal mass <span class="math notranslate nohighlight">\(Q\)</span> controls how strongly and how fast the thermostat responds to fluctuations.</p>
+<ul class="simple">
+<li><p>Large <span class="math notranslate nohighlight">\(Q\)</span>: The thermostat responds sluggishly, so the <strong>temperature drifts slowly</strong> toward the target (weak coupling).</p></li>
+<li><p>Small <span class="math notranslate nohighlight">\(Q\)</span>: The thermostat overreacts to fluctuations, so <strong>temperature oscillates</strong> violently, potentially destabilizing integration.</p></li>
+</ul>
+<p>A stable simulation requires choosing thermal mass <span class="math notranslate nohighlight">\(Q\)</span> carefully, where an empirical equation of <span class="math notranslate nohighlight">\(Q\)</span> is defined with the thermostat response time <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+<p>Consider the equations of motion rewritten by Hoover, the time derivative of the kinetic energy can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\mathbf{p}' \cdot \mathbf{p}'}{m} = 2K \quad \rightarrow \quad K = \sum_i \frac{(p_i')^2}{2 m_i}, \quad v_i = \frac{p_i'}{m_i}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot{K}
+= \sum_i \frac{\mathbf p_i}{ m_i}\cdot\dot{\mathbf p}_i = \sum_i \frac{\mathbf p'_i}{ m_i}\cdot\dot{\mathbf p}'_i = \sum_i v_i (f_i - \zeta p_i') = \sum_i v_i f_i - 2 \zeta K
+\]</div>
+<p>The first term is the power of the Newtonian forces. Since we want to investigate the thermostat coupling, we will only focus on the second term.</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{K} \approx - 2 \zeta K
+\]</div>
+<p>At the target temperature <span class="math notranslate nohighlight">\(T = T_0\)</span>, from the microscopic definition of kinetic energy:</p>
+<div class="math notranslate nohighlight">
+\[
+K_0 = \frac{1}{2} g k_B T \quad \rightarrow \quad \frac{\mathbf{p}' \cdot \mathbf{p}'}{m} = g k_B T
+\]</div>
+<p>Suppose a small fluctuation in kinetic energy <span class="math notranslate nohighlight">\(\delta K\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+K = K_0 + \delta K, \quad |\delta K| \ll K_0
+\]</div>
+<p>The rate of change of <span class="math notranslate nohighlight">\(\delta K\)</span> around <span class="math notranslate nohighlight">\(K_0\)</span> is linearized as:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{\delta K} \approx -2 K_0 \zeta = - g k_B T \zeta
+\]</div>
+<p>From the thermostat equation,</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{\zeta} = =\frac{1}{Q}\!\left(\frac{\mathbf p'\!\cdot\!\mathbf p'}{m}-gk_B T\right) = \frac{1}{Q} (2K - 2K_0) = \frac{2}{Q} \delta K
+\]</div>
+<p>Twice differentiate the rate of change of <span class="math notranslate nohighlight">\(\delta K\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\ddot{\delta K} = -g k_B T (\frac{2}{Q} \delta K) = -\frac{2 g k_B T}{Q} \delta K
+\]</div>
+<p>The result is a harmonic oscillator, where the thermal mass can be coupled with the oscillation frequency as:</p>
+<div class="math notranslate nohighlight">
+\[
+\ddot{\delta K} + \omega^2 \delta K = 0, \quad \omega = \sqrt{\frac{2 g k_B T}{Q}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\tau = \frac{2 \pi}{\omega} \quad \rightarrow \quad \tau^2 = 2 \pi^2  \frac{Q}{g k_B T}
+\]</div>
+<p>In general, the factor <span class="math notranslate nohighlight">\(2 \pi^2\)</span> is combined in the numerical value of <span class="math notranslate nohighlight">\(\tau\)</span>. Therefore, the relationship between the thermal mass and the characteristic time is:</p>
+<div class="math notranslate nohighlight">
+\[
+Q = g k_B T \tau^2
+\]</div>
+<p><span class="math notranslate nohighlight">\(\tau\)</span> is the strength of the thermostat as the reflection of thermal mass <span class="math notranslate nohighlight">\(Q\)</span> depends on the frequencies of bond vibrations. For open-source packages like LAMMPS, HOOMD-blue, and GROMACS, <span class="math notranslate nohighlight">\(\tau\)</span> for certain materials is suggested below.</p>
+<ul class="simple">
+<li><p>Condensed phases / simple liquids: <span class="math notranslate nohighlight">\(\tau\)</span> = 0.1 − 0.5 ps.</p></li>
+<li><p>Biomolecules / soft matter: <span class="math notranslate nohighlight">\(\tau\)</span> = 0.5 - 2.0 ps.</p></li>
+<li><p>Crystalline solids (high-frequency phonons): <span class="math notranslate nohighlight">\(\tau\)</span> = 0.05 - 0.2 ps.</p></li>
+<li><p>Gas or small system: <span class="math notranslate nohighlight">\(\tau\)</span> &gt; 0.5 ps.</p></li>
+</ul>
+<p>Alternatively, a safe choice <span class="math notranslate nohighlight">\(\tau\)</span> also relates to the timestep <span class="math notranslate nohighlight">\(\Delta t\)</span>. It is important to keep  longer than the fastest simulated atomic behaviors (ex., Bond stretching) to avoid system distortion. In general, a safe range is:</p>
+<div class="math notranslate nohighlight">
+\[
+\tau \approx (50 - 200) \Delta t
+\]</div>
+<p>Some packages allow direct implementation of <span class="math notranslate nohighlight">\(Q\)</span>, but it is important to check the unit conversion. For example, in LAMMPS (metal units),<span class="math notranslate nohighlight">\(k_B = 8.617333 \cdot 10^{-5} \,\mathrm{eV / K}\)</span>, so <span class="math notranslate nohighlight">\(Q\)</span> needs to be converted into the unit of <span class="math notranslate nohighlight">\(\mathrm{eV \cdot ps^2}\)</span>.</p>
+<p>It is also a good idea to check the results after picking <span class="math notranslate nohighlight">\(Q\)</span>. Some common rules of thumb include:</p>
+<ul class="simple">
+<li><p>The temperature trace should relax to the target with mild fluctuations (or equilibrate with an isokinetic thermostat or velocity rescaling if too slow).</p></li>
+<li><p>Check the distribution of kinetic energy over temperature: <span class="math notranslate nohighlight">\(\frac{2 K}{k_B T} \in \chi_{g}^2\)</span>.</p></li>
+<li><p>The velocity autocorrelation should not be overly damped.</p></li>
+</ul>
+<p><strong>Implementation of Nosé–Hoover thermostat</strong></p>
+<p>Before, we simulate the NVE ensemble with the Velocity Verlet algorithm, where the solution is based on the operator splitting of the Liouvillian:</p>
+<div class="math notranslate nohighlight">
+\[
+i \hat{L} = i \hat{L}_1 + i \hat{L}_2
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+e^{i \hat{L} \Delta t} \approx e^{i \hat{L}_2 \frac{\Delta t}{2}} e^{i \hat{L}_1 \Delta} te^{i \hat{L}_2 \frac{\Delta t}{2}}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(i \hat{L}_1\)</span> is the position update, and <span class="math notranslate nohighlight">\(i \hat{L}_2\)</span> is the momentum update.</p>
+<p>The above setup ensures that the time integration preserves the time-reversibility and the sympleticity. Therefore, for the Nosé–Hoover thermostat, a symmetric Trotter–Suzuki decomposition, or Nosé–Hoover Velocity Verlet integrator, takes the same idea that updates the thermostat by a half step symmetrically around the original Velocity Verlet integrator:</p>
+<div class="math notranslate nohighlight">
+\[
+i \hat{L} = i \hat{L}_1 + i \hat{L}_2 + i \hat{L}_T
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+e^{i \hat{L} \Delta t} \approx e^{i \hat{L}_T \frac{\Delta t}{2}} e^{i \hat{L}_2 \frac{\Delta t}{2}} e^{i \hat{L}_1 \Delta} te^{i \hat{L}_2 \frac{\Delta t}{2}} e^{i \hat{L}_T \frac{\Delta t}{2}} 
+\]</div>
+<p>Specifically, the operators are defined as:</p>
+<ul class="simple">
+<li><p>Position update operator:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+i\hat{L}_1 = \frac{\mathbf{p}}{m} \cdot \frac{\partial}{\partial \mathbf{r}}
+\]</div>
+<ul class="simple">
+<li><p>Momentum update operator:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+i\hat{L}_1 = \frac{\mathbf{p}}{m} \cdot \frac{\partial}{\partial \mathbf{r}}
+\]</div>
+<ul class="simple">
+<li><p>Thermostat update operator:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+i\hat{L}_T
+= -\,\zeta\,\mathbf{p}\cdot\frac{\partial}{\partial \mathbf{p}}
++ \frac{1}{Q}\bigl(K - gk_B T\bigr)\frac{\partial}{\partial \zeta}
+\]</div>
+<p>In practice, the thermostat update operator requires additional splitting as the two terms, momentum scaling and friction evolution, cannot be integrated in a single exponential. Therefore, an approximation is required. One popular implementation comes from [Explicit reversible integrators for extended systems dynamics, Martyna, Tuckerman, Tobias, and Klein (MTTK) (Mol. Phys. 87, 1117 (1996))].</p>
+<div class="math notranslate nohighlight">
+\[
+e^{i \hat{L}_T \Delta t} \approx \prod_{j = 1}^{n_{sp}} e^{w_j i \hat{L}_T \Delta t}
+\]</div>
+<p>The equation is also called Suzuki–Yoshida operator–splitting scheme, which calculates the thermostat Liouvillian <span class="math notranslate nohighlight">\(\hat{L}_T\)</span> in a time-reversible and symmetric way.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n_{sp}\)</span>: number of sub-steps used to integrate the thermostat operator, typically a common Suzuki–Yoshida 3rd-order factorization chooses a number of sub-steps equal to 3. A higher-order factorization would give higher accuracy and stability.</p></li>
+<li><p><span class="math notranslate nohighlight">\(w_j\)</span>: operator-splitting coefficients (weight of each splitting), which determine how the timestep <span class="math notranslate nohighlight">\(\Delta t\)</span> can be separated.</p></li>
+</ul>
+<p>For the 3-stage Suzuki–Yoshida splitting, the typical values are chosen as:</p>
+<div class="math notranslate nohighlight">
+\[
+w_1 = w_3 = \frac{1}{2 - 2^{\frac{1}{3}}} \approx 1.35120719196 \quad w_2 = -\frac{2^{\frac{1}{3}}}{2 - 2^{\frac{1}{3}}} \approx −1.70241438392
+\]</div>
+<p>For higher order splitting, the principle of choosing the operator-splitting coefficients is to sum the weights to 1.</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{j = 1}^{n_{sp}} w_j = 1
+\]</div>
+<p>So practically, the Nosé–Hoover thermostat can be implemented with the Velocity Verlet as a “TVT” algorithm:</p>
+<p>Step 1: T - Half-step thermostat update.</p>
+<div class="math notranslate nohighlight">
+\[
+\zeta^{\,n+\frac12}
+=
+\zeta^{\,n}
++
+\frac{\Delta t}{2Q}\Bigl(K^{n} - g k_B T\Bigr)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{p}^{(T)}
+=
+\mathbf{p}^{\,n}
+\exp\!\left(- \zeta^{\,n+\frac12} \frac{\Delta t}{2}\right)
+\]</div>
+<p>Step 2: V: Half-step momentum update. (Velocity Verlet Part I)</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{p}^{(B_1)}
+=
+\mathbf{p}^{(T)}
++
+\frac{\Delta t}{2}\,\mathbf{F}\!\bigl(\mathbf{r}^{\,n}\bigr)
+\]</div>
+<p>Step 3: V: Full-step position update. (Velocity Verlet Part II)</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{r}^{\,n+1}
+=
+\mathbf{r}^{\,n}
++
+\frac{\Delta t}{m}\,\mathbf{p}^{(B_1)}
+\]</div>
+<p>Now compute the update forces <span class="math notranslate nohighlight">\(\mathbf{F}(\mathbf{r}^{n+1})\)</span>.</p>
+<p>Step 4: V: Half-step momentum update. (Velocity Verlet Part III)</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{p}^{(B_2)}
+=
+\mathbf{p}^{(B_1)}
++
+\frac{\Delta t}{2}\,\mathbf{F}\!\bigl(\mathbf{r}^{\,n+1}\bigr)
+\]</div>
+<p>Step 5: T - Half-step thermostat update with <span class="math notranslate nohighlight">\(K^{n+1} = \frac{\mathbf{p}^{n+1} \cdot \mathbf{p}^{n+1}}{2m}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{p}^{\,n+1}
+=
+\mathbf{p}^{(B_2)}
+\exp\!\left(-\zeta^{\,n+\frac12}\frac{\Delta t}{2}\right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\zeta^{\,n+1}
+=
+\zeta^{\,n+\frac12}
++
+\frac{\Delta t}{2Q}\Bigl(K^{n+1} - g k_B T\Bigr)
+\]</div>
+<p><strong>Nosé–Hoover chain</strong></p>
+<p>For a single Nosé–Hoover thermostat, there is only one friction variable (<span class="math notranslate nohighlight">\(\zeta\)</span>) that rescales all momenta and drives the kinetic energy toward the target temperature.</p>
+<p>The simulation works well for simple fluids. However, for a complex system, such as an FCC crystal or a polymer chain, the thermostat couples strongly only to some collective modes with pathological resonances, so the dynamics can become non-ergodic.</p>
+<p>To improve the energy flow that captures multiple time scales, the idea of recursive coupling arises, and a chain of thermostat variables is coupled together:</p>
+<div class="math notranslate nohighlight">
+\[
+\zeta_1 \quad \rightarrow \quad \zeta_2 \quad \rightarrow \quad ... \quad \rightarrow \quad \zeta_M
+\]</div>
+<p>Then, the thermostat variables change accordingly. For example, we can correspondingly define for the ith variable with the friction coordinate <span class="math notranslate nohighlight">\(\eta_i\)</span> and thermostat mass <span class="math notranslate nohighlight">\(Q_i\)</span>. So the friction can be defined as <span class="math notranslate nohighlight">\(\zeta_i = \frac{p_{\eta_i}}{Q_i}\)</span>.</p>
+<p>At first, the system is adjusted by the first thermostat as:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{\mathbf r}
+=\frac{\mathbf p'}{m}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot{\mathbf{p}'} = \mathbf{f}(\mathbf{r}) - \frac{p_{\eta_1}}{Q_1} \mathbf{p}
+\]</div>
+<p>Then, the thermostat evolves based on the previous thermostat variables:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{\eta}_i = \frac{p_{\eta_i}}{Q_i}, \qquad i = 1,\dots,M
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot{p}_{\eta_1} = G_1 - \frac{p_{\eta_2}}{Q_2}\,p_{\eta_1}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot{p}_{\eta_i} = G_i - \frac{p_{\eta_{i+1}}}{Q_{i+1}}\,p_{\eta_i}, 
+\qquad i = 2,\dots,M-1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\dot{p}_{\eta_M} = G_M
+\]</div>
+<p><span class="math notranslate nohighlight">\(G_i\)</span> is the generalized force driving each thermostat. For the first thermostat, the force is defined the same as the force in a single Nosé–Hoover thermostat. It measures the deviation of the instantaneous kinetic energy from the target thermal energy.</p>
+<div class="math notranslate nohighlight">
+\[
+G_1 = \frac{\mathbf p'\!\cdot\!\mathbf p'}{m}-gk_B T
+\]</div>
+<p>Then, thermostat 2 controls the friction of thermostat 1, the degree of freedom is one, as it only controls one thermostat momentum.</p>
+<div class="math notranslate nohighlight">
+\[
+G_2 = \frac{p_{\eta_1}'^2}{Q_1}- k_B T
+\]</div>
+<p>Then, the deeper Nosé–Hoover chain variables control their previous variables:</p>
+<div class="math notranslate nohighlight">
+\[
+G_i = \frac{p_{\eta_{i-1}}'^2}{Q_{i-1}}- k_B T
+\]</div>
+<p>The Nosé–Hoover chain can similarly be derived from an extended Hamiltonian:</p>
+<div class="math notranslate nohighlight">
+\[
+H_{\mathrm{NHC}}
+= U(\mathbf{r})
++ \frac{\mathbf{P}\cdot\mathbf{P}}{2m}
++ \sum_{i=1}^{M}
+\left[
+\frac{p_{\eta_i}^{2}}{2Q_i}
++ g_i k_{\mathrm{B}}T\,\eta_i
+\right]
+\]</div>
+<p>For the first thermostat, <span class="math notranslate nohighlight">\(g_1 = g\)</span>, for the following thermostat, <span class="math notranslate nohighlight">\(g_i = 1\)</span>. Liouville’s theorem can also show the stationary phase-space density in extended variables:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{r},\mathbf{P},\{\eta_i\},\{p_{\eta_i}\})
+\propto
+\exp\!\left[
+-\beta\!\left(
+U(\mathbf{r})
++ \frac{\mathbf{P}\cdot\mathbf{P}}{2m}
++ \sum_{i=1}^{M} \frac{p_{\eta_i}^{2}}{2Q_i}
++ \sum_{i=1}^{M} g_i k_{\mathrm{B}}T\,\eta_i
+\right)
+\right]
+\]</div>
+<p>The integrated results over all thermostat variables also lead to the canonical ensemble:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{r},\mathbf{P})
+\propto
+\exp\!\left[
+-\beta\!\left(
+U(\mathbf{r})
++ \frac{\mathbf{P}\cdot\mathbf{P}}{2m}
+\right)
+\right]
+\]</div>
+<p>For Nosé–Hoover chain, the thermostat Liouvillian is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+i\hat{L}_T = \sum_{k=1}^{M} i\hat{L}_{T_k}
+\]</div>
+<p>The <span class="math notranslate nohighlight">\(i \hat{L_{T_k}}\)</span> is the Liouville operator corresponding to thermostat k.</p>
+<p>The first thermostat operator acts as:</p>
+<div class="math notranslate nohighlight">
+\[
+i\hat{L}_{T_1}
+= -\,\frac{p_{\eta_1}}{Q_1}\,\mathbf{P}\cdot\nabla {\mathbf{P}}
+  + G_1\,\frac{\partial}{\partial p_{\eta_1}}
+\]</div>
+<p>Then, for the thermostat k, the operator acts as:</p>
+<div class="math notranslate nohighlight">
+\[
+i\hat{L}_{T_k}
+= -\,\frac{p_{\eta_k}}{Q_k}\,
+    p_{\eta_{k-1}}
+    \frac{\partial}{\partial p_{\eta_{k-1}}}
+  + G_k\,\frac{\partial}{\partial p_{\eta_k}},
+\qquad k = 2,\dots,M
+\]</div>
+<p>Summing them up provides the thermostat flow. In practice, the operator splitting is also applied for each thermostat.</p>
+<div class="math notranslate nohighlight">
+\[
+e^{\Delta t\, i\hat{L}_T}
+\approx
+\prod_{j=1}^{n_{\mathrm{sp}}}
+\Big(
+  e^{w_j \Delta t\, i\hat{L}_{T_M}}
+  e^{w_j \Delta t\, i\hat{L}_{T_{M-1}}}
+  \cdots
+  e^{w_j \Delta t\, i\hat{L}_{T_1}}
+\Big)
+\]</div>
+<p>In practice, a chain length of <span class="math notranslate nohighlight">\(M =3 - 5\)</span> is sufficient. Longer chains give little benefit but increase cost and can over-thermostat the system.</p>
+<p>The thermal mass and characteristic time follow a similar relation for the first thermostat:</p>
+<div class="math notranslate nohighlight">
+\[
+Q_1 = g k_B T \tau^2
+\]</div>
+<p>Then, for the deeper thermostat, the degree of freedom is set to 1, and they are coupled together with the relation:</p>
+<div class="math notranslate nohighlight">
+\[
+Q_i = k_B T \tau_i^2, \quad \tau_i \approx c \tau_{i-1} \quad c\approx 5-10
+\]</div>
+<p>With reasonable choices, the chain efficiently damps pathological resonances of the original Nosé–Hoover theromstat while preserving good dynamical behaviour for structural and transport properties.</p>
+<p>For most commercial packages, the Nosé–Hoover chain is the default thermostat for NVT ensemble simulation.</p>
+<ul class="simple">
+<li><p>It generates the exact canonical ensemble under time-reversible and symplectic under appropriate splitting.</p></li>
+<li><p>Robust and ergodic solution for solids, bonded modes, and small-sized systems.</p></li>
 </ul>
 </section>
 <section id="pressure-controls">
@@ -629,10 +1267,18 @@ e^{\mathcal{L} \Delta t} \approx e^{\mathcal{L}_1 \Delta t/2} e^{\mathcal{L}_2 \
 <li><p><a class="reference external" href="https://docs.lammps.org/fix_nh.html">LAMMPS Nose-Hoover thermostat documentation</a></p></li>
 <li><p><a class="reference external" href="https://hoomd-blue.readthedocs.io/en/stable/hoomd/md/methods/module-thermostats.html">HOOMD-blue thermostat documentation</a></p></li>
 <li><p><a class="reference external" href="https://manual.gromacs.org/current/reference-manual/algorithms/molecular-dynamics.html#temperature-coupling">GROMACS thermostat documentation</a></p></li>
-<li><p>Tuckerman, Mark E., et al. “A Liouville-operator derived measure-preserving integrator for molecular dynamics simulations in the isothermal–isobaric ensemble.” Journal of Physics A: Mathematical and General 39.19 (2006): 5629. <span id="id1"><sup><a class="reference internal" href="../references/references.html#id15" title="Mark E Tuckerman, José Alejandre, Roberto López-Rendón, Andrea L Jochim, and Glenn J Martyna. A liouville-operator derived measure-preserving integrator for molecular dynamics simulations in the isothermal–isobaric ensemble. Journal of Physics A: Mathematical and General, 39(19):5629, 2006.">23</a></sup></span></p></li>
-<li><p>Tuckerman, Mark E., and Glenn J. Martyna. “Understanding modern molecular dynamics: Techniques and applications.” The Journal of Physical Chemistry B 104.2 (2000): 159-178 <span id="id2"><sup><a class="reference internal" href="../references/references.html#id14" title="Mark E Tuckerman and Glenn J Martyna. Understanding modern molecular dynamics: techniques and applications. 2000.">24</a></sup></span></p></li>
-<li><p>Martyna, Glenn J., Douglas J. Tobias, and Michael L. Klein. “Constant pressure molecular dynamics algorithms.” J. chem. Phys 101.4177 (1994): 10-1063. <span id="id3"><sup><a class="reference internal" href="../references/references.html#id12" title="Glenn J Martyna, Douglas J Tobias, and Michael L Klein. Constant pressure molecular dynamics algorithms. J. chem. Phys, 101(4177):10–1063, 1994.">14</a></sup></span></p></li>
-<li><p>Parrinello and Rahman, J Appl Phys, 52, 7182 (1981).<span id="id4"><sup><a class="reference internal" href="../references/references.html#id5" title="Michele Parrinello and Aneesur Rahman. Polymorphic transitions in single crystals: a new molecular dynamics method. Journal of Applied physics, 52(12):7182–7190, 1981.">16</a></sup></span></p></li>
+<li><p>Tuckerman, Mark E., et al. “A Liouville-operator derived measure-preserving integrator for molecular dynamics simulations in the isothermal–isobaric ensemble.” Journal of Physics A: Mathematical and General 39.19 (2006): 5629. <span id="id1"><sup><a class="reference internal" href="../references/references.html#id15" title="Mark E Tuckerman, José Alejandre, Roberto López-Rendón, Andrea L Jochim, and Glenn J Martyna. A liouville-operator derived measure-preserving integrator for molecular dynamics simulations in the isothermal–isobaric ensemble. Journal of Physics A: Mathematical and General, 39(19):5629, 2006.">35</a></sup></span></p></li>
+<li><p>Tuckerman, Mark E., and Glenn J. Martyna. “Understanding modern molecular dynamics: Techniques and applications.” The Journal of Physical Chemistry B 104.2 (2000): 159-178 <span id="id2"><sup><a class="reference internal" href="../references/references.html#id14" title="Mark E Tuckerman and Glenn J Martyna. Understanding modern molecular dynamics: techniques and applications. 2000.">36</a></sup></span></p></li>
+<li><p>Martyna, Glenn J., Douglas J. Tobias, and Michael L. Klein. “Constant pressure molecular dynamics algorithms.” J. chem. Phys 101.4177 (1994): 10-1063. <span id="id3"><sup><a class="reference internal" href="../references/references.html#id12" title="Glenn J Martyna, Douglas J Tobias, and Michael L Klein. Constant pressure molecular dynamics algorithms. J. chem. Phys, 101(4177):10–1063, 1994.">20</a></sup></span></p></li>
+<li><p>Parrinello and Rahman, J Appl Phys, 52, 7182 (1981).<span id="id4"><sup><a class="reference internal" href="../references/references.html#id5" title="Michele Parrinello and Aneesur Rahman. Polymorphic transitions in single crystals: a new molecular dynamics method. Journal of Applied physics, 52(12):7182–7190, 1981.">25</a></sup></span></p></li>
+<li><p>A unified formulation of the constant temperature molecular dynamics methods. Nosé, S., The Journal of Chemical Physics 81, 511. <span id="id5"><sup><a class="reference internal" href="../references/references.html#id31" title="Shuichi Nosé. A molecular dynamics method for simulations in the canonical ensemble. Molecular Physics, 52(2):255-268, 1984.">23</a></sup></span></p></li>
+<li><p>“A unified formulation of the constant temperature molecular dynamics methods.” S. Nosé (1984), The Journal of Chemical Physics, 81, 511. DOI: 10.1063/1.447334. <span id="id6"><sup><a class="reference internal" href="../references/references.html#id32" title="Shuichi Nosé. A unified formulation of the constant temperature molecular dynamics methods. The Journal of Chemical Physics, 81(1):511-519, 1984.">24</a></sup></span></p></li>
+<li><p>Canonical dynamics: Equilibrium phase-space distributions., W. G. Hoover, Phys. Rev. A 31, 1695 (1985). <span id="id7"><sup><a class="reference internal" href="../references/references.html#id33" title="William G. Hoover. Canonical dynamics: equilibrium phase-space distributions. Physical Review A, 31(3):1695-1697, 1985.">11</a></sup></span></p></li>
+<li><p>“Nosé–Hoover chains: The canonical ensemble via continuous dynamics.” G. J. Martyna, M. L. Klein, M. E. Tuckerman (1992), The Journal of Chemical Physics, 97, 2635. DOI: 10.1063/1.463940. <span id="id8"><sup><a class="reference internal" href="../references/references.html#id34" title="Glenn J. Martyna, Michael L. Klein, and Mark E. Tuckerman. Nosé–hoover chains: the canonical ensemble via continuous dynamics. The Journal of Chemical Physics, 97(4):2635-2643, 1992.">21</a></sup></span></p></li>
+<li><p>“General decomposition theory of ordered exponentials.” M. Suzuki (1991), Physics Letters A, 146, 319. <span id="id9"><sup><a class="reference internal" href="../references/references.html#id35" title="Masuo Suzuki. General theory of higher-order decomposition of exponential operators and symplectic integrators. Physics Letters A, 201(5-6):425-428, 1996.">33</a></sup></span></p></li>
+<li><p>“Construction of higher order symplectic integrators. H. Yoshida (1990), Physics Letters A, 150, 262. <span id="id10"><sup><a class="reference internal" href="../references/references.html#id36" title="Haruo Yoshida. Construction of higher order symplectic integrators. Physics Letters A, 150(5-7):262-268, 1990.">40</a></sup></span></p></li>
+<li><p>“Statistical Mechanics: Theory and Molecular Simulation.” Tuckerman, M. E. (2010), Oxford University Press. <span id="id11"><sup><a class="reference internal" href="../references/references.html#id37" title="Mark E. Tuckerman. Statistical mechanics: theory and molecular simulation. Oxford University Press, 2010.">37</a></sup></span></p></li>
+<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span id="id12"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
 </ul>
 </section>
 </section>
@@ -701,16 +1347,12 @@ e^{\mathcal{L} \Delta t} \approx e^{\mathcal{L}_1 \Delta t/2} e^{\mathcal{L}_2 \
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-canonical-ensemble-in-md">4.3.1. 1. Generating Canonical Ensemble in MD</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-thermostats">4.3.1.1. Stochastic Thermostats</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-thermostats">4.3.1.2. Deterministic Thermostats</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isokinetic-thermostat-constant-kinetic-energy">4.3.2. 2. Isokinetic Thermostat: Constant Kinetic Energy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#berendsen-thermostat-proportional-control">4.3.3. 3. Berendsen Thermostat: Proportional Control</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nosehoover-thermostat">4.3.4. 4. Nosé–Hoover Thermostat</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nosehoover-chains">4.3.5. 5. Nosé–Hoover Chains</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-via-operator-splitting">4.3.6. 6. Implementation via Operator Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-canonical-ensemble-in-md">4.3.1. Generate canonical ensemble in MD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#microscopic-and-macroscopic-connectivity-of-the-thermostat">4.3.2. Microscopic and macroscopic connectivity of the thermostat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-thermostats">4.3.3. Types of thermostats</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-thermostats-anderson-thermostat-and-lowe-anderson-thermostat">4.3.4. Stochastic thermostats: Anderson thermostat and Lowe - Anderson thermostat</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-thermostats-i-isokinetic-thermostat-berendsen-thermostat">4.3.5. Deterministic thermostats I: Isokinetic thermostat, Berendsen thermostat.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deterministic-thermostats-ii-nose-hoover-thermostat">4.3.6. Deterministic thermostats II: Nosé-Hoover thermostat.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pressure-controls">4.3.7. Pressure Controls</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.3.8. References</a></li>
 </ul>
