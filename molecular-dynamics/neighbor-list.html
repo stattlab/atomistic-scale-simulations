@@ -419,13 +419,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">4.6.1. Initialization</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbor-search">4.6.2. Neighbor Search</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-accelerate-search-using-a-cheap-data-structure">4.6.2.1. Solution: Accelerate search using a cheap data structure</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-approaches">4.6.2.2. Other approaches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-initialization">4.6.1. System Initialization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solid-lattices">4.6.1.1. Solid Lattices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liquids-and-gases">4.6.1.2. Liquids and Gases</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.6.3. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbor-searching">4.6.2. Neighbor Searching</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verlet-table">4.6.2.1. Verlet Table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-linked-list">4.6.2.2. Cell Linked List</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">4.6.3. Additional Resources</a></li>
 </ul>
             </nav>
         </div>
@@ -439,101 +443,44 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="initialization-and-neighbor-searching">
 <h1><span class="section-number">4.6. </span>Initialization and Neighbor Searching<a class="headerlink" href="#initialization-and-neighbor-searching" title="Link to this heading">#</a></h1>
-<section id="initialization">
-<h2><span class="section-number">4.6.1. </span>Initialization<a class="headerlink" href="#initialization" title="Link to this heading">#</a></h2>
-<p>How to place particles in a box initially?
-Want to avoid too many overlaps or the simulation will likely blow up.</p>
-<ul class="simple">
-<li><p>If density is low enough, <strong>random sequential addition</strong> may work:</p>
-<ol class="arabic simple">
-<li><p>Choose a random position.</p></li>
-<li><p>Check if there are overlaps with existing particles (subject to PBCs).</p></li>
-<li><p>Accept if no overlaps; otherwise, choose a new location.</p></li>
-</ol>
-</li>
-</ul>
-<blockquote>
-<div><p>This procedure becomes inefficient once there are too many particles.
-A dense solid is an extreme case, but most liquids also cannot be initialized this way.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>If density is very high or structure is ordered (e.g., crystal), use a <strong>lattice</strong>:</p>
-<ul>
-<li><p>Examples:</p>
-<ul>
-<li><p>Simple cubic</p></li>
-<li><p>Face-centered cubic (FCC)</p></li>
-<li><p>Body-centered cubic (BCC)</p></li>
-<li><p>Hexagonal close-packed (HCP)</p></li>
-</ul>
-</li>
-<li><p>Choose lattice spacing so that:</p>
-<ol class="arabic simple">
-<li><p>Particles don’t overlap.</p></li>
-<li><p>Lattice fits a periodic box.</p></li>
-</ol>
-</li>
-</ul>
-</li>
-<li><p>If density is intermediate:</p>
-<ul>
-<li><p>Use a lattice but randomly fill sites in it.</p></li>
-<li><p>This strategy is effective for speeding up equilibration when:</p>
-<ul>
-<li><p>Density is fairly high.</p></li>
-<li><p>There are multiple particle types or sizes (e.g., fill big to small on different lattices).</p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Or, use a tool like <strong>Packmol</strong>:</p>
-<ul>
-<li><p>Places particles at random.</p></li>
-<li><p>Solves a large optimization problem to eliminate overlaps.</p></li>
-</ul>
-</li>
-</ul>
+<section id="system-initialization">
+<h2><span class="section-number">4.6.1. </span>System Initialization<a class="headerlink" href="#system-initialization" title="Link to this heading">#</a></h2>
+<p>In order to perform any molecular dynamics simulations, it is necessary to have some sort of a starting point, from which the simulation parameters can take the model forward in time. However, identifying this starting point is not necessarily an easy task, and can often take some work.</p>
+<section id="solid-lattices">
+<h3><span class="section-number">4.6.1.1. </span>Solid Lattices<a class="headerlink" href="#solid-lattices" title="Link to this heading">#</a></h3>
+<p>Within a Crystalline Lattice, the locations of all atoms follow a periodic ordering. Specifically, all lattices are composed of unit cells, which are the smallest periodic units which can be repeated throughout all of space (in 2 or 3 dimensions) in order to create the full lattice. These unit are defined by primitive lattice vectors, often denoted <span class="math notranslate nohighlight">\(\vec{a_1}\)</span>, <span class="math notranslate nohighlight">\(\vec{a_2}\)</span>, and <span class="math notranslate nohighlight">\(\vec{a_3}\)</span>, whose linear combinations can be used to identify the location of any unit cell within the lattice.</p>
+<div class="math notranslate nohighlight">
+\[
+\vec{R} = n_1 \vec{a_1} + n_2 \vec{a_2} + n_3 \vec{a_3}, \quad n_1, n_2, n_3 \in \mathbb{Z}
+\]</div>
+<p>Once the structure of a lattice is defined, atoms can be added to each unit cell in order to create the overall crystal. The locations of each atom, often denoted <span class="math notranslate nohighlight">\(\vec{r_i}\)</span>, is defined relative to the location of the cell, <span class="math notranslate nohighlight">\(\vec{R}\)</span>, and is the same for the same corresponding atom in each unit cell. Relative to some defined origin of the overall system, the location of every atom is <span class="math notranslate nohighlight">\(\vec{R} + \vec{r_i}\)</span>. In 3 dimensions, there are a total of 14 different lattice types, and can be divided into the following groups: triclinic, monoclinic, orthorhombic, tetragonal, cubic, trigonal, and hexagonal, based on the relative lengths and angular separations between the primitive lattice vectors. This ordered structure makes it very straightforward to create a solid lattice computationally. Namely, if the cell structure is known, one can very easily repeat that througout space, populating every location of interest with the appropriate atom.</p>
 </section>
-<section id="neighbor-search">
-<h2><span class="section-number">4.6.2. </span>Neighbor Search<a class="headerlink" href="#neighbor-search" title="Link to this heading">#</a></h2>
-<p>When placing particles or doing pair force calculations, you need to find distances between particles that are close (within a cutoff).</p>
-<ul class="simple">
-<li><p>Naively checking all pairs:</p>
-<ul>
-<li><p>Number of unique pairs:
-$<span class="math notranslate nohighlight">\( \frac{N(N-1)}{2} \)</span>$</p></li>
-<li><p>This is expensive, especially since most pairs are beyond the cutoff.</p></li>
-</ul>
-</li>
-</ul>
-<section id="solution-accelerate-search-using-a-cheap-data-structure">
-<h3><span class="section-number">4.6.2.1. </span>Solution: Accelerate search using a cheap data structure<a class="headerlink" href="#solution-accelerate-search-using-a-cheap-data-structure" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Cell list (uniform grid)</strong>:</p>
-<ul>
-<li><p>Bin particles into cells (~O(N) operation).</p></li>
-<li><p>For each particle, only look in nearby cells.</p></li>
-<li><p>Hence, total cost becomes <strong>O(N)</strong> instead of <strong>O(N²)</strong>.</p></li>
-<li><p>Distance checks become spatially localized.</p></li>
-</ul>
-</li>
-</ul>
-</section>
-<section id="other-approaches">
-<h3><span class="section-number">4.6.2.2. </span>Other approaches<a class="headerlink" href="#other-approaches" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Bounding volume hierarchies</strong></p></li>
-<li><p><strong>Octrees</strong></p></li>
-<li><p><strong>k-d trees</strong> (implemented in <code class="docutils literal notranslate"><span class="pre">scipy</span></code>)</p></li>
-</ul>
-<blockquote>
-<div><p>Be careful with PBCs when using trees.
-These methods can be very fast, especially for sparse systems or with multiple particle types.</p>
-</div></blockquote>
+<section id="liquids-and-gases">
+<h3><span class="section-number">4.6.1.2. </span>Liquids and Gases<a class="headerlink" href="#liquids-and-gases" title="Link to this heading">#</a></h3>
+<p>While ordered solids can be initialized in a straightforward manner due to their periodic structures, the same cannot be said for liquids and gases. While ideal gases, where there are no inter-atomic forces, can be initialized simply by populating a box with particles that have random locations, things get more complicated when those particles interact with each other. This is primarily because the presence of particle-particle interactions, such as Lennard-Jones potentials, often means that randomly set up configurations can be physically unrealistic, due to factors such as the potentials of the system making the overall energy too large. In cases like this, initialization often still starts by randomly populating a region with particles with velocities drawn from a Boltzmann distribution set at some temperature, but additional steps are necessary to turn this system into something that is more realistic.</p>
+<p>Specifically, it is necessary to ensure that the primary quantities describing the system, which are often pressure, volume, temperature, and total energy, are appropriately set up. If one were interested in doing a production run for an ensemble, it is usually necessary to first run a shorter equillibration process with at least one other ensemble that optimizes variables that the production run does not fix. For example, if the desired simulation is to describe an NVE ensemble, it is necessary to first start with an NVT ensemble simulation beforehand, so that the temperature can be brought to a reasonable value in preparation for the primary simulation. This situation is the case for virtually all models of liquids and gases, and the specific pre-simulation procedures that need to be done in order to ensure a system is properly equilibrated can vary depending on the situation. Typically, the equilibration process for a paramter, such as pressure, volume, or energy, as a function of time somewhat resembles the graph shown below.</p>
+<p><img alt="Diagram" src="../_images/Equilibration.png" /></p>
 </section>
 </section>
-<section id="references">
-<h2><span class="section-number">4.6.3. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<section id="neighbor-searching">
+<h2><span class="section-number">4.6.2. </span>Neighbor Searching<a class="headerlink" href="#neighbor-searching" title="Link to this heading">#</a></h2>
+<p>Once a production run is in progress, neighbor searching is necessary in order to calculate the total force acting on each particle which, in turn, is needed to determine how that particle will move in the next time step. However, due to the large number of particles in various systems of interest, this process is often time-consuming, and can often lead to simulations taking a long time.</p>
+<section id="verlet-table">
+<h3><span class="section-number">4.6.2.1. </span>Verlet Table<a class="headerlink" href="#verlet-table" title="Link to this heading">#</a></h3>
+<p>Probably one of the most straightforward methods of neighbor searching is to maintain a Verlet table. In essence, a Verlet table is a data structure that stores lists of each atoms neighbors within some cutoff radius, <span class="math notranslate nohighlight">\(r_{cut}\)</span>, as well as the atoms whose distance to the target atom is between <span class="math notranslate nohighlight">\(r_{cut}\)</span> and a larger radius, <span class="math notranslate nohighlight">\(r_{cut} + r_{skin}\)</span>. Only neighbors within <span class="math notranslate nohighlight">\(r_{cut}\)</span> of the target atom are assumed to interact with the target atom through some defined potential. Meanwhile, the presence of the secondary group is to ensure that at each step, only atoms in this second group need to be checked to see if any have entered into the inner radius, <span class="math notranslate nohighlight">\(r_{cut}\)</span>, and thus now would need to be included in the first neighbor list. In general, this method of keeping track of neighbors scales as <span class="math notranslate nohighlight">\(O(N^2)\)</span>, increasing quadratically with the number of atoms in the system.</p>
+</section>
+<section id="cell-linked-list">
+<h3><span class="section-number">4.6.2.2. </span>Cell Linked List<a class="headerlink" href="#cell-linked-list" title="Link to this heading">#</a></h3>
+<p>Meanwhile, another method for keeping track of particle neighbors is using a cell linked list. This method first subdivides the system using a grid, where each grid cell is usually larger than the spherical region defined by <span class="math notranslate nohighlight">\(r_{cut}\)</span>, as defined for the Verlet table. Next, for a target atom and its corresponding target cell, an adjacent cell is considered to be a neighbor if that adjacent cell contains an atom that is within a distance of <span class="math notranslate nohighlight">\(r_{cut}\)</span> from the target atom. Thus, for potential energy and force calculations at each step for each atom, this method also reduces the search space from all atoms in the entire system, to only the atoms within the target atom’s cell, and atoms in cells that neighbor the target atom’s cell.</p>
+</section>
+</section>
+<section id="additional-resources">
+<h2><span class="section-number">4.6.3. </span>Additional Resources<a class="headerlink" href="#additional-resources" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Grossfield, Alan, et al. “Best practices for quantification of uncertainty and sampling quality in molecular simulations [Article v1. 0].” Living journal of computational molecular science 1.1 (2018): 5067. <span id="id1"><sup><a class="reference internal" href="../references/references.html#id23" title="Alan Grossfield, Paul N Patrone, Daniel R Roe, Andrew J Schultz, Daniel W Siderius, and Daniel M Zuckerman. Best practices for quantification of uncertainty and sampling quality in molecular simulations [article v1. 0]. Living journal of computational molecular science, 1(1):5067, 2018.">11</a></sup></span></p></li>
+<li><p>Kittel, Charles, and Paul McEuen. Introduction to solid state physics. John Wiley &amp; Sons, 2018. <span id="id2"><sup><a class="reference internal" href="../references/references.html#id24" title="Charles Kittel and Paul McEuen. Introduction to solid state physics. John Wiley &amp; Sons, 2018.">16</a></sup></span></p></li>
+<li><p>Yao, Zhenhua, et al. “Improved neighbor list algorithm in molecular simulations using cell decomposition and data sorting method.” Computer physics communications 161.1-2 (2004): 27-35. <span id="id3"><sup><a class="reference internal" href="../references/references.html#id25" title="Zhenhua Yao, Jian-Sheng Wang, Gui-Rong Liu, and Min Cheng. Improved neighbor list algorithm in molecular simulations using cell decomposition and data sorting method. Computer physics communications, 161(1-2):27–35, 2004.">47</a></sup></span></p></li>
+</ul>
 </section>
 </section>
 
@@ -601,13 +548,17 @@ These methods can be very fast, especially for sparse systems or with multiple p
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">4.6.1. Initialization</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbor-search">4.6.2. Neighbor Search</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-accelerate-search-using-a-cheap-data-structure">4.6.2.1. Solution: Accelerate search using a cheap data structure</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-approaches">4.6.2.2. Other approaches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-initialization">4.6.1. System Initialization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solid-lattices">4.6.1.1. Solid Lattices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liquids-and-gases">4.6.1.2. Liquids and Gases</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.6.3. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbor-searching">4.6.2. Neighbor Searching</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verlet-table">4.6.2.1. Verlet Table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-linked-list">4.6.2.2. Cell Linked List</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">4.6.3. Additional Resources</a></li>
 </ul>
   </nav></div>
 
