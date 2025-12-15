@@ -426,11 +426,13 @@ In the lab, systems are rarely perfectly isolated: they exchange energy, momentu
   usually sampling (approximately) the NVE ensemble. When combined with additional dynamical variables (e.g. Nosé–Hoover thermostat, barostat degrees of freedom), MD can also sample NVT or NPT ensembles.
 
 * **Langevin Dynamics:**  
-  Adds friction and random forces to mimic a thermal bath:
-  $m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2}
+  Adds friction and random forces to mimic a thermal bath. The equation of motion is
+  $$
+  m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2}
   = -\nabla_{\mathbf{r}_i} U
-    - \gamma m_i \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}
-    + \mathbf{R}_i(t),$
+  - \gamma m_i \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}
+  + \mathbf{R}_i(t),
+  $$
   where $\gamma$ is a friction coefficient and $\mathbf{R}_i(t)$ is a random force satisfying fluctuation–dissipation relations. This samples the canonical (NVT) ensemble.
 
   More precisely, the random forces are chosen to have

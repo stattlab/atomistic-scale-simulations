@@ -875,14 +875,16 @@ Integrates Newton’s equations of motion,
 <span class="math notranslate nohighlight">\(m_i \frac{\mathrm{d}^2 \mathbf{r}_i}{\mathrm{d}t^2} = \mathbf{F}_i = -\nabla_{\mathbf{r}_i} U(\mathbf{r}_1,\dots,\mathbf{r}_N),\)</span>
 usually sampling (approximately) the NVE ensemble. When combined with additional dynamical variables (e.g. Nosé–Hoover thermostat, barostat degrees of freedom), MD can also sample NVT or NPT ensembles.</p></li>
 <li><p><strong>Langevin Dynamics:</strong><br />
-Adds friction and random forces to mimic a thermal bath:
-$m_i \frac{\mathrm{d}^2 \mathbf{r}<em>i}{\mathrm{d}t^2}
+Adds friction and random forces to mimic a thermal bath. The equation of motion is
+$$
+m_i \frac{\mathrm{d}^2 \mathbf{r}<em>i}{\mathrm{d}t^2}
 = -\nabla</em>{\mathbf{r}_i} U</p>
 <ul class="simple">
 <li><p>\gamma m_i \frac{\mathrm{d}\mathbf{r}_i}{\mathrm{d}t}</p></li>
 </ul>
 <ul class="simple">
-<li><p>\mathbf{R}_i(t),<span class="math notranslate nohighlight">\(
+<li><p>\mathbf{R}_i(t),
+$<span class="math notranslate nohighlight">\(
 where \)</span>\gamma<span class="math notranslate nohighlight">\( is a friction coefficient and \)</span>\mathbf{R}_i(t)$ is a random force satisfying fluctuation–dissipation relations. This samples the canonical (NVT) ensemble.</p></li>
 </ul>
 <p>More precisely, the random forces are chosen to have
@@ -970,9 +972,9 @@ If your results depend on preparation protocol (cooling rate, compression rate, 
 <section id="further-reading">
 <h3><span class="section-number">3.3.13.1. </span>Further reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p><span id="id1"><sup><a class="reference internal" href="../references/references.html#id23" title="David Chandler. Introduction to Modern Statistical Mechanics. Oxford University Press, 1987.">3</a></sup></span> – <em>Introduction to Modern Statistical Mechanics</em>.</p></li>
-<li><p><span id="id2"><sup><a class="reference internal" href="../references/references.html#id24" title="Mark E. Tuckerman. Statistical Mechanics: Theory and Molecular Simulation. Oxford University Press, 2010.">26</a></sup></span> – <em>Statistical Mechanics: Theory and Molecular Simulation</em>.</p></li>
-<li><p><span id="id3"><sup><a class="reference internal" href="../references/references.html#id25" title="Antonia Statt. Mse 485: atomistic-scale simulations – statistical mechanics and ensembles. 2025. Course notes, University of Illinois at Urbana–Champaign.">21</a></sup></span> – Course notes on statistical mechanics and ensembles (MSE 485 / atomistic-scale simulations).</p></li>
+<li><p><span id="id1"><sup><a class="reference internal" href="../references/references.html#id23" title="David Chandler. Introduction to Modern Statistical Mechanics. Oxford University Press, 1987.">5</a></sup></span> – <em>Introduction to Modern Statistical Mechanics</em>.</p></li>
+<li><p><span id="id2"><sup><a class="reference internal" href="../references/references.html#id24" title="Mark E. Tuckerman. Statistical Mechanics: Theory and Molecular Simulation. Oxford University Press, 2010.">40</a></sup></span> – <em>Statistical Mechanics: Theory and Molecular Simulation</em>.</p></li>
+<li><p><span id="id3"><sup><a class="reference internal" href="../references/references.html#id25" title="Antonia Statt. Mse 485: atomistic-scale simulations – statistical mechanics and ensembles. 2025. Course notes, University of Illinois at Urbana–Champaign.">34</a></sup></span> – Course notes on statistical mechanics and ensembles (MSE 485 / atomistic-scale simulations).</p></li>
 </ul>
 </section>
 </section>
