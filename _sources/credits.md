@@ -8,9 +8,9 @@ This work (c) 2025 is licensed under
 ## Contributors
 
 - Antonia Statt
+- Grady Clopton
 - Soroush Asadi
 - Yuning Zhang
-
 - Joe Yang
 
 ## Attributions
