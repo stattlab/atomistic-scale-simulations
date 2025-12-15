@@ -213,7 +213,7 @@
 <li class="toctree-l2"><a class="reference internal" href="monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html">5.4. Sampling Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finite-size.html">5.6. Phase Transitions, Finite-size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finite-size.html">5.6. Phase Transitions, Finite-Size Scaling and Renormalization Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
 <li class="toctree-l2"><a class="reference internal" href="metropolis.html">5.8. Metropolis Method</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ising-model.html">5.9. The Ising Model</a></li>
@@ -447,14 +447,14 @@ document.write(`
 <h2><span class="section-number">5.12.1. </span>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
 <p>This is a brief overview of free energy estimation, much of which can be found in the article by D. Frenkel: \emph{Free-Energy Computation and First-Order Phase Transitions}, in \emph{MD simulation of Statistical Mechanical Systems}, edited by Ciccotti and Hoover. Generic remarks are given in A&amp;T on pg. 40. Specific methods refer to various relevant pages.</p>
 <p>The free energy is related to the partition function by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-196cc3e7-9e08-4e04-80b6-76220488b06a">
-<span class="eqno">(5.1)<a class="headerlink" href="#equation-196cc3e7-9e08-4e04-80b6-76220488b06a" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-1d3d35fd-e93b-42aa-ac28-729eb529ebc8">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-1d3d35fd-e93b-42aa-ac28-729eb529ebc8" title="Permalink to this equation">#</a></span>\[\begin{equation}
     e^{-\beta F} = \frac{1}{N! \Lambda^{dN}} \int dR\, e^{-\beta V(R)} = Z
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(N\)</span> is the number of particles, <span class="math notranslate nohighlight">\(d\)</span> is the dimension, <span class="math notranslate nohighlight">\(\beta = (k_B T)^{-1}\)</span>, and <span class="math notranslate nohighlight">\(\Lambda = (4 \pi \lambda \beta)^{-3/2}\)</span> is the classical thermal de Broglie wavelength.</p>
 <p>The Gibbs free energy is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1917d049-d449-4de9-945d-06750d2b8bcd">
-<span class="eqno">(5.2)<a class="headerlink" href="#equation-1917d049-d449-4de9-945d-06750d2b8bcd" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e41d92cf-c073-4001-ab4f-a5a3e981f02b">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-e41d92cf-c073-4001-ab4f-a5a3e981f02b" title="Permalink to this equation">#</a></span>\[\begin{equation}
     G = \mu N = F + PV
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mu\)</span> is the chemical potential per particle.</p>
@@ -491,8 +491,8 @@ e^{-\beta F} = \frac{1}{N! \Lambda^{3N}} \int dR\, p(R) \frac{e^{-\beta V(R)}}{p
 \]</div>
 <p>For non-trivial problems, this method gives a very large variance since it is very difficult to make p® large where V® is small.</p>
 <p><strong>Sample <span class="math notranslate nohighlight">\(e^{-\beta V}Z\)</span> Method</strong>: Calculate the following estimator.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2e96782f-7a61-4d50-9851-b3a7c501a366">
-<span class="eqno">(5.3)<a class="headerlink" href="#equation-2e96782f-7a61-4d50-9851-b3a7c501a366" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3c1efa92-16aa-4317-a513-ff90d03953b4">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-3c1efa92-16aa-4317-a513-ff90d03953b4" title="Permalink to this equation">#</a></span>\[\begin{equation}
     Z^{-1} = \left\langle e^{-\beta H} \right\rangle
 \end{equation}\]</div>
 <p>However, this has a very large variance unless V® is very weak.</p>
