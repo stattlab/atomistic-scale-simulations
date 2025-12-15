@@ -189,7 +189,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">3. Statistical Mechanics and Thermodynamics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">3.1. Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity and other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity, and Other Stuff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entropy-temperature.html">3.5. Entropy and Temperature</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6. Structural Correlations</a></li>
@@ -424,7 +424,30 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#static-correlations-and-order-parameters">3.6.2. Static Correlations and Order Parameters</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-density">3.6.2.1. The density</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-density">3.6.2.1. The Density</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pair-correlations">3.6.2.2. Pair correlations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#order-parameters">3.6.2.3. Order parameters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-functions">3.6.3. Distribution Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#radial-distribution-function-pair-correlation-function">3.6.4. Radial Distribution Function (Pair Correlation Function)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features-of-g-r">3.6.4.1. Features of <span class="math notranslate nohighlight">\(g(r)\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">3.6.4.2. Interpretation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairwise-properties">3.6.5. Pairwise Properties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tail-correction">3.6.6. Tail Correction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-compute-g-r">3.6.7. How to Compute <span class="math notranslate nohighlight">\(g(r)\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamic-estimators">3.6.8. Thermodynamic Estimators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-structure-estimators">3.6.9. Physical Structure Estimators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density">3.6.9.1. Density</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#real-space-rho-vec-r">3.6.9.1.1. Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vec-k-space-and-rho-vec-k">3.6.9.1.2. <span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space and <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pair-correlation-function-g-vec-r">3.6.9.2. Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-factor-s-k">3.6.9.3. Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-between-g-r-and-s-k">3.6.9.4. Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
 </ul>
 </li>
 </ul>
@@ -446,12 +469,12 @@ document.write(`
 <h3><span class="section-number">3.6.1.1. </span>Scalar Properties<a class="headerlink" href="#scalar-properties" title="Link to this heading">#</a></h3>
 <p>Today we discuss the basic properties we can calculate with simulation and also can be compared to experiment. What we can calculate with MD are microcanonical averages but to within factors of order (1/N) these should equal canonical averages. Later we will calculate the same things with Monte Carlo. The main scalar properties are:</p>
 <ul class="simple">
-<li><p>The Potential Energy, V®.</p></li>
+<li><p>The Potential Energy, <span class="math notranslate nohighlight">\(V(R)\)</span>.</p></li>
 <li><p>The Kinetic energy (to estimate the temperature).</p></li>
 <li><p>The Total energy (to test for energy conservation)</p></li>
 <li><p>The Pressure using virial theorem.</p></li>
-<li><p>The Specific Heat: The fluctuations in the potential energy can be used to estimate the specific heat. Danger: the canonical formula cannot be directly used since energy is conserved. See the discussion in AT</p></li>
-<li><p>See AT for more thermodynamic quantities.</p></li>
+<li><p>The Specific Heat: The fluctuations in the potential energy can be used to estimate the specific heat. Danger: the canonical formula cannot be directly used since energy is conserved. See the discussion in Allen and Tildesley.</p></li>
+<li><p>See A&amp;T for more thermodynamic quantities.</p></li>
 </ul>
 <p>It would also be possible to estimate the specific heat as the difference in energy with runs at two different temperatures. The disadvantage of this approach is that the statistical errors are amplified as the temperatures get close together and that separate runs are required.</p>
 <div class="note admonition">
@@ -466,46 +489,55 @@ document.write(`
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
 <span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Here’s what’s inside!</p>
+<p class="sd-card-text">For a system with average energy <span class="math notranslate nohighlight">\(E\)</span>, specific heat is defined as <span class="math notranslate nohighlight">\(C(T)=\delta E/ \delta T\)</span> (at either constant pressure or volume). For a simulation with finite temperature steps <span class="math notranslate nohighlight">\(dT\)</span>, it can be calculted as <span class="math notranslate nohighlight">\(C(T)=\frac{E(T+dT)-E(T)}{dT}\)</span>. Since <span class="math notranslate nohighlight">\(E\)</span> is an average temperature the stastical error of <span class="math notranslate nohighlight">\(C(T)\)</span> <span class="math notranslate nohighlight">\(\sigma_{stat}(C(T))\)</span> is given by the standard error propogation formula for the difference <span class="math notranslate nohighlight">\(E(T+dT)-E(T)\)</span>. It depends on the statistical error of E <span class="math notranslate nohighlight">\(\sigma_E\)</span> by <span class="math notranslate nohighlight">\(\sigma_{stat}(C)=\frac{\sigma_{E(T+dT)-E(T)}}{dT}=\frac{\sqrt{2}\sigma_E}{dT}\)</span>.</p>
+<ol class="arabic simple">
+<li><p class="sd-card-text">The systemic error emerges from approximating <span class="math notranslate nohighlight">\(C(T)\)</span> with a finite difference. The dependance on <span class="math notranslate nohighlight">\(dT\)</span> can be found from the Taylor expansion of the finite difference:
+<span class="math notranslate nohighlight">\(C(T) \approx \frac{E(T+dT)-E(T)}{dT}=\frac{1}{dT}\left[dT\frac{dE}{dT}+\frac{dT^2}{2}\frac{d^2E}{dT^2}+\frac{dT^3}{3!}\frac{d^3E}{dT^3}...\right]\)</span></p></li>
+</ol>
+<p class="sd-card-text">Since the leading term with a difference of this approximation is the second order term, the error depends linearly on <span class="math notranslate nohighlight">\(dT\)</span>.</p>
+<ol class="arabic simple" start="2">
+<li><p class="sd-card-text">As shown above <span class="math notranslate nohighlight">\(\sigma_{stat}\)</span> depends on <span class="math notranslate nohighlight">\(\frac{\sigma_E}{dT}\)</span> while <span class="math notranslate nohighlight">\(\sigma_{sys}\)</span> depends on <span class="math notranslate nohighlight">\(dT\)</span>. Setting <span class="math notranslate nohighlight">\(\sigma_{stat}=\sigma_{sys}\)</span> gives <span class="math notranslate nohighlight">\(\frac{\sigma_E}{dT}=dT\)</span> meaning that <span class="math notranslate nohighlight">\(dT=\sqrt{\sigma_E}\)</span>.</p></li>
+<li><p class="sd-card-text">Since each energy average <span class="math notranslate nohighlight">\(E\)</span> is comprised of <span class="math notranslate nohighlight">\(N\)</span> samples, the standard error scales with <span class="math notranslate nohighlight">\(1\)</span>/<span class="math notranslate nohighlight">\(\sqrt{N-1}\)</span>. Since we just showed how <span class="math notranslate nohighlight">\(dT\)</span> scales with <span class="math notranslate nohighlight">\(\sqrt{\sigma_E}\)</span>, this means that <span class="math notranslate nohighlight">\(dT\sim (N-1)^{1/4}\)</span>. In the limit of large <span class="math notranslate nohighlight">\(N\)</span> (typical for simulations), <span class="math notranslate nohighlight">\(dT\sim N^{1/4}\)</span></p></li>
+</ol>
 </div>
 </details></div>
-<p>It is not easy to calculate the free energy directly. We will discuss special methods to calculate it later.  Scalar quantities themselves are not usually very enlightening on the state of the system (e.g. liquid or solid). It is better to look at what is known as “order parameters”; this is one of the main advantages of computer simulation over experiment. We will discuss correlation function in real and k-space next time.</p>
+<p>It is not easy to calculate the free energy directly. We will discuss special methods to calculate it later.  Scalar quantities themselves are not usually very enlightening on the state of the system (e.g. liquid or solid). It is better to look at what is known as order parameters”; this is one of the main advantages of computer simulation over experiment. We will discuss correlation function in real and k-space next time.</p>
 </section>
 </section>
 <section id="static-correlations-and-order-parameters">
 <h2><span class="section-number">3.6.2. </span>Static Correlations and Order Parameters<a class="headerlink" href="#static-correlations-and-order-parameters" title="Link to this heading">#</a></h2>
-<p>The most important information that comes from simulations are the static correlation functions. You should develop a habit of looking at these quantities routinely since they tell you basic information about what the particles are doing, namely where they are and how they arrange themselves.  The homework and exams require you to understand basic properties and relations of the static correlation functions. By static we mean properties that depend on properties computed with single “snapshot” or time step.  This is contrasted with “dynamical properties” they depend on how properties change in time.</p>
+<p>The most important information that comes from simulations are the static correlation functions. You should develop a habit of looking at these quantities routinely since they tell you basic information about what the particles are doing, namely where they are and how they arrange themselves.  The homework and exams require you to understand basic properties and relations of the static correlation functions. By static we mean properties that depend on properties computed with single “snapshot” or time step.  This is contrasted with “dynamical properties” which depend on how properties change in time.</p>
 <p>The types of static correlations can generally be divided into</p>
 <ul class="simple">
 <li><p>One body quantities: the density and its Fourier transform. Another example is the RMS deviation from lattice sites for a solid, this is called Lindeman’s ratio or in Fourier space the Debye-Waller factor.</p></li>
-<li><p>two body quantities: the pair correlation and its Fourier transform: the structure factor.</p></li>
-<li><p>higher body correlations such as angular correlations and three-body correlations.</p></li>
+<li><p>Two body quantities: the pair correlation and its Fourier transform: the structure factor.</p></li>
+<li><p>Higher body correlations such as angular correlations and three-body correlations.</p></li>
 </ul>
 <section id="the-density">
-<h3><span class="section-number">3.6.2.1. </span>The density<a class="headerlink" href="#the-density" title="Link to this heading">#</a></h3>
-<p>The density tells you where the particles are (or have been). In a translationally invariant system it will be constant except for noise if you average long enough.</p>
+<h3><span class="section-number">3.6.2.1. </span>The Density<a class="headerlink" href="#the-density" title="Link to this heading">#</a></h3>
+<p>The density (<span class="math notranslate nohighlight">\(\rho\)</span>) tells you where the particles are (or have been). In a translationally invariant system it will be constant except for noise if you average long enough.</p>
 <p>You find it by histogramming, that is subdividing the total volume into a set of subvolumes. How to histogram:</p>
 <ul class="simple">
 <li><p>After the particles have been moved, take each particle and map the particle coordinate into an integer.</p></li>
 <li><p>Add one to that memory location corresponding to that integer. You have a ‘hit’ in that ‘bin’ .</p></li>
 <li><p>At end of run normalize the hits by total number of passes and volume element of bin.</p></li>
 </ul>
-<p>How do we set the histogramming size? By balancing the statistical error with the systematic error. The statistical error goes inversely as the square root of the volume size times the length of the run. It blows up for radial functions on a uniform mesh since the volume size goes at r2. The systematic error depends on the physical system, if the system is spread out, the density is pretty smooth, only a few bins will be needed.</p>
-<div class="note admonition">
-<p class="admonition-title">Exercise: Density of Inhomogeneous System</p>
-<p>Assume that you are computing the density in an inhomogenous system with <em>N particles</em> and <em>M independent samples</em> and the average density f® depends only on the radius r from the origin. Set up a radial grid with spacing dr. (This is a 3D system!)</p>
+<p>How do we set the histogramming size? By balancing the statistical error with the systematic error. The statistical error goes inversely as the square root of the volume size times the length of the run. It blows up for radial functions on a uniform mesh since the volume size goes at <span class="math notranslate nohighlight">\(r^2\)</span>. The systematic error depends on the physical system, if the system is spread out, the density is pretty smooth, only a few bins will be needed.</p>
+<div class="admonition-example-density-of-inhomogeneous-system admonition">
+<p class="admonition-title">Example: Density of Inhomogeneous System</p>
+<p>Assume that you are computing the density in an inhomogenous system with <em>N particles</em> and <em>M independent samples</em> and the average density <span class="math notranslate nohighlight">\(f(r)\)</span> depends only on the radius r from the origin. Set up a radial grid with spacing dr. (This is a 3D system!)</p>
 <ol class="arabic simple">
-<li><p>What is the estimator for f®?</p></li>
-<li><p>Assuming the particle postitions are uncorrelated, what is the statistical error of the estimate of f®?</p>
+<li><p>What is the estimator for <span class="math notranslate nohighlight">\(f(r)\)</span>?</p></li>
+<li><p>Assuming the particle postitions are uncorrelated, what is the statistical error of the estimate of <span class="math notranslate nohighlight">\(f(r)\)</span>?</p>
 <ul class="simple">
-<li><p>Hint: Hits form a bitstream for a particular bin with NM uncorrelated bits.</p></li>
-<li><p>Hint: Probability for any single particle ini a particular bin is <strong>estimator for p = f® dV/N</strong>, which is clearly correct for f®= constant = N/V.</p></li>
+<li><p>Hint: Hits form a bitstream for a particular bin with <span class="math notranslate nohighlight">\(NM\)</span> uncorrelated bits.</p></li>
+<li><p>Hint: Probability for any single particle ini a particular bin is <strong>estimator for p = f(r) dV/N</strong>, which is clearly correct for f(r)= constant = N/V.</p></li>
 <li><p>Hint: Probability for any single trial hitting a bin is proportional to the size of the bin, i.e. p = dV/V. For the NM trials, the <strong>estimator for p = (# of hits)/NM</strong>.</p></li>
 </ul>
 </li>
-<li><p>How does the systematic error depend on dr and f®?</p>
+<li><p>How does the systematic error depend on dr and f(r)?</p>
 <ul class="simple">
-<li><p>Hint: How much does f® vary within 1 bin?</p></li>
+<li><p>Hint: How much does f(r) vary within 1 bin?</p></li>
 <li><p>Hint: Assume that dr is small, i.e. dr &lt;&lt; 1.</p></li>
 </ul>
 </li>
@@ -515,24 +547,27 @@ document.write(`
 </ul>
 </li>
 </ol>
-<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">Here’s what’s inside!</p>
 </div>
-</details><p>Three dimensional histograms are a problem because, first the number of hits/bin is low so noise level is high,  second they are hard to visualize, third they take alot of memory. You might want to use symmetry or projections toreduce a 3d function to 1 or 2 dimensional densities.</p>
+<p>Three dimensional histograms are a problem because, first the number of hits/bin is low so noise level is high, second they are hard to visualize, third they take alot of memory. You might want to use symmetry or projections to reduce a 3d function to 1 or 2 dimensional densities.</p>
 <p>It is also good to examine the density in Fourier space. In periodic boundary conditions  the allowed K-vectors are on a grid. The Fourier density can be used to either: 1) smooth out the real space part by setting to zero the FT density larger than some value and fourier transforming back. (Disadvantage: the resulting density might go negative.) 2) look for periodic structures.</p>
-<h3 class="rubric" id="pair-correlations">Pair correlations</h3>
-<p>The pair correlation function (also called the radial distribution function or g®) is the density of other particles around a given particle. Its first peak occurs around density -1/3. Normalization is usually defined such that at large r, g®=1. The theory of liquids is based on pair correlations because you can calculate the energy, pressure etc if you know g® (as long as the only potential is a pair potential.)  In a liquid or gas, g® depends only on the distance between two particles, not on the angle. Actually PBC break isotropy, g® could be different between the box axis and the body diagonal. Usually one ignores this to obtain a spherically symmetric g® for r less than half the box side. The pair correlation function is needed to apply ‘tail’ corrections to the potential energy and pressure coming about because of the truncation at the edge of the box.</p>
-<p>The Fourier transform of g® is called the static structure function Sk. It is important to calculate because it can be compared directly with experiment, either neutron or X-ray scattering can measure it. There are very expensive instruments at Argonne, Grenoble, Brookhaven that are dedicated to measuring Sk and its time dependent generalization. If the agreement is good it gives a lot of confidence concerning the potential model. But don’t be carried away; agreement to 5% is typical if the potential is at all reasonable.</p>
-<p>The first peak of Sk is around 6 density 1/3. Normalization is such that at large k: Sk=1. It can be computed in two different ways, either as a FT of g® or the direct way. The direct way is slower but better at low k-values or a reciprocal lattice vectors of a possible solid structure because there are not the systematic errors of ignoring anisotropic correlations and histogram effects. Also g® must be extended to large r to do the FT.</p>
-<p>One should use the peak of Sk to decide is a system is solid. For a liquid Sk is smooth and order 1 everywhere. A solid shows a delta functions with peak high a fraction of the number of particles at the reciprocal lattice of the solid. Solid structure shows up in g® in a more subtle way: instead of a nice damped oscillations, there are bumps at the nearest neighbor, next-nearest neighbor, etc. (Where they are depends on the type of lattice).</p>
-<p>The structure factor also signals separation in a two phase region. An example is the formation of droplets such as occurs when the number of particles corresponds to neither a stable liquid of gas, but a mixture of liquid and gas. In that case the structure function will diverge at low wave vector. The value at zero (S0) equals N by definition (in the canonical ensemble) but this can be different than limit {k Ş 0} Sk which is proportional to the compressibility of the system.</p>
-<h3 class="rubric" id="order-parameters">Order parameters</h3>
+</section>
+<section id="pair-correlations">
+<h3><span class="section-number">3.6.2.2. </span>Pair correlations<a class="headerlink" href="#pair-correlations" title="Link to this heading">#</a></h3>
+<p>The pair correlation function (also called the radial distribution function or <span class="math notranslate nohighlight">\(g(r)\)</span>) is the density of other particles around a given particle. Its first peak occurs around <span class="math notranslate nohighlight">\(\rho^{-1/3}\)</span>. Normalization is usually defined such that at large <span class="math notranslate nohighlight">\(r\)</span>, <span class="math notranslate nohighlight">\(g(r)=1\)</span>. The theory of liquids is based on pair correlations because you can calculate the energy, pressure etc if you know <span class="math notranslate nohighlight">\(g(r)\)</span> (as long as the only potential is a pair potential.)  In a liquid or gas, <span class="math notranslate nohighlight">\(g(r)\)</span> depends only on the distance between two particles, not on the angle. Actually PBCs break isotropy, <span class="math notranslate nohighlight">\(g(r)\)</span> could be different between the box axis and the body diagonal. Usually one ignores this to obtain a spherically symmetric <span class="math notranslate nohighlight">\(g(r)\)</span> for <span class="math notranslate nohighlight">\(r\)</span> less than half the box side. The pair correlation function is needed to apply ‘tail’ corrections to the potential energy and pressure coming about because of the truncation at the edge of the box.</p>
+<p>The Fourier transform of <span class="math notranslate nohighlight">\(g(r)\)</span> is called the static structure function <span class="math notranslate nohighlight">\(S(k)\)</span>. It is important to calculate because it can be compared directly with experiment, either neutron or X-ray scattering can measure it. There are very expensive instruments at Argonne, Grenoble, Brookhaven that are dedicated to measuring <span class="math notranslate nohighlight">\(S(k)\)</span> and its time dependent generalization. If the agreement is good it gives a lot of confidence concerning the potential model. But don’t be carried away; agreement to 5% is typical if the potential is at all reasonable.</p>
+<p>The first peak of <span class="math notranslate nohighlight">\(S(k)\)</span> is around <span class="math notranslate nohighlight">\(\rho^{1/3}\)</span>. Normalization is such that at large <span class="math notranslate nohighlight">\(k\)</span>: <span class="math notranslate nohighlight">\(S(k)=1\)</span>. It can be computed in two different ways, either as a FT of <span class="math notranslate nohighlight">\(g(r)\)</span> or the direct way. The direct way is slower but better at low k-values or as reciprocal lattice vectors of a possible solid structure because there are not the systematic errors of ignoring anisotropic correlations and histogram effects. Also <span class="math notranslate nohighlight">\(g(r)\)</span> must be extended to large r to do the FT.</p>
+<p>One should use the peak of <span class="math notranslate nohighlight">\(S(k)\)</span> to decide is a system is solid. For a liquid <span class="math notranslate nohighlight">\(S(k)\)</span> is smooth and order 1 everywhere. A solid shows delta functions with peak high a fraction of the number of particles at the reciprocal lattice of the solid. Solid structure shows up in g® in a more subtle way: instead of a nice damped oscillations, there are bumps at the nearest neighbor, next-nearest neighbor, etc. (Where they are depends on the type of lattice).</p>
+<p>The structure factor also signals separation in a two phase region. An example is the formation of droplets such as occurs when the number of particles corresponds to neither a stable liquid of gas, but a mixture of liquid and gas. In that case the structure function will diverge at low wave vectors. The value at zero (<span class="math notranslate nohighlight">\(S(0)\)</span>) equals N by definition (in the canonical ensemble) but this can be different than <span class="math notranslate nohighlight">\(\lim_{k \to 0} S(k)\)</span>  which is proportional to the compressibility of the system.</p>
+</section>
+<section id="order-parameters">
+<h3><span class="section-number">3.6.2.3. </span>Order parameters<a class="headerlink" href="#order-parameters" title="Link to this heading">#</a></h3>
 <p>A key concept from the theory of phase transitions is the idea of an “order parameter” which characterizes a phase. For the moment we will just explain how this works for the two most common phase transitions: liquid-gas and liquid-solid.</p>
-<p><strong><em>The liquid-gas transition:</em></strong> the order parameter is the density. a liquid and gas are identical except a liquid has higher density. At the critical point the difference disappears. There is a first order phase transition between liquid and solid so it is quite possible to do a simulation in the two phase region. What will happen? Liquid droplets will form assuming 1) the surface tension allows it an 2) the simulation is long enough. When this happens Sk will have a characteristic behavior.</p>
+<p><strong><em>The liquid-gas transition:</em></strong> the order parameter is the density. a liquid and gas are identical except a liquid has higher density. At the critical point the difference disappears. There is a first order phase transition between liquid and solid so it is quite possible to do a simulation in the two phase region. What will happen? Liquid droplets will form assuming 1) the surface tension allows it and 2) the simulation is long enough. When this happens <span class="math notranslate nohighlight">\(S(k)\)</span> will have a characteristic behavior.</p>
 <p><strong><em>The liquid-solid transition:</em></strong> A solid is characterized by a periodic density. For example the Fourier transform of the density will be very large for certain wavevectors (the reciprocal lattice vectors).</p>
-<h2 class="rubric" id="distribution-functions">Distribution Functions</h2>
+</section>
+</section>
+<section id="distribution-functions">
+<h2><span class="section-number">3.6.3. </span>Distribution Functions<a class="headerlink" href="#distribution-functions" title="Link to this heading">#</a></h2>
 <p>What if we only care about the distribution of some particles in a given portion?</p>
 <p>Let:</p>
 <div class="math notranslate nohighlight">
@@ -542,8 +577,8 @@ f^{(2)}(r_1, r_2) = \frac{N!}{(N-2)!} \int \cdots \int e^{-\beta U(r^N)} \, dr_3
 <p>This is for two specific particles, but what if we don’t care which ones?</p>
 <p>There are:</p>
 <ul class="simple">
-<li><p>( N ) ways to choose particle 1,</p></li>
-<li><p>( N - 1 ) ways to choose particle 2, etc.</p></li>
+<li><p><span class="math notranslate nohighlight">\(N\)</span> ways to choose particle 1,</p></li>
+<li><p><span class="math notranslate nohighlight">\(N-1\)</span> ways to choose particle 2, etc.</p></li>
 </ul>
 <p>These functions measure probabilities, which must depend on the overall density.</p>
 <p>Example: Ideal gas</p>
@@ -551,36 +586,54 @@ f^{(2)}(r_1, r_2) = \frac{N!}{(N-2)!} \int \cdots \int e^{-\beta U(r^N)} \, dr_3
 \[
 f^{(2)}(r_1, r_2) = \rho^2
 \]</div>
-<p>We define the <strong>two-body correlation function</strong> ( g® ) to measure correlations relative to a completely uncorrelated ideal gas:</p>
+<p>We define the <strong>two-body correlation function</strong> <span class="math notranslate nohighlight">\(g(r)\)</span> to measure correlations relative to a completely uncorrelated ideal gas:</p>
 <div class="math notranslate nohighlight">
 \[
 g(r) = \frac{f^{(2)}(r_1, r_2)}{\rho^2}
 \]</div>
-<h2 class="rubric" id="radial-distribution-function-pair-correlation-function">Radial Distribution Function (Pair Correlation Function)</h2>
+</section>
+<section id="radial-distribution-function-pair-correlation-function">
+<h2><span class="section-number">3.6.4. </span>Radial Distribution Function (Pair Correlation Function)<a class="headerlink" href="#radial-distribution-function-pair-correlation-function" title="Link to this heading">#</a></h2>
 <p>If the system is:</p>
 <ul class="simple">
-<li><p><strong>Homogeneous</strong>: ( g(r_1, r_2) ) depends only on the relative position.</p></li>
-<li><p><strong>Isotropic</strong>: ( g(r_1, r_2) = g(|r_1 - r_2|) = g® )</p></li>
+<li><p><strong>Homogeneous</strong>:  <span class="math notranslate nohighlight">\(g(r_1, r_2)\)</span>  depends only on the relative position.</p></li>
+<li><p><strong>Isotropic</strong>:  <span class="math notranslate nohighlight">\(g(r_1, r_2) = g(|r_1 - r_2|) = g(r)\)</span></p></li>
 </ul>
-<h3 class="rubric" id="features-of-g">Features of ( g® )</h3>
+<section id="features-of-g-r">
+<h3><span class="section-number">3.6.4.1. </span>Features of <span class="math notranslate nohighlight">\(g(r)\)</span><a class="headerlink" href="#features-of-g-r" title="Link to this heading">#</a></h3>
+<p>The radial distribution function has several key features which are visualized in <em>Figure 1</em> and listed below.</p>
 <ul class="simple">
-<li><p>First peak: nearest neighbor shell</p></li>
-<li><p>Second peak: second shell</p></li>
-<li><p>( g® \to 1 ) as ( r \to \infty )</p></li>
-<li><p>( g® = 0 ) at very small ( r ) due to core repulsion</p></li>
+<li><p>First peak: corresponds to the nearest neighbor shell</p></li>
+<li><p>Second peak: corresponds to the second shell</p></li>
+<li><p>g(r) <span class="math notranslate nohighlight">\(\to\)</span> 1 as <span class="math notranslate nohighlight">\(r \to \infty\)</span></p></li>
+<li><p>g(r) = 0 at very small r due to core repulsion
+<br>
+<br></p></li>
 </ul>
-<h3 class="rubric" id="interpretation">Interpretation</h3>
+<p align="center">
+  <img src="_figures/Lennard-Jones_Radial_Distribution_Function.jpg"
+       alt="Plot of the Lennard-Jones potential and force"
+       width="500">
+  <br>     
+  Figure 1. Lennard-Jones potential U(<em>r</em>) as a function of distance <em>r</em>. Here, <em>&sigma;</em> corresponds to a particle size, and <em>&epsilon;</em> is the interaction energy at the minimum of the potential, located at <em>r</em> = 2<sup>1/6</sup><em>&sigma;</em>.
+</p>
+</section>
+<section id="interpretation">
+<h3><span class="section-number">3.6.4.2. </span>Interpretation<a class="headerlink" href="#interpretation" title="Link to this heading">#</a></h3>
 <ul>
-<li><p>( g® ) is a <strong>conditional probability</strong>:</p>
+<li><p><span class="math notranslate nohighlight">\( g(r) \)</span> is a <strong>conditional probability</strong>:</p>
 <div class="math notranslate nohighlight">
 \[
   p(r_2 | r_1) = \frac{p(r_1, r_2)}{p(r_1)} = \rho g(r)
   \]</div>
 </li>
-<li><p>( \rho g® ): average density at distance ( r ) from a particle at the origin</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho g(r)\)</span> : average density at distance <span class="math notranslate nohighlight">\(r\)</span> from a particle at the origin</p></li>
 </ul>
-<h2 class="rubric" id="pairwise-properties">Pairwise Properties</h2>
-<p>To compute an average pairwise property ( \langle a \rangle ):</p>
+</section>
+</section>
+<section id="pairwise-properties">
+<h2><span class="section-number">3.6.5. </span>Pairwise Properties<a class="headerlink" href="#pairwise-properties" title="Link to this heading">#</a></h2>
+<p>To compute an average pairwise property <span class="math notranslate nohighlight">\(\langle a \rangle\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
 \langle a \rangle = \frac{1}{2} \rho^2 \int d\vec{r} \, g(r) a(r)
@@ -595,8 +648,10 @@ U = \frac{1}{2} \rho^2 \int d\vec{r} \, g(r) u(r)
 \[
 U = 2\pi \rho^2 \int_0^\infty dr \, r^2 g(r) u(r)
 \]</div>
-<h2 class="rubric" id="tail-correction">Tail Correction</h2>
-<p>To account for interactions beyond a cutoff ( r_c ):</p>
+</section>
+<section id="tail-correction">
+<h2><span class="section-number">3.6.6. </span>Tail Correction<a class="headerlink" href="#tail-correction" title="Link to this heading">#</a></h2>
+<p>To account for interactions beyond a cutoff <span class="math notranslate nohighlight">\(r_c \)</span> :</p>
 <div class="math notranslate nohighlight">
 \[
 \Delta U/N = 2\pi \rho \int_{r_c}^\infty dr \, r^2 g(r) u(r)
@@ -606,11 +661,13 @@ U = 2\pi \rho^2 \int_0^\infty dr \, r^2 g(r) u(r)
 \[
 u(r) = 4\epsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right]
 \]</div>
-<h2 class="rubric" id="how-to-compute-g">How to Compute ( g® )</h2>
+</section>
+<section id="how-to-compute-g-r">
+<h2><span class="section-number">3.6.7. </span>How to Compute <span class="math notranslate nohighlight">\(g(r)\)</span><a class="headerlink" href="#how-to-compute-g-r" title="Link to this heading">#</a></h2>
 <ol class="arabic">
-<li><p>Choose a particle ( i )</p></li>
-<li><p>Compute distances to all other particles ( j )</p></li>
-<li><p>Count (histogram) distances into bins of width ( \Delta r )</p></li>
+<li><p>Choose a particle <span class="math notranslate nohighlight">\(i\)</span></p></li>
+<li><p>Compute distances to all other particles <span class="math notranslate nohighlight">\(j\)</span></p></li>
+<li><p>Count (histogram) distances into bins of width <span class="math notranslate nohighlight">\( d r \)</span></p></li>
 <li><p>Repeat for all particles</p></li>
 <li><p>Normalize histogram:</p>
 <div class="math notranslate nohighlight">
@@ -619,14 +676,20 @@ u(r) = 4\epsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sig
    \]</div>
 <p>where:</p>
 <ul class="simple">
-<li><p>( n_k ): number of particles in bin ( k )</p></li>
-<li><p>( V_k = 4\pi r_k^2 \Delta r ): volume of spherical shell</p></li>
+<li><p><span class="math notranslate nohighlight">\(n_k\)</span> : number of particles in bin <span class="math notranslate nohighlight">\(k\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(V_k = 4\pi r_k^2 d r \)</span> : volume of spherical shell</p></li>
 </ul>
 </li>
 </ol>
-<p>Typically define ( g(r_k) ) at ( r_k + \Delta r / 2 )</p>
-<h2 class="rubric" id="structure-factor">Structure Factor</h2>
-<p>The <strong>structure factor</strong> ( S(k) ) is obtained in scattering experiments and is related to ( g® ) via Fourier transform:</p>
+<p>Typically define <span class="math notranslate nohighlight">\(g(r_k)\)</span> at  <span class="math notranslate nohighlight">\(r_k + d r / 2\)</span></p>
+<p align="center">
+  <img src="_figures/Rdf_schematic.jpg"
+       alt="Plot of the Lennard-Jones potential and force"
+       width="350">
+  <br>     
+  Figure 2. Illusatration demonstrating the calculation of g(<em>r</em>).
+</p>
+<p>The <strong>structure factor</strong> <span class="math notranslate nohighlight">\(S(k)\)</span> is obtained in scattering experiments and is related to <span class="math notranslate nohighlight">\(g(r)\)</span> via a Fourier transform:</p>
 <div class="math notranslate nohighlight">
 \[
 S(k) = 1 + \rho \int d\vec{r} \, e^{i \vec{k} \cdot \vec{r}} [g(r) - 1]
@@ -634,7 +697,9 @@ S(k) = 1 + \rho \int d\vec{r} \, e^{i \vec{k} \cdot \vec{r}} [g(r) - 1]
 <blockquote>
 <div><p>Note: We will not discuss this in detail in this class due to subtleties, but you should be aware of it.</p>
 </div></blockquote>
-<h2 class="rubric" id="thermodynamic-estimators">Thermodynamic Estimators</h2>
+</section>
+<section id="thermodynamic-estimators">
+<h2><span class="section-number">3.6.8. </span>Thermodynamic Estimators<a class="headerlink" href="#thermodynamic-estimators" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table" id="tab-thermodynamic-estimators">
 <caption><span class="caption-number">Table 3.1 </span><span class="caption-text">Thermodynamic Estimators</span><a class="headerlink" href="#tab-thermodynamic-estimators" title="Link to this table">#</a></caption>
 <thead>
@@ -663,43 +728,55 @@ S(k) = 1 + \rho \int d\vec{r} \, e^{i \vec{k} \cdot \vec{r}} [g(r) - 1]
 </tbody>
 </table>
 </div>
-<h2 class="rubric" id="physical-structure-estimators">Physical Structure Estimators</h2>
-<h2 class="rubric" id="density">Density</h2>
-<h3 class="rubric" id="real-space-rho-vec-r">Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span></h3>
+</section>
+<section id="physical-structure-estimators">
+<h2><span class="section-number">3.6.9. </span>Physical Structure Estimators<a class="headerlink" href="#physical-structure-estimators" title="Link to this heading">#</a></h2>
+<section id="density">
+<h3><span class="section-number">3.6.9.1. </span>Density<a class="headerlink" href="#density" title="Link to this heading">#</a></h3>
+<section id="real-space-rho-vec-r">
+<h4><span class="section-number">3.6.9.1.1. </span>Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span><a class="headerlink" href="#real-space-rho-vec-r" title="Link to this heading">#</a></h4>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\rho(\vec{r}) &amp; =\sum_{i=1}^{N}\left\langle\left(\delta\left(\vec{r}_{i}-\vec{r}\right)\right\rangle=\sum_{i=1}^{N} \frac{\left\langle\Theta\left(\vec{r}_{i} \in \operatorname{Bin}_{\vec{r}_{i}}\right)\right\rangle}{\text { Vol. of } \operatorname{Bin}_{\vec{r}_{i}}}\right. \\
+\begin{aligned}
+\rho(\vec{r}) &amp; =\sum_{i=1}^{N}\left\langle\delta \left( \vec{r}_{i}-\vec{r}\right)\right\rangle=\sum_{i=1}^{N} \frac{\left\langle\Theta\left(\vec{r}_{i} \in \operatorname{Bin}_{\vec{r}_{i}}\right)\right\rangle}{\text { Vol. of } \operatorname{Bin}_{\vec{r}_{i}}}. \\
 &amp; =\rho, \quad \text { (for uniform system) }
+\end{aligned}
 \end{split}\]</div>
 <p>In a crystal, the mean-squared deviation from a set of lattice sites <span class="math notranslate nohighlight">\(\left\{\mathbf{Z}_{\mathbf{i}}\right\}\)</span> is important.</p>
 <div class="math notranslate nohighlight">
 \[
-u^{2}=&lt;\left(\mathbf{r}_{\mathbf{i}}-\mathbf{z}_{\mathbf{i}}\right)^{2}&gt;
+u^{2}=\left\langle\left(\mathbf{r}_{\mathbf{i}}-\mathbf{z}_{\mathbf{i}}\right)^{2}\right\rangle
 \]</div>
 <p>A classical solid melts when <span class="math notranslate nohighlight">\(u^{2}&gt;0.15 d_{n n}^{2}\)</span> (Lindemann’s ratio)</p>
-<h3 class="rubric" id="vec-k-space-rho-vec-k"><span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space, <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span></h3>
+</section>
+<section id="vec-k-space-and-rho-vec-k">
+<h4><span class="section-number">3.6.9.1.2. </span><span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space and <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span><a class="headerlink" href="#vec-k-space-and-rho-vec-k" title="Link to this heading">#</a></h4>
 <div class="math notranslate nohighlight">
 \[\begin{split}
+\begin{aligned}
 \rho(\vec{k}) &amp; =\int d^{3} r e^{i \vec{k} \cdot \vec{r}} \rho(\vec{r})=\sum_{i=1}^{N} e^{i \vec{k} \cdot \vec{r}_{i}} \\
 \rho_{0} &amp; =N \\
 \rho_{\vec{k} \neq 0} &amp; =0, \quad \text { (for uniform system) }
+\end{aligned}
 \end{split}\]</div>
-<p>Note: In rectangular periodic boundary conditions, <span class="math notranslate nohighlight">\(\vec{k}=\left(\frac{2 \pi}{L_{x}} n_{x}, \frac{2 \pi}{L_{z}} n_{z}, \frac{2 \pi}{L_{z}} n_{z}\right)\)</span>.\
-Fourier smoothing is done by removing terms that have <span class="math notranslate nohighlight">\(k&gt;k_{\text {cutof } f}\)</span>,</p>
+<p>Note: In rectangular periodic boundary conditions, <span class="math notranslate nohighlight">\(\vec{k}=\left(\frac{2 \pi}{L_{x}} n_{x}, \frac{2 \pi}{L_{z}} n_{z}, \frac{2 \pi}{L_{z}} n_{z}\right)\)</span>.</p>
+<p>Fourier smoothing is done by removing terms that have <span class="math notranslate nohighlight">\(k&gt;k_{\text {cutof } f}\)</span>,</p>
 <div class="math notranslate nohighlight">
 \[
 \tilde{\rho}(\vec{r})=\frac{1}{\Omega} \sum_{|\vec{k}| \leq k_{\text {cutoff }}} \rho_{\vec{k}} e^{-\vec{k} \cdot \vec{r}}
 \]</div>
-<h2 class="rubric" id="pair-correlation">Pair Correlation</h2>
-<h3 class="rubric" id="pair-correlation-function-g-vec-r">Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span></h3>
+</section>
+</section>
+<section id="pair-correlation-function-g-vec-r">
+<h3><span class="section-number">3.6.9.2. </span>Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span><a class="headerlink" href="#pair-correlation-function-g-vec-r" title="Link to this heading">#</a></h3>
 <p>In the following formulas, realize the definitions may only make sense for <span class="math notranslate nohighlight">\(|\vec{r}| \leq L / 2\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
 g(\vec{r})=\frac{2 \Omega}{N^{2}} \sum_{i&lt;j}\left\langle\delta\left(\vec{r}_{i}-\vec{r}_{j}-\vec{r}\right)\right\rangle
 \]</div>
-<p>For free particles, <span class="math notranslate nohighlight">\(g(r)=1-1 / N\)</span>.\
-Sum rule is <span class="math notranslate nohighlight">\(\int d^{3} r g(r)=(1-1 / N) \Omega\)</span>.\
-The potential energy and the pressure estimator can be written in terms of <span class="math notranslate nohighlight">\(g(r)\)</span>,</p>
+<p>For free particles, <span class="math notranslate nohighlight">\(g(r)=1-1 / N\)</span>.</p>
+<p>Sum rule is <span class="math notranslate nohighlight">\(\int d^{3} r g(r)=(1-1 / N) \Omega\)</span>.</p>
+<p>The potential energy and the pressure estimator can be written in terms of <span class="math notranslate nohighlight">\(g(r)\)</span>,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 V=\left\langle\sum_{i&lt;j} \phi\left(r_{i j}\right)\right\rangle=\frac{N \rho}{2} \int d^{3} r \phi(\vec{r}) g(\vec{r}) \\
@@ -711,11 +788,15 @@ P=\rho k_{B} T-\frac{\rho^{2}}{6} \int d^{3} r g(r) r \frac{d \phi}{d r}
 \Delta V=2 \pi N \rho\left[\phi\left(r_{c}\right) \int_{0}^{r_{c}} r^{2} d r g(r)+\int_{r_{c}}^{\infty} r^{2} d r \phi(r)\right]
 \]</div>
 <p>assuming <span class="math notranslate nohighlight">\(g(r)=1\)</span> for <span class="math notranslate nohighlight">\(r&gt;r_{c}\)</span>.</p>
-<h3 class="rubric" id="structure-factor-s-k">Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span></h3>
+</section>
+<section id="structure-factor-s-k">
+<h3><span class="section-number">3.6.9.3. </span>Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span><a class="headerlink" href="#structure-factor-s-k" title="Link to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}
+\begin{aligned}
 S_{\vec{k}} &amp; =\frac{1}{N}\left\langle\rho_{\vec{k}} \rho_{-\vec{k}}\right\rangle \\
 S_{0} &amp; =N
+\end{aligned}
 \end{split}\]</div>
 <p>For a perfect crystal <span class="math notranslate nohighlight">\(S_{k}\)</span> will be zero almost everywhere, except for some well-defined spikes. In particular, for a bravais lattice the spikes are located at reciprocal lattice points,</p>
 <div class="math notranslate nohighlight">
@@ -727,7 +808,7 @@ S_{k}=N \sum_{G} \delta_{k, G} .
 \[
 S_{k}=1+(N-1) \sum_{G} \delta_{k, G} e^{-k^{2} u^{2} / 3}
 \]</div>
-<p>where the Debye-Waller factor <span class="math notranslate nohighlight">\(u\)</span> is defined in Eq. (3).
+<p>where the Debye-Waller factor <span class="math notranslate nohighlight">\(u\)</span> is defined above.
 For a non-perfect crystal, the spikes will soften, and in the limit <span class="math notranslate nohighlight">\(k \rightarrow \infty, S_{k} \rightarrow 1\)</span>.
 For free particles, <span class="math notranslate nohighlight">\(S_{k}=1+(N-1) \delta_{k, 0}\)</span>.
 The short-wavelength behavior of the structure factor is related to the compressibility, <span class="math notranslate nohighlight">\(\chi_{T}=\)</span> <span class="math notranslate nohighlight">\((\rho d P / d \rho)^{-1}\)</span> by the relation</p>
@@ -735,26 +816,34 @@ The short-wavelength behavior of the structure factor is related to the compress
 \[
 \lim _{k \rightarrow \infty} S_{k}=\rho k_{B} T \chi_{T}
 \]</div>
-<h3 class="rubric" id="relation-between-g-r-and-s-k">Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span></h3>
+</section>
+<section id="relation-between-g-r-and-s-k">
+<h3><span class="section-number">3.6.9.4. </span>Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span><a class="headerlink" href="#relation-between-g-r-and-s-k" title="Link to this heading">#</a></h3>
 <p>Exact formulas for periodic boundaries:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-S_{\vec{k}} &amp; =1+N \delta_{\vec{k}, 0}+\rho \int_{\Omega} d^{3} r e^{i \vec{k} \cdot \vec{r}}(g(\vec{r})-1) \\
-g(\vec{r}) &amp; =\frac{1}{N} \sum_{k} e^{i \vec{k} \cdot \vec{r}}\left(S_{\vec{k}}-1\right)
+\begin{aligned}
+r e^{i \vec{k} \cdot \vec{r}}(g(\vec{r})-1) \\
+g(\vec{r}) = \frac{1}{N} \sum_{k} e^{i \vec{k} \cdot \vec{r}}\left(S_{\vec{k}}-1\right)
+S_{\vec{k}} &amp;= 1+N \delta_{\vec{k}, 0}+\rho \int_{\Omega} d^{3}
+\end{aligned}
 \end{split}\]</div>
 <p>Formulas assuming a large box and isotropic correlations in 3D:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
+\begin{aligned}
 S_{k} &amp; =1+N \delta_{k, 0}+\frac{4 \pi \rho}{k} \int_{0}^{\infty} d r \sin (k r)(g(r)-1) \\
 g(r) &amp; =1+\frac{1}{2 \pi^{2} \rho r} \int_{0}^{\infty} k d k \sin (k r)\left(S_{\vec{k}}-1\right)
+\end{aligned}
 \end{split}\]</div>
 <p>Formulas assuming a large box and isotropic correlations in 2D:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
+\begin{aligned}
 S_{k} &amp; =1+N \delta_{k, 0}+2 \pi \rho \int_{0}^{\infty} d r J_{0}(k r)(g(r)-1) \\
 g(r) &amp; =1+\frac{1}{2 \pi \rho} \int_{0}^{\infty} k d k J_{0}(k r)\left(S_{\vec{k}}-1\right)
+\end{aligned}
 \end{split}\]</div>
-</div>
 </section>
 </section>
 </section>
@@ -828,7 +917,30 @@ g(r) &amp; =1+\frac{1}{2 \pi \rho} \int_{0}^{\infty} k d k J_{0}(k r)\left(S_{\v
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#static-correlations-and-order-parameters">3.6.2. Static Correlations and Order Parameters</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-density">3.6.2.1. The density</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-density">3.6.2.1. The Density</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pair-correlations">3.6.2.2. Pair correlations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#order-parameters">3.6.2.3. Order parameters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-functions">3.6.3. Distribution Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#radial-distribution-function-pair-correlation-function">3.6.4. Radial Distribution Function (Pair Correlation Function)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features-of-g-r">3.6.4.1. Features of <span class="math notranslate nohighlight">\(g(r)\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">3.6.4.2. Interpretation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairwise-properties">3.6.5. Pairwise Properties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tail-correction">3.6.6. Tail Correction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-compute-g-r">3.6.7. How to Compute <span class="math notranslate nohighlight">\(g(r)\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thermodynamic-estimators">3.6.8. Thermodynamic Estimators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-structure-estimators">3.6.9. Physical Structure Estimators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#density">3.6.9.1. Density</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#real-space-rho-vec-r">3.6.9.1.1. Real Space, <span class="math notranslate nohighlight">\(\rho(\vec{r})\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vec-k-space-and-rho-vec-k">3.6.9.1.2. <span class="math notranslate nohighlight">\(\vec{k}\)</span> - Space and <span class="math notranslate nohighlight">\(\rho_{\vec{k}}\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pair-correlation-function-g-vec-r">3.6.9.2. Pair Correlation Function, <span class="math notranslate nohighlight">\(g(\vec{r})\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-factor-s-k">3.6.9.3. Structure Factor, <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relation-between-g-r-and-s-k">3.6.9.4. Relation between <span class="math notranslate nohighlight">\(g(r)\)</span> and <span class="math notranslate nohighlight">\(S_{k}\)</span></a></li>
 </ul>
 </li>
 </ul>
