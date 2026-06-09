@@ -16,44 +16,47 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
     <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -70,6 +73,7 @@
     <link rel="prev" title="4.3. Thermostats" href="thermostats.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -85,19 +89,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -105,7 +98,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -113,8 +105,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -130,7 +122,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -160,15 +153,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
@@ -232,9 +221,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -364,7 +358,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -378,25 +372,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -657,7 +643,7 @@ v(t+\Delta t)
 \]</div>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-J_O = 
+J_O =
 \begin{pmatrix}
 \mathbf{I} &amp; 0 \\
 0 &amp; e^{-\frac{\gamma \Delta t}{m}}\,\mathbf{I}
@@ -737,7 +723,7 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
 <div class="math notranslate nohighlight">
 \[
 \mathrm{E}\!\left[\left(\int_0^t g_t\, dW_t \right)^2\right]
-= 
+=
 \mathrm{E}\!\left[\int_0^t g_t^2\, dt \right]
 \]</div>
 <div class="math notranslate nohighlight">
@@ -793,7 +779,6 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
 <p>The full mobility tensor matrix is defined as a $$ symmetric matrix:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\begin{equation}
 \mathbf{M} =
 \begin{pmatrix}
 \mathbf{M}_{11} &amp; \mathbf{M}_{12} &amp; \cdots &amp; \mathbf{M}_{1N} \\
@@ -801,48 +786,39 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
 \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
 \mathbf{M}_{N1} &amp; \mathbf{M}_{N2} &amp; \cdots &amp; \mathbf{M}_{NN}
 \end{pmatrix}
-\end{equation}
 \end{split}\]</div>
 <p>where each block defines how a force on particle <span class="math notranslate nohighlight">\(j\)</span> produces a velocity on particle <span class="math notranslate nohighlight">\(i\)</span>.</p>
 <p>To construct the mobility matrix, each term can be found by the following categories:</p>
 <p>(a). Self-mobility (<span class="math notranslate nohighlight">\(i = j\)</span>)</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
 \mathbf{M}_{ii} = \frac{1}{6\pi\eta a}\,\mathbf{I}
-\end{equation}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(a\)</span> is the solvent radius and <span class="math notranslate nohighlight">\(\eta\)</span> is the solvent viscosity.</p>
 <p>(b). Long-range coupling - Oseen tensor (<span class="math notranslate nohighlight">\(i \neq j\)</span>)</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
-\mathbf{M}_{ij} = \frac{1}{8\pi\eta r_{ij}} 
+\mathbf{M}_{ij} = \frac{1}{8\pi\eta r_{ij}}
 \big( \mathbf{I} + \hat{\mathbf{r}}_{ij}\hat{\mathbf{r}}_{ij} \big),
 \quad i \neq j
-\end{equation}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\mathbf{r}_{ij} = \mathbf{r}_i - \mathbf{r}_j\)</span> is the distance between 2 particles.</p>
 <p>A long-range tensor can be found with Ewald sums through [Fiore et al., J. Chem. Phys., 146, 12416 (2019)], which decomposes <span class="math notranslate nohighlight">\(\mathbf{M}_{ij}\)</span> into a short-range “real-space” part and a long-range “wave-space” part using the Fourier transform. Then, the short range can be evaluated through the neighbor list, while the long range can be evaluated through the Fourier transform.</p>
 <p>©. Rotne–Prager tensor (finite-size correction <span class="math notranslate nohighlight">\(r_{ij} \geq 2a\)</span>)</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
-\mathbf{M}_{ij} = \frac{1}{8\pi\eta r_{ij}} 
+\mathbf{M}_{ij} = \frac{1}{8\pi\eta r_{ij}}
 \left[
 \left( 1 + \frac{2a^2}{3r_{ij}^2} \right)\mathbf{I}
 + \left( 1 - \frac{2a^2}{r_{ij}^2} \right)\hat{\mathbf{r}}_{ij}\hat{\mathbf{r}}_{ij}
 \right]
-\end{equation}
 \]</div>
 <p>This correction ensures that the final mobility tensor matrix is <strong>symmetric and positive definite</strong>, where <span class="math notranslate nohighlight">\(\mathbf{M}_{ij} = \mathbf{M}_{ji}\)</span>, thereby providing stable stochastic integration.</p>
 <p>Physically, \mathbf{M}_{ij} is the hydrodynamic response tensor for interactions between particle <span class="math notranslate nohighlight">\(i\)</span> and particle <span class="math notranslate nohighlight">\(j\)</span>, which is the fluid velocity at <span class="math notranslate nohighlight">\(i\)</span> induced by a unit force on <span class="math notranslate nohighlight">\(j\)</span>.</p>
 <p>For the particle <span class="math notranslate nohighlight">\(i\)</span>, a generalized overdamped Langevin equation with the solvent-mediated effect is described as:</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
 \dot{\mathbf{x}}_i = \sum_j \mathbf{M}_{ij}(\mathbf{r})\,\mathbf{F}_j + \boldsymbol{\xi}_i(t)
-\end{equation}
 \]</div>
 <p><span class="math notranslate nohighlight">\(\dot{\mathbf{x}}_i\)</span>: the velocity of particle <span class="math notranslate nohighlight">\(i\)</span>.</p>
 <p><span class="math notranslate nohighlight">\(\mathbf{F}_j\)</span>: the total deterministic force exerted on particle <span class="math notranslate nohighlight">\(j\)</span>.</p>
@@ -850,32 +826,25 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
 <p>For a given particle <span class="math notranslate nohighlight">\(i\)</span> and particle <span class="math notranslate nohighlight">\(j\)</span>, the fluctuation-dissipation theorem can be satisfied by the correlated fluctuations:</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
-\left\langle \boldsymbol{\xi}_i(t)\, \boldsymbol{\xi}_j(t')^{\mathrm{T}} \right\rangle 
+\left\langle \boldsymbol{\xi}_i(t)\, \boldsymbol{\xi}_j(t')^{\mathrm{T}} \right\rangle
 = 2 k_B T\, \mathbf{M}_{ij}(\mathbf{r})\, \delta(t - t')
-\end{equation}
 \]</div>
 <p>Integrate over a small timestep <span class="math notranslate nohighlight">\(\Delta t\)</span>, the update rule can be expressed as:</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
-\mathbf{x}(\Delta t) = \mathbf{x}(0) 
-+ \big( \mathbf{M}\cdot\mathbf{f} + k_B T\, \nabla\cdot\mathbf{M} \big)\Delta t 
+\mathbf{x}(\Delta t) = \mathbf{x}(0)
++ \big( \mathbf{M}\cdot\mathbf{f} + k_B T\, \nabla\cdot\mathbf{M} \big)\Delta t
 + \mathbf{B}
-\end{equation}
 \]</div>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
 \langle \mathbf{B}\mathbf{B}^{\mathrm{T}} \rangle = 2 k_B T\, \mathbf{M}\, \Delta t
-\end{equation}
 \]</div>
 <p>In theory, the random thermal fluctuation term <span class="math notranslate nohighlight">\(\mathbf{B}\)</span> can be calculated with the mobility matrix <span class="math notranslate nohighlight">\(\mathbf{M}\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
 \mathbf{B} = \sqrt{2k_B T\, \Delta t}\, \mathbf{M}^{1/2}\, \mathbf{G}
-\end{equation} \qquad \mathbf{G}\sim\mathcal{N}(\mathbf{0},\mathbf{I})
+\qquad \mathbf{G}\sim\mathcal{N}(\mathbf{0},\mathbf{I})
 \]</div>
 <p>While <span class="math notranslate nohighlight">\(\mathbf{M}^{1/2}\)</span> can be solved through the Eigen-decomposition method (not efficient), another way to solve this is to perform <strong>free drawing</strong> from the known covariance of the mobility operator. Based on [Fiore et al., J. Chem. Phys., 146, 12416 (2019)], a known Brownian noise can be drawn as:</p>
 <div class="math notranslate nohighlight">
@@ -884,7 +853,7 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
 = \sqrt{2k_B T\,\Delta t}\;
 \big(
 \mathbf{M}^{(r)\,1/2}\,\mathbf{G}_r
-+ 
++
 \mathbf{M}^{(w)\,1/2}\,\mathbf{G}_w
 \big)
 \]</div>
@@ -892,10 +861,8 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
 <p>Therefore, for selected particles <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>, their motions are correlated based on the mobility matrix:</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{equation}
-\left\langle \Delta\mathbf{r}_i\, \Delta\mathbf{r}_j^{\mathrm{T}} \right\rangle 
+\left\langle \Delta\mathbf{r}_i\, \Delta\mathbf{r}_j^{\mathrm{T}} \right\rangle
 = 2 k_B T\, \mathbf{M}_{ij}\, \Delta t
-\end{equation}
 \]</div>
 <p>As in the previous discussion, the Brownian motion describes the diffusion process in the stochastic term. It is noticeable that the above discussion can be connected to non-equilibrium thermodynamics.</p>
 <div class="math notranslate nohighlight">
@@ -931,15 +898,15 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
 <section id="references">
 <h2><span class="section-number">4.4.8. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span id="id2"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
-<li><p>Seifert, U. (2025). Stochastic Thermodynamics. Cambridge University Press. <span id="id3"><sup><a class="reference internal" href="../references/references.html#id36" title="Udo Seifert. Stochastic Thermodynamics. Cambridge University Press, 2025.">33</a></sup></span></p></li>
-<li><p>Gardiner, C. W. (2009). Stochastic Methods: A Handbook for the Natural and Social Sciences. Springer. <span id="id4"><sup><a class="reference internal" href="../references/references.html#id37" title="Crispin W. Gardiner. Stochastic Methods: A Handbook for the Natural and Social Sciences. Springer Series in Synergetics, 2009.">10</a></sup></span></p></li>
-<li><p>Ermak, D. L., &amp; McCammon, J. A. (1978). <em>Brownian dynamics with hydrodynamic interactions</em>. <em>J. Chem. Phys.</em>, 69(4), 1352–1360. <span id="id5"><sup><a class="reference internal" href="../references/references.html#id38" title="Donald L. Ermak and J. Andrew McCammon. Brownian dynamics with hydrodynamic interactions. The Journal of Chemical Physics, 69(4):1352-1360, 1978.">7</a></sup></span></p></li>
-<li><p>Kubo, R. (1966). <em>The fluctuation–dissipation theorem</em>. <em>Rep. Prog. Phys.</em>, 29(1), 255–284. <span id="id6"><sup><a class="reference internal" href="../references/references.html#id39" title="Ryogo Kubo. The fluctuation-dissipation theorem. Reports on Progress in Physics, 29(1):255-284, 1966.">18</a></sup></span></p></li>
-<li><p>Risken, H. (1996). <em>The Fokker–Planck Equation: Methods of Solution and Applications</em>. Springer. <span id="id7"><sup><a class="reference internal" href="../references/references.html#id40" title="H. Risken. Fokker-planck equation: methods of solution and applications. Springer Series in Synergetics, 1996.">31</a></sup></span></p></li>
-<li><p>van Kampen, N. G. (2007). <em>Stochastic Processes in Physics and Chemistry</em>. North-Holland. <span id="id8"><sup><a class="reference internal" href="../references/references.html#id41" title="N. G. van Kampen. Stochastic Processes in Physics and Chemistry. North-Holland, 2007.">44</a></sup></span></p></li>
-<li><p>Leimkuhler, B., &amp; Matthews, C. (2013). <em>Robust and efficient configurational molecular sampling via Langevin dynamics</em>. <em>J. Chem. Phys.</em>, 138(17), 174102. <span id="id9"><sup><a class="reference internal" href="../references/references.html#id42" title="Benedict Leimkuhler and Charles Matthews. Robust and efficient configurational molecular sampling via langevin dynamics. The Journal of Chemical Physics, 138(17):174102, 2013.">20</a></sup></span></p></li>
-<li><p>R. W. Balluffi, S. A. Allen, W. C. Carter (2005), <em>Kinetics of materials</em>, John Wiley  &amp; Sons, Inc. <span id="id10"><sup><a class="reference internal" href="../references/references.html#id43" title="R. W. Balluffi, S. M. Allen, and W. C. Carter. Kinetics of Materials. Wiley-Interscience, 2005.">3</a></sup></span></p></li>
+<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span class="bibtex-citation" id="id2"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
+<li><p>Seifert, U. (2025). Stochastic Thermodynamics. Cambridge University Press. <span class="bibtex-citation" id="id3"><sup><a class="reference internal" href="../references/references.html#id36" title="Udo Seifert. Stochastic Thermodynamics. Cambridge University Press, 2025.">33</a></sup></span></p></li>
+<li><p>Gardiner, C. W. (2009). Stochastic Methods: A Handbook for the Natural and Social Sciences. Springer. <span class="bibtex-citation" id="id4"><sup><a class="reference internal" href="../references/references.html#id37" title="Crispin W. Gardiner. Stochastic Methods: A Handbook for the Natural and Social Sciences. Springer Series in Synergetics, 2009.">10</a></sup></span></p></li>
+<li><p>Ermak, D. L., &amp; McCammon, J. A. (1978). <em>Brownian dynamics with hydrodynamic interactions</em>. <em>J. Chem. Phys.</em>, 69(4), 1352–1360. <span class="bibtex-citation" id="id5"><sup><a class="reference internal" href="../references/references.html#id38" title="Donald L. Ermak and J. Andrew McCammon. Brownian dynamics with hydrodynamic interactions. The Journal of Chemical Physics, 69(4):1352-1360, 1978.">7</a></sup></span></p></li>
+<li><p>Kubo, R. (1966). <em>The fluctuation–dissipation theorem</em>. <em>Rep. Prog. Phys.</em>, 29(1), 255–284. <span class="bibtex-citation" id="id6"><sup><a class="reference internal" href="../references/references.html#id39" title="Ryogo Kubo. The fluctuation-dissipation theorem. Reports on Progress in Physics, 29(1):255-284, 1966.">18</a></sup></span></p></li>
+<li><p>Risken, H. (1996). <em>The Fokker–Planck Equation: Methods of Solution and Applications</em>. Springer. <span class="bibtex-citation" id="id7"><sup><a class="reference internal" href="../references/references.html#id40" title="H. Risken. Fokker-planck equation: methods of solution and applications. Springer Series in Synergetics, 1996.">31</a></sup></span></p></li>
+<li><p>van Kampen, N. G. (2007). <em>Stochastic Processes in Physics and Chemistry</em>. North-Holland. <span class="bibtex-citation" id="id8"><sup><a class="reference internal" href="../references/references.html#id41" title="N. G. van Kampen. Stochastic Processes in Physics and Chemistry. North-Holland, 2007.">44</a></sup></span></p></li>
+<li><p>Leimkuhler, B., &amp; Matthews, C. (2013). <em>Robust and efficient configurational molecular sampling via Langevin dynamics</em>. <em>J. Chem. Phys.</em>, 138(17), 174102. <span class="bibtex-citation" id="id9"><sup><a class="reference internal" href="../references/references.html#id42" title="Benedict Leimkuhler and Charles Matthews. Robust and efficient configurational molecular sampling via langevin dynamics. The Journal of Chemical Physics, 138(17):174102, 2013.">20</a></sup></span></p></li>
+<li><p>R. W. Balluffi, S. A. Allen, W. C. Carter (2005), <em>Kinetics of materials</em>, John Wiley  &amp; Sons, Inc. <span class="bibtex-citation" id="id10"><sup><a class="reference internal" href="../references/references.html#id43" title="R. W. Balluffi, S. M. Allen, and W. C. Carter. Kinetics of Materials. Wiley-Interscience, 2005.">3</a></sup></span></p></li>
 </ul>
 </section>
 </section>
@@ -999,14 +966,16 @@ x(t) - x(0) = \int_0^t \sqrt{2D} \, dW_t = \sqrt{2D} (W_t - W_0)
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-solvent-models">4.4.1. Implicit-Solvent Models</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">4.4.2. Langevin Dynamics</a></li>
@@ -1064,8 +1033,8 @@ By Antonia Statt
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

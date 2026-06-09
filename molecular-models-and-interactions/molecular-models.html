@@ -16,44 +16,47 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
     <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -70,6 +73,7 @@
     <link rel="prev" title="2.1. Introduction" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -85,19 +89,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -105,7 +98,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -113,8 +105,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -130,7 +122,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -160,15 +153,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
@@ -232,9 +221,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -364,7 +358,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -378,25 +372,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -600,17 +586,17 @@ determine the properties (first-principles/ab initio methods)</p></li>
 &lt;&gt;:27: SyntaxWarning: invalid escape sequence &#39;\e&#39;
 &lt;&gt;:37: SyntaxWarning: invalid escape sequence &#39;\s&#39;
 &lt;&gt;:39: SyntaxWarning: invalid escape sequence &#39;\e&#39;
-/tmp/ipykernel_2198/1700171010.py:26: SyntaxWarning: invalid escape sequence &#39;\s&#39;
+/tmp/ipykernel_2376/1700171010.py:26: SyntaxWarning: invalid escape sequence &#39;\s&#39;
   plt.xlabel(&#39;Distance (r) $[\sigma]$&#39;)
-/tmp/ipykernel_2198/1700171010.py:27: SyntaxWarning: invalid escape sequence &#39;\e&#39;
+/tmp/ipykernel_2376/1700171010.py:27: SyntaxWarning: invalid escape sequence &#39;\e&#39;
   plt.ylabel(&#39;Potential Energy $[\epsilon]$&#39;)
-/tmp/ipykernel_2198/1700171010.py:37: SyntaxWarning: invalid escape sequence &#39;\s&#39;
+/tmp/ipykernel_2376/1700171010.py:37: SyntaxWarning: invalid escape sequence &#39;\s&#39;
   plt.xlabel(&#39;Distance (r) $[\sigma]$&#39;)
-/tmp/ipykernel_2198/1700171010.py:39: SyntaxWarning: invalid escape sequence &#39;\e&#39;
+/tmp/ipykernel_2376/1700171010.py:39: SyntaxWarning: invalid escape sequence &#39;\e&#39;
   plt.ylabel(&#39;Force Magnitude $[\epsilon/\sigma]$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/a3c435b6eec1777f46f9c7ca28d0688c3decb11e0a46c2be23eba7b335422f4f.png" src="../_images/a3c435b6eec1777f46f9c7ca28d0688c3decb11e0a46c2be23eba7b335422f4f.png" />
+<img alt="../_images/f80863b7b08ed2db3bc0f88558312066a35a3c6d7fcdb27e3dd69304208bff56.png" src="../_images/f80863b7b08ed2db3bc0f88558312066a35a3c6d7fcdb27e3dd69304208bff56.png" />
 </div>
 </details>
 </div>
@@ -724,11 +710,11 @@ V_{3}\left(r_{i j}, r_{i k}, \theta_{j i k}\right) &amp; =\lambda e^{\frac{\gamm
 <li><p>Parametrized, self-consistent models fit to thermodynamic or structural data.</p></li>
 <li><p>Designed for specific systems:</p>
 <ul>
-<li><p><strong>OPLS</strong><span id="id1"><sup><a class="reference internal" href="../references/references.html#id6" title="William L Jorgensen and Julian Tirado-Rives. The opls [optimized potentials for liquid simulations] potential functions for proteins, energy minimizations for crystals of cyclic peptides and crambin. Journal of the American Chemical Society, 110(6):1657–1666, 1988.">15</a></sup></span>: hydrocarbons</p></li>
-<li><p><strong>SPC/E, TIP4P/2005, OPC, …</strong>:<span id="id2"><sup><a class="reference internal" href="../references/references.html#id8" title="Jan Zielkiewicz. Structural properties of water: comparison of the spc, spce, tip4p, and tip5p models of water. The Journal of chemical physics, 2005.">49</a></sup></span> water models</p></li>
+<li><p><strong>OPLS</strong><span class="bibtex-citation" id="id1"><sup><a class="reference internal" href="../references/references.html#id6" title="William L Jorgensen and Julian Tirado-Rives. The opls [optimized potentials for liquid simulations] potential functions for proteins, energy minimizations for crystals of cyclic peptides and crambin. Journal of the American Chemical Society, 110(6):1657–1666, 1988.">15</a></sup></span>: hydrocarbons</p></li>
+<li><p><strong>SPC/E, TIP4P/2005, OPC, …</strong>:<span class="bibtex-citation" id="id2"><sup><a class="reference internal" href="../references/references.html#id8" title="Jan Zielkiewicz. Structural properties of water: comparison of the spc, spce, tip4p, and tip5p models of water. The Journal of chemical physics, 2005.">49</a></sup></span> water models</p></li>
 <li><p><strong>AMBER, CHARMM</strong>: biomolecules</p></li>
 <li><p><strong>TraPPE</strong>: phase equilibrium</p></li>
-<li><p><strong>Martini</strong><span id="id3"><sup><a class="reference internal" href="../references/references.html#id7" title="Paulo CT Souza, Riccardo Alessandri, Jonathan Barnoud, Sebastian Thallmair, Ignacio Faustino, Fabian Grünewald, Ilias Patmanidis, Haleh Abdizadeh, Bart MH Bruininks, Tsjerk A Wassenaar, and others. Martini 3: a general purpose force field for coarse-grained molecular dynamics. Nature methods, 18(4):382–388, 2021.">35</a></sup></span>: coarse-grained lipids and biomolecules in water</p></li>
+<li><p><strong>Martini</strong><span class="bibtex-citation" id="id3"><sup><a class="reference internal" href="../references/references.html#id7" title="Paulo CT Souza, Riccardo Alessandri, Jonathan Barnoud, Sebastian Thallmair, Ignacio Faustino, Fabian Grünewald, Ilias Patmanidis, Haleh Abdizadeh, Bart MH Bruininks, Tsjerk A Wassenaar, and others. Martini 3: a general purpose force field for coarse-grained molecular dynamics. Nature methods, 18(4):382–388, 2021.">35</a></sup></span>: coarse-grained lipids and biomolecules in water</p></li>
 </ul>
 </li>
 <li><p><strong>Machine Learning (ML)</strong> models trained on quantum mechanics data are becoming popular.</p></li>
@@ -915,10 +901,10 @@ We can do that because we can choose <span class="math notranslate nohighlight">
 <section id="references">
 <h2><span class="section-number">2.2.9. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span id="id4"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
-<li><p><a class="reference external" href="https://pubs.rsc.org/en/content/articlelanding/2018/cp/c8cp00746b">“Understanding three-body contributions to coarse-grained force fields” Christoph Scherer and  Denis Andrienko</a> Phys. Chem. Chem. Phys., 2018,20, 22387-22394<span id="id5"><sup><a class="reference internal" href="../references/references.html#id9" title="Christoph Scherer and Denis Andrienko. Understanding three-body contributions to coarse-grained force fields. Physical Chemistry Chemical Physics, 20(34):22387–22394, 2018.">32</a></sup></span></p></li>
+<li><p>Allen &amp; Tildesley, “Simulations of liquids” Appendix B - Reduced Units <span class="bibtex-citation" id="id4"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
+<li><p><a class="reference external" href="https://pubs.rsc.org/en/content/articlelanding/2018/cp/c8cp00746b">“Understanding three-body contributions to coarse-grained force fields” Christoph Scherer and  Denis Andrienko</a> Phys. Chem. Chem. Phys., 2018,20, 22387-22394<span class="bibtex-citation" id="id5"><sup><a class="reference internal" href="../references/references.html#id9" title="Christoph Scherer and Denis Andrienko. Understanding three-body contributions to coarse-grained force fields. Physical Chemistry Chemical Physics, 20(34):22387–22394, 2018.">32</a></sup></span></p></li>
 <li><p><a class="reference external" href="https://pubs-acs-org.proxy2.library.illinois.edu/doi/10.1021/acs.jpca.1c05677">“Effective Two-Body Interactions”
-Cameron Mackie, Alexander Zech, Martin Head-Gordon</a>, J. Phys. Chem. A 2021, 125, 35, 7750–7758<span id="id6"><sup><a class="reference internal" href="../references/references.html#id10" title="Cameron Mackie, Alexander Zech, and Martin Head-Gordon. Effective two-body interactions. The Journal of Physical Chemistry A, 125(35):7750–7758, 2021.">23</a></sup></span></p></li>
+Cameron Mackie, Alexander Zech, Martin Head-Gordon</a>, J. Phys. Chem. A 2021, 125, 35, 7750–7758<span class="bibtex-citation" id="id6"><sup><a class="reference internal" href="../references/references.html#id10" title="Cameron Mackie, Alexander Zech, and Martin Head-Gordon. Effective two-body interactions. The Journal of Physical Chemistry A, 125(35):7750–7758, 2021.">23</a></sup></span></p></li>
 <li><p><a class="reference external" href="https://manual.gromacs.org/current/user-guide/force-fields.html">Force Fields in GROMACS</a></p></li>
 </ul>
 </section>
@@ -979,14 +965,16 @@ Cameron Mackie, Alexander Zech, Martin Head-Gordon</a>, J. Phys. Chem. A 2021, 1
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-do-you-get-potentials">2.2.1. Where Do You Get Potentials?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-complementary-approaches-to-designing-models">2.2.2. Two Complementary Approaches to Designing Models</a></li>
@@ -1060,8 +1048,8 @@ By Antonia Statt
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

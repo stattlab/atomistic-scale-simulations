@@ -16,44 +16,47 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
     <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -70,6 +73,7 @@
     <link rel="prev" title="2.3. Periodic Boundary Conditions" href="periodic-boundary-conditions.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -85,19 +89,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -105,7 +98,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -113,8 +105,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -130,7 +122,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -160,15 +153,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
@@ -232,9 +221,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -364,7 +358,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -378,25 +372,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -613,13 +599,13 @@ energy / length<span class="math notranslate nohighlight">\(^2\)</span>.</p></li
 &lt;&gt;:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:26: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_2174/129747257.py:26: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_2352/129747257.py:26: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   axs[0].set_ylabel(&#39;$U_{\mathrm{bond}}(r)$&#39;)
-/tmp/ipykernel_2174/129747257.py:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_2352/129747257.py:33: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   axs[1].set_ylabel(&#39;$F_{\mathrm{bond}}(r)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/b6c0481e239f9054b4e69e23ff3eaab33a2648211e48b8953ca5f38597dbbc31.png" src="../_images/b6c0481e239f9054b4e69e23ff3eaab33a2648211e48b8953ca5f38597dbbc31.png" />
+<img alt="../_images/9669902f910ce4373505e56a3e65fbb67637e8095e18ca871cc007f014f25ea3.png" src="../_images/9669902f910ce4373505e56a3e65fbb67637e8095e18ca871cc007f014f25ea3.png" />
 </div>
 </details>
 </div>
@@ -659,7 +645,7 @@ slightly around <span class="math notranslate nohighlight">\(r_0\)</span> during
 <h3><span class="section-number">2.4.1.2. </span>FENE (Finite Extensible Nonlinear Elastic)<a class="headerlink" href="#fene-finite-extensible-nonlinear-elastic" title="Link to this heading">#</a></h3>
 <p>For polymers and coarse-grained models it is often desirable to prevent bonds from stretching arbitrarily far. The FENE potential does exactly this:</p>
 <p><span class="math notranslate nohighlight">\( U(r) = -\frac{1}{2}k r_0^2 \ln\left(1 - \left(\frac{r}{r_0}\right)^2\right) \)</span></p>
-<p>Diverges at <span class="math notranslate nohighlight">\(r_0\)</span>, minimum at 0. This is usually used in conjuction with a repulsive, short-ranged force (WCA = cut LJ at minimum and shift up to get a purely repulsive potential).<span id="id1"><sup><a class="reference internal" href="../references/references.html#id33" title="John D Weeks, David Chandler, and Hans C Andersen. Role of repulsive forces in determining the equilibrium structure of simple liquids. The Journal of Chemical Physics, 54(12):5237–5247, 1971.">45</a></sup></span></p>
+<p>Diverges at <span class="math notranslate nohighlight">\(r_0\)</span>, minimum at 0. This is usually used in conjuction with a repulsive, short-ranged force (WCA = cut LJ at minimum and shift up to get a purely repulsive potential).<span class="bibtex-citation" id="id1"><sup><a class="reference internal" href="../references/references.html#id33" title="John D Weeks, David Chandler, and Hans C Andersen. Role of repulsive forces in determining the equilibrium structure of simple liquids. The Journal of Chemical Physics, 54(12):5237–5247, 1971.">45</a></sup></span></p>
 <p>with parameters:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(k_f\)</span> — FENE spring constant,</p></li>
@@ -679,7 +665,7 @@ simulations is :</p>
 <p><span class="math notranslate nohighlight">\(k_f = 30\)</span>, <span class="math notranslate nohighlight">\(r_0 = 1.5\)</span></p>
 <p>(in reduced Lennard–Jones units), which allows bonds to stretch up to about 1.5 times their typical length before the potential diverges.</p>
 <p><strong>Example.</strong>
-In the Kremer–Grest polymer model, beads connected by FENE+WCA bonds behave like flexible springs that can fluctuate but never break, making them ideal for studying polymer melts and entangled chains.<span id="id2"><sup><a class="reference internal" href="../references/references.html#id34" title="Kurt Kremer and Gary S Grest. Dynamics of entangled linear polymer melts: a molecular-dynamics simulation. The Journal of Chemical Physics, 92(8):5057–5086, 1990.">17</a></sup></span></p>
+In the Kremer–Grest polymer model, beads connected by FENE+WCA bonds behave like flexible springs that can fluctuate but never break, making them ideal for studying polymer melts and entangled chains.<span class="bibtex-citation" id="id2"><sup><a class="reference internal" href="../references/references.html#id34" title="Kurt Kremer and Gary S Grest. Dynamics of entangled linear polymer melts: a molecular-dynamics simulation. The Journal of Chemical Physics, 92(8):5057–5086, 1990.">17</a></sup></span></p>
 <div class="cell tag_hide-cell docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -729,11 +715,11 @@ In the Kremer–Grest polymer model, beads connected by FENE+WCA bonds behave li
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_2174/912570185.py:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_2352/912570185.py:31: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   axs.set_ylabel(&#39;$U_{\mathrm{bond}}(r)-U_\mathrm{min}$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/735b873e66e986296ee0bdb0ced125639e92b67d0737e253aed71d6092b749d5.png" src="../_images/735b873e66e986296ee0bdb0ced125639e92b67d0737e253aed71d6092b749d5.png" />
+<img alt="../_images/8132b4154a0932e41343fb9f1a17ac58f1c4014779065cf3e5182b93c82d1d68.png" src="../_images/8132b4154a0932e41343fb9f1a17ac58f1c4014779065cf3e5182b93c82d1d68.png" />
 </div>
 </details>
 </div>
@@ -797,7 +783,7 @@ F_i &amp;= - \frac{\partial U_\theta}{\partial \theta_{ijk}} \nabla_i \theta_{ij
 <p>with <span class="math notranslate nohighlight">\(F_\theta = -\partial U_\theta / \partial \theta_{ijk}\)</span>.
 The explicit expression for <span class="math notranslate nohighlight">\(\nabla_i \cos\theta_{ijk}\)</span> is algebraically long, so in practice one reuses known formulas from the literature or trusted implementations.</p>
 <p>One must also be careful with units: some force fields use <em>degrees</em> in the input files and convert internally to radians when evaluating the potential.</p>
-<p>For this, we then need <span class="math notranslate nohighlight">\( \nabla_i \cos\theta_{ijk}\)</span>. Eq. 7 of <a class="reference external" href="https://doi.org/10.1063/1.4985251">J. Chem. Phys. 146, 226101 (2017)</a><span id="id3"><sup><a class="reference internal" href="../references/references.html#id19" title="Michael P Howard, Antonia Statt, and Athanassios Z Panagiotopoulos. Note: smooth torsional potentials for degenerate dihedral angles. The Journal of chemical physics, 2017.">14</a></sup></span> offers a compact form.</p>
+<p>For this, we then need <span class="math notranslate nohighlight">\( \nabla_i \cos\theta_{ijk}\)</span>. Eq. 7 of <a class="reference external" href="https://doi.org/10.1063/1.4985251">J. Chem. Phys. 146, 226101 (2017)</a><span class="bibtex-citation" id="id3"><sup><a class="reference internal" href="../references/references.html#id19" title="Michael P Howard, Antonia Statt, and Athanassios Z Panagiotopoulos. Note: smooth torsional potentials for degenerate dihedral angles. The Journal of chemical physics, 2017.">14</a></sup></span> offers a compact form.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><span class="math notranslate nohighlight">\(F_i\)</span> is singlular if <span class="math notranslate nohighlight">\(\theta_{ijk}=0^\circ\)</span> or <span class="math notranslate nohighlight">\(180^\circ\)</span> if <span class="math notranslate nohighlight">\(F_\theta\)</span> is not zero at these points!</p>
@@ -912,7 +898,7 @@ angle potential is expressed entirely in terms of <span class="math notranslate 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/77324d6601039ccbbe218779c11af9159325878b7e3a11c85bbdd12db85c3536.png" src="../_images/77324d6601039ccbbe218779c11af9159325878b7e3a11c85bbdd12db85c3536.png" />
+<img alt="../_images/90fad9639f7513c321df131491219a5fcfaf6c2ea908a5fad16589352a6d68bd.png" src="../_images/90fad9639f7513c321df131491219a5fcfaf6c2ea908a5fad16589352a6d68bd.png" />
 </div>
 </details>
 </div>
@@ -960,10 +946,10 @@ taken from standard references rather than derived from scratch each time.</p>
 <p><strong>Singular configurations.</strong>
 Because of the <span class="math notranslate nohighlight">\(1 / \sin\phi_{ijkl}\)</span> factor, dihedral forces can become
 singular at <span class="math notranslate nohighlight">\(\phi_{ijkl}=0^\circ\)</span> or <span class="math notranslate nohighlight">\(180^\circ\)</span> if <span class="math notranslate nohighlight">\(F_\phi\)</span> is nonzero there. Similarly, if either of the adjacent bond angles <span class="math notranslate nohighlight">\(\theta_{ijk}\)</span> or <span class="math notranslate nohighlight">\(\theta_{jk\ell}\)</span> becomes <span class="math notranslate nohighlight">\(0^\circ\)</span> or <span class="math notranslate nohighlight">\(180^\circ\)</span>, the two planes become ill-defined and the dihedral angle is degenerate. Realistic force fields and simulation conditions are chosen to avoid such problematic configurations or to make the potential smooth as these limits are approached.</p>
-<p>This results in some involved computations, see Allen &amp; Tildesley<span id="id5"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span> for a step by step derivation in Appendix C.</p>
+<p>This results in some involved computations, see Allen &amp; Tildesley<span class="bibtex-citation" id="id5"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span> for a step by step derivation in Appendix C.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The same singularities as for the angle forces show up at <span class="math notranslate nohighlight">\(\phi_{ijkl}=0^\circ\)</span> and <span class="math notranslate nohighlight">\(180^\circ\)</span> but one can eliminate them (details in <a class="reference external" href="https://doi.org/10.1002/(SICI)1096-987X(19960715)17:9%3C1132::AID-JCC5%3E3.0.CO;2-T">Bondel, Karplus, J. Comput. Chem., 17: 1132-1141, 1996</a>)<span id="id6"><sup><a class="reference internal" href="../references/references.html#id18" title="Arnaud Blondel and Martin Karplus. New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: elimination of singularities. Journal of computational chemistry, 17(9):1132–1141, 1996.">4</a></sup></span>.</p>
+<p>The same singularities as for the angle forces show up at <span class="math notranslate nohighlight">\(\phi_{ijkl}=0^\circ\)</span> and <span class="math notranslate nohighlight">\(180^\circ\)</span> but one can eliminate them (details in <a class="reference external" href="https://doi.org/10.1002/(SICI)1096-987X(19960715)17:9%3C1132::AID-JCC5%3E3.0.CO;2-T">Bondel, Karplus, J. Comput. Chem., 17: 1132-1141, 1996</a>)<span class="bibtex-citation" id="id6"><sup><a class="reference internal" href="../references/references.html#id18" title="Arnaud Blondel and Martin Karplus. New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: elimination of singularities. Journal of computational chemistry, 17(9):1132–1141, 1996.">4</a></sup></span>.</p>
 <p>However, <span class="math notranslate nohighlight">\(\phi\)</span> becomes also degenerate if <span class="math notranslate nohighlight">\(\theta_{ijk}\)</span> or <span class="math notranslate nohighlight">\(\theta_{jkl}\)</span> approaches <span class="math notranslate nohighlight">\(0^\circ\)</span> or <span class="math notranslate nohighlight">\(180^\circ\)</span> because the two planes to define the dihedral cannot be defined in these cases. This is important for models with “soft” interactions, where these configurations are possible, e.g. coarse-grained models.</p>
 </div>
 <section id="periodic">
@@ -1049,12 +1035,12 @@ normal bonds and angles alone.</p></li>
 <section id="id7">
 <h2><span class="section-number">2.4.6. </span>References<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Allen, Michael P., and Dominic J. Tildesley. <em>Computer Simulation of Liquids</em>. Clarendon Press, Oxford (1987). Appendix C.2: “Calculation of forces and torques.” <span id="id8"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
-<li><p>Howard, Michael P., Antonia Statt, and Athanassios Z. Panagiotopoulos. “Note: Smooth torsional potentials for degenerate dihedral angles.” <em>The Journal of Chemical Physics</em> 146, 226101 (2017). <span id="id9"><sup><a class="reference internal" href="../references/references.html#id19" title="Michael P Howard, Antonia Statt, and Athanassios Z Panagiotopoulos. Note: smooth torsional potentials for degenerate dihedral angles. The Journal of chemical physics, 2017.">14</a></sup></span></p></li>
-<li><p>Blondel, Arnaud, and Martin Karplus. “New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: Elimination of singularities.” <em>Journal of Computational Chemistry</em> 17, 1132–1141 (1996). <span id="id10"><sup><a class="reference internal" href="../references/references.html#id18" title="Arnaud Blondel and Martin Karplus. New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: elimination of singularities. Journal of computational chemistry, 17(9):1132–1141, 1996.">4</a></sup></span></p></li>
-<li><p>Weeks, John D., David Chandler, and Hans C. Andersen. “Role of repulsive forces in determining the equilibrium structure of simple liquids.” <em>The Journal of Chemical Physics</em> 54, 5237–5247 (1971). <span id="id11"><sup><a class="reference internal" href="../references/references.html#id33" title="John D Weeks, David Chandler, and Hans C Andersen. Role of repulsive forces in determining the equilibrium structure of simple liquids. The Journal of Chemical Physics, 54(12):5237–5247, 1971.">45</a></sup></span></p></li>
-<li><p>Kremer, Kurt, and Gary S. Grest. “Dynamics of entangled linear polymer melts: A molecular-dynamics simulation.” <em>The Journal of Chemical Physics</em> 92, 5057–5086 (1990). <span id="id12"><sup><a class="reference internal" href="../references/references.html#id34" title="Kurt Kremer and Gary S Grest. Dynamics of entangled linear polymer melts: a molecular-dynamics simulation. The Journal of Chemical Physics, 92(8):5057–5086, 1990.">17</a></sup></span></p></li>
-<li><p>GROMACS development team. <em>GROMACS Reference Manual</em>: “Bonded interactions” section. (Accessed 2025.) <span id="id13"><sup><a class="reference internal" href="../references/references.html#id35" title="GROMACS development team. Gromacs reference manual: bonded interactions. https://manual.gromacs.org/current/reference-manual/functions/bonded-interactions.html, 2025.">50</a></sup></span></p></li>
+<li><p>Allen, Michael P., and Dominic J. Tildesley. <em>Computer Simulation of Liquids</em>. Clarendon Press, Oxford (1987). Appendix C.2: “Calculation of forces and torques.” <span class="bibtex-citation" id="id8"><sup><a class="reference internal" href="../references/references.html#id11" title="Michael P Allen, Dominic J Tildesley, and others. Computer simulation of liquids. 1987.">2</a></sup></span></p></li>
+<li><p>Howard, Michael P., Antonia Statt, and Athanassios Z. Panagiotopoulos. “Note: Smooth torsional potentials for degenerate dihedral angles.” <em>The Journal of Chemical Physics</em> 146, 226101 (2017). <span class="bibtex-citation" id="id9"><sup><a class="reference internal" href="../references/references.html#id19" title="Michael P Howard, Antonia Statt, and Athanassios Z Panagiotopoulos. Note: smooth torsional potentials for degenerate dihedral angles. The Journal of chemical physics, 2017.">14</a></sup></span></p></li>
+<li><p>Blondel, Arnaud, and Martin Karplus. “New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: Elimination of singularities.” <em>Journal of Computational Chemistry</em> 17, 1132–1141 (1996). <span class="bibtex-citation" id="id10"><sup><a class="reference internal" href="../references/references.html#id18" title="Arnaud Blondel and Martin Karplus. New formulation for derivatives of torsion angles and improper torsion angles in molecular mechanics: elimination of singularities. Journal of computational chemistry, 17(9):1132–1141, 1996.">4</a></sup></span></p></li>
+<li><p>Weeks, John D., David Chandler, and Hans C. Andersen. “Role of repulsive forces in determining the equilibrium structure of simple liquids.” <em>The Journal of Chemical Physics</em> 54, 5237–5247 (1971). <span class="bibtex-citation" id="id11"><sup><a class="reference internal" href="../references/references.html#id33" title="John D Weeks, David Chandler, and Hans C Andersen. Role of repulsive forces in determining the equilibrium structure of simple liquids. The Journal of Chemical Physics, 54(12):5237–5247, 1971.">45</a></sup></span></p></li>
+<li><p>Kremer, Kurt, and Gary S. Grest. “Dynamics of entangled linear polymer melts: A molecular-dynamics simulation.” <em>The Journal of Chemical Physics</em> 92, 5057–5086 (1990). <span class="bibtex-citation" id="id12"><sup><a class="reference internal" href="../references/references.html#id34" title="Kurt Kremer and Gary S Grest. Dynamics of entangled linear polymer melts: a molecular-dynamics simulation. The Journal of Chemical Physics, 92(8):5057–5086, 1990.">17</a></sup></span></p></li>
+<li><p>GROMACS development team. <em>GROMACS Reference Manual</em>: “Bonded interactions” section. (Accessed 2025.) <span class="bibtex-citation" id="id13"><sup><a class="reference internal" href="../references/references.html#id35" title="GROMACS development team. Gromacs reference manual: bonded interactions. https://manual.gromacs.org/current/reference-manual/functions/bonded-interactions.html, 2025.">50</a></sup></span></p></li>
 </ul>
 </section>
 </section>
@@ -1114,14 +1100,16 @@ normal bonds and angles alone.</p></li>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-potentials">2.4.1. Bond Potentials</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#harmonic">2.4.1.1. Harmonic</a></li>
@@ -1191,8 +1179,8 @@ By Antonia Statt
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
