@@ -9,7 +9,7 @@ Simulations are complementary methods to experiments and theory, as shown in {nu
 :align: center
 :name: directive-fig
 
-Flowchart of interplay between experiment, simulation, and theory. Adapted from Allen & Tildesley.{cite}`allen1987computer`
+Flowchart of interplay between experiment, simulation, and theory. Adapted from Allen & Tildesley.
 
 ```
 
