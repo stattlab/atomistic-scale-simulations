@@ -18,7 +18,7 @@ Schematic of the visualization for a heat bath for simulation.
 
 ```
 
-Ultimately, thermostats bridge the gap between theoretical ensembles and realistic simulations. They enable MD systems to reproduce experimental thermodynamic conditions while maintaining stable numerical integration, making them indispensable tools in computational materials science and statistical mechanics. 
+Ultimately, thermostats bridge the gap between theoretical ensembles and realistic simulations. They enable MD systems to reproduce experimental thermodynamic conditions while maintaining stable numerical integration, making them indispensable tools in computational materials science and statistical mechanics.
 
 **As a reminder, while it is convenient to use open-source packages like LAMMPS, HOOMD-blue, and GROMACS, it is very important to check how the thermostats are defined and implemented so your simulations are physically reliable and reproducible.**
 
@@ -47,14 +47,14 @@ $$
 
 $$
 \begin{aligned}
-\langle v_\alpha^2 \rangle 
+\langle v_\alpha^2 \rangle
 &= \int_{-\infty}^{\infty} v_\alpha^2 f_\alpha(v_\alpha)\, dv_\alpha \\
-&= \left( \frac{m}{2\pi k_B T} \right)^{1/2} 
+&= \left( \frac{m}{2\pi k_B T} \right)^{1/2}
     \int_{-\infty}^{\infty} v_\alpha^2 e^{-a v_\alpha^2} \, dv_\alpha \\
-&= \left( \frac{m}{2\pi k_B T} \right)^{1/2} 
+&= \left( \frac{m}{2\pi k_B T} \right)^{1/2}
     \frac{\sqrt{\pi}}{2 a^{3/2}} \\
-&= \left( \frac{m}{2\pi k_B T} \right)^{1/2} 
-    \frac{\sqrt{\pi}}{2} 
+&= \left( \frac{m}{2\pi k_B T} \right)^{1/2}
+    \frac{\sqrt{\pi}}{2}
     \left( \frac{2k_B T}{m} \right)^{3/2} \\
 &= \frac{k_B T}{m}, \quad (\alpha = x, y, z)
 \end{aligned}
@@ -72,34 +72,34 @@ $$
 T = \frac{2}{3 N k_B} \sum_{i = 1}^N \frac{1}{2} m_i v_i^2
 $$
 
-Therefore, microscopic motions are closely linked to the macroscopic temperature. The insight for choosing a good thermostat is that it must regulate the correct kinetic energy or conserved momentum. 
+Therefore, microscopic motions are closely linked to the macroscopic temperature. The insight for choosing a good thermostat is that it must regulate the correct kinetic energy or conserved momentum.
 
-In addition, the thermostat should not affect the phase-space structure. Similarly, we want to maintain the advantage of Velocity Verlet, where the time-reversible and symplectic integration properties ensure energy conservation in the long run. 
+In addition, the thermostat should not affect the phase-space structure. Similarly, we want to maintain the advantage of Velocity Verlet, where the time-reversible and symplectic integration properties ensure energy conservation in the long run.
 
 ## Types of thermostats
 
-The type of thermostat is determined by how the thermostat contributes to the kinetic energy ensemble controls. 
+The type of thermostat is determined by how the thermostat contributes to the kinetic energy ensemble controls.
 
-**Stochastic Thermostat**: 
+**Stochastic Thermostat**:
 A stochastic process is a fancy way to say “random process”. So the stochastic thermostat means **random fluctuations** are created from the heat bath. Then, the momenta of the atoms are stochastically updated according to the Maxwell-Boltzmann distribution.
 
-Implementing a stochastic thermostat is usually stable. However, it is noticeable that random number generation would increase the computational cost. In addition, the strength of stochastic fluctuations needs to be carefully controlled, or the random thermal forces would disrupt the conserved momentum and alter the system dynamics. 
+Implementing a stochastic thermostat is usually stable. However, it is noticeable that random number generation would increase the computational cost. In addition, the strength of stochastic fluctuations needs to be carefully controlled, or the random thermal forces would disrupt the conserved momentum and alter the system dynamics.
 
-**Deterministic Thermostat**: 
-The deterministic thermostats modify the system’s equations of motion by introducing additional **scaling variables** (frictional drag) that adjust particles’ velocities and ensure that the system evolves toward the target temperature. 
+**Deterministic Thermostat**:
+The deterministic thermostats modify the system’s equations of motion by introducing additional **scaling variables** (frictional drag) that adjust particles’ velocities and ensure that the system evolves toward the target temperature.
 
-A deterministic thermostat is usually accurate when obtaining physically realistic dynamics, as the coupling has no randomness. However, it is often hard to implement the deterministic thermostat correctly to simulate under the canonical ensemble (NVT). One crucial factor is the parameter tuning: 
-- If the coupling of the frictional drag is too weak, the system may not reach the equilibrium temperature efficiently. 
+A deterministic thermostat is usually accurate when obtaining physically realistic dynamics, as the coupling has no randomness. However, it is often hard to implement the deterministic thermostat correctly to simulate under the canonical ensemble (NVT). One crucial factor is the parameter tuning:
+- If the coupling of the frictional drag is too weak, the system may not reach the equilibrium temperature efficiently.
 - If the scaling is too large, the mechanical behaviors of the atoms would be completely controlled by the frictional forces, which can lead to non-physical oscillations in temperature.
 
-**Langevin Thermostat**: 
-A Langevin thermostat introduces **both the stochastic thermal fluctuations and the deterministic frictional drag** to each particle. The Langevin dynamics controls the system temperatures with a balance between energy dissipation and thermal fluctuation called the fluctuation-dissipation theorem. 
+**Langevin Thermostat**:
+A Langevin thermostat introduces **both the stochastic thermal fluctuations and the deterministic frictional drag** to each particle. The Langevin dynamics controls the system temperatures with a balance between energy dissipation and thermal fluctuation called the fluctuation-dissipation theorem.
 
 It is noticeable that the deterministic friction in the Langevin thermostat is dependent on the stochastic thermal fluctuation strength. The Langevin dynamics is actually adding an “implicit solvent”, where the coupling strength indicates how strongly the solvents may interfere with the simulated system.
 
 The dissipative particle dynamics (DPD) thermostat is the extension of the Langevin thermostat. It shares the same concepts, but assigns the friction and random forces pairwise instead of individually. This ensures that the random force does not perturb the conserved momentum, which can be crucial for simulations that require stability to maintain proper momentum transport, such as soft matter.
 
-While it is easy to perform a stable canonical ensemble (NVT) with Langevin dynamics, note that the stochastic force requires random number generation with large computational cost, and the thermostat coupling also needs to be carefully chosen. 
+While it is easy to perform a stable canonical ensemble (NVT) with Langevin dynamics, note that the stochastic force requires random number generation with large computational cost, and the thermostat coupling also needs to be carefully chosen.
 A detailed descriptions of the underlying physics and implementations of Langevin dynamics are included in the section “Langevin dynamics”.
 
 ## Stochastic thermostats: Anderson thermostat and Lowe - Anderson thermostat
@@ -117,12 +117,14 @@ $$
 As the velocity components $v_x, v_y, v_z$ are independent of each other. An equivalent way of sampling is drawing random numbers for each component from a normal distribution with mean 0 and standard deviation $\sqrt{\frac{k_B T}{m}}$.
 
 $$
-f_{\alpha} (v_\alpha) = (\frac{m}{2 \pi k_B T})^{\frac{1}{2}} \,\mathrm{exp}\,(-\frac{m v_\alpha^2}{2 k_B T}) \quad \rightarrow \quad v_\alpha \in \mathcal{N}(0, \, (\sqrt{\frac{k_B T}{m}})^2)
+f_{\alpha} (v_\alpha) = \left(\frac{m}{2 \pi k_B T}\right)^{\frac{1}{2}} \,\mathrm{exp}\,(-\frac{m v_\alpha^2}{2 k_B T})
+\quad \rightarrow \quad
+v_\alpha \in \mathcal{N}\left(0,\, \left(\sqrt{k_B T/m}\right)^2\right)
 $$
 
 The Anderson thermostat is a simple and effective way for equilibration by quickly generating the correct Maxwell-Boltzmann distribution. Therefore, the Anderson thermostat can be utilized for fast equilibration if the system does not have the correct target kinetic energy.
 
-However, the clear issue with the Anderson thermostat is that it does not follow the momentum conservation properties. So the center-of-mass motion is non-zero, and a drift would occur in the system with the wrong physical transport behavior. 
+However, the clear issue with the Anderson thermostat is that it does not follow the momentum conservation properties. So the center-of-mass motion is non-zero, and a drift would occur in the system with the wrong physical transport behavior.
 
 **Lowe-Anderson thermostat**:
 
@@ -141,7 +143,7 @@ $$
 $$
 
 $$
-v_{ij}^{\parallel} = \mathbf{v}_{ij} \cdot \hat{\mathbf{r}}_{ij} 
+v_{ij}^{\parallel} = \mathbf{v}_{ij} \cdot \hat{\mathbf{r}}_{ij}
 $$
 
 Only the parallel relative speed is randomized with the Maxwell-Boltzmann distribution, which saves the angular momentum. To preserve the momentum, a term called reduced mass $m_{ij}$ is introduced.
@@ -186,16 +188,16 @@ Angular momentum conservation:
 
 $$
 \begin{aligned}
-\Delta \mathbf{L} 
-&= m_i\,\mathbf{r}_i \times \Delta \mathbf{v}_i 
+\Delta \mathbf{L}
+&= m_i\,\mathbf{r}_i \times \Delta \mathbf{v}_i
   + m_j\,\mathbf{r}_j \times \Delta \mathbf{v}_j \\
-&= m_i\,\mathbf{r}_i \times 
+&= m_i\,\mathbf{r}_i \times
    \left( \frac{m_j}{m_i + m_j}\,\Delta v_{ij}^{\parallel}\hat{\mathbf{r}}_{ij} \right)
- - m_j\,\mathbf{r}_j \times 
+ - m_j\,\mathbf{r}_j \times
    \left( \frac{m_i}{m_i + m_j}\,\Delta v_{ij}^{\parallel}\hat{\mathbf{r}}_{ij} \right) \\
 &= \frac{m_i m_j}{m_i + m_j}\,
    \Delta v_{ij}^{\parallel}\,
-   \left( \mathbf{r}_i \times \hat{\mathbf{r}}_{ij} 
+   \left( \mathbf{r}_i \times \hat{\mathbf{r}}_{ij}
         - \mathbf{r}_j \times \hat{\mathbf{r}}_{ij} \right) \\
 &= \frac{m_i m_j}{m_i + m_j}\,
    \Delta v_{ij}^{\parallel}\,
@@ -274,7 +276,7 @@ For the part $\mathrm{exp}(-\beta K(\mathbf p))$, as the kinetic energy is const
 $$
 f_{\mathrm{iso}}(\mathbf r,\mathbf p)
 = \frac{1}{Z}\exp\!\big[-\beta\big(U(\mathbf r)+K(\mathbf p)\big)\big] \propto  \,
-\delta\!\big(K(\mathbf p)-K_0\big) \mathrm{exp}(-\beta K_0-\beta U(\mathbf{r})) 
+\delta\!\big(K(\mathbf p)-K_0\big) \mathrm{exp}(-\beta K_0-\beta U(\mathbf{r}))
 $$
 
 With the constrained kinetic energy $K_0$, the system no longer obtained the variance from the kinetic energy fluctuation. So the isokinetic thermostat cannot reproduce kinetic-dependent observables (e.g., heat capacity or velocity autocorrelation functions) exactly as in a canonical ensemble.
@@ -282,7 +284,7 @@ With the constrained kinetic energy $K_0$, the system no longer obtained the var
 However, for a large system, the isokinetic thermostat can reproduce an equivalent effect comparable to the canonical ensemble. Statistically speaking, the suppression of kinetic energy fluctuations in the isokinetic ensemble becomes negligible at large N.
 
 $$
-v_\alpha \in \mathcal{N}(0, \, \big(\sqrt{\frac{k_B T}{m} \big)^2)
+v_\alpha \in \mathcal{N}(0, \, \left(\sqrt{\frac{k_B T}{m} }\right)^2)
 $$
 
 It can be shown that the kinetic energy of one atom $K_i$ follows the chi-square distribution with a degree of 3.
@@ -325,7 +327,7 @@ $$
 
 Therefore, the isokinetic thermostat can effectively simulate the canonical ensemble for a large system or at the thermodynamic limit.
 
-In addition, the isokinetic thermostat is very efficient to achieve the target temperature, which can be useful for equilibrating the system before applying other thermostats that equilibrate less efficiently (ex. Nosé–Hoover thermostat). 
+In addition, the isokinetic thermostat is very efficient to achieve the target temperature, which can be useful for equilibrating the system before applying other thermostats that equilibrate less efficiently (ex. Nosé–Hoover thermostat).
 
 An equivalent approach is the velocity rescaling, suppose $T_0$ is the target temperature:
 
@@ -407,7 +409,7 @@ $$
 \end{align}
 $$
 
-As the time-scaling variable $s$ is combined into the position change $\dot{\mathbf{r}}$ and momentum change $\dot{\mathbf{p}}$, with the connection toward the thermal mass $Q$, it creates a coupling between the system’s kinetic energy and the thermal reservoir. However, it is noticeable that the system is not defined under an actual time but a scaled time $\tau$, which may not be the best option for simulation. 
+As the time-scaling variable $s$ is combined into the position change $\dot{\mathbf{r}}$ and momentum change $\dot{\mathbf{p}}$, with the connection toward the thermal mass $Q$, it creates a coupling between the system’s kinetic energy and the thermal reservoir. However, it is noticeable that the system is not defined under an actual time but a scaled time $\tau$, which may not be the best option for simulation.
 
 **Nosé–Hoover transformation**
 
@@ -502,10 +504,10 @@ $$
 
 $$
 \sum_i \frac{\partial \dot{p}_i}{\partial p_i}
- =  \sum_{i, \alpha} (-\zeta) = -g\zeta 
+ =  \sum_{i, \alpha} (-\zeta) = -g\zeta
 $$
 
-- $\dot\eta = \zeta$, which has no dependence on $\eta$, so the sum comes to 0. 
+- $\dot\eta = \zeta$, which has no dependence on $\eta$, so the sum comes to 0.
 
 - $\dot{\zeta} = \frac{1}{Q}\!\left(\frac{\mathbf p'\!\cdot\!\mathbf p'}{m}-gk_B T\right)$, which has no dependence on $\zeta$, so the sum comes to 0.
 
@@ -529,7 +531,7 @@ $$
 A proposed solution should work for the above time-invariant condition and include the terms described in the extended Hamiltonian. Nosé and Hoover proposed the solution as:
 
 $$
-f(\mathbf{r}, \mathbf{p}, \eta, \zeta) \propto 
+f(\mathbf{r}, \mathbf{p}, \eta, \zeta) \propto
 \mathrm{exp}{\!\big\{-\beta [ U(\mathbf{r}) + K(\mathbf{p}) + \frac{Q\zeta^{2}}{2} + g k_B T \eta]}\!\big\}
 $$
 
@@ -670,7 +672,7 @@ i \hat{L} = i \hat{L}_1 + i \hat{L}_2 + i \hat{L}_T
 $$
 
 $$
-e^{i \hat{L} \Delta t} \approx e^{i \hat{L}_T \frac{\Delta t}{2}} e^{i \hat{L}_2 \frac{\Delta t}{2}} e^{i \hat{L}_1 \Delta} te^{i \hat{L}_2 \frac{\Delta t}{2}} e^{i \hat{L}_T \frac{\Delta t}{2}} 
+e^{i \hat{L} \Delta t} \approx e^{i \hat{L}_T \frac{\Delta t}{2}} e^{i \hat{L}_2 \frac{\Delta t}{2}} e^{i \hat{L}_1 \Delta} te^{i \hat{L}_2 \frac{\Delta t}{2}} e^{i \hat{L}_T \frac{\Delta t}{2}}
 $$
 
 Specifically, the operators are defined as:
@@ -695,7 +697,7 @@ i\hat{L}_T
 + \frac{1}{Q}\bigl(K - gk_B T\bigr)\frac{\partial}{\partial \zeta}
 $$
 
-In practice, the thermostat update operator requires additional splitting as the two terms, momentum scaling and friction evolution, cannot be integrated in a single exponential. Therefore, an approximation is required. One popular implementation comes from [Explicit reversible integrators for extended systems dynamics, Martyna, Tuckerman, Tobias, and Klein (MTTK) (Mol. Phys. 87, 1117 (1996))]. 
+In practice, the thermostat update operator requires additional splitting as the two terms, momentum scaling and friction evolution, cannot be integrated in a single exponential. Therefore, an approximation is required. One popular implementation comes from [Explicit reversible integrators for extended systems dynamics, Martyna, Tuckerman, Tobias, and Klein (MTTK) (Mol. Phys. 87, 1117 (1996))].
 
 $$
 e^{i \hat{L}_T \Delta t} \approx \prod_{j = 1}^{n_{sp}} e^{w_j i \hat{L}_T \Delta t}
@@ -705,7 +707,7 @@ The equation is also called Suzuki–Yoshida operator–splitting scheme, which 
 
 - $n_{sp}$: number of sub-steps used to integrate the thermostat operator, typically a common Suzuki–Yoshida 3rd-order factorization chooses a number of sub-steps equal to 3. A higher-order factorization would give higher accuracy and stability.
 
-- $w_j$: operator-splitting coefficients (weight of each splitting), which determine how the timestep $\Delta t$ can be separated. 
+- $w_j$: operator-splitting coefficients (weight of each splitting), which determine how the timestep $\Delta t$ can be separated.
 
 For the 3-stage Suzuki–Yoshida splitting, the typical values are chosen as:
 
@@ -823,7 +825,7 @@ $$
 $$
 
 $$
-\dot{p}_{\eta_i} = G_i - \frac{p_{\eta_{i+1}}}{Q_{i+1}}\,p_{\eta_i}, 
+\dot{p}_{\eta_i} = G_i - \frac{p_{\eta_{i+1}}}{Q_{i+1}}\,p_{\eta_i},
 \qquad i = 2,\dots,M-1
 $$
 
@@ -947,7 +949,7 @@ $$
 
 With reasonable choices, the chain efficiently damps pathological resonances of the original Nosé–Hoover theromstat while preserving good dynamical behaviour for structural and transport properties.
 
-For most commercial packages, the Nosé–Hoover chain is the default thermostat for NVT ensemble simulation. 
+For most commercial packages, the Nosé–Hoover chain is the default thermostat for NVT ensemble simulation.
 
 - It generates the exact canonical ensemble under time-reversible and symplectic under appropriate splitting.
 
