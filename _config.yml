@@ -1,6 +1,6 @@
 title: Atomistic Scale Simulations
 author: Antonia Statt
-copyright: "2025"
+copyright: "2025-2026"
 only_build_toc_files: true
 
 exclude_patterns: [.github/*]

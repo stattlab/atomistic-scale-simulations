@@ -12,3 +12,10 @@ The webpage/jupyterbook can also be compiled as pdf using latexpdf in the local 
 rm -rf _build
 jupyter-book build . --builder pdflatex
 ```
+Currently, it appears that citations in figure captions prevent latexpdf from compiling.
+
+Alternatively, use playwight as described [here](https://jupyterbook.org/v1/advanced/pdf.html).
+```
+rm -rf _build
+ jupyter-book build . --builder pdfhtml
+```
