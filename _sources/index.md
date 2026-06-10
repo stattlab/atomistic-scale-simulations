@@ -1,7 +1,9 @@
 <!-- markdownlint-disable MD002 MD041 -->
+# Atomistic Scale Simulations
 
-```{include} README.md
-```
+by [Antonia Statt](https://matse.illinois.edu/people/profile/statt)
+
+This is a digitized collection of course notes and problems developed for MSE 485 "Atomistic Scale Simulations" at University of Illinois Urbana Champaign.
 
 # Table of contents
 
