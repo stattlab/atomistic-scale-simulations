@@ -1,0 +1,865 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5.6. Phase Transitions, Finite-Size Scaling and Renormalization Group &#8212; Atomistic Scale Simulations</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/image_dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/myfile.css?v=80cd6c28" />
+    <link rel="stylesheet" type="text/css" href="../_static/myadmonitions.css?v=5b3d7684" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"d": ["{\\operatorname{d}\\!{#1}}", 1], "dd": ["{\\d{}^{#1} #2 \\over \\d{#3}^{#1}}", 3], "pp": ["{\\partial^{#1} #2 \\over \\partial #3^{#1}}", 3], "td": ["{\\left(\\pp{#1}{#2}{#3} \\right)_{#4}}", 4], "ubar": ["\\underline{#1}", 1], "vv": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'monte-carlo/finite-size';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://stattlab.github.io/atomistic-scale-simulations/monte-carlo/finite-size.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.7. Variance Reduction Techniques" href="variance-reduction.html" />
+    <link rel="prev" title="5.5. Gibbs Ensemble and Phase Coexistence" href="phase-coexistence.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Atomistic Scale Simulations</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../introduction/index.html">1. Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/why-atomistic-scale.html">1.1. Why are we interested in the atomistic scale?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/what-are-simulations.html">1.2. What are Simulations?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-models-and-interactions/index.html">2. Molecular Models and Interactions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/introduction.html">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/molecular-models.html">2.2. Molecular Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/periodic-boundary-conditions.html">2.3. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/intramolecular-potentials.html">2.4. Intermolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/short-ranged-potentials.html">2.5. Short-Ranged Intramolecular Potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-models-and-interactions/electrostatics.html">2.6. Long-Range Potentials</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../statmech-thermo/index.html">3. Statistical Mechanics and Thermodynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/introduction.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/ensembles.html">3.2. Thermodyanmics and Ensembles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statmech-ergodicity.html">3.3. Statistical Mechanics: Ensembles, Ergodicity, and Other Stuff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/thermodynamic-properties.html">3.4. Thermodyanmics Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/entropy-temperature.html">3.5. Entropy and Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/structural-correlations.html">3.6. Structural Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/transport-coefficients.html">3.7. Transport Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../statmech-thermo/statistical-errors.html">3.8. Statistical Errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../molecular-dynamics/index.html">4. Molecular Dynamics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/introduction.html">4.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/verlet-integration.html">4.2. Verlet Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/thermostats.html">4.3. Thermostats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/langevin-dynamics.html">4.4. Langevin Dynamics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/md-packages.html">4.5. Using MD Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/neighbor-list.html">4.6. Initialization and Neighbor Searching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../molecular-dynamics/high-performance-computing.html">4.7. HPC (High-Performance Computing)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">5. Monte Carlo Simulations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">5.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random-numbers.html">5.2. Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monte-carlo-method.html">5.3. Monte Carlo Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling.html">5.4. Sampling Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phase-coexistence.html">5.5. Gibbs Ensemble and Phase Coexistence</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.6. Phase Transitions, Finite-Size Scaling and Renormalization Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variance-reduction.html">5.7. Variance Reduction Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metropolis.html">5.8. Metropolis Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ising-model.html">5.9. The Ising Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="directed-mc.html">5.10. Directed Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinetic-mc.html">5.11. Kinetic Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="free-energy-from-sims.html">5.12. Free Energy Estimation in Simulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/references.html">6. References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">7. Credits</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/stattlab/atomistic-scale-simulations/issues/new?title=Issue%20on%20page%20%2Fmonte-carlo/finite-size.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/monte-carlo/finite-size.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Phase Transitions, Finite-Size Scaling and Renormalization Group</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-transitions-and-correlations">5.6.1. Phase Transitions and Correlations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-size-scaling">5.6.2. Finite-Size Scaling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experimental-evidence-for-scaling">5.6.2.1. Experimental Evidence for Scaling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-properties">5.6.2.2. Scaling Properties</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-with-finite-system-size">5.6.2.3. Scaling with Finite System Size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-law-for-homogeneous-functions">5.6.2.4. Scaling Law for Homogeneous Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#static-scaling-hypothesis-for-thermodynamic-functions">5.6.2.5. Static Scaling Hypothesis for Thermodynamic Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renormalization-group">5.6.2.6. Renormalization Group</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="phase-transitions-finite-size-scaling-and-renormalization-group">
+<h1><span class="section-number">5.6. </span>Phase Transitions, Finite-Size Scaling and Renormalization Group<a class="headerlink" href="#phase-transitions-finite-size-scaling-and-renormalization-group" title="Link to this heading">#</a></h1>
+<section id="phase-transitions-and-correlations">
+<h2><span class="section-number">5.6.1. </span>Phase Transitions and Correlations<a class="headerlink" href="#phase-transitions-and-correlations" title="Link to this heading">#</a></h2>
+<p>Phase transitions mark abrupt or qualitative changes in the macroscopic state of matter when one or more thermodynamic control parameters are varied. These control parameters include temperature <span class="math notranslate nohighlight">\(T\)</span>, pressure <span class="math notranslate nohighlight">\(P\)</span>, density <span class="math notranslate nohighlight">\(\rho\)</span>, and, for magnetic systems, and external magnetic field <span class="math notranslate nohighlight">\(H\)</span>. A <strong>critical point</strong> is a special point in this parameter space–typically denoted by (<span class="math notranslate nohighlight">\(P_{c}\)</span>, <span class="math notranslate nohighlight">\(\rho_{c}\)</span>, <span class="math notranslate nohighlight">\(T_{c}\)</span>) for fluids or (<span class="math notranslate nohighlight">\(H_{c}\)</span>, <span class="math notranslate nohighlight">\(M_{c}\)</span>, <span class="math notranslate nohighlight">\(T_{c}\)</span>) for magnets–at which the distinction between two phases disappears and fluctuations underlying microscopic degrees of freedom become long-ranged. Near such points, systems exhibit characteristic singular behavior that is largely independent of microscopic details.</p>
+<p>A convenient way to characterize a phase transition is through an <strong>order parameter</strong>, a macroscopic quantity that distinguishes one phase from another and often vanishes continuously at a continuous (second-order) transition. In a ferromagnet, for instance, the order parameter is the spontaneous magnetization <span class="math notranslate nohighlight">\(M(T)\)</span> in zero external field. Below the Curie temperature <span class="math notranslate nohighlight">\(T_c\)</span>, the spins align collectively and <span class="math notranslate nohighlight">\(M(T) \neq 0\)</span>. Above <span class="math notranslate nohighlight">\(T_c\)</span>, thermal agitation destroys long-range order and <span class="math notranslate nohighlight">\(M(T)=0\)</span>. The graph of <span class="math notranslate nohighlight">\(M(T)\)</span> versus <span class="math notranslate nohighlight">\(T\)</span> thus shows a continuous loss of magnetization as the system is heated through the critical temperature.</p>
+<p>An analogous example appears in the liquid-gas transition of a simple fluid. At temperatures below the liquid-gas critical temperature <span class="math notranslate nohighlight">\(T_c\)</span>, the coexistence of liquid and gas phases is characterized by a density difference <span class="math notranslate nohighlight">\(\rho_L-\rho_G\)</span>, where <span class="math notranslate nohighlight">\(\rho_L\)</span> and <span class="math notranslate nohighlight">\(\rho_G\)</span> denote the equilibrium densities of the liquid and gas, respectively. This difference plays the role of an order parameter: it is nonzero along the coexistence curve and tends to zero as the critical point is approached. Exactly at the critical point, the liquid and gas become indistinguishable, and <span class="math notranslate nohighlight">\(\rho_L=\rho_G=\rho_c\)</span>.</p>
+<p>Order parameters can also be defined in more complex systems. In binary alloys, one natural order parameter is the deviation of the local composition from its average value,</p>
+<div class="math notranslate nohighlight">
+\[
+c(\mathbf{r})-c_0,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(c(\mathbf{r})\)</span> is the local concentration of one species (say, A atoms in an A-B alloy) and <span class="math notranslate nohighlight">\(c_0\)</span> is the overall composition. Below an ordering temperature, the alloy may develop long-range compositional order (for example, alternating A and B on a lattice), and the fluctuations of <span class="math notranslate nohighlight">\(c(\mathbf{r})-c_0\)</span> reflect the emergence of ordered domains. Such composition fluctuations are routinely probed by scattering experiments using x rays, electrons, or neutrons. The resulting structure factor encodes spatial correlations of <span class="math notranslate nohighlight">\(c(\mathbf{r})\)</span>, which grow in range and magnitude as the system approaches an ordering transition.</p>
+<p>A particularly striking manifestation of critical behavior is <strong>critical opalescence</strong>, historically observed in fluids such as carbon dioxide near their liquid-gas critical point. As <span class="math notranslate nohighlight">\(T\)</span> approaches <span class="math notranslate nohighlight">\(T_c\)</span> from above at fixed pressure, the fluid becomes milky and strongly scatters visible light. Microscopically, this phenomenon arises because density fluctuations become both large in amplitude and long-ranged. Droplets of high- and low-density regions form and grow to sizes comparable to the wavelength of visible light. These density inhomogeneities act as efficient scatterers, leading to the observed opalescent appearance. Critical opalescence provided some of the earliest direct visual evidence that something singular occurs at the critical point.</p>
+<p>A central quantity in understanding these phenomena is the correlation length <span class="math notranslate nohighlight">\(\xi\)</span>, which measures the typical distance over which fluctuations of a local thermodynamic variable–such as the spin orientation in a magnet or the density of a fluid–remain significantly correlated. Far above the critical temperature, correlations decay rapidly and <span class="math notranslate nohighlight">\(\xi\)</span> is microscopic, corresponding to short-range order. As the critical point is approached, however, <span class="math notranslate nohighlight">\(\xi\)</span> grows rapidly, reflecting the emergence of large correlated regions like fluctuating high-and low density domains responsible for critical opalescence. In the two-dimensional Ising model, for example, the spin-spin correlation function decays exponentially with a characteristic length <span class="math notranslate nohighlight">\(\xi(T)\)</span> for <span class="math notranslate nohighlight">\(T&gt;T_c\)</span>, while below <span class="math notranslate nohighlight">\(T_c\)</span> the system develops true long-range order and the correlations become effectively infinite in range due to the nonzero spontaneous magnetization. In numerical simulations with finite linear size <span class="math notranslate nohighlight">\(L\)</span>, this growth of <span class="math notranslate nohighlight">\(\xi\)</span> is eventually cut off when <span class="math notranslate nohighlight">\(\xi(T)\)</span> becomes comparable to or larger than <span class="math notranslate nohighlight">\(L\)</span>, so that the divergence of the correlation length that would occur at <span class="math notranslate nohighlight">\(T_{c}\)</span> in an infinite system is rounded off and replaced by pronounced finite-size effects once <span class="math notranslate nohighlight">\(\xi \gtrsim L\)</span>.</p>
+<p>Generally speaking, three closely related signatures appear as a system approaches a critical point. First, density fluctuations grow dramatically. As <span class="math notranslate nohighlight">\(T\)</span> -&gt; <span class="math notranslate nohighlight">\(T_{c}\)</span> at fixed pressure, correlated regions of high and low density become comparable in size to the wavelength of visible light, so these inhomogeneities scatter light strongly and give rise to critical opalescence. Second, the isothermal compressibility <span class="math notranslate nohighlight">\(K_{T}\)</span> increases sharply and, in the thermodynamic limit, diverges according to</p>
+<div class="math notranslate nohighlight">
+\[K_T \rightarrow \infty \quad \text{as} \quad T \rightarrow T_c\]</div>
+<p>Physically, this means that an arbitrarily small change in pressure produces a very large change in volume or density near the critical point. Third, the range of density-density correlations grows without bound: the correlation length <span class="math notranslate nohighlight">\(\xi\)</span>, which measures the typical size of correlated density fluctuations, also diverges,</p>
+<div class="math notranslate nohighlight">
+\[\xi \rightarrow \infty \ \ \text{as} \ \ T \rightarrow T_{c}\]</div>
+<p>The divergence of <span class="math notranslate nohighlight">\(\xi\)</span> underlies both the enhanced density fluctuations and the anomalous compressibility. All three reflect the same underlying fact that, at criticality, fluctuations are correlated over all length scales.</p>
+<p>To make the connection between these macroscopic signatures and microscopic structure more explicit, it is useful to introduce the <strong>density-density pair correlation function</strong>. In a fluid, fluctuations of the local density can be written as <span class="math notranslate nohighlight">\(\delta \rho(\mathbf{r})=\rho(\mathbf{r})- \langle\rho\rangle\)</span>, and the pair correlation function is defined as <span class="math notranslate nohighlight">\(G\left(\mathbf{r}-\mathbf{r}^{\prime}\right)=\left\langle\delta \rho(\mathbf{r}) \delta \rho\left(\mathbf{r}^{\prime}\right)\right\rangle\)</span>. This quantity measures how a fluctuation at one point is correlated with a fluctuation at another. Thermodynamic response functions such as the isothermal compressibility <span class="math notranslate nohighlight">\(K_{T}\)</span> are not independent of these microscopic correlations. Rather, they can be expressed in terms of the integrated pair correlations. For an ideal gas, the compressibility is <span class="math notranslate nohighlight">\(K_T^0=\langle N\rangle k T / V\)</span>, while more generally one has the fluctuation relation</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{K_T}{K_T^0}=\frac{\left\langle(N-\langle N\rangle)^2\right\rangle}{\langle N\rangle}
+\]</div>
+<p>which tells us that the compressibility of a fluid, compared to an ideal gas at the same condition, is determined by how large the particle the particle-number fluctuations are compared to the average number of particles. Here, the variance of the particle number in a volume <span class="math notranslate nohighlight">\(V\)</span> can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+\left\langle(N-\langle N\rangle)^2\right\rangle=\int d \mathbf{r} \int d \mathbf{r}^{\prime} G\left(\mathbf{r}-\mathbf{r}^{\prime}\right)=V \int d \mathbf{r} G(\mathbf{r}) .
+\]</div>
+<p>As the critical temperature is approached, the divergence <span class="math notranslate nohighlight">\(K_T \rightarrow \infty\)</span> in the thermodynamic limit therefore implies that the integral of <span class="math notranslate nohighlight">\(G(\mathbf{r})\)</span> diverges. This can only occur if the density-density correlations become very long-ranged, so that <span class="math notranslate nohighlight">\(G(\mathbf{r})\)</span> decays only slowly for <span class="math notranslate nohighlight">\(|\mathbf{r}| \gg 1\)</span>. In other words, the divergence of the compressibility is a direct consequence of the divergence of the correlation length <span class="math notranslate nohighlight">\(\xi\)</span> that characterizes the range of <span class="math notranslate nohighlight">\(G(\mathbf{r})\)</span>. This growing correlation length, together with the associated singular behavior of thermodynamic quantities, motivates the use of scaling ideas in finite-sized simulations. When <span class="math notranslate nohighlight">\(\xi\)</span> becomes comparable to the system size <span class="math notranslate nohighlight">\(L\)</span>, finite-size effects encode how observables depend on the ratio <span class="math notranslate nohighlight">\(L / \xi\)</span>, and these finite-size scaling relations can be used to estimate the true critical point and critical exponents from data obtained in systems of limited size.</p>
+</section>
+<section id="finite-size-scaling">
+<h2><span class="section-number">5.6.2. </span>Finite-Size Scaling<a class="headerlink" href="#finite-size-scaling" title="Link to this heading">#</a></h2>
+<p>Reduced coordinates are often convenient when discussing the scaling of thermodynamic quantities near a critical point. A standard example is the reduced temperature,</p>
+<div class="math notranslate nohighlight">
+\[
+t=\frac{T-T_c}{T_c},
+\]</div>
+<p>which measures the temperature relative to the critical temperature <span class="math notranslate nohighlight">\(T_c\)</span>. One can similarly introduce reduced densities, such as <span class="math notranslate nohighlight">\(\rho / \rho_c\)</span>, or, in percolation problems, a reduced occupation probability,</p>
+<div class="math notranslate nohighlight">
+\[
+x=\frac{p-p_c}{p_c},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(p\)</span> is the site (or bond) occupation probability and <span class="math notranslate nohighlight">\(p_c\)</span> is its critical value. These reduced variables provide convenient, dimensionless measures of distance from criticality and will be used repeatedly in what follows.</p>
+<section id="experimental-evidence-for-scaling">
+<h3><span class="section-number">5.6.2.1. </span>Experimental Evidence for Scaling<a class="headerlink" href="#experimental-evidence-for-scaling" title="Link to this heading">#</a></h3>
+<p>There is compelling experimental evidence that thermodynamic quantities exhibit such scaling behavior. When measured coexistence curves for a wide variety of simple fluids are plotted in reduced variables <span class="math notranslate nohighlight">\(T / T_c\)</span> versus <span class="math notranslate nohighlight">\(\rho / \rho_c\)</span>, the data collapse onto a single universal curve (see, for example, E. Stanley, p. 10). Fitting the coexistence density difference <span class="math notranslate nohighlight">\(\rho-\rho_c\)</span> along this curve shows that</p>
+<div class="math notranslate nohighlight">
+\[
+\rho-\rho_c \sim(-t)^\beta \quad \text { for } \quad T&lt;T_c
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(\beta \approx 0.33\)</span>. More careful analyses reveal a range <span class="math notranslate nohighlight">\(0.33&lt;\beta&lt;0.37\)</span>. For instance, in liquid helium one finds <span class="math notranslate nohighlight">\(\beta=0.354\)</span>. Similar scaling laws are observed for other response functions, such as susceptibilities, which can also be analyzed in terms of appropriate power laws in the reduced temperature.</p>
+<p>Whether one is dealing with magnetic systems, ordinary fluids, or percolation models, the relevant order parameters and correlation measures-magnetization, density differences, pair-correlation functions, correlation lengths, and related quantities-all display analogous scaling behavior near their respective critical points. In the magnetic case, central quantities include (i) the magnetization <span class="math notranslate nohighlight">\(M(T)\)</span>, (ii) the isothermal susceptibility <span class="math notranslate nohighlight">\(\chi(T)\)</span>, (iii) the correlation length <span class="math notranslate nohighlight">\(\xi(T)\)</span>, and (iv) the zero-field specific heat <span class="math notranslate nohighlight">\(C(T)\)</span>. For percolation, the analogous set would consist of (i) the spanning probability <span class="math notranslate nohighlight">\(p_{\infty}\)</span> (which plays the role of an order parameter), (ii) the mean cluster size <span class="math notranslate nohighlight">\(S(p)\)</span>, and (iii) the correlation length <span class="math notranslate nohighlight">\(\xi(p)\)</span> that characterizes the typical size of connected clusters.</p>
+</section>
+<section id="scaling-properties">
+<h3><span class="section-number">5.6.2.2. </span>Scaling Properties<a class="headerlink" href="#scaling-properties" title="Link to this heading">#</a></h3>
+<p>More quantitatively, these observables obey power-law scaling near the critical point.
+The magnetization behaves as <span class="math notranslate nohighlight">\(M(T) \sim(-t)^\beta, \quad 0.33&lt;\beta&lt;0.37, \quad\left(T&lt;T_c\right)\)</span> vanishing continuously as <span class="math notranslate nohighlight">\(T \rightarrow T_c^{-}\)</span>. The magnetic susceptibility diverges as</p>
+<div class="math notranslate nohighlight">
+\[
+\chi(T) \sim|t|^{-\gamma}, \quad 1.3&lt;\gamma&lt;1.4
+\]</div>
+<p>reflecting the growth of the response to an applied field. The correlation length scales as</p>
+<div class="math notranslate nohighlight">
+\[
+\xi(T) \sim|t|^{-\nu},
+\]</div>
+<p>where the exponent <span class="math notranslate nohighlight">\(\nu\)</span> depends on the spatial dimension of the system and controls how rapidly the range of correlations diverges. Finally, the zero-field specific heat exhibits a (typically weak) singularity,</p>
+<div class="math notranslate nohighlight">
+\[
+C(T) \sim|t|^{-\alpha}
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(\alpha \approx 0.1\)</span> in many three-dimensional systems. The coefficients <span class="math notranslate nohighlight">\(\beta, \gamma, \nu, \alpha\)</span>, and their analogues for other observables are known as <strong>critical exponents</strong>, and they encapsulate the universal scaling properties of systems near continuous phase transitions.</p>
+</section>
+<section id="scaling-with-finite-system-size">
+<h3><span class="section-number">5.6.2.3. </span>Scaling with Finite System Size<a class="headerlink" href="#scaling-with-finite-system-size" title="Link to this heading">#</a></h3>
+<p>Consider a simulation system with linear dimension <span class="math notranslate nohighlight">\(L\)</span>. Finite-size scaling can be understood by examining how the correlation length <span class="math notranslate nohighlight">\(\xi(T)\)</span> compares with <span class="math notranslate nohighlight">\(L\)</span>. When <span class="math notranslate nohighlight">\(\xi(T) \ll L\)</span>, the system behaves essentially as if it were infinite. In this case, correlations remain local, do not feel the boundaries, and bulk power laws such as <span class="math notranslate nohighlight">\(M(T) \sim (-t)^\beta\)</span> (for <span class="math notranslate nohighlight">\(T&lt;T_c\)</span> ) are expected to hold. As the temperature approaches the critical region, however, <span class="math notranslate nohighlight">\(\xi(T)\)</span> grows. Once <span class="math notranslate nohighlight">\(\xi(T)\)</span> becomes comparable to <span class="math notranslate nohighlight">\(L\)</span>, the correlation length can no longer increase significantly. In this case, its growth is effectively cut off by the system size. In this regime, the simple infinite-system law <span class="math notranslate nohighlight">\(M(T) \sim (-t)^\beta\)</span> is no longer applicable, because the would-be divergence of <span class="math notranslate nohighlight">\(\xi\)</span> is replaced by saturation at <span class="math notranslate nohighlight">\(\xi \sim L\)</span>, and observables acquire a nontrivial dependence on <span class="math notranslate nohighlight">\(L\)</span>.</p>
+<p>Near criticality, the correlation length follows the power law</p>
+<div class="math notranslate nohighlight">
+\[
+\xi(T) \sim|t|^{-\nu},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(t=\left(T-T_c\right) / T_c\)</span> is the reduced temperature and <span class="math notranslate nohighlight">\(\nu\)</span> is the correlation-length exponent. The condition <span class="math notranslate nohighlight">\(\xi(T) \sim L\)</span> therefore implies</p>
+<div class="math notranslate nohighlight">
+\[
+L \sim|t|^{-\nu} \quad \Longrightarrow \quad|t| \sim L^{-1 / \nu}.
+\]</div>
+<p>Equivalently, for a system of finite size <span class="math notranslate nohighlight">\(L\)</span>, the apparent critical temperature <span class="math notranslate nohighlight">\(T_c(L)\)</span> -for example, the temperature at which some response function is maximal-shifts away from the infinite-system value <span class="math notranslate nohighlight">\(T_c(\infty)\)</span> according to the finite-size scaling relation</p>
+<div class="math notranslate nohighlight">
+\[
+\left|T_c(L)-T_c(\infty)\right| \sim L^{-1 / \nu}
+\]</div>
+<p>This is often referred to as the scaling relation for <span class="math notranslate nohighlight">\(T_c(L)\)</span>. For a two-dimensional system such as the square-lattice Ising model, one has <span class="math notranslate nohighlight">\(\nu=1\)</span>, so <span class="math notranslate nohighlight">\(1 / \nu=1\)</span>. In that case the shift scales as</p>
+<div class="math notranslate nohighlight">
+\[
+T_c(L)-T_c(\infty) \sim \frac{1}{L},
+\]</div>
+<p>and an extrapolation of <span class="math notranslate nohighlight">\(T_c(L)\)</span> versus <span class="math notranslate nohighlight">\(1 / L\)</span> should converge, within error bars, to the exact critical temperature <span class="math notranslate nohighlight">\(T_c(\infty) \approx 2.269\)</span>.</p>
+<p>In practice, one convenient way to determine <span class="math notranslate nohighlight">\(T_c(L)\)</span> from simulations is to compute the specific heat per site <span class="math notranslate nohighlight">\(C_V(L, T)\)</span> as a function of temperature for various system sizes <span class="math notranslate nohighlight">\(L=4,8,16,32, \ldots\)</span>. For each <span class="math notranslate nohighlight">\(L\)</span>, the temperature <span class="math notranslate nohighlight">\(T\)</span> at which <span class="math notranslate nohighlight">\(C_V(L, T)\)</span> attains its maximum is taken as the finite-size critical temperature <span class="math notranslate nohighlight">\(T_c(L)\)</span>. The specific heat can be expressed in terms of energy fluctuations as</p>
+<div class="math notranslate nohighlight">
+\[
+C_V(T)=\frac{\left\langle E^2\right\rangle-\langle E\rangle^2}{k_B T^2},
+\]</div>
+<p>which makes clear that <span class="math notranslate nohighlight">\(C_V\)</span> measures how broadly the system’s energy is distributed among accessible configurations. The larger the fluctuations <span class="math notranslate nohighlight">\(\left\langle E^2\right\rangle- \langle E\rangle^2\)</span>, the higher the specific heat and the richer the ensemble of thermally accessible states.</p>
+<p>One might ask why not simply plot <span class="math notranslate nohighlight">\(\langle E\rangle\)</span> versus <span class="math notranslate nohighlight">\(T\)</span> to locate the transition, instead of examining <span class="math notranslate nohighlight">\(C_V(T)\)</span>. The reason is that for a continuous (second-order) phase transition, <span class="math notranslate nohighlight">\(\langle E\rangle(T)\)</span> remains a smooth function of temperature (the singularity appears in its derivative with respect to <span class="math notranslate nohighlight">\(T\)</span>). The specific heat <span class="math notranslate nohighlight">\(C_V=\partial\langle E\rangle / \partial T\)</span> exhibits a pronounced peak that sharpens and grows with system size, and in the thermodynamic limit this peak becomes a true divergence (when <span class="math notranslate nohighlight">\(\alpha&gt;0\)</span> ) or at least a cusp-like singularity. Thus <span class="math notranslate nohighlight">\(C_V(L, T)\)</span>, rather than <span class="math notranslate nohighlight">\(\langle E\rangle(T)\)</span>, is a much more sensitive diagnostic for pinpointing the location of the critical region and extracting <span class="math notranslate nohighlight">\(T_c(L)\)</span>.</p>
+<p>Once <span class="math notranslate nohighlight">\(T_c(L)\)</span> is known as a function of <span class="math notranslate nohighlight">\(L\)</span>, finite-size scaling can also be used to determine the critical exponents. At the critical point of the infinite system, the order parameter and other observables obey power laws such as</p>
+<div class="math notranslate nohighlight">
+\[
+M(T) \sim(-t)^\beta, \quad \chi(T) \sim|t|^{-\gamma}, \quad \xi(T) \sim|t|^{-\nu}, \quad C(T) \sim|t|^{-\alpha} .
+\]</div>
+<p>For a finite system, a standard finite-size scaling ansatz shows that at the (size-dependent) critical temperature <span class="math notranslate nohighlight">\(T=T_c(L)\)</span>, the order parameter scales with system size as</p>
+<div class="math notranslate nohighlight">
+\[
+M\left(T_c(L)\right) \sim L^{-\beta / \nu} .
+\]</div>
+<p>Thus, plotting <span class="math notranslate nohighlight">\(M\left(T_c(L)\right)\)</span> versus <span class="math notranslate nohighlight">\(L\)</span> on a log-log scale yields a straight line whose slope is <span class="math notranslate nohighlight">\(-\beta / \nu\)</span>. A similar analysis applies to other quantities. For example, the susceptibility at <span class="math notranslate nohighlight">\(T_c(L)\)</span> scales as</p>
+<div class="math notranslate nohighlight">
+\[
+\chi\left(T_c(L)\right) \sim L^{\gamma / \nu},
+\]</div>
+<p>and, when <span class="math notranslate nohighlight">\(\alpha&gt;0\)</span>, the specific heat peak typically scales as</p>
+<div class="math notranslate nohighlight">
+\[
+C_V^{\max }(L) \sim L^{\alpha / \nu} .
+\]</div>
+<p>In problems where the order parameter is of a different type-for instance, in percolation-the same logic holds. The spanning probability <span class="math notranslate nohighlight">\(p_{\infty}\)</span> at the percolation threshold <span class="math notranslate nohighlight">\(p=p_c\)</span> plays the role of an order parameter and obeys</p>
+<div class="math notranslate nohighlight">
+\[
+p_{\infty}\left(p_c, L\right) \sim L^{-\beta / \nu},
+\]</div>
+<p>while the mean cluster size <span class="math notranslate nohighlight">\(S(p)\)</span> and the percolation correlation length <span class="math notranslate nohighlight">\(\xi(p)\)</span> exhibit their own characteristic finite-size scaling forms. In all these cases, the critical exponents can be extracted from how observables depend on <span class="math notranslate nohighlight">\(L\)</span> at or near the finite-size critical point, providing a route to determining <span class="math notranslate nohighlight">\(\beta, \gamma, \nu_{\text {, and }}\)</span> related exponents.</p>
+</section>
+<section id="scaling-law-for-homogeneous-functions">
+<h3><span class="section-number">5.6.2.4. </span>Scaling Law for Homogeneous Functions<a class="headerlink" href="#scaling-law-for-homogeneous-functions" title="Link to this heading">#</a></h3>
+<p>To formalize the notion of scaling, it is helpful to recall the concept of homogeneous and generalized homogeneous functions. A function <span class="math notranslate nohighlight">\(f(r)\)</span> is said to scale (or to be homogeneous) if, for all values of <span class="math notranslate nohighlight">\(\lambda\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+f(\lambda r)=g(\lambda) f(r) .
+\]</div>
+<p>An example is <span class="math notranslate nohighlight">\(f(r)=B r^2\)</span>, for which</p>
+<div class="math notranslate nohighlight">
+\[
+f(\lambda r)=B(\lambda r)^2=\lambda^2 f(r),
+\]</div>
+<p>so <span class="math notranslate nohighlight">\(g(\lambda)=\lambda^2\)</span>. In general, for a homogeneous function, the scaling function <span class="math notranslate nohighlight">\(g(\lambda)\)</span> cannot be arbitrary. It must be a pure power,</p>
+<div class="math notranslate nohighlight">
+\[
+g(\lambda)=\lambda^p,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(p\)</span> is called the degree of homogeneity. Once <span class="math notranslate nohighlight">\(f\left(r_0\right)\)</span> and <span class="math notranslate nohighlight">\(g(\lambda)\)</span> are known, the value of <span class="math notranslate nohighlight">\(f(r)\)</span> at any <span class="math notranslate nohighlight">\(r\)</span> can be obtained by choosing an appropriate scaling factor <span class="math notranslate nohighlight">\(\lambda=r / r_0\)</span>.</p>
+<p>A generalized homogeneous function involves more than one variable and can be written in the form</p>
+<div class="math notranslate nohighlight">
+\[
+f\left(\lambda^a x, \lambda^b y\right)=\lambda f(x, y) .
+\]</div>
+<p>Here the variables <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> scale with possibly different exponents <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, but the function as a whole is homogeneous of degree 1 with respect to the transformation. There is no extra factor <span class="math notranslate nohighlight">\(\lambda^p\)</span> on the right-hand side because one can always rescale <span class="math notranslate nohighlight">\(\lambda\)</span> by <span class="math notranslate nohighlight">\(\lambda^{1 / p}\)</span> and redefine the exponents as <span class="math notranslate nohighlight">\(a^{\prime}=a / p\)</span> and <span class="math notranslate nohighlight">\(b^{\prime}= b / p\)</span> without loss of generality. The important point is that generalized homogeneous functions allow different directions in the <span class="math notranslate nohighlight">\((x, y)\)</span> space to scale with different exponents, while preserving an overall scaling form.</p>
+</section>
+<section id="static-scaling-hypothesis-for-thermodynamic-functions">
+<h3><span class="section-number">5.6.2.5. </span>Static Scaling Hypothesis for Thermodynamic Functions<a class="headerlink" href="#static-scaling-hypothesis-for-thermodynamic-functions" title="Link to this heading">#</a></h3>
+<p>The (ad hoc) static scaling hypothesis asserts that the thermodynamic potential <span class="math notranslate nohighlight">\(G(t, H)\)</span> near a continuous phase transition is a generalized homogeneous function of the reduced temperature <span class="math notranslate nohighlight">\(t\)</span> and magnetic field <span class="math notranslate nohighlight">\(H\)</span>. More precisely, one postulates that there exist exponents <span class="math notranslate nohighlight">\(a_t\)</span> and <span class="math notranslate nohighlight">\(a_H\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+G\left(\lambda^{a_t} t, \lambda^{a_H} H\right)=\lambda G(t, H)
+\]</div>
+<p>for all <span class="math notranslate nohighlight">\(\lambda&gt;0\)</span>. If <span class="math notranslate nohighlight">\(G(t, H)\)</span> has this property, then all other free-energy representations (Helmholtz, Gibbs, etc.) obtained by Legendre transforms will also be generalized homogeneous, since Legendre transforms preserve homogeneity.</p>
+<p>Thermodynamic observables are derivatives of <span class="math notranslate nohighlight">\(G(t, H)\)</span> and therefore inherit corresponding scaling forms. For instance, the magnetization is given by</p>
+<div class="math notranslate nohighlight">
+\[
+M(t, H)=-\frac{\partial G(t, H)}{\partial H} .
+\]</div>
+<p>Differentiating the scaling form of <span class="math notranslate nohighlight">\(G\)</span> with respect to <span class="math notranslate nohighlight">\(H\)</span> and using the chain rule (try it!), one finds that</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda^{a_H} M\left(\lambda^{a_t} t, \lambda^{a_H} H\right)=\lambda M(t, H) .
+\]</div>
+<p>This implies that, at zero field <span class="math notranslate nohighlight">\(H=0\)</span>, the magnetization satisfies</p>
+<div class="math notranslate nohighlight">
+\[
+M(t, 0)=\lambda^{1-a_H} M\left(\lambda^{a_t} t, 0\right) .
+\]</div>
+<p>Choosing <span class="math notranslate nohighlight">\(\lambda=(-t)^{-1 / a_t}\)</span> for <span class="math notranslate nohighlight">\(t&lt;0\)</span> gives</p>
+<div class="math notranslate nohighlight">
+\[
+M(t, 0)=(-t)^{\left(1-a_H\right) / a_t} M(-1,0) .
+\]</div>
+<p>Since we already know from standard critical behavior that</p>
+<div class="math notranslate nohighlight">
+\[
+M(t, 0) \sim(-t)^\beta \quad \text { as } \quad t \rightarrow 0^{-},
+\]</div>
+<p>we can identify the order-parameter exponent as</p>
+<div class="math notranslate nohighlight">
+\[
+\beta=\frac{1-a_H}{a_t} .
+\]</div>
+<p>The same procedure applies to other observables that are derivatives of <span class="math notranslate nohighlight">\(G(t, H)\)</span>. For example, the isothermal susceptibility <span class="math notranslate nohighlight">\(\chi_T(t, H)\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\chi_T(t, H)=\frac{\partial M(t, H)}{\partial H},
+\]</div>
+<p>and its scaling form implies power laws of the form</p>
+<div class="math notranslate nohighlight">
+\[
+\chi_T(t, 0) \sim(-t)^{-\gamma^{\prime}} \quad \text { for } t \rightarrow 0^{-}, \quad \chi_T(t, 0) \sim t^{-\gamma} \quad \text { for } t \rightarrow 0^{+},
+\]</div>
+<p>with</p>
+<div class="math notranslate nohighlight">
+\[
+\gamma^{\prime}=\frac{2-a_H}{a_t}, \quad \gamma=\frac{2-a_H}{a_t},
+\]</div>
+<p>so that <span class="math notranslate nohighlight">\(\gamma^{\prime}=\gamma\)</span> in this simple scaling picture. Analogous relations can be derived for the specific heat, correlation length, and other thermodynamic quantities, all expressed in terms of the two basic scaling exponents <span class="math notranslate nohighlight">\(a_t\)</span> and <span class="math notranslate nohighlight">\(a_H\)</span>.</p>
+<p>Thus, from the scaling form of the thermodynamic functions, all critical exponents can be written as ratios of just two quantities, <span class="math notranslate nohighlight">\(a_t\)</span> and <span class="math notranslate nohighlight">\(a_H\)</span>. By plotting thermodynamic observables according to the scaling relations implied by the generalized homogeneity of <span class="math notranslate nohighlight">\(G(t, H)\)</span>, one can in principle determine <span class="math notranslate nohighlight">\(a_t\)</span> and <span class="math notranslate nohighlight">\(a_H\)</span>, and hence obtain the full set of critical exponents. The same style of analysis can be extended to other thermodynamic functions or order parameters, yielding a network of scaling equalities among exponents-relations that, in more rigorous treatments, often appear as inequalities. It is important to remember that the static scaling hypothesis is an assumption rather than a theorem, but it is strongly supported by experimental data, simulations, and renormalization-group theory, and forms the conceptual backbone of the modern theory of critical phenomena.</p>
+</section>
+<section id="renormalization-group">
+<h3><span class="section-number">5.6.2.6. </span>Renormalization Group<a class="headerlink" href="#renormalization-group" title="Link to this heading">#</a></h3>
+<p>Because the correlation length diverges, and various fluctuation grow (along with the associated pair correlations), as TC is approached from above, it shows that long-range fluctuations control the phase transition and the critical point. This also suggests that the phase transition (or fluctuations) is associated with the <em>degree of connectivity</em> of the system. Recall that there is no <em>connectivity</em> in 1-D and, hence, no phase transition. (You may have connectivity but in combination with frustration due, say, to geometry of lattice and competing interactions which results in no phase transition, as with the triangular lattice and AFM interactions. But this is because there is no unique ground-state, not becuase of non-connectivity.)</p>
+<p>The results of <strong>scaling</strong>, as discussed above, is that the important fluctuations and their range can be <em>scaled up</em> to the appropriate lenght scale, and the local effects (which do not control the phase transition) can be ignored. Such scaling ideas were developed by Leo Kadanoff in the 60’s in real space, which provided a very intuitive insight. However, these ideas were still only approximate and not complete. Nonetheless, the ideas of <strong><em>fixed points, Kadanoff transformations, etc.</em></strong> extend directly into many areas of physics, chemistry, and engineering (although perhaps not obvious at first glance).</p>
+<p>Based on the work of Kadanoff, Ken G. Wilson in the early 70’s proposed a formal mathematical approach (based in reciprocal-space (or k-space)) solvable with large-scale computing, now known as the <strong>Renormalization Group (RNG) Theory</strong>. For this work he was awarded the Nobel Prize in Physics in 1982. It has less intuitive nature than the so-called <strong>Real-space Renormalization Group</strong> ideas of Kadanoff, but carries the principals out exactly, in principle. Two good references for an overview of these ideas are in <em>Problems in Physics with Many Scales of Length</em>, Sci. Am. 241, 158 (1979) and Rev. Mod. Phys. 55, 583 (1983) by K.G. Wilson.</p>
+<p>A <strong>good introduction</strong> to the concepts of RNG can be found in <strong>D. Chandler’s <em>Introduction to Modern Statistical Mechanics</em></strong>, pg. 139. For statistical mechanics problems, the key issues is how to re-scale the partition function such that it (i) retains the same symmetry and ground-state given by the original partition function, (ii) can re-scale the so-called <em>coupling constant</em>, i.e. K = J/kT in the nearest-neighbor model, and (iii) the partition function can be re-cast in terms of partially summed original partition function such that it look the same as original, with different spins and (perhaps) with different coupling constant. If this re-scale is possible, then we can develop a <strong>Recursion Relation</strong> to compute the partition function from a system with another coupling (e.g., zero, non-interacting system). An iterative solution of this Recursion Relation for the partition function yields “roots” or <strong>fixed points</strong> of the solution space. The fixed points reveal the possible critical behavior expected.</p>
+<p>This development of the RNG ideas and their solution is straightforward, but a little long, in 1-D (see Chandler). Nonetheless, the solution is exact and show there is no critical point in 1-D. In 2-D, which is even more difficult, the model can be also managed by <strong>real-space renormalization</strong> and the <strong>fixed point</strong> is found to be KC = J/kTC = 0.50698, whereas Onsager’s (or Yang’s) exact solution is KC = 0.44069. The specific heat is found to be C ~ |T - TC|-\alpha where \alpha = 0.131, which is a weak singularity reminiscient of the exact solution C ~ - ln|T - TC|. Notice the results of Real-space RNG are very good, much better than mean-field theory which ignores correlations (or at least the important long-range ones).</p>
+<p><strong>Important Physics</strong> (think Ising for simplicity)</p>
+<p>In re-scaling the partition function, there are partial summations performed of spin (in the Ising case). In integrating (or summing) out some spins means we have a Boltzmann samples fluctuations of those spins (see the scaled partition fct. in Chandler’s book – but you at least know in statisitical mechanics the partition function is the Boltzmann weighting and remains so upon re-scaling). Since each spin is indirectly coupled to the non-nearest neighbor through fluctuations, even though remaining spin are not nearest-neighbors after summation, they contain remnant interactions through the fluctuations. And, each new coupling is intrinsic to the degree of connectivity of the lattice. With no connectivity, there can be no phase transition, just a sin 1-D Ising model.</p>
+<p><strong>Concrete Example</strong> (peroclation in real-space)</p>
+<p>Scaling of Hamiltonian and Partition Function is not as easy as for percolation in real space. Hence, <strong>percolation</strong> is best example to reveal <strong>the ideas</strong> and how a <strong>recursion relation</strong> is found, giving the <strong>fixed point</strong> solutions.</p>
+<p>Consider an L= 16 x 16 percolation simulation lattice in 2-D. Shaded squares are occupied sites and un-shaded are unoccupied sites. Sites are occupied with probability <strong>p = 0.5</strong>. Here we will consider a percolation of the lattice (i.e. a connectivity across the lattice) <strong>from bottom to top</strong>.</p>
+<p>For Renormalization one must consider what size of renormalization you are going to perform. Let us consider a b=2 type RNG, where a you half the size of square under consideration each RNG.
+As such we must consider all 2 x 2 clusters and how they span (or occupy) in the bottom to top direction to obtain percolation. They each have a <strong>Total occupation probability</strong> given by <strong>the product of the individual site occupations</strong>.</p>
+<p>The <strong>pertinent vertically spanning clusters</strong> that renormalizes to a <strong>single shaded square</strong> (and produced the first RNG image from L=16 to L=8) are obvious, i.e.</p>
+<p>First cluster has probability of <strong>p4</strong> ,
+second set of clusters have <strong>4 p3(1 - p)</strong> ,
+last set of clusters have <strong>2 p2(1 - p)2</strong> ,
+in order to span from bottom to top.
+The new (renormalized) cell dimension is obvious reduced by a factor of <strong>b</strong>. For example, beginning with L=16 and with one renormalization, the new cell is L=8, which is shown in first image.</p>
+<p><strong>The renormalization transformation</strong> between p’ and p must reflect the <strong>connectedness</strong>, i.e. formation of the spanning path which percolates from top to bottom, and we define a cell to be occupied if it spans the cell vertically. This is how the L=8 square was found. Such an RNG can be performed until we get to L=2, as the final two RNG process are shown in next image.</p>
+<p><strong>The Renormalization Group Equation</strong></p>
+<p>Hence, if sites are occupied with probability <strong>p</strong>, then the cells are occupied with probability <strong>p’</strong>. As a result, the <strong>RG Equation is p’ = R(p)</strong>. Hence, for the above vertically spanning clusters we have</p>
+<p><strong>p’ = R(p) = p4 + 4 p3(1 - p) + 2 p2(1 - p)2</strong>.</p>
+<p><strong>The Trivial Fixed Points</strong></p>
+<p>Let p= p0 = 0.5, as in the images.*   One application of RG Equation gives p1 = R(0.5) = 0.44.</p>
+<ul class="simple">
+<li><p>Second application gives p2 = R(p1) = 0.35.</p></li>
+<li><p>Continued application of RG yields p = 0.</p></li>
+</ul>
+<p>Let p= p0 = 0.7.*   Succussive RG applications gives p = 1.</p>
+<p>These two solutions of RG Equation are called <strong>Trivial Fixed Points</strong> because starting with anything above (or below) the p* percolation threshhold (yet to be found) leads to these two un-interesting values. Recall p=0 is no sites are occupied and p=1 is fully occupied. By the way, it should be clear from the last image for p = 0.5 RNG that there is no percolation because the last renormalization from L=2 to L=1 yields an empty site. <strong>What is p*?</strong></p>
+<p><strong>The Non-Trivial Fixed Point</strong></p>
+<p>We want the non-trivial fixed point such that <strong>p* = R(p*)</strong>. In the present case, it is a fourth-degree polynomial, as seen from above. Realize this depends on the size, b, of the renormalization. Solution of this polynomial root equation yields p* = 0 and 1 (the trivial fixed points) and <strong>p* = 0.61804</strong> . Try it! We now associate the non-trivial fixed point, p*, with pC the critical point. The best know value for pC = 0.5927. So, with such a simple b=2 RG, we find a very good estimate (4% error) of the critical point. Similar results may be found in the thermodynamic version of RNG.</p>
+<p>For an introduction into a thermodynamic version of RNG, where the partition function is renormalized to obtain a scaled interaction (so-called coupling constant) and the RG Equation for the partition function, see <strong>R.J. Creswick, H.A. Farach, C.P. Poole, Jr., <em>Introduction to Renormalization Group Methods in Physics</em></strong>. The algebra is straightforward in the nearest-neighbor Ising case for a 1 and 2 Dimension, but grungy.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./monte-carlo"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="phase-coexistence.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5.5. </span>Gibbs Ensemble and Phase Coexistence</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="variance-reduction.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5.7. </span>Variance Reduction Techniques</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-transitions-and-correlations">5.6.1. Phase Transitions and Correlations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-size-scaling">5.6.2. Finite-Size Scaling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experimental-evidence-for-scaling">5.6.2.1. Experimental Evidence for Scaling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-properties">5.6.2.2. Scaling Properties</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-with-finite-system-size">5.6.2.3. Scaling with Finite System Size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-law-for-homogeneous-functions">5.6.2.4. Scaling Law for Homogeneous Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#static-scaling-hypothesis-for-thermodynamic-functions">5.6.2.5. Static Scaling Hypothesis for Thermodynamic Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renormalization-group">5.6.2.6. Renormalization Group</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Antonia Statt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
